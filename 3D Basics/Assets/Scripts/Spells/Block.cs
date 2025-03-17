@@ -14,6 +14,10 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
     public GameObject leftSpace;
     public GameObject rightSpace;
 
+    private GameObject targetSpace;
+    public Block left;
+    public Block right;
+
 
     private void Start()
     {
@@ -38,22 +42,23 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
 
             Bounds b = GetComponent<BoxCollider2D>().bounds;
             Collider2D[] hits = Physics2D.OverlapBoxAll(b.center, b.extents*3, 0, LayerMask.GetMask("Block"));
-            //swap to just one? (make sure we ignore self)
-            //could then store in a var & just snap to that one when we call PointerUp
             foreach(Collider2D c in hits)
             {
                 Block script = c.GetComponent<Block>();
                 if (c.gameObject != gameObject && script != null)
                 {
-                    if (rectTransform.anchoredPosition.x > script.rectTransform.anchoredPosition.x)
+                    //TODO: prevent adding multiple shapes
+                    if (rectTransform.anchoredPosition.x > script.rectTransform.anchoredPosition.x && script.right == null)
                     {
-                        Debug.Log(c.name + ": RIGHT");
-                        script.rightSpace.SetActive(true);
+                        targetSpace = script.rightSpace;
+                        targetSpace.SetActive(true);
+                        break;
                     }
-                    else
+                    else if (rectTransform.anchoredPosition.x < script.rectTransform.anchoredPosition.x && script.left == null)
                     {
-                        Debug.Log(c.name + ": LEFT");
-                        script.leftSpace.SetActive(true);
+                        targetSpace = script.leftSpace;
+                        targetSpace.SetActive(true);
+                        break;
                     }
                 }
             }
@@ -62,48 +67,76 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        dragging = true;
-        // Convert the mouse position to local space relative to the RectTransform
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            rectTransform,
-            eventData.position,
-            canvas.worldCamera,
-            out startPoint
-        );
+        if (GetComponent<Image>().color.a == 1)
+        {
+            dragging = true;
+            // Convert the mouse position to local space relative to the RectTransform
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                rectTransform,
+                eventData.position,
+                canvas.worldCamera,
+                out startPoint
+            );
+        }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        // Bring the dragged window to the front
-        transform.SetSiblingIndex(transform.parent.childCount - 1);
+        if (GetComponent<Image>().color.a == 1)
+        {
+            // Bring the dragged window to the front
+            transform.SetSiblingIndex(transform.parent.childCount - 1);
 
-        Vector2 localMousePos;
-        // Convert the mouse position to local space relative to the canvas
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            canvas.transform as RectTransform,
-            eventData.position,
-            canvas.worldCamera,
-            out localMousePos
-        );
+            Vector2 localMousePos;
+            // Convert the mouse position to local space relative to the canvas
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                canvas.transform as RectTransform,
+                eventData.position,
+                canvas.worldCamera,
+                out localMousePos
+            );
+            rectTransform.anchoredPosition = localMousePos - startPoint;
+            
+            // Bound the window to the border of the UI
+            float newX = Mathf.Clamp(rectTransform.anchoredPosition.x, -(860 - rectTransform.sizeDelta.x), 860 - rectTransform.sizeDelta.x);
+            float newY = Mathf.Clamp(rectTransform.anchoredPosition.y, -415, 375);
+            rectTransform.anchoredPosition = new Vector2(newX, newY);
 
-        // Move the window while maintaining the initial offset from the cursor
-        rectTransform.anchoredPosition = localMousePos - startPoint;
-        
-        // Bound the window to the border of the UI
-        float newX = Mathf.Clamp(rectTransform.anchoredPosition.x, -(860 - rectTransform.sizeDelta.x), 860 - rectTransform.sizeDelta.x);
-        float newY = Mathf.Clamp(rectTransform.anchoredPosition.y, -415, 375);
-        rectTransform.anchoredPosition = new Vector2(newX, newY);
+            targetSpace = null;
+            if (left != null)
+            {
+                left.right = null;
+                left = null;
+            }
+            if (right != null)
+            {
+                right.left = null;
+                right = null;
+            }
+        }
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        dragging = false;
-        Bounds b = GetComponent<BoxCollider2D>().bounds;
-        Collider2D[] hits = Physics2D.OverlapBoxAll(b.center, b.extents*2, 0, LayerMask.GetMask("Block"));
-        foreach(Collider2D c in hits)
+        if (GetComponent<Image>().color.a == 1)
         {
-            if (c.gameObject != gameObject)
-                Debug.Log("LOCK TO: " + c.name);
+            dragging = false;
+            if (targetSpace != null)
+            {
+                Vector3 offset = new Vector3(2 + (rectTransform.sizeDelta.x - 100)/2, 0, 0);
+                if (targetSpace.name == "Left Space")
+                {
+                    rectTransform.position = targetSpace.GetComponent<RectTransform>().position - offset;
+                    right = targetSpace.transform.parent.GetComponent<Block>();
+                    right.left = this;
+                }
+                else
+                {
+                    rectTransform.position = targetSpace.GetComponent<RectTransform>().position + offset;
+                    left = targetSpace.transform.parent.GetComponent<Block>();
+                    left.right = this;
+                }
+            }
         }
     }
 }
