@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
 {
-    private Vector2 startPoint; // Stores the offset between the mouse click and the window position
+    private Vector2 lastPos; // Stores the offset between the mouse click and the window position
     [HideInInspector] public RectTransform rectTransform;
     private Canvas canvas;
     private bool dragging;
@@ -75,7 +75,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
                 rectTransform,
                 eventData.position,
                 canvas.worldCamera,
-                out startPoint
+                out lastPos
             );
         }
     }
@@ -95,7 +95,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
                 canvas.worldCamera,
                 out localMousePos
             );
-            rectTransform.anchoredPosition = localMousePos - startPoint;
+            rectTransform.anchoredPosition = localMousePos - lastPos;
             
             // Bound the window to the border of the UI
             float newX = Mathf.Clamp(rectTransform.anchoredPosition.x, -(860 - rectTransform.sizeDelta.x), 860 - rectTransform.sizeDelta.x);
@@ -103,6 +103,8 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
             rectTransform.anchoredPosition = new Vector2(newX, newY);
 
             targetSpace = null;
+            ResetSymbol(false);
+            ResetSymbol(true);
             if (left != null)
             {
                 left.right = null;
@@ -136,7 +138,22 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
                     left = targetSpace.transform.parent.GetComponent<Block>();
                     left.right = this;
                 }
+                targetSpace.SetActive(false);
             }
+        }
+    }
+
+
+    public void ResetSymbol(bool toRight)
+    {
+        transform.GetChild(0).GetComponent<Symbol>().ResetPos();
+        if (toRight && right != null)
+        {
+            right.ResetSymbol(true);
+        }
+        else if (!toRight && left != null)
+        {
+            left.ResetSymbol(false);
         }
     }
 }
