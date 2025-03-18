@@ -8,19 +8,32 @@ public class Symbol : MonoBehaviour, IDragHandler, IPointerDownHandler
     private Vector2 lastPos;
     private Vector2 startingPos;
     [HideInInspector] public RectTransform rectTransform;
+    private RectTransform parentRect;
     private Canvas canvas;
-    //private bool dragging;
 
     public bool canMove;
     public Vector2 min;
     public Vector2 max;
 
+    public int adjSymbols;
+
 
     private void Start()
     {
         rectTransform = GetComponent<RectTransform>();
+        parentRect = transform.parent as RectTransform;
         startingPos = rectTransform.anchoredPosition;
         canvas = GetComponentInParent<Canvas>();
+    }
+
+
+    private void Update()
+    {
+        if (SpellManager.Instance.spellsLocked && canMove)
+        {
+            Bounds b = GetComponent<BoxCollider2D>().bounds;
+            adjSymbols = Physics2D.OverlapBoxAll(b.center, b.extents, 0, LayerMask.GetMask("Symbol")).Length;
+        }
     }
 
 
@@ -28,14 +41,14 @@ public class Symbol : MonoBehaviour, IDragHandler, IPointerDownHandler
     {
         if (SpellManager.Instance.spellsLocked && canMove)
         {
-            //dragging = true;
             // Convert the mouse position to local space relative to the RectTransform
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                rectTransform,
+                parentRect,
                 eventData.position,
                 canvas.worldCamera,
                 out lastPos
             );
+            lastPos -= rectTransform.anchoredPosition;
         }
     }
 
@@ -49,12 +62,12 @@ public class Symbol : MonoBehaviour, IDragHandler, IPointerDownHandler
             Vector2 localMousePos;
             // Convert the mouse position to local space relative to the canvas
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                canvas.transform as RectTransform,
+                parentRect,
                 eventData.position,
                 canvas.worldCamera,
                 out localMousePos
             );
-            rectTransform.anchoredPosition = localMousePos - lastPos - transform.parent.GetComponent<RectTransform>().anchoredPosition;
+            rectTransform.anchoredPosition = localMousePos - lastPos;
             
             // Bound the window to the border of the UI
             float newX = Mathf.Clamp(rectTransform.anchoredPosition.x, min.x, max.x);

@@ -15,6 +15,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
     public GameObject rightSpace;
 
     private GameObject targetSpace;
+    [HideInInspector] public Symbol symbol;
     public Block left;
     public Block right;
 
@@ -28,6 +29,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
         }
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
+        symbol = transform.GetChild(0).GetComponent<Symbol>();
     }
 
     private void Update()

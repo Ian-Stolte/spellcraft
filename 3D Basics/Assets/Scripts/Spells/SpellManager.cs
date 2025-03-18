@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class SpellManager : MonoBehaviour
 {
@@ -9,20 +10,26 @@ public class SpellManager : MonoBehaviour
     private void Awake()
     {
         if (Instance == null)
-        {
             Instance = this;
-        }
         else
-        {
             Destroy(gameObject);
-        }
     }
 
+    [Header("Parents")]
     [SerializeField] private Transform blockParent;
+    [SerializeField] private Transform symbolParent;
+
+    [Header("Buttons")]
     [SerializeField] private GameObject craftButton;
     [SerializeField] private GameObject backButton;
     [SerializeField] private GameObject confirmButton;
 
+    [Header("Prefabs")]
+    [SerializeField] private GameObject emptyImage;
+    [SerializeField] private GameObject spellUI;
+
+    [Header("Misc")]
+    [SerializeField] private Color fullSymbolColor;
     public List<List<Block>> spells = new List<List<Block>>();
     public bool spellsLocked;
 
@@ -35,7 +42,7 @@ public class SpellManager : MonoBehaviour
             Block script = child.GetComponent<Block>();
             if (script.left == null && script.right == null)
             {
-                child.GetChild(0).GetComponent<Symbol>().canMove = false;
+                script.symbol.canMove = false;
             }
             else if (script.left == null && script.right != null)
             {
@@ -61,14 +68,13 @@ public class SpellManager : MonoBehaviour
         {
             foreach (Block b in spell)
             {
-                var s = b.transform.GetChild(0).GetComponent<Symbol>();
+                Symbol s = b.symbol;
                 s.min = new Vector2(-80 * spell.IndexOf(b) - 40, s.min.y);
                 s.max = new Vector2(80 * (spell.Count - spell.IndexOf(b)) - 40, s.max.y);
                 s.canMove = true;
             }
         }
     }
-
 
     public void UndoSpells()
     {
@@ -84,22 +90,66 @@ public class SpellManager : MonoBehaviour
         spellsLocked = false;
     }
 
-
     public void ConfirmSpells()
     {
-        /*foreach (Block b in spells)
-        {
-            Debug.Log("Spell " + (spells.IndexOf(b)+1) + ": " + PrintSpell(b));
-        }*/
         confirmButton.SetActive(false);
         backButton.SetActive(false);
+        symbolParent.gameObject.SetActive(true);
+        int index = 0;
+        foreach (List<Block> spell in spells)
+        {
+            GameObject spellHeader = Instantiate(emptyImage, Vector2.zero, Quaternion.identity, symbolParent);
+            spellHeader.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
+            spellHeader.name = spell[0].name;
+            Vector2 totalPos = Vector2.zero;
+            string spellName = "";
+            foreach (Block b in spell)
+            {
+                spellName += b.transform.GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().text + " ";
+                Vector3 scale = new Vector3(b.symbol.transform.localScale.x*b.transform.localScale.x, b.symbol.transform.localScale.y*b.transform.localScale.y, 1);
+                GameObject s = Instantiate(b.symbol.gameObject, b.symbol.transform.position, Quaternion.identity, spellHeader.transform);
+                s.transform.localScale = scale;
+                s.GetComponent<Image>().color = fullSymbolColor;
+                totalPos += s.GetComponent<RectTransform>().anchoredPosition;
+            }
+            foreach (Transform child in spellHeader.transform)
+            {
+                child.GetComponent<RectTransform>().anchoredPosition -= totalPos/spellHeader.transform.childCount;
+                child.transform.localScale *= 2.5f;
+                child.GetComponent<RectTransform>().anchoredPosition *= 2.5f;
+                Destroy(child.GetComponent<Symbol>());
+                Destroy(child.GetComponent<BoxCollider2D>());
+            }
+            GameObject UI = Instantiate(spellUI, Vector2.zero, Quaternion.identity, symbolParent);
+            UI.GetComponent<RectTransform>().anchoredPosition = new Vector2(-80, 350-(index*300));
+            UI.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = spellName;
+            spellHeader.transform.SetSiblingIndex(spellHeader.transform.parent.childCount - 1);
+            spellHeader.GetComponent<RectTransform>().anchoredPosition = new Vector2 (-665, 370-(index*300));
+            index++;
+        }
     }
 
-    private string PrintSpell(Block b)
+
+    private void Update()
     {
-        if (b.right == null)
-            return (b.gameObject.name);
-        else
-            return b.gameObject.name + " + " + PrintSpell(b.right);
+        if (spellsLocked)
+        {
+            bool readyToConfirm = true;
+            foreach (List<Block> spell in spells)
+            {
+                bool finished = true;
+                foreach (Block b in spell)
+                {
+                    if (b.symbol.adjSymbols < spell.Count)
+                    {
+                        finished = false;
+                        readyToConfirm = false;
+                        break;
+                    }
+                }
+                //highlight spell if done, not if not done
+            }
+            confirmButton.GetComponent<Button>().interactable = readyToConfirm;
+        }
     }
 }
