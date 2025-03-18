@@ -15,7 +15,12 @@ public class SpellManager : MonoBehaviour
             Destroy(gameObject);
     }
 
+    [Header("Bools")]
+    public bool spellsLocked;
+    public bool pauseGame;
+
     [Header("Parents")]
+    [SerializeField] private Transform spellUI;
     [SerializeField] private Transform blockParent;
     [SerializeField] private Transform symbolParent;
 
@@ -23,15 +28,17 @@ public class SpellManager : MonoBehaviour
     [SerializeField] private GameObject craftButton;
     [SerializeField] private GameObject backButton;
     [SerializeField] private GameObject confirmButton;
+    [SerializeField] private GameObject startButton;
 
     [Header("Prefabs")]
     [SerializeField] private GameObject emptyImage;
-    [SerializeField] private GameObject spellUI;
+    [SerializeField] private GameObject spellListItem;
 
     [Header("Misc")]
     [SerializeField] private Color fullSymbolColor;
+    [SerializeField] private CanvasGroup fader;
     public List<List<Block>> spells = new List<List<Block>>();
-    public bool spellsLocked;
+    
 
 
     public void CraftSpells()
@@ -120,13 +127,45 @@ public class SpellManager : MonoBehaviour
                 Destroy(child.GetComponent<Symbol>());
                 Destroy(child.GetComponent<BoxCollider2D>());
             }
-            GameObject UI = Instantiate(spellUI, Vector2.zero, Quaternion.identity, symbolParent);
+            GameObject UI = Instantiate(spellListItem, Vector2.zero, Quaternion.identity, symbolParent);
             UI.GetComponent<RectTransform>().anchoredPosition = new Vector2(-80, 350-(index*300));
             UI.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = spellName;
             spellHeader.transform.SetSiblingIndex(spellHeader.transform.parent.childCount - 1);
             spellHeader.GetComponent<RectTransform>().anchoredPosition = new Vector2 (-665, 370-(index*300));
             index++;
         }
+        startButton.SetActive(true);
+    }
+
+    public void EnterGame()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        StartCoroutine(EnterGameCor());
+        
+    }
+
+    private IEnumerator EnterGameCor()
+    {
+        float elapsed = 0f;
+        while (elapsed < 1)
+        {
+            elapsed += Time.deltaTime;
+            fader.alpha = elapsed;
+            yield return null;
+        }
+        startButton.SetActive(false);
+        symbolParent.gameObject.SetActive(false);
+        spellUI.gameObject.SetActive(false);
+        while (elapsed > 0)
+        {
+            elapsed -= Time.deltaTime;
+            fader.alpha = elapsed;
+            yield return null;
+        }
+        fader.alpha = 0;
+        GameObject.Find("Player").GetComponent<PlayerMovement>().enabled = true;
+        pauseGame = false;
     }
 
 

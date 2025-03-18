@@ -31,12 +31,18 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Animator anim;
     [SerializeField] private Animator damageFlash;
 
+    [Header("Misc")]
+    [SerializeField] private bool showCursor;
+
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        if (!showCursor)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
 
         health = maxHealth;
     }
@@ -55,7 +61,12 @@ public class PlayerMovement : MonoBehaviour
         //Jump
         jumpDelay = Mathf.Max(0, jumpDelay-Time.deltaTime);
         jumpInputDelay = Mathf.Max(0, jumpInputDelay-Time.deltaTime);
-        if (Input.GetKey(KeyCode.Space) && !GetComponent<PlayerInteract>().planting)
+        if (GetComponent<PlayerInteract>() != null)
+        {
+            if (Input.GetKey(KeyCode.Space) && !GetComponent<PlayerInteract>().planting)
+                jumpInputDelay = 0.3f;
+        }
+        else if (Input.GetKey(KeyCode.Space))
             jumpInputDelay = 0.3f;
         if (grounded && jumpInputDelay > 0 && jumpDelay == 0)
         {
