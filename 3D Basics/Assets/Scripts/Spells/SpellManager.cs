@@ -63,7 +63,7 @@ public class SpellManager : MonoBehaviour
                 spells.Add(newSpell);
             }
             Color c = child.GetComponent<Image>().color;
-            child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 0.3f);
+            child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 0.2f);
         }
 
         craftButton.SetActive(false);
@@ -112,7 +112,7 @@ public class SpellManager : MonoBehaviour
             string spellName = "";
             foreach (Block b in spell)
             {
-                spellName += b.transform.GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().text + " ";
+                spellName += b.transform.GetChild(3).GetComponent<TMPro.TextMeshProUGUI>().text + " ";
                 Vector3 scale = new Vector3(b.symbol.transform.localScale.x*b.transform.localScale.x, b.symbol.transform.localScale.y*b.transform.localScale.y, 1);
                 GameObject s = Instantiate(b.symbol.gameObject, b.symbol.transform.position, Quaternion.identity, spellHeader.transform);
                 s.transform.localScale = scale;
@@ -186,7 +186,10 @@ public class SpellManager : MonoBehaviour
                         break;
                     }
                 }
-                //highlight spell if done, not if not done
+                foreach (Block b in spell)
+                {
+                    b.transform.GetChild(1).gameObject.SetActive(finished);
+                }
             }
             confirmButton.GetComponent<Button>().interactable = readyToConfirm;
         }

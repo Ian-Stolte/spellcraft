@@ -19,6 +19,9 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
     public Block left;
     public Block right;
 
+    [SerializeField] private string tag;
+    [SerializeField] private List<string> blockedTags;
+
 
     private void Start()
     {
@@ -50,13 +53,13 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
                 if (c.gameObject != gameObject && script != null)
                 {
                     //TODO: prevent adding multiple shapes
-                    if (rectTransform.anchoredPosition.x > script.rectTransform.anchoredPosition.x && script.right == null)
+                    if (rectTransform.anchoredPosition.x > script.rectTransform.anchoredPosition.x && script.right == null && script.ValidTag(tag, false))
                     {
                         targetSpace = script.rightSpace;
                         targetSpace.SetActive(true);
                         break;
                     }
-                    else if (rectTransform.anchoredPosition.x < script.rectTransform.anchoredPosition.x && script.left == null)
+                    else if (rectTransform.anchoredPosition.x < script.rectTransform.anchoredPosition.x && script.left == null && script.ValidTag(tag, true))
                     {
                         targetSpace = script.leftSpace;
                         targetSpace.SetActive(true);
@@ -156,6 +159,27 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
         else if (!toRight && left != null)
         {
             left.ResetSymbol(false);
+        }
+    }
+
+
+    public bool ValidTag(string tag, bool toRight)
+    {
+        if (blockedTags.Contains(tag))
+            return false;
+        else if (toRight)
+        {
+            if (right == null)
+                return true;
+            else
+                return right.ValidTag(tag, true);
+        }
+        else
+        {
+            if (left == null)
+                return true;
+            else
+                return left.ValidTag(tag, false);
         }
     }
 }
