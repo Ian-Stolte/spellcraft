@@ -680,6 +680,7 @@ GameObject:
   - component: {fileID: 190522903}
   - component: {fileID: 190522902}
   - component: {fileID: 190522901}
+  - component: {fileID: 190522904}
   - component: {fileID: 190522900}
   - component: {fileID: 190522898}
   - component: {fileID: 190522897}
@@ -747,7 +748,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 190522896}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0bd7953439652954890b2dbfaed5a27d, type: 3}
   m_Name: 
@@ -836,6 +837,19 @@ Transform:
   - {fileID: 963500835}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &190522904
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 190522896}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 025f5a28b13574137bc499d0f4dc24df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spellKeybinds: 430100004401000045010000
 --- !u!1001 &220278749
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1329,6 +1343,7 @@ MonoBehaviour:
   left: {fileID: 0}
   right: {fileID: 0}
   tag: 
+  hitbox: {fileID: 0}
   blockedTags: []
 --- !u!61 &428910380
 BoxCollider2D:
@@ -3497,6 +3512,7 @@ MonoBehaviour:
   left: {fileID: 0}
   right: {fileID: 0}
   tag: shape
+  hitbox: {fileID: 3419387410247442465, guid: d77e16fe2b14948a5afcde9cdbdb921b, type: 3}
   blockedTags:
   - shape
 --- !u!61 &1543403768
@@ -3887,6 +3903,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93cd10209ea2b41a89e1e6e063bc0c64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SKIP_CRAFTING: 1
   spellsLocked: 0
   pauseGame: 1
   spellUI: {fileID: 1704230690}
@@ -3899,6 +3916,7 @@ MonoBehaviour:
   emptyImage: {fileID: 2349806725699824917, guid: efb78f1eb1e501440acbdf2695ee8194, type: 3}
   spellListItem: {fileID: 4532206369613023846, guid: 59b14add1bf713241913f66341ae5daf, type: 3}
   fullSymbolColor: {r: 0.67058825, g: 0.85490197, b: 0.92941177, a: 1}
+  player: {fileID: 190522896}
   fader: {fileID: 1883508945}
 --- !u!4 &1683716701
 Transform:
@@ -4634,8 +4652,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ba34c0bd3f6435b9599071b5464d2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  panLeft: 113
+  panRight: 101
+  manualControl: 1
   target: {fileID: 190522903}
-  rotationSpeed: 200
+  rotationSpeed: 80
 --- !u!1 &1846679246
 GameObject:
   m_ObjectHideFlags: 0
@@ -4697,12 +4718,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1846679246}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -910.9195, y: -569.0952, z: 0}
+  m_LocalScale: {x: 1.4686328, y: 1.4686328, z: 1.4686328}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1984735684}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1883508941
 GameObject:
@@ -5165,6 +5186,7 @@ RectTransform:
   m_Children:
   - {fileID: 1704230690}
   - {fileID: 1883508942}
+  - {fileID: 1846679249}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -6058,6 +6080,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5694967399849387045, guid: 7c31d102f40b04510a3ea8b1257d6961, type: 3}
+      propertyPath: hitbox
+      value: 
+      objectReference: {fileID: 1135881467792444086, guid: 3f16dce6459334681b4c760907d47519, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -6085,6 +6111,7 @@ MonoBehaviour:
   left: {fileID: 0}
   right: {fileID: 0}
   tag: shape
+  hitbox: {fileID: 3984718005531977462, guid: 1c2d0b58b631943c68811f478505ff3a, type: 3}
   blockedTags:
   - shape
 --- !u!1 &7596268081011919602
@@ -6336,6 +6363,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Stun
       objectReference: {fileID: 0}
+    - target: {fileID: 8195665245298062371, guid: 94366c877b8524564ae1d4259b9c416c, type: 3}
+      propertyPath: m_text
+      value: stupefaciunt
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6393,6 +6424,5 @@ SceneRoots:
   - {fileID: 1823951754}
   - {fileID: 1683716701}
   - {fileID: 1984735684}
-  - {fileID: 1846679249}
-  - {fileID: 1967069967}
   - {fileID: 190522903}
+  - {fileID: 1967069967}

@@ -16,6 +16,7 @@ public class SpellManager : MonoBehaviour
     }
 
     [Header("Bools")]
+    public bool SKIP_CRAFTING;
     public bool spellsLocked;
     public bool pauseGame;
 
@@ -36,10 +37,32 @@ public class SpellManager : MonoBehaviour
 
     [Header("Misc")]
     [SerializeField] private Color fullSymbolColor;
+    [SerializeField] private GameObject player;
     [SerializeField] private CanvasGroup fader;
     public List<List<Block>> spells = new List<List<Block>>();
     
 
+    public void Start()
+    {
+        if (SKIP_CRAFTING)
+        {
+            List<Block> lineStun = new List<Block>();
+            lineStun.Add(GameObject.Find("Line").GetComponent<Block>());
+            lineStun.Add(GameObject.Find("Stun").GetComponent<Block>());
+            spells.Add(lineStun);
+            List<Block> circleHeal = new List<Block>();
+            circleHeal.Add(GameObject.Find("Circle").GetComponent<Block>());
+            circleHeal.Add(GameObject.Find("Heal").GetComponent<Block>());
+            spells.Add(circleHeal);
+            List<Block> zigzagUlt = new List<Block>();
+            zigzagUlt.Add(GameObject.Find("ZigZag").GetComponent<Block>());
+            zigzagUlt.Add(GameObject.Find("Stun").GetComponent<Block>());
+            zigzagUlt.Add(GameObject.Find("Heal").GetComponent<Block>());
+            spells.Add(zigzagUlt);
+            ConfirmSpells();
+            EnterGame();
+        }
+    }
 
     public void CraftSpells()
     {
@@ -139,10 +162,9 @@ public class SpellManager : MonoBehaviour
 
     public void EnterGame()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
         StartCoroutine(EnterGameCor());
-        
     }
 
     private IEnumerator EnterGameCor()
@@ -164,7 +186,8 @@ public class SpellManager : MonoBehaviour
             yield return null;
         }
         fader.alpha = 0;
-        GameObject.Find("Player").GetComponent<PlayerMovement>().enabled = true;
+        player.GetComponent<PlayerMovement>().enabled = true;
+        player.GetComponent<PlayerSpells>().enabled = true;
         pauseGame = false;
     }
 

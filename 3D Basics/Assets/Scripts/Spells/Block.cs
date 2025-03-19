@@ -19,11 +19,13 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
     public Block left;
     public Block right;
 
-    [SerializeField] private string tag;
+    [Header("Spell Effects")]
+    public string tag;
+    public GameObject hitbox;
     [SerializeField] private List<string> blockedTags;
 
 
-    private void Start()
+    private void Awake()
     {
         Collider2D[] allBlocks = Physics2D.OverlapBoxAll(Vector2.zero, new Vector2(9999, 9999), 0, LayerMask.GetMask("Block"));
         foreach (Collider2D c in allBlocks)
