@@ -21,8 +21,9 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
 
     [Header("Spell Effects")]
     public string tag;
-    public GameObject hitbox;
     [SerializeField] private List<string> blockedTags;
+    public GameObject hitbox;
+    public float cd;
 
 
     private void Awake()

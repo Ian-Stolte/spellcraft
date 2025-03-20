@@ -24,6 +24,7 @@ public class SpellManager : MonoBehaviour
     [SerializeField] private Transform spellUI;
     [SerializeField] private Transform blockParent;
     [SerializeField] private Transform symbolParent;
+    [SerializeField] private Transform cdParent;
 
     [Header("Buttons")]
     [SerializeField] private GameObject craftButton;
@@ -34,6 +35,7 @@ public class SpellManager : MonoBehaviour
     [Header("Prefabs")]
     [SerializeField] private GameObject emptyImage;
     [SerializeField] private GameObject spellListItem;
+    [SerializeField] private GameObject cdIconPrefab;
 
     [Header("Misc")]
     [SerializeField] private Color fullSymbolColor;
@@ -42,6 +44,7 @@ public class SpellManager : MonoBehaviour
 
     [Header("Spell Data")]
     public KeyCode[] defaultBinds;
+    public string[] bindTxt;
     public List<Spell> spells = new List<Spell>();
     
 
@@ -52,18 +55,18 @@ public class SpellManager : MonoBehaviour
             List<Block> lineStun = new List<Block>();
             lineStun.Add(GameObject.Find("Line").GetComponent<Block>());
             lineStun.Add(GameObject.Find("Stun").GetComponent<Block>());
-            Spell lineStunSpell = new Spell("versus stupefaciunt", lineStun, 5, GameObject.Find("Cd Icon").transform.GetChild(3).gameObject, KeyCode.Mouse0);
+            Spell lineStunSpell = new Spell("versus stupefaciunt", lineStun, 5, KeyCode.Mouse0);
             spells.Add(lineStunSpell);
             List<Block> circleHeal = new List<Block>();
             circleHeal.Add(GameObject.Find("Circle").GetComponent<Block>());
             circleHeal.Add(GameObject.Find("Heal").GetComponent<Block>());
-            Spell circleHealSpell = new Spell("orbis sano", circleHeal, 3, GameObject.Find("Cd Icon (1)").transform.GetChild(3).gameObject, KeyCode.Mouse1);
+            Spell circleHealSpell = new Spell("orbis sano", circleHeal, 3, KeyCode.Mouse1);
             spells.Add(circleHealSpell);
             List<Block> zigzagUlt = new List<Block>();
             zigzagUlt.Add(GameObject.Find("ZigZag").GetComponent<Block>());
             zigzagUlt.Add(GameObject.Find("Stun").GetComponent<Block>());
             zigzagUlt.Add(GameObject.Find("Heal").GetComponent<Block>());
-            Spell zigzagUltSpell = new Spell("oblicus stupefaciunt sano", zigzagUlt, 12, GameObject.Find("Cd Icon (2)").transform.GetChild(3).gameObject, KeyCode.Mouse2);
+            Spell zigzagUltSpell = new Spell("oblicus stupefaciunt sano", zigzagUlt, 12, KeyCode.Mouse2);
             spells.Add(zigzagUltSpell);
             ConfirmSpells();
             EnterGame();
@@ -134,23 +137,25 @@ public class SpellManager : MonoBehaviour
         int index = 0;
         foreach (Spell s in spells)
         {
-            GameObject spellHeader = Instantiate(emptyImage, Vector2.zero, Quaternion.identity, symbolParent);
-            spellHeader.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
-            spellHeader.name = s.name;
+            s.symbol = Instantiate(emptyImage, Vector2.zero, Quaternion.identity, symbolParent);
+            s.symbol.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
+            s.symbol.name = s.name;
             Vector2 totalPos = Vector2.zero;
             string spellName = "";
+            float cd = 0;
             foreach (Block b in s.blocks)
             {
                 spellName += b.transform.GetChild(3).GetComponent<TMPro.TextMeshProUGUI>().text + " ";
+                cd += b.cd;
                 Vector3 scale = new Vector3(b.symbol.transform.localScale.x*b.transform.localScale.x, b.symbol.transform.localScale.y*b.transform.localScale.y, 1);
-                GameObject sym = Instantiate(b.symbol.gameObject, b.symbol.transform.position, Quaternion.identity, spellHeader.transform);
+                GameObject sym = Instantiate(b.symbol.gameObject, b.symbol.transform.position, Quaternion.identity, s.symbol.transform);
                 sym.transform.localScale = scale;
                 sym.GetComponent<Image>().color = fullSymbolColor;
                 totalPos += sym.GetComponent<RectTransform>().anchoredPosition;
             }
-            foreach (Transform child in spellHeader.transform)
+            foreach (Transform child in s.symbol.transform)
             {
-                child.GetComponent<RectTransform>().anchoredPosition -= totalPos/spellHeader.transform.childCount;
+                child.GetComponent<RectTransform>().anchoredPosition -= totalPos/s.symbol.transform.childCount;
                 child.transform.localScale *= 2.5f;
                 child.GetComponent<RectTransform>().anchoredPosition *= 2.5f;
                 Destroy(child.GetComponent<Symbol>());
@@ -160,9 +165,11 @@ public class SpellManager : MonoBehaviour
             UI.GetComponent<RectTransform>().anchoredPosition = new Vector2(-80, 350-(index*300));
             UI.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = spellName;
             s.name = spellName;
-            //TODO compute CD & display on UI
-            spellHeader.transform.SetSiblingIndex(spellHeader.transform.parent.childCount - 1);
-            spellHeader.GetComponent<RectTransform>().anchoredPosition = new Vector2 (-665, 370-(index*300));
+            string cdTxt = ((""+cd).Length == 1) ? cd + ".0s" : cd + "s"; 
+            UI.transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = cdTxt;
+            s.cdMax = cd;
+            s.symbol.transform.SetSiblingIndex(s.symbol.transform.parent.childCount - 1);
+            s.symbol.GetComponent<RectTransform>().anchoredPosition = new Vector2 (-665, 370-(index*300));
             //TODO: let player assign keybinds
             s.keybind = defaultBinds[index];
             index++;
@@ -185,6 +192,19 @@ public class SpellManager : MonoBehaviour
             elapsed += Time.deltaTime;
             fader.alpha = elapsed;
             yield return null;
+        }
+        int index = 0;
+        foreach (Spell s in spells)
+        {
+            Transform cdIcon = Instantiate(cdIconPrefab, Vector2.zero, Quaternion.identity, cdParent).transform;
+            cdIcon.GetComponent<RectTransform>().anchoredPosition = new Vector2(-800 + (170*index), -465);
+            cdIcon.GetChild(0).GetComponent<TextMeshProUGUI>().text = bindTxt[index];
+            Transform symbol = Instantiate(s.symbol, Vector2.zero, Quaternion.identity, cdIcon).transform;
+            symbol.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+            symbol.localScale /= 2.5f;
+            symbol.SetSiblingIndex(cdIcon.childCount - 2);
+            s.fillTimer = cdIcon.GetChild(cdIcon.childCount-1).gameObject;
+            index++;
         }
         startButton.SetActive(false);
         symbolParent.gameObject.SetActive(false);
@@ -233,12 +253,11 @@ public class SpellManager : MonoBehaviour
 [System.Serializable]
 public class Spell
 {
-    public Spell(string name_, List<Block> blocks_, float cd, GameObject fill, KeyCode bind)
+    public Spell(string name_, List<Block> blocks_, float cd, KeyCode bind)
     {
         name = name_;
         blocks = blocks_;
         cdMax = cd;
-        fillTimer = fill;
         keybind = bind;
     }
 
@@ -254,5 +273,5 @@ public class Spell
     public float cdTimer;
     [HideInInspector] public GameObject fillTimer;
     public KeyCode keybind;
-    //public GameObject symbol
+    public GameObject symbol;
 }
