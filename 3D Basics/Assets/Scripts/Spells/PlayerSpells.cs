@@ -1,47 +1,60 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerSpells : MonoBehaviour
 {
-    public List<KeyCode> spellKeybinds;
-    
 
     void Update()
     {
-        foreach (KeyCode k in spellKeybinds)
+        foreach (Spell s in SpellManager.Instance.spells)
         {
-            if (Input.GetKeyDown(k))
+            s.cdTimer = Mathf.Max(0, s.cdTimer - Time.deltaTime);
+            s.fillTimer.GetComponent<Image>().fillAmount = s.cdTimer/s.cdMax;
+            if (Input.GetKeyDown(s.keybind) && s.cdTimer <= 0)
             {
-                CastSpell(SpellManager.Instance.spells[spellKeybinds.IndexOf(k)]);
+                CastSpell(s);
             }
         }
     }
 
-    private void CastSpell(List<Block> spell)
+    private void CastSpell(Spell s)
     {
-        foreach (Block b in spell)
+        bool validCast = true;
+        //check if valid cast
+        //  find closest point in range/don't case if out of range
+        //  only cast on valid terrain (flat)
+        if (validCast)
         {
-            if (b.tag == "shape")
+            s.cdTimer = s.cdMax;
+            foreach (Block b in s.blocks)
             {
-                //find closest point in range/don't case if out of range
-                //only cast on valid terrain (flat)
-                Quaternion rot = Quaternion.Euler(0, Quaternion.LookRotation(transform.position - MousePos()).eulerAngles.y, 0);
-                GameObject hitbox = Instantiate(b.hitbox, MousePos(), rot);
-                StartCoroutine(FadeSpell(hitbox, 0.5f));
-                //check for enemies, do stuff to them
-                //set spell cd
+                if (b.tag == "shape")
+                {
+                    
+                    Quaternion rot = Quaternion.Euler(0, Quaternion.LookRotation(transform.position - MousePos()).eulerAngles.y, 0);
+                    GameObject hitbox = Instantiate(b.hitbox, MousePos(), rot);
+                    StartCoroutine(FadeHitbox(hitbox, 0.5f));
+                    //check for enemies, do stuff to them
+                    //set spell cd
+                    break;
+                }
             }
-            break;
-        }        
+        }
+        else
+        {
+            Debug.Log("Invalid cast of " + s.name + "!");
+        }   
     }
 
-    private IEnumerator FadeSpell(GameObject obj, float duration, bool destroyParent=false)
+
+    private IEnumerator FadeHitbox(GameObject obj, float duration, bool destroyParent=false)
     {
         if (obj.transform.childCount > 0)
         {
             foreach (Transform child in obj.transform)
-                StartCoroutine(FadeSpell(child.gameObject, duration, true));
+                StartCoroutine(FadeHitbox(child.gameObject, duration, true));
         }
         else
         {
