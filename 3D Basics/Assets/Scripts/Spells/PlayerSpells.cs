@@ -28,13 +28,41 @@ public class PlayerSpells : MonoBehaviour
                 //only cast on valid terrain (flat)
                 Quaternion rot = Quaternion.Euler(0, Quaternion.LookRotation(transform.position - MousePos()).eulerAngles.y, 0);
                 GameObject hitbox = Instantiate(b.hitbox, MousePos(), rot);
+                StartCoroutine(FadeSpell(hitbox, 0.5f));
                 //check for enemies, do stuff to them
                 //set spell cd
             }
             break;
-        }
-        Debug.Log("Casting: " + spell[0].name);
+        }        
     }
+
+    private IEnumerator FadeSpell(GameObject obj, float duration, bool destroyParent=false)
+    {
+        if (obj.transform.childCount > 0)
+        {
+            foreach (Transform child in obj.transform)
+                StartCoroutine(FadeSpell(child.gameObject, duration, true));
+        }
+        else
+        {
+            Material mat = obj.GetComponent<MeshRenderer>().material;
+            Color startColor = mat.color;
+            float elapsed = 0;
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                float alpha = Mathf.Lerp(startColor.a, 0f, elapsed/duration);
+                mat.color = new Color(startColor.r, startColor.g, startColor.b, alpha);
+                yield return null;
+            }
+            mat.color = new Color(startColor.r, startColor.g, startColor.b, 0f);
+            if (destroyParent)
+                Destroy(obj.transform.parent.gameObject);
+            else
+                Destroy(obj);
+        }
+    }
+
 
     private Vector3 MousePos()
     {
