@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 1869950549337733399}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.2588191, z: -0, w: 0.9659258}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.651, y: 0, z: -1.3230004}
   m_LocalScale: {x: 1, y: 0.299196, z: 2.6312177}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -114,6 +114,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3241627407256476311}
+  - component: {fileID: 4269895675002712803}
   m_Layer: 0
   m_Name: ZigZag Hit
   m_TagString: Untagged
@@ -139,6 +140,18 @@ Transform:
   - {fileID: 2192589037200074411}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4269895675002712803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3419387410247442465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 318a53eb51e1440cca0b5befd1f15338, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4044002774662114514
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,7 +180,7 @@ Transform:
   m_GameObject: {fileID: 4044002774662114514}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.5, z: -0, w: 0.8660254}
-  m_LocalPosition: {x: -0.65999985, y: 0, z: 1.2800002}
+  m_LocalPosition: {x: -0.009, y: 0, z: -0.043}
   m_LocalScale: {x: 1, y: 0.299196, z: 1.4600627}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -272,7 +285,7 @@ Transform:
   m_GameObject: {fileID: 8497575191776259720}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.2588191, z: -0, w: 0.9659258}
-  m_LocalPosition: {x: -1.31, y: 0, z: 2.6000004}
+  m_LocalPosition: {x: -0.6589999, y: 0, z: 1.277}
   m_LocalScale: {x: 1, y: 0.299196, z: 2.6312177}
   m_ConstrainProportionsScale: 0
   m_Children: []

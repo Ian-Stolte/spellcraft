@@ -32,12 +32,8 @@ public class PlayerSpells : MonoBehaviour
             {
                 if (b.tag == "shape")
                 {
-                    
                     Quaternion rot = Quaternion.Euler(0, Quaternion.LookRotation(transform.position - MousePos()).eulerAngles.y, 0);
                     GameObject hitbox = Instantiate(b.hitbox, MousePos(), rot);
-                    StartCoroutine(FadeHitbox(hitbox, 0.5f));
-                    //check for enemies, do stuff to them
-                    //set spell cd
                     break;
                 }
             }
@@ -48,31 +44,17 @@ public class PlayerSpells : MonoBehaviour
         }   
     }
 
-
-    private IEnumerator FadeHitbox(GameObject obj, float duration, bool destroyParent=false)
+    public void SpellEffects(Collider[] cols)
     {
-        if (obj.transform.childCount > 0)
+        foreach (Collider c in cols)
         {
-            foreach (Transform child in obj.transform)
-                StartCoroutine(FadeHitbox(child.gameObject, duration, true));
-        }
-        else
-        {
-            Material mat = obj.GetComponent<MeshRenderer>().material;
-            Color startColor = mat.color;
-            float elapsed = 0;
-            while (elapsed < duration)
+            Debug.Log("HIT: " + c.gameObject.name);
+            Enemy script = c.GetComponent<Enemy>();
+            if (script != null)
             {
-                elapsed += Time.deltaTime;
-                float alpha = Mathf.Lerp(startColor.a, 0f, elapsed/duration);
-                mat.color = new Color(startColor.r, startColor.g, startColor.b, alpha);
-                yield return null;
+                script.TakeDamage(3);
+                //trigger all spell effects
             }
-            mat.color = new Color(startColor.r, startColor.g, startColor.b, 0f);
-            if (destroyParent)
-                Destroy(obj.transform.parent.gameObject);
-            else
-                Destroy(obj);
         }
     }
 

@@ -1,0 +1,36 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class CircleBlock : MonoBehaviour
+{
+    void Start()
+    {
+        StartCoroutine(Fade(0.5f));
+        CheckCollisions();
+    }
+
+    private IEnumerator Fade(float duration)
+    {
+        Material mat = GetComponent<MeshRenderer>().material;
+        Color startColor = mat.color;
+        float elapsed = 0;
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float alpha = Mathf.Lerp(startColor.a, 0f, elapsed/duration);
+            mat.color = new Color(startColor.r, startColor.g, startColor.b, alpha);
+            yield return null;
+        }
+        mat.color = new Color(startColor.r, startColor.g, startColor.b, 0f);
+        Destroy(gameObject);
+    }
+
+
+    private void CheckCollisions()
+    {
+        Collider[] cols = Physics.OverlapSphere(transform.position, 2f, LayerMask.GetMask("Enemy"));  //could replace 1 w/ ref to radius for dynamic scaling
+        if (cols.Length > 0)
+            GameObject.Find("Player").GetComponent<PlayerSpells>().SpellEffects(cols);
+    }
+}

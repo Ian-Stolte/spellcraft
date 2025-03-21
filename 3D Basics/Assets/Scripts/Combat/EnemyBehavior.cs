@@ -116,7 +116,7 @@ public class EnemyBehavior : MonoBehaviour
                 if ((health/(1f*maxHealth) < retreatThreshold)) //retreat to a safe dist if hurt
                 {
                     if (playerDist < meleeRange*2)
-                        rb.MovePosition(rb.position + transform.forward * speed*(-1) * Time.deltaTime);
+                        rb.MovePosition(rb.position + transform.forward * -speed * Time.deltaTime);
                     else if (playerDist > meleeRange*2 + 1)
                         rb.MovePosition(rb.position + transform.forward * speed * Time.deltaTime);
                 }
