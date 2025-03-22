@@ -63,5 +63,6 @@ public class Enemy : MonoBehaviour
             health -= dmg;
         }
         aggro = true;
+        //show damage number
     }
 }

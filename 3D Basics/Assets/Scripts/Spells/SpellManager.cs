@@ -79,32 +79,35 @@ public class SpellManager : MonoBehaviour
         spells.Clear();
         foreach (Transform child in blockParent)
         {
-            Block script = child.GetComponent<Block>();
-            if (script.left == null && script.right == null)
+            if (child.gameObject.activeSelf)
             {
-                script.symbol.canMove = false;
-                Color c = child.GetComponent<Image>().color;
-                child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 0.1f);
-                child.GetChild(2).GetComponent<CanvasGroup>().alpha = 0.5f;
-                child.GetChild(3).GetComponent<CanvasGroup>().alpha = 0.1f;
-                child.GetChild(4).GetComponent<CanvasGroup>().alpha = 0.1f;
-            }
-            else
-            {
-                if (script.left == null && script.right != null)
+                Block script = child.GetComponent<Block>();
+                if (script.left == null && script.right == null)
                 {
-                    List<Block> newSpell = new List<Block>();
-                    Block temp = script;
-                    while (temp != null)
-                    {
-                        newSpell.Add(temp);
-                        temp = temp.right;
-                    }
-                    spells.Add(new Spell(newSpell));
+                    script.symbol.canMove = false;
+                    Color c = child.GetComponent<Image>().color;
+                    child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 0.1f);
+                    child.GetChild(2).GetComponent<CanvasGroup>().alpha = 0.5f;
+                    child.GetChild(3).GetComponent<CanvasGroup>().alpha = 0.1f;
+                    child.GetChild(4).GetComponent<CanvasGroup>().alpha = 0.1f;
                 }
-                Color c = child.GetComponent<Image>().color;
-                child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 0.3f);
-                child.GetChild(3).GetComponent<CanvasGroup>().alpha = 0.5f;
+                else
+                {
+                    if (script.left == null && script.right != null)
+                    {
+                        List<Block> newSpell = new List<Block>();
+                        Block temp = script;
+                        while (temp != null)
+                        {
+                            newSpell.Add(temp);
+                            temp = temp.right;
+                        }
+                        spells.Add(new Spell(newSpell));
+                    }
+                    Color c = child.GetComponent<Image>().color;
+                    child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 0.3f);
+                    child.GetChild(3).GetComponent<CanvasGroup>().alpha = 0.5f;
+                }
             }
         }
 
@@ -132,13 +135,16 @@ public class SpellManager : MonoBehaviour
     {
         foreach (Transform child in blockParent)
         {
-            Color c = child.GetComponent<Image>().color;
-            child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 1);
-            child.GetChild(2).GetComponent<CanvasGroup>().alpha = 1;
-            child.GetChild(3).GetComponent<CanvasGroup>().alpha = 1;
-            child.GetChild(4).GetComponent<CanvasGroup>().alpha = 1;
-            child.GetChild(4).gameObject.SetActive(true);
-            child.GetChild(0).GetComponent<Image>().enabled = false;
+            if (child.gameObject.activeSelf)
+            {
+                Color c = child.GetComponent<Image>().color;
+                child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 1);
+                child.GetChild(2).GetComponent<CanvasGroup>().alpha = 1;
+                child.GetChild(3).GetComponent<CanvasGroup>().alpha = 1;
+                child.GetChild(4).GetComponent<CanvasGroup>().alpha = 1;
+                child.GetChild(4).gameObject.SetActive(true);
+                child.GetChild(0).GetComponent<Image>().enabled = false;
+            }
         }
 
         craftButton.SetActive(true);
@@ -190,7 +196,8 @@ public class SpellManager : MonoBehaviour
             s.symbol.transform.SetSiblingIndex(s.symbol.transform.parent.childCount - 1);
             s.symbol.GetComponent<RectTransform>().anchoredPosition = new Vector2 (-665, 370-(index*300));
             //TODO: let player assign keybinds
-            s.keybind = defaultBinds[index];
+            if (index < defaultBinds.Length)
+                s.keybind = defaultBinds[index];
             index++;
         }
         startButton.SetActive(true);
@@ -214,14 +221,17 @@ public class SpellManager : MonoBehaviour
         int index = 0;
         foreach (Spell s in spells)
         {
-            Transform cdIcon = Instantiate(cdIconPrefab, Vector2.zero, Quaternion.identity, cdParent).transform;
-            cdIcon.GetComponent<RectTransform>().anchoredPosition = new Vector2(-800 + (170*index), -465);
-            cdIcon.GetChild(0).GetComponent<TextMeshProUGUI>().text = bindTxt[index];
-            Transform symbol = Instantiate(s.symbol, Vector2.zero, Quaternion.identity, cdIcon).transform;
-            symbol.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-            symbol.localScale /= 2.5f;
-            symbol.SetSiblingIndex(cdIcon.childCount - 2);
-            s.fillTimer = cdIcon.GetChild(cdIcon.childCount-1).gameObject;
+            if (index < defaultBinds.Length)
+            {
+                Transform cdIcon = Instantiate(cdIconPrefab, Vector2.zero, Quaternion.identity, cdParent).transform;
+                cdIcon.GetComponent<RectTransform>().anchoredPosition = new Vector2(-800 + (170*index), -465);
+                cdIcon.GetChild(0).GetComponent<TextMeshProUGUI>().text = bindTxt[index];
+                Transform symbol = Instantiate(s.symbol, Vector2.zero, Quaternion.identity, cdIcon).transform;
+                symbol.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                symbol.localScale /= 2.5f;
+                symbol.SetSiblingIndex(cdIcon.childCount - 2);
+                s.fillTimer = cdIcon.GetChild(cdIcon.childCount-1).gameObject;
+            }
             index++;
         }
         startButton.SetActive(false);

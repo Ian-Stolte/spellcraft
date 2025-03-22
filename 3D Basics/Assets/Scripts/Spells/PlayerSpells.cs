@@ -44,6 +44,13 @@ public class PlayerSpells : MonoBehaviour
                     GameObject hitbox = Instantiate(b.hitbox, transform.position + dir, rot);
                     hitbox.GetComponent<LineHitbox>().dir = dir;
                     hitbox.GetComponent<Hitbox>().spell = s;
+                    break;
+                }
+                else if (b.name == "Self")
+                {
+                    GameObject hitbox = Instantiate(b.hitbox, transform.position + new Vector3(0, -1, 0), rot);
+                    hitbox.GetComponent<Hitbox>().spell = s;
+                    break;
                 }
             }
         }
@@ -53,23 +60,30 @@ public class PlayerSpells : MonoBehaviour
         }   
     }
 
-    public void SpellEffects(Collider[] cols, Spell s)
+    public void SpellEffects(Collider[] cols, Spell s, Vector3 pos)
     {
         foreach (Collider c in cols)
         {
             Enemy script = c.GetComponent<Enemy>();
             if (script != null)
             {
-                script.TakeDamage(3);
+                int dmg = 0;
                 foreach (Block b in s.blocks)
                 {
-                    if (b.tag != "shape")
-                    {
-                        Debug.Log("Apply " + b.name + " effect!");
-                    }
                     if (b.name == "Stun")
                         script.stunTimer = 1f;   //change duration based on block??
+                    else if (b.name == "Damage")
+                        dmg += 3;
+                    else if (b.name == "Knockback")
+                    {
+                        Vector3 dir = (c.transform.position - pos);
+                        dir = (new Vector3(dir.x, 0.2f, dir.z)).normalized;
+                        Debug.Log("KNOCKING BACK " + c.name + " -> " + dir);
+                        c.GetComponent<Rigidbody>().AddForce(dir*1000, ForceMode.Impulse);
+                    }
                 }
+                if (dmg > 0)
+                    script.TakeDamage(dmg);
             }
         }
     }

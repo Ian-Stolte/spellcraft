@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -36,8 +37,12 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
         symbol = transform.GetChild(0).GetComponent<Symbol>();
-        string cdTxt = ((cd+"").Length == 1) ? cd + ".0s" : cd + "s";
-        transform.GetChild(4).GetComponent<TMPro.TextMeshProUGUI>().text = cdTxt;
+        string[] modTags = new string[]{"passive"};
+        if (!Array.Exists(modTags, t => t == tag))
+        {
+            string cdTxt = ((cd+"").Length == 1) ? cd + ".0s" : cd + "s";
+            transform.GetChild(4).GetComponent<TMPro.TextMeshProUGUI>().text = cdTxt;
+        }
     }
 
     private void Update()
@@ -58,13 +63,13 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
                 if (c.gameObject != gameObject && script != null)
                 {
                     //TODO: prevent adding multiple shapes
-                    if (rectTransform.anchoredPosition.x > script.rectTransform.anchoredPosition.x && script.right == null && script.ValidTag(tag, false))
+                    if (rectTransform.anchoredPosition.x > script.rectTransform.anchoredPosition.x && script.right == null && script.ValidTag(tag, name, false))
                     {
                         targetSpace = script.rightSpace;
                         targetSpace.SetActive(true);
                         break;
                     }
-                    else if (rectTransform.anchoredPosition.x < script.rectTransform.anchoredPosition.x && script.left == null && script.ValidTag(tag, true))
+                    else if (rectTransform.anchoredPosition.x < script.rectTransform.anchoredPosition.x && script.left == null && script.ValidTag(tag, name, true))
                     {
                         targetSpace = script.leftSpace;
                         targetSpace.SetActive(true);
@@ -168,23 +173,23 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
     }
 
 
-    public bool ValidTag(string tag, bool toRight)
+    public bool ValidTag(string tag, string name, bool toRight)
     {
-        if (blockedTags.Contains(tag))
+        if (blockedTags.Contains(tag) || blockedTags.Contains(name))
             return false;
         else if (toRight)
         {
             if (right == null)
                 return true;
             else
-                return right.ValidTag(tag, true);
+                return right.ValidTag(tag, right.name, true);
         }
         else
         {
             if (left == null)
                 return true;
             else
-                return left.ValidTag(tag, false);
+                return left.ValidTag(tag, left.name, false);
         }
     }
 }
