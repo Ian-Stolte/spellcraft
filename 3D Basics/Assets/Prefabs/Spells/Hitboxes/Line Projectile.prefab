@@ -118,5 +118,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac340870a281f49cea1db9457f0501e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spell:
+    name: 
+    blocks: []
+    cdMax: 0
+    cdTimer: 0
+    fillTimer: {fileID: 0}
+    keybind: 0
+    symbol: {fileID: 0}
   dir: {x: 0, y: 0, z: 0}
   speed: 7
+  despawnDist: 10

@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
     [Header("States")]
     [SerializeField] private int aggroRange;
     private bool aggro;
+    public float stunTimer;
 
     [Header("Attack")]
     [SerializeField] private float atkDelay;
@@ -43,11 +44,14 @@ public class Enemy : MonoBehaviour
         if (dist < aggroRange)
             aggro = true;
 
-        if (aggro)
+        stunTimer -= Time.deltaTime;
+        if (aggro && stunTimer <= 0)
         {
             transform.rotation = Quaternion.LookRotation(Vector3.Scale(player.transform.position - transform.position, new Vector3(1, 0, 1)));
             rb.MovePosition(rb.position + transform.forward * speed * Time.deltaTime);
         }
+
+        anim.SetBool("Stunned", stunTimer > 0);
     }
 
 

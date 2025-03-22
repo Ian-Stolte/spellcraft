@@ -73,6 +73,7 @@ public class SpellManager : MonoBehaviour
         }
     }
 
+
     public void CraftSpells()
     {
         spells.Clear();
@@ -82,20 +83,29 @@ public class SpellManager : MonoBehaviour
             if (script.left == null && script.right == null)
             {
                 script.symbol.canMove = false;
+                Color c = child.GetComponent<Image>().color;
+                child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 0.1f);
+                child.GetChild(2).GetComponent<CanvasGroup>().alpha = 0.5f;
+                child.GetChild(3).GetComponent<CanvasGroup>().alpha = 0.1f;
+                child.GetChild(4).GetComponent<CanvasGroup>().alpha = 0.1f;
             }
-            else if (script.left == null && script.right != null)
+            else
             {
-                List<Block> newSpell = new List<Block>();
-                Block temp = script;
-                while (temp != null)
+                if (script.left == null && script.right != null)
                 {
-                    newSpell.Add(temp);
-                    temp = temp.right;
+                    List<Block> newSpell = new List<Block>();
+                    Block temp = script;
+                    while (temp != null)
+                    {
+                        newSpell.Add(temp);
+                        temp = temp.right;
+                    }
+                    spells.Add(new Spell(newSpell));
                 }
-                spells.Add(new Spell(newSpell));
+                Color c = child.GetComponent<Image>().color;
+                child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 0.3f);
+                child.GetChild(3).GetComponent<CanvasGroup>().alpha = 0.5f;
             }
-            Color c = child.GetComponent<Image>().color;
-            child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 0.2f);
         }
 
         craftButton.SetActive(false);
@@ -107,6 +117,8 @@ public class SpellManager : MonoBehaviour
         {
             foreach (Block b in s.blocks)
             {
+                b.transform.GetChild(4).gameObject.SetActive(false);
+                b.transform.GetChild(0).GetComponent<Image>().enabled = true;
                 Symbol sym = b.symbol;
                 sym.min = new Vector2(-80 * s.blocks.IndexOf(b) - 40, sym.min.y);
                 sym.max = new Vector2(80 * (s.blocks.Count - s.blocks.IndexOf(b)) - 40, sym.max.y);
@@ -115,12 +127,18 @@ public class SpellManager : MonoBehaviour
         }
     }
 
+
     public void UndoSpells()
     {
         foreach (Transform child in blockParent)
         {
             Color c = child.GetComponent<Image>().color;
             child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 1);
+            child.GetChild(2).GetComponent<CanvasGroup>().alpha = 1;
+            child.GetChild(3).GetComponent<CanvasGroup>().alpha = 1;
+            child.GetChild(4).GetComponent<CanvasGroup>().alpha = 1;
+            child.GetChild(4).gameObject.SetActive(true);
+            child.GetChild(0).GetComponent<Image>().enabled = false;
         }
 
         craftButton.SetActive(true);
@@ -128,6 +146,7 @@ public class SpellManager : MonoBehaviour
         backButton.SetActive(false);
         spellsLocked = false;
     }
+
 
     public void ConfirmSpells()
     {
@@ -177,10 +196,9 @@ public class SpellManager : MonoBehaviour
         startButton.SetActive(true);
     }
 
+
     public void EnterGame()
     {
-        //Cursor.lockState = CursorLockMode.Locked;
-        //Cursor.visible = false;
         StartCoroutine(EnterGameCor());
     }
 
@@ -226,25 +244,32 @@ public class SpellManager : MonoBehaviour
     {
         if (spellsLocked)
         {
-            bool readyToConfirm = true;
-            foreach (Spell s in spells)
+            if (spells.Count == 0)
             {
-                bool finished = true;
-                foreach (Block b in s.blocks)
+                confirmButton.GetComponent<Button>().interactable = false;
+            }
+            else
+            {
+                bool readyToConfirm = true;
+                foreach (Spell s in spells)
                 {
-                    if (b.symbol.adjSymbols < s.blocks.Count)
+                    bool finished = true;
+                    foreach (Block b in s.blocks)
                     {
-                        finished = false;
-                        readyToConfirm = false;
-                        break;
+                        if (b.symbol.adjSymbols < s.blocks.Count)
+                        {
+                            finished = false;
+                            readyToConfirm = false;
+                            break;
+                        }
+                    }
+                    foreach (Block b in s.blocks)
+                    {
+                        b.transform.GetChild(1).gameObject.SetActive(finished);
                     }
                 }
-                foreach (Block b in s.blocks)
-                {
-                    b.transform.GetChild(1).gameObject.SetActive(finished);
-                }
+                confirmButton.GetComponent<Button>().interactable = readyToConfirm;
             }
-            confirmButton.GetComponent<Button>().interactable = readyToConfirm;
         }
     }
 }

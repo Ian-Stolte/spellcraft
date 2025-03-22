@@ -36,6 +36,8 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
         symbol = transform.GetChild(0).GetComponent<Symbol>();
+        string cdTxt = ((cd+"").Length == 1) ? cd + ".0s" : cd + "s";
+        transform.GetChild(4).GetComponent<TMPro.TextMeshProUGUI>().text = cdTxt;
     }
 
     private void Update()
@@ -75,7 +77,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (GetComponent<Image>().color.a == 1)
+        if (!SpellManager.Instance.spellsLocked)
         {
             dragging = true;
             // Convert the mouse position to local space relative to the RectTransform
@@ -90,7 +92,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (GetComponent<Image>().color.a == 1)
+        if (!SpellManager.Instance.spellsLocked)
         {
             // Bring the dragged window to the front
             transform.SetSiblingIndex(transform.parent.childCount - 1);
@@ -128,7 +130,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (GetComponent<Image>().color.a == 1)
+        if (!SpellManager.Instance.spellsLocked)
         {
             dragging = false;
             if (targetSpace != null)

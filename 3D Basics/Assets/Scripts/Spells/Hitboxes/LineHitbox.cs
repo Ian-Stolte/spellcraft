@@ -6,10 +6,15 @@ public class LineHitbox : Hitbox
 {
     public Vector3 dir;
     public float speed;
+    public float despawnDist;
+    private float distance;
 
     void Update()
     {
         transform.position += Time.deltaTime * dir * speed;
+        distance += Time.deltaTime * dir.magnitude * speed;
+        if (distance > despawnDist)
+            Destroy(gameObject);
         CheckCollisions();
     }
 

@@ -67,6 +67,8 @@ public class PlayerSpells : MonoBehaviour
                     {
                         Debug.Log("Apply " + b.name + " effect!");
                     }
+                    if (b.name == "Stun")
+                        script.stunTimer = 1f;   //change duration based on block??
                 }
             }
         }
