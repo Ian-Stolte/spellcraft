@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CircleBlock : MonoBehaviour
+public class CircleHitbox : Hitbox
 {
     void Start()
     {
@@ -26,11 +26,10 @@ public class CircleBlock : MonoBehaviour
         Destroy(gameObject);
     }
 
-
-    private void CheckCollisions()
+    public override void CheckCollisions()
     {
         Collider[] cols = Physics.OverlapSphere(transform.position, 2f, LayerMask.GetMask("Enemy"));  //could replace 1 w/ ref to radius for dynamic scaling
         if (cols.Length > 0)
-            GameObject.Find("Player").GetComponent<PlayerSpells>().SpellEffects(cols);
+            GameObject.Find("Player").GetComponent<PlayerSpells>().SpellEffects(cols, spell);
     }
 }

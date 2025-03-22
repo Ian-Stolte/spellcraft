@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ZigZagHitbox : MonoBehaviour
+public class ZigZagHitbox : Hitbox
 {
     void Start()
     {
@@ -29,8 +29,7 @@ public class ZigZagHitbox : MonoBehaviour
         Destroy(obj.parent.gameObject);
     }
 
-
-    private void CheckCollisions()
+    public override void CheckCollisions()
     {
         List<Collider> cols = new List<Collider>();
         foreach (Transform child in transform)
@@ -42,6 +41,6 @@ public class ZigZagHitbox : MonoBehaviour
                     cols.Add(c);
         }
         if (cols.Count > 0)
-            GameObject.Find("Player").GetComponent<PlayerSpells>().SpellEffects(cols.ToArray());
+            GameObject.Find("Player").GetComponent<PlayerSpells>().SpellEffects(cols.ToArray(), spell);
     }
 }

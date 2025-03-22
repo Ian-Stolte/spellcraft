@@ -28,13 +28,22 @@ public class PlayerSpells : MonoBehaviour
         if (validCast)
         {
             s.cdTimer = s.cdMax;
+            Quaternion rot = Quaternion.Euler(0, Quaternion.LookRotation(transform.position - MousePos()).eulerAngles.y, 0);
             foreach (Block b in s.blocks)
             {
-                if (b.tag == "shape")
+                if (b.name == "Circle" || b.name == "ZigZag")
                 {
-                    Quaternion rot = Quaternion.Euler(0, Quaternion.LookRotation(transform.position - MousePos()).eulerAngles.y, 0);
                     GameObject hitbox = Instantiate(b.hitbox, MousePos(), rot);
+                    hitbox.GetComponent<Hitbox>().spell = s;
                     break;
+                }
+                else if (b.name == "Line")
+                {
+                    Vector3 dir = (MousePos() - transform.position);
+                    dir = new Vector3(dir.x, 0, dir.z).normalized;
+                    GameObject hitbox = Instantiate(b.hitbox, transform.position + dir, rot);
+                    hitbox.GetComponent<LineHitbox>().dir = dir;
+                    hitbox.GetComponent<Hitbox>().spell = s;
                 }
             }
         }
@@ -44,16 +53,21 @@ public class PlayerSpells : MonoBehaviour
         }   
     }
 
-    public void SpellEffects(Collider[] cols)
+    public void SpellEffects(Collider[] cols, Spell s)
     {
         foreach (Collider c in cols)
         {
-            Debug.Log("HIT: " + c.gameObject.name);
             Enemy script = c.GetComponent<Enemy>();
             if (script != null)
             {
                 script.TakeDamage(3);
-                //trigger all spell effects
+                foreach (Block b in s.blocks)
+                {
+                    if (b.tag != "shape")
+                    {
+                        Debug.Log("Apply " + b.name + " effect!");
+                    }
+                }
             }
         }
     }
