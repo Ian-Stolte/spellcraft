@@ -39,7 +39,7 @@ public class SpellManager : MonoBehaviour
 
     [Header("Misc")]
     [SerializeField] private Color fullSymbolColor;
-    [SerializeField] private GameObject player;
+    [SerializeField] private PlayerSpells player;
     [SerializeField] private CanvasGroup fader;
 
     [Header("Spell Data")]
@@ -50,23 +50,25 @@ public class SpellManager : MonoBehaviour
 
     public void Start()
     {
+        player = GameObject.Find("Player").GetComponent<PlayerSpells>();
+
         if (SKIP_CRAFTING)
         {
             List<Block> lineStun = new List<Block>();
             lineStun.Add(GameObject.Find("Line").GetComponent<Block>());
-            lineStun.Add(GameObject.Find("Stun").GetComponent<Block>());
-            Spell lineStunSpell = new Spell("versus stupefaciunt", lineStun, 5, KeyCode.Mouse0);
+            lineStun.Add(GameObject.Find("Damage").GetComponent<Block>());
+            Spell lineStunSpell = new Spell("versus noxa", lineStun, 5, KeyCode.Mouse0);
             spells.Add(lineStunSpell);
             List<Block> circleHeal = new List<Block>();
             circleHeal.Add(GameObject.Find("Circle").GetComponent<Block>());
-            circleHeal.Add(GameObject.Find("Heal").GetComponent<Block>());
-            Spell circleHealSpell = new Spell("orbis sano", circleHeal, 3, KeyCode.Mouse1);
+            circleHeal.Add(GameObject.Find("Knockback").GetComponent<Block>());
+            Spell circleHealSpell = new Spell("orbis repellare", circleHeal, 3, KeyCode.Mouse1);
             spells.Add(circleHealSpell);
             List<Block> zigzagUlt = new List<Block>();
-            zigzagUlt.Add(GameObject.Find("ZigZag").GetComponent<Block>());
+            zigzagUlt.Add(GameObject.Find("Self").GetComponent<Block>());
             zigzagUlt.Add(GameObject.Find("Stun").GetComponent<Block>());
-            zigzagUlt.Add(GameObject.Find("Heal").GetComponent<Block>());
-            Spell zigzagUltSpell = new Spell("oblicus stupefaciunt sano", zigzagUlt, 12, KeyCode.Mouse2);
+            zigzagUlt.Add(GameObject.Find("Damage").GetComponent<Block>());
+            Spell zigzagUltSpell = new Spell("ipsus stupefaciunt noxa", zigzagUlt, 12, KeyCode.Mouse2);
             spells.Add(zigzagUltSpell);
             ConfirmSpells();
             EnterGame();
@@ -159,7 +161,34 @@ public class SpellManager : MonoBehaviour
         confirmButton.SetActive(false);
         backButton.SetActive(false);
         symbolParent.gameObject.SetActive(true);
+        
+        //filter out aura and auto spells
+        foreach (Spell s in spells)
+        {
+            float cd = 0;
+            bool addedAuto = false;
+            foreach (Block b in s.blocks)
+            {
+                cd += b.cd;
+                if (b.name == "Aura")
+                {
+                    player.auraSpell = s;
+                }
+                else if (b.name == "Auto")
+                {
+                    player.autoSpell = s;
+                    addedAuto = true;
+                }
+            }
+            if (addedAuto)
+            {
+                player.autoTick = cd/2f;
+            }
+        }
+
+        //add other spells to results UI
         int index = 0;
+        int bindIndex = 0;
         foreach (Spell s in spells)
         {
             s.symbol = Instantiate(emptyImage, Vector2.zero, Quaternion.identity, symbolParent);
@@ -195,58 +224,19 @@ public class SpellManager : MonoBehaviour
             s.cdMax = cd;
             s.symbol.transform.SetSiblingIndex(s.symbol.transform.parent.childCount - 1);
             s.symbol.GetComponent<RectTransform>().anchoredPosition = new Vector2 (-665, 370-(index*300));
+            index++;
             //TODO: let player assign keybinds
-            if (index < defaultBinds.Length)
-                s.keybind = defaultBinds[index];
-            index++;
-        }
-        startButton.SetActive(true);
-    }
-
-
-    public void EnterGame()
-    {
-        StartCoroutine(EnterGameCor());
-    }
-
-    private IEnumerator EnterGameCor()
-    {
-        float elapsed = 0f;
-        while (elapsed < 1)
-        {
-            elapsed += Time.deltaTime;
-            fader.alpha = elapsed;
-            yield return null;
-        }
-        int index = 0;
-        foreach (Spell s in spells)
-        {
-            if (index < defaultBinds.Length)
+            if (index < defaultBinds.Length && s != player.autoSpell && s != player.auraSpell)
             {
-                Transform cdIcon = Instantiate(cdIconPrefab, Vector2.zero, Quaternion.identity, cdParent).transform;
-                cdIcon.GetComponent<RectTransform>().anchoredPosition = new Vector2(-800 + (170*index), -465);
-                cdIcon.GetChild(0).GetComponent<TextMeshProUGUI>().text = bindTxt[index];
-                Transform symbol = Instantiate(s.symbol, Vector2.zero, Quaternion.identity, cdIcon).transform;
-                symbol.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-                symbol.localScale /= 2.5f;
-                symbol.SetSiblingIndex(cdIcon.childCount - 2);
-                s.fillTimer = cdIcon.GetChild(cdIcon.childCount-1).gameObject;
+                s.keybind = defaultBinds[bindIndex];
+                bindIndex++;
             }
-            index++;
         }
-        startButton.SetActive(false);
-        symbolParent.gameObject.SetActive(false);
-        spellUI.gameObject.SetActive(false);
-        while (elapsed > 0)
-        {
-            elapsed -= Time.deltaTime;
-            fader.alpha = elapsed;
-            yield return null;
-        }
-        fader.alpha = 0;
-        player.GetComponent<PlayerMovement>().enabled = true;
-        player.GetComponent<PlayerSpells>().enabled = true;
-        pauseGame = false;
+        if (player.auraSpell.name != "")
+            spells.Remove(player.auraSpell);
+        if (player.autoSpell.name != "")
+            spells.Remove(player.autoSpell);
+        startButton.SetActive(true);
     }
 
 
@@ -281,6 +271,70 @@ public class SpellManager : MonoBehaviour
                 confirmButton.GetComponent<Button>().interactable = readyToConfirm;
             }
         }
+    }
+
+
+    public void EnterGame()
+    {
+        StartCoroutine(EnterGameCor());
+    }
+
+    private IEnumerator EnterGameCor()
+    {
+        float elapsed = 0f;
+        while (elapsed < 1)
+        {
+            elapsed += Time.deltaTime;
+            fader.alpha = elapsed;
+            yield return null;
+        }
+        int index = 0;
+        foreach (Spell s in spells)
+        {
+            if (index < defaultBinds.Length)
+            {
+                SpawnSpellIcon(s, new Vector2(-800 + (170*index), -465), bindTxt[index]);
+            }
+            index++;
+        }
+        index = 0;
+        if (player.auraSpell.name != "")
+        {
+            SpawnSpellIcon(player.auraSpell, new Vector2(800, -465), "AURA");
+            index++;
+        }
+        if (player.autoSpell.name != "")
+        {
+            SpawnSpellIcon(player.autoSpell, new Vector2(800 - (170*index), -465), "AUTO");
+        }
+
+        startButton.SetActive(false);
+        symbolParent.gameObject.SetActive(false);
+        spellUI.gameObject.SetActive(false);
+        while (elapsed > 0)
+        {
+            elapsed -= Time.deltaTime;
+            fader.alpha = elapsed;
+            yield return null;
+        }
+        fader.alpha = 0;
+        player.GetComponent<PlayerMovement>().enabled = true;
+        player.enabled = true;
+        pauseGame = false;
+    }
+
+    private void SpawnSpellIcon(Spell s, Vector2 pos, string txt)
+    {
+        Transform cdIcon = Instantiate(cdIconPrefab, Vector2.zero, Quaternion.identity, cdParent).transform;
+        cdIcon.GetComponent<RectTransform>().anchoredPosition = pos;
+        cdIcon.GetChild(0).GetComponent<TextMeshProUGUI>().text = txt;
+        Transform symbol = Instantiate(s.symbol, Vector2.zero, Quaternion.identity, cdIcon).transform;
+        symbol.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+        symbol.localScale /= 2.5f;
+        symbol.SetSiblingIndex(cdIcon.childCount - 2);
+        s.fillTimer = cdIcon.GetChild(cdIcon.childCount-1).gameObject;
+        if (txt == "AURA")
+            s.fillTimer.GetComponent<Image>().fillAmount = 1;
     }
 }
 

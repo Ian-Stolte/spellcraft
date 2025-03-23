@@ -5,6 +5,24 @@ using UnityEngine.UI;
 
 public class PlayerSpells : MonoBehaviour
 {
+    [HideInInspector] public Spell auraSpell;
+    [SerializeField] private float auraTick;
+    [SerializeField] GameObject auraHitbox;
+    
+    [HideInInspector] public Spell autoSpell;
+    public float autoTick;
+    [SerializeField] private float autoTimer;
+
+
+    private void Start()
+    {
+        if (auraSpell.name != "")
+        {
+            GameObject aura = Instantiate(auraHitbox, transform.position + new Vector3(0, -1, 0), Quaternion.identity, transform);
+            aura.GetComponent<Hitbox>().spell = auraSpell;
+            aura.GetComponent<AuraHitbox>().tickRate = auraTick;
+        }
+    }
 
     void Update()
     {
@@ -16,6 +34,17 @@ public class PlayerSpells : MonoBehaviour
             {
                 CastSpell(s);
             }
+        }
+
+        if (autoSpell.name != "")
+        {
+            autoTimer = Mathf.Max(0, autoTimer - Time.deltaTime);
+            if (autoTimer <= 0)
+            {
+                CastSpell(autoSpell);
+                autoTimer = autoTick;
+            }
+            autoSpell.fillTimer.GetComponent<Image>().fillAmount = autoTimer/autoTick;
         }
     }
 
@@ -48,7 +77,7 @@ public class PlayerSpells : MonoBehaviour
                 }
                 else if (b.name == "Self")
                 {
-                    GameObject hitbox = Instantiate(b.hitbox, transform.position + new Vector3(0, -1, 0), rot);
+                    GameObject hitbox = Instantiate(b.hitbox, transform.position + new Vector3(0, -0.8f, 0), Quaternion.identity);
                     hitbox.GetComponent<Hitbox>().spell = s;
                     break;
                 }
@@ -60,7 +89,8 @@ public class PlayerSpells : MonoBehaviour
         }   
     }
 
-    public void SpellEffects(Collider[] cols, Spell s, Vector3 pos)
+
+    public void SpellEffects(Collider[] cols, Spell s, Vector3 pos, bool aura=false)
     {
         foreach (Collider c in cols)
         {
@@ -71,15 +101,16 @@ public class PlayerSpells : MonoBehaviour
                 foreach (Block b in s.blocks)
                 {
                     if (b.name == "Stun")
-                        script.stunTimer = 1f;   //change duration based on block??
+                        script.stunTimer = (aura) ? 0.5f : 1f;   //change duration based on block??
                     else if (b.name == "Damage")
-                        dmg += 3;
+                        dmg += (aura) ? 2 : 4;
                     else if (b.name == "Knockback")
                     {
                         Vector3 dir = (c.transform.position - pos);
                         dir = (new Vector3(dir.x, 0.2f, dir.z)).normalized;
-                        Debug.Log("KNOCKING BACK " + c.name + " -> " + dir);
-                        c.GetComponent<Rigidbody>().AddForce(dir*1000, ForceMode.Impulse);
+                        int kbStrength = (aura) ? 600 : 1000;
+                        c.GetComponent<Rigidbody>().AddForce(dir*kbStrength, ForceMode.Impulse);
+                        script.stunTimer = 0.5f;
                     }
                 }
                 if (dmg > 0)

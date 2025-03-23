@@ -28,10 +28,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private int health;
     [SerializeField] private int maxHealth;
 
+    [Header("Misc")]
     [SerializeField] private Animator anim;
     [SerializeField] private Animator damageFlash;
-
-    [Header("Misc")]
     [SerializeField] private bool showCursor;
 
 

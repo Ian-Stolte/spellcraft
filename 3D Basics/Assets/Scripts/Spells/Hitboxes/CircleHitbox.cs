@@ -28,7 +28,7 @@ public class CircleHitbox : Hitbox
 
     public override void CheckCollisions()
     {
-        Collider[] cols = Physics.OverlapSphere(transform.position, 2f, LayerMask.GetMask("Enemy"));  //could replace 1 w/ ref to radius for dynamic scaling
+        Collider[] cols = Physics.OverlapSphere(transform.position, transform.localScale.x/2, LayerMask.GetMask("Enemy"));
         if (cols.Length > 0)
             GameObject.Find("Player").GetComponent<PlayerSpells>().SpellEffects(cols, spell, transform.position);
     }
