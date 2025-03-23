@@ -226,7 +226,7 @@ public class SpellManager : MonoBehaviour
             s.symbol.GetComponent<RectTransform>().anchoredPosition = new Vector2 (-665, 370-(index*300));
             index++;
             //TODO: let player assign keybinds
-            if (index < defaultBinds.Length && s != player.autoSpell && s != player.auraSpell)
+            if (bindIndex < defaultBinds.Length && s != player.autoSpell && s != player.auraSpell)
             {
                 s.keybind = defaultBinds[bindIndex];
                 bindIndex++;
