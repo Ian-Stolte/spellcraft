@@ -37,6 +37,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
         symbol = transform.GetChild(0).GetComponent<Symbol>();
+        symbol.GetComponent<Image>().enabled = false;
         string[] modTags = new string[]{"passive"};
         if (!Array.Exists(modTags, t => t == tag))
         {
