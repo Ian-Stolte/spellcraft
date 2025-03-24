@@ -38,6 +38,7 @@ public class SpellManager : MonoBehaviour
     [SerializeField] private GameObject cdIconPrefab;
 
     [Header("Misc")]
+    [SerializeField] private Vector2 spellUIStart;
     [SerializeField] private Color fullSymbolColor;
     [SerializeField] private PlayerSpells player;
     [SerializeField] private CanvasGroup fader;
@@ -223,7 +224,7 @@ public class SpellManager : MonoBehaviour
             UI.transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = cdTxt;
             s.cdMax = cd;
             s.symbol.transform.SetSiblingIndex(s.symbol.transform.parent.childCount - 1);
-            s.symbol.GetComponent<RectTransform>().anchoredPosition = new Vector2 (-665, 370-(index*300));
+            s.symbol.GetComponent<RectTransform>().anchoredPosition = spellUIStart + new Vector2(0, -(index*300));
             index++;
             //TODO: let player assign keybinds
             if (bindIndex < defaultBinds.Length && s != player.autoSpell && s != player.auraSpell)

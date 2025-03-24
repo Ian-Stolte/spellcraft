@@ -75,7 +75,7 @@ public class PlayerSpells : MonoBehaviour
                     hitbox.GetComponent<Hitbox>().spell = s;
                     break;
                 }
-                else if (b.name == "Self")
+                else if (b.name == "Melee")
                 {
                     GameObject hitbox = Instantiate(b.hitbox, transform.position + new Vector3(0, -0.8f, 0), Quaternion.identity);
                     hitbox.GetComponent<Hitbox>().spell = s;
