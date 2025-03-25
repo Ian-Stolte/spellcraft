@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class Enemy : MonoBehaviour
 {
@@ -24,10 +26,16 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int dmg;
     [SerializeField] private GameObject projPrefab;
 
+    [Header("Canvas")]
+    [SerializeField] private Image healthBar;
+    [SerializeField] private TextMeshProUGUI statusTxt;
+    [SerializeField] private GameObject damageNumber;
+
     [Header("References")]
     private Rigidbody rb;
     [SerializeField] private Animator anim;
     private GameObject player;
+    private Transform cam;
 
 
     void Start()
@@ -36,6 +44,7 @@ public class Enemy : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         player = GameObject.Find("Player");
         atkTimer = atkDelay;
+        cam = GameObject.Find("Main Camera").transform;
     }
 
     void Update()
@@ -85,6 +94,9 @@ public class Enemy : MonoBehaviour
         }
 
         anim.SetBool("Stunned", stunTimer > 0);
+        statusTxt.text = (stunTimer > 0) ? "Stunned" : "";
+
+        transform.GetChild(0).transform.forward = cam.forward;
     }
 
 
@@ -107,14 +119,42 @@ public class Enemy : MonoBehaviour
         {
             anim.Play("MeleeHit");
             health -= dmg;
+            //show damage number
+            GameObject dmgNumber = Instantiate(damageNumber, transform.position, Quaternion.identity, transform.GetChild(0));
+            dmgNumber.GetComponent<TextMeshProUGUI>().text = "" + dmg;
+            Vector2 randomPos = new Vector2(Random.Range(-100, 100), Random.Range(0, 100));
+            dmgNumber.GetComponent<RectTransform>().anchoredPosition = randomPos;
+            StartCoroutine(FadeText(dmgNumber, 0.5f, randomPos.normalized * 100));
         }
         aggro = true;
-        //show damage number
-
+        healthBar.fillAmount = health/(maxHealth*1.0f);
         if (health <= 0)
         {
             Destroy(gameObject);
             //play any death anims, give player any rewards for kill
         }
+    }
+
+    private IEnumerator FadeText(GameObject txt, float duration, Vector2 dir)
+    {
+        Vector2 origScale = txt.transform.localScale;
+        float elapsed = 0;
+        while (elapsed < 0.3f)
+        {
+            txt.GetComponent<RectTransform>().anchoredPosition += Time.deltaTime * dir;
+            txt.GetComponent<CanvasGroup>().alpha = elapsed/0.3f;
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        elapsed = 0;
+        while (elapsed < duration)
+        {
+            txt.GetComponent<RectTransform>().anchoredPosition += Time.deltaTime * dir;
+            txt.GetComponent<CanvasGroup>().alpha = Mathf.Lerp(1, 0.5f, elapsed/duration);
+            txt.transform.localScale = origScale * Mathf.Lerp(1, 0.75f, elapsed/duration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        Destroy(txt);
     }
 }

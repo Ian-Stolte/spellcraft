@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Cinemachine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Health")]
     [SerializeField] private int health;
     [SerializeField] private int maxHealth;
+    [SerializeField] private Transform hpBar;
 
     [Header("Misc")]
     [SerializeField] private Animator anim;
@@ -126,5 +127,11 @@ public class PlayerMovement : MonoBehaviour
             health = maxHealth;
         }
         damageFlash.Play("DamageFlash");
+
+        if (hpBar != null)
+        {
+            hpBar.GetChild(1).GetComponent<Image>().fillAmount = health/(maxHealth*1.0f);
+            hpBar.GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().text = health + "/" + maxHealth;
+        }
     }
 }

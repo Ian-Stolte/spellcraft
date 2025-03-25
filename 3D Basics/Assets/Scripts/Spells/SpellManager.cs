@@ -65,12 +65,12 @@ public class SpellManager : MonoBehaviour
             circleHeal.Add(GameObject.Find("Knockback").GetComponent<Block>());
             Spell circleHealSpell = new Spell("orbis repellare", circleHeal, 3, KeyCode.Mouse1);
             spells.Add(circleHealSpell);
-            List<Block> zigzagUlt = new List<Block>();
-            zigzagUlt.Add(GameObject.Find("Self").GetComponent<Block>());
-            zigzagUlt.Add(GameObject.Find("Stun").GetComponent<Block>());
-            zigzagUlt.Add(GameObject.Find("Damage").GetComponent<Block>());
-            Spell zigzagUltSpell = new Spell("ipsus stupefaciunt noxa", zigzagUlt, 12, KeyCode.Mouse2);
-            spells.Add(zigzagUltSpell);
+            List<Block> meleeUlt = new List<Block>();
+            meleeUlt.Add(GameObject.Find("Melee").GetComponent<Block>());
+            meleeUlt.Add(GameObject.Find("Stun").GetComponent<Block>());
+            meleeUlt.Add(GameObject.Find("Damage").GetComponent<Block>());
+            Spell meleeUltSpell = new Spell("ipsus stupefaciunt noxa", meleeUlt, 12, KeyCode.Mouse2);
+            spells.Add(meleeUltSpell);
             ConfirmSpells();
             EnterGame();
         }
