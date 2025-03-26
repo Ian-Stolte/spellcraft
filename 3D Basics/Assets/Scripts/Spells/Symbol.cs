@@ -79,5 +79,6 @@ public class Symbol : MonoBehaviour, IDragHandler, IPointerDownHandler
     public void ResetPos()
     {
         rectTransform.anchoredPosition = startingPos;
+        GetComponent<Image>().enabled = false;
     }
 }

@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
 {
-    private Vector2 lastPos; // Stores the offset between the mouse click and the window position
+    private Vector2 lastPos;
     [HideInInspector] public RectTransform rectTransform;
     private Canvas canvas;
     private bool dragging;
@@ -25,6 +25,12 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
     [SerializeField] private List<string> blockedTags;
     public GameObject hitbox;
     public float cd;
+
+    [Header("Saves")]
+    private Vector3 posSAVE;
+    private Vector3 symbolPosSAVE;
+    private Block leftSAVE;
+    private Block rightSAVE;
 
 
     private void Awake()
@@ -63,14 +69,13 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
                 Block script = c.GetComponent<Block>();
                 if (c.gameObject != gameObject && script != null)
                 {
-                    //TODO: prevent adding multiple shapes
-                    if (rectTransform.anchoredPosition.x > script.rectTransform.anchoredPosition.x && script.right == null && script.ValidTag(tag, name, false))
+                    if (rectTransform.anchoredPosition.x > script.rectTransform.anchoredPosition.x && script.right == null && script.ValidTag(this, false))
                     {
                         targetSpace = script.rightSpace;
                         targetSpace.SetActive(true);
                         break;
                     }
-                    else if (rectTransform.anchoredPosition.x < script.rectTransform.anchoredPosition.x && script.left == null && script.ValidTag(tag, name, true))
+                    else if (rectTransform.anchoredPosition.x < script.rectTransform.anchoredPosition.x && script.left == null && script.ValidTag(this, true))
                     {
                         targetSpace = script.leftSpace;
                         targetSpace.SetActive(true);
@@ -113,7 +118,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
             );
             rectTransform.anchoredPosition = localMousePos - lastPos;
             
-            // Bound the window to the border of the UI
+            // Bound to the border of the UI
             float newX = Mathf.Clamp(rectTransform.anchoredPosition.x, -(860 - rectTransform.sizeDelta.x), 860 - rectTransform.sizeDelta.x);
             float newY = Mathf.Clamp(rectTransform.anchoredPosition.y, -415, 375);
             rectTransform.anchoredPosition = new Vector2(newX, newY);
@@ -162,7 +167,14 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
 
     public void ResetSymbol(bool toRight)
     {
+        Color c = GetComponent<Image>().color;
+        GetComponent<Image>().color = new Color(c.r, c.g, c.b, 1);
         transform.GetChild(0).GetComponent<Symbol>().ResetPos();
+        transform.GetChild(1).gameObject.SetActive(false); // highlight
+        transform.GetChild(2).GetComponent<CanvasGroup>().alpha = 1;
+        transform.GetChild(3).GetComponent<CanvasGroup>().alpha = 1;
+        transform.GetChild(4).gameObject.SetActive(true); //cd text
+
         if (toRight && right != null)
         {
             right.ResetSymbol(true);
@@ -174,23 +186,42 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
     }
 
 
-    public bool ValidTag(string tag, string name, bool toRight)
+    public bool ValidTag(Block script, bool toRight)
     {
-        if (blockedTags.Contains(tag) || blockedTags.Contains(name))
+        if (blockedTags.Contains(script.tag) || script.blockedTags.Contains(tag))
+        {
             return false;
+        }
         else if (toRight)
         {
             if (right == null)
                 return true;
             else
-                return right.ValidTag(tag, right.name, true);
+                return right.ValidTag(script, true);
         }
         else
         {
             if (left == null)
                 return true;
             else
-                return left.ValidTag(tag, left.name, false);
+                return left.ValidTag(script, false);
         }
+    }
+
+
+    public void SaveState()
+    {
+        posSAVE = GetComponent<RectTransform>().anchoredPosition;
+        symbolPosSAVE = symbol.GetComponent<RectTransform>().anchoredPosition;
+        leftSAVE = left;
+        rightSAVE = right;
+    }
+
+    public void ReadState()
+    {
+        GetComponent<RectTransform>().anchoredPosition = posSAVE;
+        symbol.transform.GetComponent<RectTransform>().anchoredPosition = symbolPosSAVE;
+        left = leftSAVE;
+        right = rightSAVE;
     }
 }

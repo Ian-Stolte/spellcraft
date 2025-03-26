@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,6 +32,7 @@ public class SpellManager : MonoBehaviour
     [SerializeField] private GameObject backButton;
     [SerializeField] private GameObject confirmButton;
     [SerializeField] private GameObject startButton;
+    [SerializeField] private GameObject undoReforgeButton;
 
     [Header("Prefabs")]
     [SerializeField] private GameObject emptyImage;
@@ -47,6 +49,7 @@ public class SpellManager : MonoBehaviour
     public KeyCode[] defaultBinds;
     public string[] bindTxt;
     public List<Spell> spells = new List<Spell>();
+    public List<Spell> spellSave = new List<Spell>();
     
 
     public void Start()
@@ -74,6 +77,75 @@ public class SpellManager : MonoBehaviour
             ConfirmSpells();
             EnterGame();
         }
+    }
+
+
+    public void Reforge()
+    {
+        pauseGame = true;
+        player.GetComponent<PlayerMovement>().enabled = false;
+        player.enabled = false;
+        cdParent.gameObject.SetActive(false);
+        spellUI.gameObject.SetActive(true);
+        undoReforgeButton.SetActive(true);
+        craftButton.SetActive(true);
+        confirmButton.SetActive(false);
+        spellsLocked = false;
+
+        foreach (Transform child in blockParent)
+        {
+            Block b = child.GetComponent<Block>();
+            if (child.gameObject.activeSelf)
+            {
+                b.SaveState();
+
+                if (b.left != null || b.right != null) //if crafted spell
+                {
+                    Color c = child.GetComponent<Image>().color;
+                    child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 0.5f);
+                    b.symbol.GetComponent<Image>().enabled = true;
+                    child.GetChild(1).gameObject.SetActive(true); //highlight
+                    child.GetChild(2).GetComponent<CanvasGroup>().alpha = 1; //name
+                    child.GetChild(3).GetComponent<CanvasGroup>().alpha = 0.5f; //latin
+                    child.GetChild(4).gameObject.SetActive(false); //cd text
+                }
+                else
+                {
+                    Color c = child.GetComponent<Image>().color;
+                    child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 1);
+                    b.symbol.GetComponent<Image>().enabled = false;
+                    child.GetChild(2).GetComponent<CanvasGroup>().alpha = 1; //name
+                    child.GetChild(3).GetComponent<CanvasGroup>().alpha = 1; //latin
+                    child.GetChild(4).GetComponent<CanvasGroup>().alpha = 1; //cd text
+                    child.GetChild(4).gameObject.SetActive(true);
+                }
+            }
+        }
+        spellSave.Clear();
+        foreach (Spell s in spells)
+        {
+            spellSave.Add(s);
+        }
+    }
+
+
+    public void ExitReforge()
+    {
+        foreach (Transform child in blockParent)
+        {
+            if (child.gameObject.activeSelf)
+                child.GetComponent<Block>().ReadState();
+        }
+        spells.Clear();
+        foreach (Spell s in spellSave)
+        {
+            spells.Add(s);
+        }
+        pauseGame = false;
+        spellUI.gameObject.SetActive(false);
+        cdParent.gameObject.SetActive(true);
+        player.GetComponent<PlayerMovement>().enabled = true;
+        player.enabled = true;
     }
 
 
@@ -145,8 +217,10 @@ public class SpellManager : MonoBehaviour
                 child.GetChild(2).GetComponent<CanvasGroup>().alpha = 1;
                 child.GetChild(3).GetComponent<CanvasGroup>().alpha = 1;
                 child.GetChild(4).GetComponent<CanvasGroup>().alpha = 1;
-                child.GetChild(4).gameObject.SetActive(true);
+
                 child.GetChild(0).GetComponent<Image>().enabled = false;
+                child.GetChild(1).gameObject.SetActive(false); //highlight
+                child.GetChild(4).gameObject.SetActive(true); //cd text
             }
         }
 
@@ -163,6 +237,11 @@ public class SpellManager : MonoBehaviour
         backButton.SetActive(false);
         symbolParent.gameObject.SetActive(true);
         
+        foreach (Transform child in symbolParent)
+        {
+            Destroy(child.gameObject);
+        }
+
         //filter out aura and auto spells
         foreach (Spell s in spells)
         {
@@ -243,6 +322,8 @@ public class SpellManager : MonoBehaviour
 
     private void Update()
     {
+        //TODO: show warning if player attaches passive to just effect/just shape & disable craft button
+
         if (spellsLocked)
         {
             if (spells.Count == 0)
@@ -282,6 +363,12 @@ public class SpellManager : MonoBehaviour
 
     private IEnumerator EnterGameCor()
     {
+        foreach (Transform child in cdParent)
+        {
+            Destroy(child.gameObject);
+        }
+        cdParent.gameObject.SetActive(true);
+
         float elapsed = 0f;
         while (elapsed < 1)
         {
@@ -321,6 +408,7 @@ public class SpellManager : MonoBehaviour
         fader.alpha = 0;
         player.GetComponent<PlayerMovement>().enabled = true;
         player.enabled = true;
+        player.InitializeAura();
         pauseGame = false;
     }
 

@@ -49,54 +49,57 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        float dist = Vector3.Distance(player.transform.position, transform.position);
-        if (dist < aggroRange)
-            aggro = true;
-
-        stunTimer -= Time.deltaTime;
-        if (aggro && stunTimer <= 0)
+        if (!SpellManager.Instance.pauseGame)
         {
-            atkTimer = Mathf.Max(0, atkTimer - Time.deltaTime);
+            float dist = Vector3.Distance(player.transform.position, transform.position);
+            if (dist < aggroRange)
+                aggro = true;
 
-            Vector3 dir = Vector3.Scale(player.transform.position - transform.position, new Vector3(1, 0, 1)).normalized;
-            transform.rotation = Quaternion.LookRotation(dir);
-            if ((health/(1f*maxHealth) <= retreatThreshold)) //ranged mode
+            stunTimer -= Time.deltaTime;
+            if (aggro && stunTimer <= 0)
             {
-                if (dist < retreatRange)
-                    rb.MovePosition(rb.position + transform.forward * -speed * Time.deltaTime);
-                else if (dist > retreatRange + 1)
-                    rb.MovePosition(rb.position + transform.forward * speed * Time.deltaTime);
+                atkTimer = Mathf.Max(0, atkTimer - Time.deltaTime);
 
-                if (atkTimer <= 0 && dist < atkRange)
+                Vector3 dir = Vector3.Scale(player.transform.position - transform.position, new Vector3(1, 0, 1)).normalized;
+                transform.rotation = Quaternion.LookRotation(dir);
+                if ((health/(1f*maxHealth) <= retreatThreshold)) //ranged mode
                 {
-                    GameObject proj = Instantiate(projPrefab, transform.position + dir * 0.5f, Quaternion.LookRotation(dir));
-                    proj.GetComponent<Projectile>().dmg = dmg;
-                    proj.GetComponent<Projectile>().dir = dir;
-                    anim.Play("Attack");
-                    rb.AddForce(dir * -200, ForceMode.Impulse);
-                    atkTimer = atkDelay;
-                }   
-            }
-            else //melee mode
-            {
-                if (dist > meleeRange)
-                {
-                    rb.MovePosition(rb.position + transform.forward * speed * Time.deltaTime);
+                    if (dist < retreatRange)
+                        rb.MovePosition(rb.position + transform.forward * -speed * Time.deltaTime);
+                    else if (dist > retreatRange + 1)
+                        rb.MovePosition(rb.position + transform.forward * speed * Time.deltaTime);
+
+                    if (atkTimer <= 0 && dist < atkRange)
+                    {
+                        GameObject proj = Instantiate(projPrefab, transform.position + dir * 0.5f, Quaternion.LookRotation(dir));
+                        proj.GetComponent<Projectile>().dmg = dmg;
+                        proj.GetComponent<Projectile>().dir = dir;
+                        anim.Play("Attack");
+                        rb.AddForce(dir * -200, ForceMode.Impulse);
+                        atkTimer = atkDelay;
+                    }   
                 }
-                if (atkTimer <= 0 && dist < meleeRange)
+                else //melee mode
                 {
-                    player.GetComponent<PlayerMovement>().TakeDamage(dmg);
-                    anim.Play("Attack");
-                    rb.AddForce(dir * -400, ForceMode.Impulse);
-                    atkTimer = atkDelay;
+                    if (dist > meleeRange)
+                    {
+                        rb.MovePosition(rb.position + transform.forward * speed * Time.deltaTime);
+                    }
+                    if (atkTimer <= 0 && dist < meleeRange)
+                    {
+                        player.GetComponent<PlayerMovement>().TakeDamage(dmg);
+                        anim.Play("Attack");
+                        rb.AddForce(dir * -400, ForceMode.Impulse);
+                        atkTimer = atkDelay;
+                    }
                 }
             }
+
+            anim.SetBool("Stunned", stunTimer > 0);
+            statusTxt.text = (stunTimer > 0) ? "Stunned" : "";
+
+            transform.GetChild(0).transform.forward = cam.forward;
         }
-
-        anim.SetBool("Stunned", stunTimer > 0);
-        statusTxt.text = (stunTimer > 0) ? "Stunned" : "";
-
-        transform.GetChild(0).transform.forward = cam.forward;
     }
 
 
@@ -121,6 +124,7 @@ public class Enemy : MonoBehaviour
             health -= dmg;
             //show damage number
             GameObject dmgNumber = Instantiate(damageNumber, transform.position, Quaternion.identity, transform.GetChild(0));
+            dmgNumber.transform.forward = transform.GetChild(0).forward;
             dmgNumber.GetComponent<TextMeshProUGUI>().text = "" + dmg;
             Vector2 randomPos = new Vector2(Random.Range(-100, 100), Random.Range(0, 100));
             dmgNumber.GetComponent<RectTransform>().anchoredPosition = randomPos;
@@ -134,6 +138,7 @@ public class Enemy : MonoBehaviour
             //play any death anims, give player any rewards for kill
         }
     }
+
 
     private IEnumerator FadeText(GameObject txt, float duration, Vector2 dir)
     {

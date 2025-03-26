@@ -14,7 +14,7 @@ public class PlayerSpells : MonoBehaviour
     [SerializeField] private float autoTimer;
 
 
-    private void Start()
+    public void InitializeAura()
     {
         if (auraSpell.name != "")
         {
@@ -101,7 +101,7 @@ public class PlayerSpells : MonoBehaviour
                 foreach (Block b in s.blocks)
                 {
                     if (b.name == "Stun")
-                        script.stunTimer = (aura) ? 0.5f : 1f;   //change duration based on block??
+                        script.stunTimer = (aura) ? 0.3f : 1f;
                     else if (b.name == "Damage")
                         dmg += (aura) ? 2 : 4;
                     else if (b.name == "Knockback")
