@@ -12,6 +12,8 @@ public class PlayerSpells : MonoBehaviour
     [HideInInspector] public Spell autoSpell;
     public float autoTick;
     [SerializeField] private float autoTimer;
+    
+    [SerializeField] private LayerMask groundLayer;
 
 
     public void InitializeAura()
@@ -123,7 +125,7 @@ public class PlayerSpells : MonoBehaviour
     private Vector3 MousePos()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, groundLayer))
         {
             return hit.point;
         }

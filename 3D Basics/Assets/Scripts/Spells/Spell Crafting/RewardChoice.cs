@@ -12,6 +12,7 @@ public class RewardChoice : MonoBehaviour
     [Header("Block UI")]
     [SerializeField] private GameObject blockPrefab;
     [SerializeField] private Color shapeColor;
+    [SerializeField] private Color effectColor;
     [SerializeField] private Color modColor;
     [SerializeField] private string[] rarityTxts;
     [SerializeField] private Color[] rarityColors;
@@ -126,6 +127,7 @@ public class RewardChoice : MonoBehaviour
             {
                 reward.transform.GetChild(1).GetComponent<TextMeshProUGUI>().fontSize -= 1;
                 reward.GetComponent<RectTransform>().sizeDelta += new Vector2(8, 0);
+                reward.transform.GetChild(0).GetComponent<RectTransform>().sizeDelta += new Vector2(8, 0);
             }
             string cdText = ((row[i].cd+"").Length > 1) ? row[i].cd + "s" : row[i].cd + ".0s";
             reward.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = cdText;     
@@ -133,6 +135,8 @@ public class RewardChoice : MonoBehaviour
                 reward.GetComponent<Image>().color = shapeColor;
             else if (row[i].tag == "passive")
                 reward.GetComponent<Image>().color = modColor;
+            else
+                reward.GetComponent<Image>().color = effectColor;
             reward.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = rarityTxts[row[i].rarity-1];
             reward.transform.GetChild(3).GetComponent<TextMeshProUGUI>().color = rarityColors[row[i].rarity-1];
 

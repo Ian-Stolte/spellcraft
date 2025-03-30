@@ -13,5 +13,6 @@ public class RewardClick : MonoBehaviour
         block.GetComponent<RectTransform>().anchoredPosition = new Vector2(Random.Range(-600, 600), Random.Range(-500, 500));
         block.name = block.name.Substring(0, block.name.Length-7);
         GameObject.Find("Spell Rewards").SetActive(false);
+        SpellManager.Instance.Reforge();
     }
 }
