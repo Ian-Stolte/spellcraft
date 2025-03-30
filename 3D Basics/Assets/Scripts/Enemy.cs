@@ -96,7 +96,7 @@ public class Enemy : MonoBehaviour
             }
 
             anim.SetBool("Stunned", stunTimer > 0);
-            statusTxt.text = (stunTimer > 0) ? "Stunned" : "";
+            statusTxt.text = (stunTimer > 0) ? "stunned_" : "";
 
             transform.GetChild(0).transform.forward = cam.forward;
         }
