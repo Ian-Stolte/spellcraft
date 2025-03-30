@@ -45,11 +45,14 @@ public class SpellManager : MonoBehaviour
     [SerializeField] private PlayerSpells player;
     [SerializeField] private CanvasGroup fader;
 
-    [Header("Spell Data")]
+    [Header("Keybinds")]
     public KeyCode[] defaultBinds;
     public string[] bindTxt;
+
+    [Header("Spell Data")]
+    public List<GameObject> blocks;
     public List<Spell> spells = new List<Spell>();
-    public List<Spell> spellSave = new List<Spell>();
+    [HideInInspector] public List<Spell> spellSave = new List<Spell>();
     
 
     public void Start()
@@ -425,7 +428,40 @@ public class SpellManager : MonoBehaviour
         if (txt == "AURA")
             s.fillTimer.GetComponent<Image>().fillAmount = 1;
     }
+
+
+    public List<Block> ChooseRandom(int n)
+    {
+        //TODO: add diff percents
+        //TODO: add rarities
+
+        List<Block> starting = new List<Block>();
+        List<Block> chosen = new List<Block>();
+        foreach (GameObject g in blocks)
+        {
+            starting.Add(g.GetComponent<Block>());   
+        }
+
+        for (int i = 0; i < n; i++)
+        {
+            Block b = starting[Random.Range(0, starting.Count)];
+            chosen.Add(b);
+            starting.Remove(b);
+            float rarity = Random.Range(0f, 1f);
+            if (rarity > 0.9f)
+                b.rarity = 4;
+            else if (rarity > 0.7f)
+                b.rarity = 3;
+            else if (rarity > 0.4f)
+                b.rarity = 2;
+            else
+                b.rarity = 1;
+        }
+
+        return chosen;
+    }
 }
+
 
 
 [System.Serializable]

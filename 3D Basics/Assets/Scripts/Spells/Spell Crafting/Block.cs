@@ -25,6 +25,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
     [SerializeField] private List<string> blockedTags;
     public GameObject hitbox;
     public float cd;
+    public int rarity;
 
     [Header("Saves")]
     private Vector3 posSAVE;
