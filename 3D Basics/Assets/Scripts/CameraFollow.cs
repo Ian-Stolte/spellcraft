@@ -34,6 +34,7 @@ public class CameraFollow : MonoBehaviour
                 if (mouseX != 0)
                 {
                     transform.RotateAround(target.transform.position, Vector3.up, mouseX * rotationSpeed * Time.deltaTime);
+                    offset = target.position-transform.position;
                 }
             }
 

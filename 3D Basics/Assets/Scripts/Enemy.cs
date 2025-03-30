@@ -134,6 +134,7 @@ public class Enemy : MonoBehaviour
         healthBar.fillAmount = health/(maxHealth*1.0f);
         if (health <= 0)
         {
+            GameManager.Instance.UpdateEnemyNum(-1);
             Destroy(gameObject);
             //play any death anims, give player any rewards for kill
         }

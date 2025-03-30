@@ -4,8 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class RewardChoice : MonoBehaviour
+public class RewardManager : MonoBehaviour
 {
+    public static RewardManager Instance { get; private set; }
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
+
     public int num;
     public int width;
 
@@ -26,12 +35,17 @@ public class RewardChoice : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            foreach (Transform child in rewardParent)
-            {
-                Destroy(child.gameObject);
-            }
-            ShowRewards(SpellManager.Instance.ChooseRandom(num));
+            Reward(num);
         }
+    }
+
+    public void Reward(int n)
+    {
+        foreach (Transform child in rewardParent)
+        {
+            Destroy(child.gameObject);
+        }
+        ShowRewards(SpellManager.Instance.ChooseRandom(n));
     }
 
     public void ShowRewards(List<Block> blocks)
