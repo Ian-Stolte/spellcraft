@@ -8,14 +8,16 @@ public class CameraFollow : MonoBehaviour
     public KeyCode panRight;
     public bool manualControl;
 
-    public Transform target;
-    private Vector3 offset;
+    private Transform target;
+    public Vector3 offset;
     public float rotationSpeed;
 
 
     void Start()
     {
-        offset = target.position - transform.position;
+        target = GameObject.Find("Player").transform;
+        transform.position = target.position - offset;
+        //offset = target.position - transform.position;
     }
 
     void Update()

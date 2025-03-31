@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
     }
 
+    [SerializeField] private Room[] rooms;
+
     [SerializeField] private LayerMask terrainLayer;
     [SerializeField] private int numEnemies;
     [SerializeField] private GameObject rewardPrefab;
@@ -21,11 +24,13 @@ public class GameManager : MonoBehaviour
 
     private Transform player;
 
+    
     void Start()
     {
         player = GameObject.Find("Player").transform;
         numEnemies = Physics.OverlapSphere(Vector2.zero, 9999, LayerMask.GetMask("Enemy")).Length;
     }
+
 
     public void UpdateEnemyNum(int n)
     {
@@ -45,4 +50,63 @@ public class GameManager : MonoBehaviour
             inTransition = true;
         }
     }
+
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            StartCoroutine(LoadNextRoom());
+        }
+    }
+
+    public IEnumerator LoadNextRoom()
+    {
+        Fader.Instance.FadeIn(1);
+        yield return new WaitForSeconds(1);
+        float totalWeight = 0;
+        foreach (Room r in rooms)
+        {
+            if (!r.active)
+                totalWeight += r.weight;
+        }
+        float rand = Random.Range(0f, totalWeight);
+        Room chosen = null;
+        foreach (Room r in rooms)
+        {
+            if (!r.active)
+            {
+                rand -= r.weight;
+                if (rand < 0 && chosen == null)
+                {
+                    chosen = r;
+                }
+                else
+                {
+                    r.weight += 1;
+                }
+            }
+            r.active = false;
+        }
+        if (chosen == null)
+        {
+            Debug.LogError("Could not find a scene to load!");
+        }
+        else
+        {
+            SceneManager.LoadScene(chosen.name);
+            chosen.active = true;
+            chosen.weight *= 0.5f;
+        }
+    }
+}
+
+
+[System.Serializable]
+public class Room
+{
+    public string name;
+    public bool active;
+    public float weight;
+    //tags like encounter type, etc.
 }

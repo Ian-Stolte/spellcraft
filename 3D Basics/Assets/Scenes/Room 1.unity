@@ -4978,9 +4978,10 @@ GameObject:
   - component: {fileID: 564513510}
   - component: {fileID: 564513509}
   - component: {fileID: 564513508}
+  - component: {fileID: 564513515}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5167,6 +5168,19 @@ Transform:
   - {fileID: 64964331}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &564513515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 564513507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a652c2e0e75815343a48e7990e7ce167, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objTag: Player
 --- !u!114 &575184151 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6781879062304508056, guid: 864caa223bbbc4da8af0815cad639079, type: 3}
@@ -13845,6 +13859,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1683716701}
   - component: {fileID: 1683716700}
+  - component: {fileID: 1683716702}
   m_Layer: 0
   m_Name: Spell Manager
   m_TagString: Untagged
@@ -13864,7 +13879,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93cd10209ea2b41a89e1e6e063bc0c64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SKIP_CRAFTING: 0
+  SKIP_CRAFTING: 1
   spellsLocked: 0
   pauseGame: 1
   spellUI: {fileID: 1704230690}
@@ -13882,7 +13897,6 @@ MonoBehaviour:
   spellUIStart: {x: -655, y: 355}
   fullSymbolColor: {r: 0.5686275, g: 0.8509804, b: 0.90588236, a: 1}
   player: {fileID: 190522904}
-  fader: {fileID: 1883508946}
   defaultBinds: 430100004401000045010000
   bindTxt:
   - Left Click
@@ -13914,6 +13928,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1683716702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1683716699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a652c2e0e75815343a48e7990e7ce167, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objTag: SpellManager
 --- !u!1 &1698431377
 GameObject:
   m_ObjectHideFlags: 0
@@ -15883,7 +15910,7 @@ MonoBehaviour:
   panLeft: 113
   panRight: 101
   manualControl: 1
-  target: {fileID: 564513514}
+  offset: {x: -5, y: -4.774, z: 5.32}
   rotationSpeed: 80
 --- !u!1 &1846679246
 GameObject:
@@ -16169,7 +16196,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1883508941}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -16692,9 +16719,10 @@ GameObject:
   - component: {fileID: 1984735683}
   - component: {fileID: 1984735682}
   - component: {fileID: 1984735681}
+  - component: {fileID: 1984735685}
   m_Layer: 5
   m_Name: Canvas
-  m_TagString: Untagged
+  m_TagString: Canvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16787,6 +16815,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1984735685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1984735680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a652c2e0e75815343a48e7990e7ce167, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objTag: Canvas
 --- !u!1 &2005006607
 GameObject:
   m_ObjectHideFlags: 0
@@ -17217,9 +17258,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2103865771}
   - component: {fileID: 2103865770}
+  - component: {fileID: 2103865772}
   m_Layer: 0
   m_Name: Game Manager
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17236,6 +17278,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff9a5a342f35d6f42a8b83bf928a98c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rooms:
+  - name: Room 1
+    active: 1
+    weight: 1
+  - name: Room 2
+    active: 0
+    weight: 1
+  - name: Room 3
+    active: 0
+    weight: 1
+  - name: Room 4
+    active: 0
+    weight: 1
   terrainLayer:
     serializedVersion: 2
     m_Bits: 2048
@@ -17256,6 +17311,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2103865772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2103865769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a652c2e0e75815343a48e7990e7ce167, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objTag: GameController
 --- !u!1 &2126676627
 GameObject:
   m_ObjectHideFlags: 0

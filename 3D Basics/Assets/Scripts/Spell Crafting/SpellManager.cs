@@ -43,7 +43,6 @@ public class SpellManager : MonoBehaviour
     [SerializeField] private Vector2 spellUIStart;
     [SerializeField] private Color fullSymbolColor;
     [SerializeField] private PlayerSpells player;
-    [SerializeField] private Fader fader;
 
     [Header("Keybinds")]
     public KeyCode[] defaultBinds;
@@ -367,7 +366,7 @@ public class SpellManager : MonoBehaviour
         }
         cdParent.gameObject.SetActive(true);
 
-        fader.FadeIn(1);
+        Fader.Instance.FadeIn(1);
         int index = 0;
         foreach (Spell s in spells)
         {
@@ -391,7 +390,7 @@ public class SpellManager : MonoBehaviour
         startButton.SetActive(false);
         symbolParent.gameObject.SetActive(false);
         spellUI.gameObject.SetActive(false);
-        fader.FadeOut(1);
+        Fader.Instance.FadeOut(1);
         player.GetComponent<PlayerMovement>().enabled = true;
         player.enabled = true;
         player.InitializeAura();
