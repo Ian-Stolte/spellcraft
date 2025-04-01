@@ -26,10 +26,14 @@ public class Projectile : MonoBehaviour
         if (distance > despawnDist)
             Destroy(gameObject);
         
-        if (Vector3.Distance(transform.position, player.position) < 0.5f)
+        Collider[] hits = Physics.OverlapSphere(transform.position, 0.5f);
+        foreach (Collider c in hits)
         {
-            player.GetComponent<PlayerMovement>().TakeDamage(dmg);
-            Destroy(gameObject);
+            if (c.CompareTag("Player"))
+            {
+                player.GetComponent<PlayerMovement>().TakeDamage(dmg);
+                Destroy(gameObject);
+            }
         }
     }
 }

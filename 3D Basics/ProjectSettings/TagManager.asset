@@ -9,6 +9,8 @@ TagManager:
   - Dog
   - Canvas
   - SpellManager
+  - AudioManager
+  - RewardManager
   layers:
   - Default
   - TransparentFX

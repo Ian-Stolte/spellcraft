@@ -31,7 +31,7 @@ public class RewardClick : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             }
             if (noOverlap)
                 break;
-            Debug.Log("Trying again " + j);
+            //Debug.Log("Trying again " + j);
         }
         block.name = block.name.Substring(0, block.name.Length-7);
         GameObject.Find("Fader").GetComponent<Fader>().FadeInOut(1, 1);

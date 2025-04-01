@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class GameManager : MonoBehaviour
     }
 
     [SerializeField] private Room[] rooms;
+    private int roomNum = 1;
+    [SerializeField] private TextMeshProUGUI roomText;
 
     [SerializeField] private LayerMask terrainLayer;
     [SerializeField] private int numEnemies;
@@ -28,7 +31,22 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Player").transform;
+    }
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
         numEnemies = Physics.OverlapSphere(Vector2.zero, 9999, LayerMask.GetMask("Enemy")).Length;
+        inTransition = false;
     }
 
 
@@ -94,6 +112,9 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            roomNum++;
+            string areaStr = (roomNum < 10) ? "0" + roomNum : "" + roomNum;
+            roomText.text = "Area_" + areaStr;
             SceneManager.LoadScene(chosen.name);
             chosen.active = true;
             chosen.weight *= 0.5f;

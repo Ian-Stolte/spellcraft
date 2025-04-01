@@ -20,6 +20,8 @@ public class SpellManager : MonoBehaviour
     public bool SKIP_CRAFTING;
     public bool spellsLocked;
     public bool pauseGame;
+    private bool loadNextRoom;
+    private bool musicOn;
 
     [Header("Parents")]
     [SerializeField] private Transform spellUI;
@@ -84,6 +86,8 @@ public class SpellManager : MonoBehaviour
 
     public void Reforge()
     {
+        Debug.Log("Reforge");
+        loadNextRoom = true;
         pauseGame = true;
         player.GetComponent<PlayerMovement>().enabled = false;
         player.enabled = false;
@@ -133,6 +137,22 @@ public class SpellManager : MonoBehaviour
 
     public void ExitReforge()
     {
+        StartCoroutine(ExitReforgeCor());
+    }
+
+    private IEnumerator ExitReforgeCor()
+    {
+        if (loadNextRoom)
+        {
+            StartCoroutine(GameManager.Instance.LoadNextRoom());
+            yield return new WaitForSeconds(1f);
+        }
+        else
+        {
+            Fader.Instance.FadeIn(0.5f);
+            yield return new WaitForSeconds(0.5f);
+        }
+
         foreach (Transform child in blockParent)
         {
             if (child.gameObject.activeSelf)
@@ -148,6 +168,12 @@ public class SpellManager : MonoBehaviour
         cdParent.gameObject.SetActive(true);
         player.GetComponent<PlayerMovement>().enabled = true;
         player.enabled = true;
+
+                    
+        if (loadNextRoom)
+            loadNextRoom = false;
+        else
+            Fader.Instance.FadeOut(0.5f);
     }
 
 
@@ -360,13 +386,29 @@ public class SpellManager : MonoBehaviour
 
     public void EnterGame()
     {
+        StartCoroutine(EnterGameCor());
+    }
+
+    public IEnumerator EnterGameCor()
+    {
+        if (!musicOn)
+        {
+            musicOn = true;
+            StartCoroutine(AudioManager.Instance.StartFade("Dreamer", 5, 0.4f));
+            AudioManager.Instance.Play("Dreamer");
+        }
         foreach (Transform child in cdParent)
         {
             Destroy(child.gameObject);
         }
         cdParent.gameObject.SetActive(true);
 
-        Fader.Instance.FadeIn(1);
+        if (loadNextRoom)
+            StartCoroutine(GameManager.Instance.LoadNextRoom());
+        else
+            Fader.Instance.FadeIn(1);
+        yield return new WaitForSeconds(1);
+        
         int index = 0;
         foreach (Spell s in spells)
         {
@@ -390,7 +432,11 @@ public class SpellManager : MonoBehaviour
         startButton.SetActive(false);
         symbolParent.gameObject.SetActive(false);
         spellUI.gameObject.SetActive(false);
-        Fader.Instance.FadeOut(1);
+
+        if (loadNextRoom)
+            loadNextRoom = false;
+        else
+            Fader.Instance.FadeOut(1);
         player.GetComponent<PlayerMovement>().enabled = true;
         player.enabled = true;
         player.InitializeAura();

@@ -8,6 +8,7 @@ public class PlayerSpells : MonoBehaviour
     [HideInInspector] public Spell auraSpell;
     [SerializeField] private float auraTick;
     [SerializeField] GameObject auraHitbox;
+    private GameObject auraObj;
     
     [HideInInspector] public Spell autoSpell;
     public float autoTick;
@@ -18,6 +19,7 @@ public class PlayerSpells : MonoBehaviour
 
     public void InitializeAura()
     {
+        Destroy(auraObj);
         if (auraSpell.name != "")
         {
             GameObject aura = Instantiate(auraHitbox, transform.position + new Vector3(0, -1, 0), Quaternion.identity, transform);
