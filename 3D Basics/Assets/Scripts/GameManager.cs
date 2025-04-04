@@ -15,12 +15,19 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
     }
 
+    [Header("Rooms")]
     [SerializeField] private Room[] rooms;
     private int roomNum = 1;
     [SerializeField] private TextMeshProUGUI roomText;
-
     [SerializeField] private LayerMask terrainLayer;
+
+    [Header("Enemy Spawn")]
     [SerializeField] private int numEnemies;
+    [SerializeField] private GameObject[] enemyPrefabs;
+    [SerializeField] private Transform nodeParent;
+    [SerializeField] private Transform enemyParent;
+
+    [Header("Misc")]
     [SerializeField] private GameObject rewardPrefab;
 
     private bool inTransition;
@@ -45,8 +52,46 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        numEnemies = Physics.OverlapSphere(Vector2.zero, 9999, LayerMask.GetMask("Enemy")).Length;
+        if (roomNum != 1)
+            SpawnEnemies(roomNum + Random.Range(1, 4));
+        else
+            numEnemies = Physics.OverlapSphere(Vector2.zero, 9999, LayerMask.GetMask("Enemy")).Length;
         inTransition = false;
+    }
+
+
+    private void SpawnEnemies(int n)
+    {
+        Transform nodeParent = GameObject.Find("Spawn Nodes").transform;
+        Transform enemyParent = GameObject.Find("Enemies").transform;
+        foreach (Transform child in enemyParent)
+        {
+            Destroy(child.gameObject);
+        }
+        numEnemies = n;
+        
+        while (n > 0)
+        {
+            int numToAdd = Random.Range(2, Mathf.Min(n, 5)+1);
+            if (n - numToAdd == 1)
+                numToAdd--;
+            int nodeNum = Random.Range(0, nodeParent.childCount);
+            for (int i = 0; i < numToAdd; i++)
+            {
+                Vector3 offset = new Vector3(Random.Range(-3, 3), 1, Random.Range(-3, 3));
+                int attempts = 0;
+                while (Physics.OverlapSphere(nodeParent.GetChild(nodeNum).position + offset, 0.5f, LayerMask.GetMask("Enemy")).Length > 0)
+                {
+                    offset = new Vector3(Random.Range(-3, 3), 1, Random.Range(-3, 3));
+                    attempts++;
+                    if (attempts == 10) //fail to find open spot
+                        break;
+                }
+                if (attempts < 10)
+                    Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], nodeParent.GetChild(nodeNum).position + offset, Quaternion.identity, enemyParent);
+            }
+            n -= numToAdd;
+        }
     }
 
 
