@@ -57,7 +57,8 @@ public class OptionsManager : MonoBehaviour
         Fader.Instance.FadeIn(1);
         yield return new WaitForSeconds(1);
         DontDestroyOnLoad(gameObject);
-        SceneManager.LoadScene("Room 1");
+        string sceneToLoad = (choices[2] == 0) ? "Room 1" : "s_ Room 1";
+        SceneManager.LoadScene(sceneToLoad);
         SceneManager.sceneLoaded += FinishSetup;
     }
 
@@ -70,7 +71,8 @@ public class OptionsManager : MonoBehaviour
 
         GameManager manager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         manager.staticSpawn = choices[1] == 0;
-        manager.smallRooms = choices[2] == 0;
+        manager.smallRooms = choices[2] == 1;
+        SceneManager.sceneLoaded -= FinishSetup;
         Destroy(gameObject);
     }
 }

@@ -86,7 +86,6 @@ public class SpellManager : MonoBehaviour
 
     public void Reforge()
     {
-        Debug.Log("Reforge");
         loadNextRoom = true;
         pauseGame = true;
         player.GetComponent<PlayerMovement>().enabled = false;

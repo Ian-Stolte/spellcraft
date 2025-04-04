@@ -6,15 +6,30 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Playtest Options.unity
+    guid: b350d10384e334d4b86461a2cb4ca543
+  - enabled: 1
     path: Assets/Scenes/Room 1.unity
-    guid: e8000e772656f7841a6b8708f84f6db5
+    guid: f2d24af75e5a3c44bb24062b3e048fb5
   - enabled: 1
     path: Assets/Scenes/Room 2.unity
     guid: add58ee1d0aa0b645ae571c7f0a20dc5
   - enabled: 1
     path: Assets/Scenes/Room 3.unity
-    guid: 427e820494857c64aa3bdb965f3daaec
+    guid: 3e1017e5518e3c74a90d059bdab33830
   - enabled: 1
     path: Assets/Scenes/Room 4.unity
-    guid: 8019585ce27e70644a81af2a69127d67
+    guid: bad2a8cbc32d78044ba4bb72f6ea359c
+  - enabled: 1
+    path: Assets/Scenes/s_ Room 1.unity
+    guid: bc184aec83661044bb612adfa94b7ffc
+  - enabled: 1
+    path: Assets/Scenes/s_ Room 2.unity
+    guid: 5352c03bcce3a8941a362e65311febf3
+  - enabled: 1
+    path: Assets/Scenes/s_ Room 3.unity
+    guid: 42b536b661e4938418b4f7e462ef4172
+  - enabled: 1
+    path: Assets/Scenes/s_ Room 4.unity
+    guid: bc5afb65f790cf34591d8602e7e48073
   m_configObjects: {}

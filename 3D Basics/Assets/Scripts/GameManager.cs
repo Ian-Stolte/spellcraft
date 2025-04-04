@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
+        if (SceneManager.GetActiveScene().name.Contains("s_"))
+            smallRooms = true;
         player = GameObject.Find("Player").transform;
     }
 
@@ -62,6 +64,21 @@ public class GameManager : MonoBehaviour
     }
 
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            StartCoroutine(LoadNextRoom());
+        }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            foreach (Transform child in GameObject.Find("Enemies").transform)
+                Destroy(child.gameObject);
+            FinishLevel();
+        }
+    }
+
+
     private void SpawnEnemies(int n)
     {
         Transform nodeParent = GameObject.Find("Spawn Nodes").transform;
@@ -80,11 +97,11 @@ public class GameManager : MonoBehaviour
             int nodeNum = Random.Range(0, nodeParent.childCount);
             for (int i = 0; i < numToAdd; i++)
             {
-                Vector3 offset = new Vector3(Random.Range(-3, 3), 1, Random.Range(-3, 3));
+                Vector3 offset = new Vector3(Random.Range(-2, 2), 1, Random.Range(-2, 2));
                 int attempts = 0;
                 while (Physics.OverlapSphere(nodeParent.GetChild(nodeNum).position + offset, 0.5f, LayerMask.GetMask("Enemy")).Length > 0)
                 {
-                    offset = new Vector3(Random.Range(-3, 3), 1, Random.Range(-3, 3));
+                    offset = new Vector3(Random.Range(-2, 2), 1, Random.Range(-2, 2));
                     attempts++;
                     if (attempts == 10) //fail to find open spot
                         break;
@@ -102,28 +119,32 @@ public class GameManager : MonoBehaviour
         numEnemies += n;
         if (numEnemies <= 0 && !inTransition) //level cleared
         {
-            float rot = Random.Range(0, 360);
-            Vector3 rewardPos = player.position + Quaternion.Euler(0, rot, 0) * player.forward * 5;
-            while (Physics.OverlapSphere(rewardPos, 1, terrainLayer).Length > 0)
-            {
-                rot += 10;
-                rewardPos = player.position + Quaternion.Euler(0, rot, 0) * player.forward * 5;
-            } 
-            GameObject reward = Instantiate(rewardPrefab, rewardPos + new Vector3(0, 20, 0), Quaternion.identity);
-            reward.GetComponent<Rigidbody>().velocity = new Vector3(0, -100, 0);
-            reward.GetComponent<Reward>().numOptions = 3;
-            inTransition = true;
+            FinishLevel();
         }
     }
 
-
-    private void Update()
+    private void FinishLevel()
     {
-        if (Input.GetKeyDown(KeyCode.N))
+        float rot = Random.Range(0, 360);
+        Vector3 rewardPos = player.position + Quaternion.Euler(0, rot, 0) * player.forward * 5;
+        int attempts = 0;
+        while (Physics.OverlapSphere(rewardPos, 1, terrainLayer).Length > 0)
         {
-            StartCoroutine(LoadNextRoom());
-        }
+            rot = Random.Range(0, 360);
+            rewardPos = player.position + Quaternion.Euler(0, rot, 0) * player.forward * 5;
+            attempts++;
+            if (attempts >= 40) //quit out after some max # of attempts
+            {
+                Debug.LogError("No valid location!");
+                break;
+            }
+        } 
+        GameObject reward = Instantiate(rewardPrefab, rewardPos + new Vector3(0, 20, 0), Quaternion.identity);
+        reward.GetComponent<Rigidbody>().velocity = new Vector3(0, -100, 0);
+        reward.GetComponent<Reward>().numOptions = 3;
+        inTransition = true;
     }
+
 
     public IEnumerator LoadNextRoom()
     {
@@ -162,7 +183,8 @@ public class GameManager : MonoBehaviour
             roomNum++;
             string areaStr = (roomNum < 10) ? "0" + roomNum : "" + roomNum;
             roomText.text = "Area_" + areaStr;
-            SceneManager.LoadScene(chosen.name);
+            string roomToLoad= (smallRooms) ? "s_ " + chosen.name : chosen.name;
+            SceneManager.LoadScene(roomToLoad);
             chosen.active = true;
             chosen.weight *= 0.5f;
         }
