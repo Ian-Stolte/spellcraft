@@ -5254,9 +5254,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1262332309}
+  - {fileID: 64964331}
   - {fileID: 1220318165}
   - {fileID: 30141097}
-  - {fileID: 64964331}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &564513515
@@ -16570,7 +16570,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1883508941}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
@@ -17727,6 +17727,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff9a5a342f35d6f42a8b83bf928a98c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  smallRooms: 0
   rooms:
   - name: Room 1
     active: 1
@@ -17744,6 +17745,7 @@ MonoBehaviour:
   terrainLayer:
     serializedVersion: 2
     m_Bits: 2048
+  staticSpawn: 0
   numEnemies: 0
   enemyPrefabs:
   - {fileID: 2007115867943464715, guid: 864caa223bbbc4da8af0815cad639079, type: 3}

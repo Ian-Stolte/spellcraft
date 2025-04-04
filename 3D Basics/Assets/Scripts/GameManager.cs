@@ -16,12 +16,14 @@ public class GameManager : MonoBehaviour
     }
 
     [Header("Rooms")]
+    [HideInInspector] public bool smallRooms;
     [SerializeField] private Room[] rooms;
     private int roomNum = 1;
     [SerializeField] private TextMeshProUGUI roomText;
     [SerializeField] private LayerMask terrainLayer;
 
     [Header("Enemy Spawn")]
+    [HideInInspector] public bool staticSpawn;
     [SerializeField] private int numEnemies;
     [SerializeField] private GameObject[] enemyPrefabs;
     [SerializeField] private Transform nodeParent;
