@@ -23,11 +23,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private LayerMask terrainLayer;
 
     [Header("Enemy Spawn")]
-    [HideInInspector] public bool staticSpawn;
+    public bool staticSpawn;
     [SerializeField] private int numEnemies;
     [SerializeField] private GameObject[] enemyPrefabs;
     [SerializeField] private Transform nodeParent;
     [SerializeField] private Transform enemyParent;
+    [SerializeField] private List<int> waves = new List<int>();
 
     [Header("Misc")]
     [SerializeField] private GameObject rewardPrefab;
@@ -56,10 +57,19 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        enemyParent = GameObject.Find("Enemies").transform;
+        nodeParent = GameObject.Find("Spawn Nodes").transform;
         if (roomNum != 1)
-            SpawnEnemies(roomNum + Random.Range(1, 4));
+        {
+            if (staticSpawn)
+                SetupEnemies(roomNum + Random.Range(1, 4));
+            else
+                SetupWaves(roomNum + Random.Range(1, 4));
+        }
         else
+        {
             numEnemies = Physics.OverlapSphere(Vector2.zero, 9999, LayerMask.GetMask("Enemy")).Length;
+        }
         inTransition = false;
     }
 
@@ -72,17 +82,16 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.K))
         {
-            foreach (Transform child in GameObject.Find("Enemies").transform)
+            int killed = enemyParent.childCount;
+            foreach (Transform child in enemyParent)
                 Destroy(child.gameObject);
-            FinishLevel();
+            UpdateEnemyNum(-killed);
         }
     }
 
 
-    private void SpawnEnemies(int n)
+    private void SetupEnemies(int n)
     {
-        Transform nodeParent = GameObject.Find("Spawn Nodes").transform;
-        Transform enemyParent = GameObject.Find("Enemies").transform;
         foreach (Transform child in enemyParent)
         {
             Destroy(child.gameObject);
@@ -91,35 +100,94 @@ public class GameManager : MonoBehaviour
         
         while (n > 0)
         {
+            n -= RandomEnemies(n);
+        }
+    }
+
+    private void SetupWaves(int n)
+    {
+        waves.Clear();
+        foreach (Transform child in enemyParent)
+        {
+            Destroy(child.gameObject);
+        }
+        numEnemies = RandomEnemies(n);
+        while (n > 0)
+        {
             int numToAdd = Random.Range(2, Mathf.Min(n, 5)+1);
             if (n - numToAdd == 1)
                 numToAdd--;
-            int nodeNum = Random.Range(0, nodeParent.childCount);
-            for (int i = 0; i < numToAdd; i++)
-            {
-                Vector3 offset = new Vector3(Random.Range(-2, 2), 1, Random.Range(-2, 2));
-                int attempts = 0;
-                while (Physics.OverlapSphere(nodeParent.GetChild(nodeNum).position + offset, 0.5f, LayerMask.GetMask("Enemy")).Length > 0)
-                {
-                    offset = new Vector3(Random.Range(-2, 2), 1, Random.Range(-2, 2));
-                    attempts++;
-                    if (attempts == 10) //fail to find open spot
-                        break;
-                }
-                if (attempts < 10)
-                    Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], nodeParent.GetChild(nodeNum).position + offset, Quaternion.identity, enemyParent);
-            }
+            waves.Add(numToAdd);
             n -= numToAdd;
         }
+    }
+
+    private int RandomEnemies(int n)
+    {
+        int numToAdd = Random.Range(2, Mathf.Min(n, 5)+1);
+        if (n - numToAdd == 1)
+            numToAdd--;
+        int nodeNum = Random.Range(0, nodeParent.childCount);
+        for (int i = 0; i < numToAdd; i++)
+        {
+            Vector3 offset = new Vector3(Random.Range(-2, 2), 1, Random.Range(-2, 2));
+            int attempts = 0;
+            while (Physics.OverlapSphere(nodeParent.GetChild(nodeNum).position + offset, 0.5f, LayerMask.GetMask("Enemy")).Length > 0)
+            {
+                offset = new Vector3(Random.Range(-2, 2), 1, Random.Range(-2, 2));
+                attempts++;
+                if (attempts == 10) //fail to find open spot
+                    break;
+            }
+            if (attempts < 10)
+                Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], nodeParent.GetChild(nodeNum).position + offset, Quaternion.identity, enemyParent);
+        }
+        return numToAdd;
+    }
+
+    private IEnumerator WaveEnemies(int n)
+    {
+        yield return new WaitForSeconds(1);
+        for (int i = 0; i < n; i++)
+        {
+            Vector3 offset = new Vector3(Random.Range(-1, 1), 0, Random.Range(-1, 1)).normalized * Random.Range(5, 10) + new Vector3(0, 1, 0);
+            int attempts = 0;
+            while (Physics.OverlapSphere(player.position + offset, 0.5f).Length > 0)
+            {
+                offset = new Vector3(Random.Range(-1, 1), 0, Random.Range(-1, 1)).normalized * Random.Range(5, 10) + new Vector3(0, 1, 0);
+                attempts++;
+                if (attempts == 10) //fail to find open spot
+                {
+                    Debug.Log("NO OPEN SPOT :(");
+                    numEnemies--;
+                    break;
+                }
+            }
+            if (attempts < 10)
+            {
+                GameObject enemy = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], player.position + offset + new Vector3(0, 15, 0), Quaternion.identity, enemyParent);
+                enemy.GetComponent<Rigidbody>().velocity = new Vector3(0, -100, 0);
+            }
+            yield return new WaitForSeconds(1);
+        }
+        if (numEnemies <= 0)
+            UpdateEnemyNum(0);
     }
 
 
     public void UpdateEnemyNum(int n)
     {
         numEnemies += n;
-        if (numEnemies <= 0 && !inTransition) //level cleared
+        if (numEnemies <= 0 && !inTransition)
         {
-            FinishLevel();
+            if (!staticSpawn && waves.Count > 0) //spawn more waves!
+            {
+                StartCoroutine(WaveEnemies(waves[0]));
+                numEnemies = waves[0];
+                waves.Remove(waves[0]);
+            }
+            else
+               FinishLevel();
         }
     }
 

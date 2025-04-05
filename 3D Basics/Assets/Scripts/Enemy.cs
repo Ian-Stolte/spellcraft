@@ -49,6 +49,8 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
+        if (transform.position.y < 1)
+            Destroy(GetComponent<TrailRenderer>());
         if (!SpellManager.Instance.pauseGame)
         {
             float dist = Vector3.Distance(player.transform.position, transform.position);
