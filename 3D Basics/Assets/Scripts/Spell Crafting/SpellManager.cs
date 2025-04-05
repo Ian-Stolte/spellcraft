@@ -109,20 +109,20 @@ public class SpellManager : MonoBehaviour
                     Color c = child.GetComponent<Image>().color;
                     child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 0.5f);
                     b.symbol.GetComponent<Image>().enabled = true;
-                    child.GetChild(1).gameObject.SetActive(true); //highlight
-                    child.GetChild(2).GetComponent<CanvasGroup>().alpha = 1; //name
-                    child.GetChild(3).GetComponent<CanvasGroup>().alpha = 0.5f; //latin
-                    child.GetChild(4).gameObject.SetActive(false); //cd text
+                    b.highlight.gameObject.SetActive(true);
+                    b.nameTxt.GetComponent<CanvasGroup>().alpha = 1;
+                    b.latin.GetComponent<CanvasGroup>().alpha = 0.5f;
+                    b.cdText.gameObject.SetActive(false);
                 }
                 else
                 {
                     Color c = child.GetComponent<Image>().color;
                     child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 1);
                     b.symbol.GetComponent<Image>().enabled = false;
-                    child.GetChild(2).GetComponent<CanvasGroup>().alpha = 1; //name
-                    child.GetChild(3).GetComponent<CanvasGroup>().alpha = 1; //latin
-                    child.GetChild(4).GetComponent<CanvasGroup>().alpha = 1; //cd text
-                    child.GetChild(4).gameObject.SetActive(true);
+                    b.nameTxt.GetComponent<CanvasGroup>().alpha = 1;
+                    b.latin.GetComponent<CanvasGroup>().alpha = 1;
+                    b.cdText.GetComponent<CanvasGroup>().alpha = 1;
+                    b.cdText.gameObject.SetActive(true);
                 }
             }
         }
@@ -183,22 +183,22 @@ public class SpellManager : MonoBehaviour
         {
             if (child.gameObject.activeSelf)
             {
-                Block script = child.GetComponent<Block>();
-                if (script.left == null && script.right == null)
+                Block b = child.GetComponent<Block>();
+                if (b.left == null && b.right == null)
                 {
-                    script.symbol.canMove = false;
+                    b.symbol.canMove = false;
                     Color c = child.GetComponent<Image>().color;
                     child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 0.1f);
-                    child.GetChild(2).GetComponent<CanvasGroup>().alpha = 0.5f;
-                    child.GetChild(3).GetComponent<CanvasGroup>().alpha = 0.1f;
-                    child.GetChild(4).GetComponent<CanvasGroup>().alpha = 0.1f;
+                    b.nameTxt.GetComponent<CanvasGroup>().alpha = 0.5f;
+                    b.latin.GetComponent<CanvasGroup>().alpha = 0.1f;
+                    b.cdText.GetComponent<CanvasGroup>().alpha = 0.1f;
                 }
                 else
                 {
-                    if (script.left == null && script.right != null)
+                    if (b.left == null && b.right != null)
                     {
                         List<Block> newSpell = new List<Block>();
-                        Block temp = script;
+                        Block temp = b;
                         while (temp != null)
                         {
                             newSpell.Add(temp);
@@ -208,7 +208,8 @@ public class SpellManager : MonoBehaviour
                     }
                     Color c = child.GetComponent<Image>().color;
                     child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 0.3f);
-                    child.GetChild(3).GetComponent<CanvasGroup>().alpha = 0.5f;
+                    b.latin.GetComponent<CanvasGroup>().alpha = 0.5f;
+                    b.cdText.SetActive(false);
                 }
             }
         }
@@ -239,15 +240,17 @@ public class SpellManager : MonoBehaviour
         {
             if (child.gameObject.activeSelf)
             {
+                Block b = child.GetComponent<Block>();
                 Color c = child.GetComponent<Image>().color;
                 child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 1);
-                child.GetChild(2).GetComponent<CanvasGroup>().alpha = 1;
-                child.GetChild(3).GetComponent<CanvasGroup>().alpha = 1;
-                child.GetChild(4).GetComponent<CanvasGroup>().alpha = 1;
+                b.nameTxt.GetComponent<CanvasGroup>().alpha = 1;
+                b.latin.GetComponent<CanvasGroup>().alpha = 1;
+                b.cdText.GetComponent<CanvasGroup>().alpha = 1;
+                b.cdText.SetActive(true);
 
                 child.GetChild(0).GetComponent<Image>().enabled = false;
-                child.GetChild(1).gameObject.SetActive(false); //highlight
-                child.GetChild(4).gameObject.SetActive(true); //cd text
+                b.highlight.gameObject.SetActive(false); //highlight
+                b.cdText.gameObject.SetActive(true); //cd text
             }
         }
 
@@ -306,7 +309,7 @@ public class SpellManager : MonoBehaviour
             float cd = 0;
             foreach (Block b in s.blocks)
             {
-                spellName += b.transform.GetChild(3).GetComponent<TMPro.TextMeshProUGUI>().text + " ";
+                spellName += b.latin.GetComponent<TMPro.TextMeshProUGUI>().text + " ";
                 cd += b.cd;
                 Vector3 scale = new Vector3(b.symbol.transform.localScale.x*b.transform.localScale.x, b.symbol.transform.localScale.y*b.transform.localScale.y, 1);
                 GameObject sym = Instantiate(b.symbol.gameObject, b.symbol.transform.position, Quaternion.identity, s.symbol.transform);
@@ -374,7 +377,7 @@ public class SpellManager : MonoBehaviour
                     }
                     foreach (Block b in s.blocks)
                     {
-                        b.transform.GetChild(1).gameObject.SetActive(finished);
+                        b.highlight.gameObject.SetActive(finished);
                     }
                 }
                 confirmButton.GetComponent<Button>().interactable = readyToConfirm;

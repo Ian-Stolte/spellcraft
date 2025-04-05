@@ -20,6 +20,12 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
     public Block left;
     public Block right;
 
+    [Header("Children")]
+    public GameObject cdText;
+    public GameObject latin;
+    public GameObject nameTxt;
+    public GameObject highlight;
+
     [Header("Spell Effects")]
     public string tag;
     [SerializeField] private List<string> blockedTags;
@@ -49,7 +55,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
         if (!Array.Exists(modTags, t => t == tag))
         {
             string cdTxt = ((cd+"").Length == 1) ? cd + ".0s" : cd + "s";
-            transform.GetChild(4).GetComponent<TMPro.TextMeshProUGUI>().text = cdTxt;
+            cdText.GetComponent<TMPro.TextMeshProUGUI>().text = cdTxt;
         }
     }
 
@@ -170,11 +176,11 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
     {
         Color c = GetComponent<Image>().color;
         GetComponent<Image>().color = new Color(c.r, c.g, c.b, 1);
-        transform.GetChild(0).GetComponent<Symbol>().ResetPos();
-        transform.GetChild(1).gameObject.SetActive(false); // highlight
-        transform.GetChild(2).GetComponent<CanvasGroup>().alpha = 1;
-        transform.GetChild(3).GetComponent<CanvasGroup>().alpha = 1;
-        transform.GetChild(4).gameObject.SetActive(true); //cd text
+        symbol.ResetPos();
+        highlight.SetActive(false); // highlight
+        nameTxt.GetComponent<CanvasGroup>().alpha = 1;
+        latin.GetComponent<CanvasGroup>().alpha = 1;
+        cdText.SetActive(true);
 
         if (toRight && right != null)
         {
