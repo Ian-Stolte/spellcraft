@@ -28,7 +28,7 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _GlossMapScale: 1
+    - _GlossMapScale: 0
     - _Glossiness: 0.514
     - _GlossyReflections: 0
     - _Metallic: 0

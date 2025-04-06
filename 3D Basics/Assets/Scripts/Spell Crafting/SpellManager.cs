@@ -34,7 +34,7 @@ public class SpellManager : MonoBehaviour
     [SerializeField] private GameObject backButton;
     [SerializeField] private GameObject confirmButton;
     [SerializeField] private GameObject startButton;
-    [SerializeField] private GameObject undoReforgeButton;
+    [SerializeField] private GameObject skipButton;
 
     [Header("Prefabs")]
     [SerializeField] private GameObject emptyImage;
@@ -92,7 +92,7 @@ public class SpellManager : MonoBehaviour
         player.enabled = false;
         cdParent.gameObject.SetActive(false);
         spellUI.gameObject.SetActive(true);
-        undoReforgeButton.SetActive(true);
+        skipButton.SetActive(true);
         craftButton.SetActive(true);
         confirmButton.SetActive(false);
         spellsLocked = false;
