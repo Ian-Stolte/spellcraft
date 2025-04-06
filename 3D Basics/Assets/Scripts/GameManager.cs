@@ -16,12 +16,18 @@ public class GameManager : MonoBehaviour
     }
 
     [Header("Rooms")]
-    [HideInInspector] public bool smallRooms;
     [SerializeField] private Room[] rooms;
     private int roomNum = 1;
     [SerializeField] private TextMeshProUGUI roomText;
     [SerializeField] private LayerMask terrainLayer;
-
+    public enum RoomSize
+    {
+        SMALL,
+        MEDIUM,
+        BOTH
+    }
+    public RoomSize roomSize;
+    
     [Header("Enemy Spawn")]
     public bool staticSpawn;
     [SerializeField] private int numEnemies;
@@ -40,8 +46,8 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
-        if (SceneManager.GetActiveScene().name.Contains("s_"))
-            smallRooms = true;
+        if (SceneManager.GetActiveScene().name.Contains("M_"))
+            roomSize = RoomSize.MEDIUM;
         player = GameObject.Find("Player").transform;
     }
 
@@ -64,7 +70,12 @@ public class GameManager : MonoBehaviour
             if (staticSpawn)
                 SetupEnemies(roomNum + Random.Range(1, 4));
             else
-                SetupWaves(roomNum + Random.Range(1, 4));
+            {
+                if (roomNum == 2)
+                    SetupWaves(3);
+                else
+                    SetupWaves(roomNum*2 + Random.Range(1, 4));
+            }
         }
         else
         {
@@ -87,6 +98,14 @@ public class GameManager : MonoBehaviour
                 Destroy(child.gameObject);
             UpdateEnemyNum(-killed);
         }
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            Debug.Log("Spawning more enemies!");
+            if (staticSpawn)
+                SetupEnemies(roomNum + Random.Range(1, 4));
+            else
+                SetupWaves(roomNum*2 + Random.Range(1, 4), true);
+        }
     }
 
 
@@ -104,27 +123,36 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void SetupWaves(int n)
+    private void SetupWaves(int n, bool skip=false)
     {
+        int maxPerWave = Mathf.Max(2, (int)Mathf.Round(n*3/5));
         waves.Clear();
         foreach (Transform child in enemyParent)
         {
             Destroy(child.gameObject);
         }
-        numEnemies = RandomEnemies(n);
+        if (!skip)
+        {
+            numEnemies = RandomEnemies(n, maxPerWave);
+            n -= numEnemies;
+        }
         while (n > 0)
         {
-            int numToAdd = Random.Range(2, Mathf.Min(n, 5)+1);
+            int numToAdd = Random.Range(2, Mathf.Min(n, maxPerWave)+1);
             if (n - numToAdd == 1)
                 numToAdd--;
             waves.Add(numToAdd);
             n -= numToAdd;
         }
+        if (skip)
+        {
+            UpdateEnemyNum(0);
+        }
     }
 
-    private int RandomEnemies(int n)
+    private int RandomEnemies(int n, int max=5)
     {
-        int numToAdd = Random.Range(2, Mathf.Min(n, 5)+1);
+        int numToAdd = Random.Range(2, Mathf.Min(n, max)+1);
         if (n - numToAdd == 1)
             numToAdd--;
         int nodeNum = Random.Range(0, nodeParent.childCount);
@@ -251,7 +279,13 @@ public class GameManager : MonoBehaviour
             roomNum++;
             string areaStr = (roomNum < 10) ? "0" + roomNum : "" + roomNum;
             roomText.text = "Area_" + areaStr;
-            string roomToLoad= (smallRooms) ? "s_ " + chosen.name : chosen.name;
+            bool medium = roomSize == RoomSize.MEDIUM;
+            if (roomSize == RoomSize.BOTH)
+            {
+                if (Random.Range(0f, 1f) < 0.5f)
+                    medium = true;
+            }
+            string roomToLoad = (medium) ?  "M_ " + chosen.name : chosen.name;
             SceneManager.LoadScene(roomToLoad);
             chosen.active = true;
             chosen.weight *= 0.5f;

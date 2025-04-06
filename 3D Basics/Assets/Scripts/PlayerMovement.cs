@@ -54,9 +54,9 @@ public class PlayerMovement : MonoBehaviour
         Bounds b = groundCheck.GetComponent<BoxCollider>().bounds;
         //grounded = ((Physics.OverlapBox(b.center, b.extents*2, Quaternion.identity, groundLayer) != null) && jumpDelay == 0);
         grounded = (Physics.CheckSphere(groundCheck.position, 0.1f, groundLayer) && jumpDelay == 0);
-        anim.SetBool("airborne", !grounded);
-        anim.SetBool("jumpDelay", jumpDelay > 0);
-        anim.SetFloat("yVel", rb.velocity.y);
+        //anim.SetBool("airborne", !grounded);
+        //anim.SetBool("jumpDelay", jumpDelay > 0);
+        //anim.SetFloat("yVel", rb.velocity.y);
 
         //Jump
         jumpDelay = Mathf.Max(0, jumpDelay-Time.deltaTime);
