@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3869,7 +3869,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5673812413240789059, guid: bd5d4538876567b408f48dbc666c608c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8231,7 +8231,7 @@ PrefabInstance:
     - target: {fileID: -5003350166765643012, guid: 3a9f56f3c0fb02c40b59dc5f849d624f, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 775bfe5d8bf71df46b9cdac0790f6d0c, type: 2}
+      objectReference: {fileID: 2100000, guid: cf372ecc5158c2c489f4c25c84285492, type: 2}
     - target: {fileID: -2708497312253239672, guid: 3a9f56f3c0fb02c40b59dc5f849d624f, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -8259,10 +8259,10 @@ PrefabInstance:
     - target: {fileID: -1081560685686933986, guid: 3a9f56f3c0fb02c40b59dc5f849d624f, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 775bfe5d8bf71df46b9cdac0790f6d0c, type: 2}
+      objectReference: {fileID: 2100000, guid: 858759a566ccb154aa85b9ced2b831fe, type: 2}
     - target: {fileID: -1018664272722485354, guid: 3a9f56f3c0fb02c40b59dc5f849d624f, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -200611051600596612, guid: 3a9f56f3c0fb02c40b59dc5f849d624f, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -8283,7 +8283,7 @@ PrefabInstance:
     - target: {fileID: 3154719795325769685, guid: 3a9f56f3c0fb02c40b59dc5f849d624f, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 775bfe5d8bf71df46b9cdac0790f6d0c, type: 2}
+      objectReference: {fileID: 2100000, guid: 33c1a4d23239cc9488c20bfb5d4bb528, type: 2}
     - target: {fileID: 4223319489975611496, guid: 3a9f56f3c0fb02c40b59dc5f849d624f, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -8311,7 +8311,7 @@ PrefabInstance:
     - target: {fileID: 6978484353582619524, guid: 3a9f56f3c0fb02c40b59dc5f849d624f, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 775bfe5d8bf71df46b9cdac0790f6d0c, type: 2}
+      objectReference: {fileID: 2100000, guid: 6ddccd00d6e111946a5aaf3315757fb9, type: 2}
     - target: {fileID: 8632055958874330854, guid: 3a9f56f3c0fb02c40b59dc5f849d624f, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.6585124
@@ -12607,7 +12607,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6866035921856438703, guid: b4938e2b3b27a7942adc4eef2211bfa0, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12649,7 +12649,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93cd10209ea2b41a89e1e6e063bc0c64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SKIP_CRAFTING: 0
+  SKIP_CRAFTING: 1
   spellsLocked: 0
   pauseGame: 1
   spellUI: {fileID: 835217253}
