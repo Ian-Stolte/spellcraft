@@ -11,7 +11,15 @@ public class Fader : MonoBehaviour
         if (Instance == null)
             Instance = this;
         else
-            Destroy(gameObject);
+        {
+            if (SceneManager.GetActiveScene().name == "Playtest Options")
+            {
+                Destroy(Instance.gameObject);
+                Instance = this;
+            }
+            else
+                Destroy(gameObject);
+        }
     }
 
     void OnEnable()

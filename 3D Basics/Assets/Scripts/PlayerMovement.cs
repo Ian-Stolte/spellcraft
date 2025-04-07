@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
@@ -28,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private int health;
     [SerializeField] private int maxHealth;
     [SerializeField] private Transform hpBar;
+    public bool canDie;
 
     [Header("Misc")]
     [SerializeField] private Animator anim;
@@ -124,7 +126,10 @@ public class PlayerMovement : MonoBehaviour
         if (health <= 0)
         {
             Debug.Log("GAME OVER!!");
-            health = maxHealth;
+            if (canDie)
+                SceneManager.LoadScene("Playtest Options");
+            else
+                health = maxHealth;
         }
         damageFlash.Play("DamageFlash");
 

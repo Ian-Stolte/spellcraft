@@ -63,25 +63,30 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        enemyParent = GameObject.Find("Enemies").transform;
-        nodeParent = GameObject.Find("Spawn Nodes").transform;
-        if (roomNum != 1)
-        {
-            if (staticSpawn)
-                SetupEnemies(roomNum + Random.Range(1, 4));
-            else
-            {
-                if (roomNum == 2)
-                    SetupWaves(3);
-                else
-                    SetupWaves(roomNum*2 + Random.Range(1, 4));
-            }
-        }
+        if (scene.name == "Playtest Options")
+            Destroy(gameObject);
         else
         {
-            numEnemies = Physics.OverlapSphere(Vector2.zero, 9999, LayerMask.GetMask("Enemy")).Length;
+            enemyParent = GameObject.Find("Enemies").transform;
+            nodeParent = GameObject.Find("Spawn Nodes").transform;
+            if (roomNum != 1)
+            {
+                if (staticSpawn)
+                    SetupEnemies(roomNum + Random.Range(1, 4));
+                else
+                {
+                    if (roomNum == 2)
+                        SetupWaves(3);
+                    else
+                        SetupWaves(roomNum*2 + Random.Range(1, 4));
+                }
+            }
+            else
+            {
+                numEnemies = Physics.OverlapSphere(Vector2.zero, 9999, LayerMask.GetMask("Enemy")).Length;
+            }
+            inTransition = false;
         }
-        inTransition = false;
     }
 
 

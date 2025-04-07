@@ -67,16 +67,17 @@ public class OptionsManager : MonoBehaviour
         Transform player = GameObject.Find("Player").transform;
         player.GetChild(1).gameObject.SetActive(choices[0] == 1);
         player.GetChild(2).gameObject.SetActive(choices[0] == 0);
+        player.GetComponent<PlayerMovement>().canDie = (choices[1] == 1);
 
         GameManager manager = GameObject.Find("Game Manager").GetComponent<GameManager>();
-        manager.staticSpawn = choices[1] == 0;
         if (choices[2] == 0)
             manager.roomSize = GameManager.RoomSize.MEDIUM;
         else if (choices[2] == 1)
             manager.roomSize = GameManager.RoomSize.SMALL;
         else if (choices[2] == 2)
             manager.roomSize = GameManager.RoomSize.BOTH;
-        Debug.Log(manager.roomSize);
+        manager.staticSpawn = choices[3] == 0;
+
         SceneManager.sceneLoaded -= FinishSetup;
         Destroy(gameObject);
     }
