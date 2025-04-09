@@ -120,7 +120,7 @@ public class SpellManager : MonoBehaviour
             CreateBlock(shapeBlocks[Random.Range(0, shapeBlocks.Count)]);
             CreateBlock(effectBlocks[Random.Range(0, effectBlocks.Count)]);
             CreateBlock(effectBlocks[Random.Range(0, effectBlocks.Count)]);
-            if (Random.Range(0, 1) < 0.3f)
+            if (Random.Range(0f, 1f) < 0.3f)
                 CreateBlock(modBlocks[Random.Range(0, modBlocks.Count)]);
             else
                 CreateBlock(effectBlocks[Random.Range(0, effectBlocks.Count)]);
