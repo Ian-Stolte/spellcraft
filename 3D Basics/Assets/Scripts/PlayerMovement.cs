@@ -34,21 +34,15 @@ public class PlayerMovement : MonoBehaviour
     [Header("Misc")]
     [SerializeField] private Animator anim;
     [SerializeField] private Animator damageFlash;
-    private GlitchManager g;
-    [SerializeField] private bool showCursor;
+    //Game Over
+    [SerializeField] private GameObject gameOver;
+    private bool endingGame;
 
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        if (!showCursor)
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-
         health = maxHealth;
-        g = Camera.main.GetComponent<GlitchManager>();
     }
 
 
@@ -72,15 +66,15 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (Input.GetKey(KeyCode.Space))
             jumpInputDelay = 0.3f;
-        if (grounded && jumpInputDelay > 0 && jumpDelay == 0)
+        if (grounded && jumpInputDelay > 0 && jumpDelay == 0 && !SpellManager.Instance.pauseGame)
         {
             jumpDelay = 0.3f;
             StartCoroutine(JumpAnim());
         }
 
         //Glitch based on HP
-        if (!g.showingGlitch)
-            g.GetComponent<Glitch>().glitch = Mathf.Lerp(0, 0.3f, Mathf.Pow((maxHealth-health)/(1f*maxHealth), 3));
+        if (!Camera.main.GetComponent<GlitchManager>().showingGlitch)
+            Camera.main.GetComponent<Glitch>().glitch = Mathf.Lerp(0, 0.3f, Mathf.Pow((maxHealth-health)/(1f*maxHealth), 3));
     }
 
 
@@ -109,7 +103,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 camForward = Vector3.ProjectOnPlane(Camera.main.transform.forward, Vector3.up).normalized;
         Vector3 camRight = Vector3.ProjectOnPlane(Camera.main.transform.right, Vector3.up).normalized;
         Vector3 moveDir = (lateral*camRight + forward*camForward).normalized;
-        if (moveDir != Vector3.zero)
+        if (moveDir != Vector3.zero && !SpellManager.Instance.pauseGame)
         {
             float spd = speed;
             float rotSpd = rotationSpeed;
@@ -133,17 +127,61 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.Log("GAME OVER!!");
             if (canDie)
-                SceneManager.LoadScene("Playtest Options");
+            {
+                if (!endingGame)
+                    StartCoroutine(GameOver());
+            }
             else
+            {
                 health = maxHealth;
+            }
         }
-        damageFlash.Play("DamageFlash");
-        g.ShowGlitch(0.5f, 0.5f);
-
+        else
+        {
+            damageFlash.Play("DamageFlash");
+            Camera.main.GetComponent<GlitchManager>().ShowGlitch(0.5f, 0.5f);
+        }
+        
         if (hpBar != null)
         {
             hpBar.GetChild(1).GetComponent<Image>().fillAmount = health/(maxHealth*1.0f);
             hpBar.GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().text = health + "/" + maxHealth;
         }
+    }
+
+    public IEnumerator GameOver()
+    {
+        endingGame = true;
+        GetComponent<PlayerSpells>().enabled = false;
+        SpellManager.Instance.pauseGame = true;
+        StartCoroutine(AudioManager.Instance.FadeOutAll(0));
+        AudioManager.Instance.Play("Static");
+        Camera.main.GetComponent<GlitchManager>().ShowGlitch(2, 1);
+        yield return new WaitForSeconds(2);
+        AudioManager.Instance.Stop("Static");
+        gameOver.SetActive(true);
+        yield return new WaitForSeconds(1);
+        TMPro.TextMeshProUGUI txt = gameOver.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>();
+        for (int i = 0; i < 4; i++)
+        {
+            txt.text = "_";
+            yield return new WaitForSeconds(0.5f);
+            txt.text = "";
+            yield return new WaitForSeconds(0.3f);
+        }
+        yield return new WaitForSeconds(1);
+        string message = "Program Terminated";
+        foreach (char c in message)
+        {
+            txt.text += c;
+            if (c == ' ')
+                yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.1f);
+        }
+        yield return new WaitForSeconds(1.5f);
+        Fader.Instance.FadeIn(0.5f);
+        yield return new WaitForSeconds(1f);
+        endingGame = false;
+        SceneManager.LoadScene("Playtest Options");
     }
 }

@@ -33,6 +33,12 @@ public class AudioManager : MonoBehaviour
             s.source.volume = s.volume;
             s.source.pitch = s.pitch;
             s.source.loop = s.loop;
+            //play once to reset
+            float storedVol = s.volume;
+            s.volume = 0;
+            s.source.Play();
+            s.source.Stop();
+            s.volume = storedVol;
         }
         foreach (Sound s in sfx)
         {
@@ -43,18 +49,6 @@ public class AudioManager : MonoBehaviour
             s.source.loop = s.loop;
         }
         audios = gameObject.GetComponents<AudioSource>();
-    }
-
-    void Start()
-    {
-        foreach (Sound s in music)
-        {
-            float storedVol = s.volume;
-            s.volume = 0;
-            s.source.Play();
-            s.source.Stop();
-            s.volume = storedVol;
-        }
     }
 
     public IEnumerator FadeOutAll(float duration)
