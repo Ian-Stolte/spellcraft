@@ -34,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Misc")]
     [SerializeField] private Animator anim;
     [SerializeField] private Animator damageFlash;
+    private GlitchManager g;
     [SerializeField] private bool showCursor;
 
 
@@ -47,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         health = maxHealth;
+        g = Camera.main.GetComponent<GlitchManager>();
     }
 
 
@@ -75,6 +77,10 @@ public class PlayerMovement : MonoBehaviour
             jumpDelay = 0.3f;
             StartCoroutine(JumpAnim());
         }
+
+        //Glitch based on HP
+        if (!g.showingGlitch)
+            g.GetComponent<Glitch>().glitch = Mathf.Lerp(0, 0.3f, Mathf.Pow((maxHealth-health)/(1f*maxHealth), 3));
     }
 
 
@@ -132,6 +138,7 @@ public class PlayerMovement : MonoBehaviour
                 health = maxHealth;
         }
         damageFlash.Play("DamageFlash");
+        g.ShowGlitch(0.5f, 0.5f);
 
         if (hpBar != null)
         {

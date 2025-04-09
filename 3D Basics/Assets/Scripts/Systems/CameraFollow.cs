@@ -6,7 +6,7 @@ public class CameraFollow : MonoBehaviour
 {
     public KeyCode panLeft;
     public KeyCode panRight;
-    public bool manualControl;
+    public bool rotSnap;
 
     private Transform target;
     public Vector3 offset;
@@ -25,8 +25,20 @@ public class CameraFollow : MonoBehaviour
         if (!SpellManager.Instance.pauseGame)
         {
             transform.position = target.position - offset;
-            
-            if (manualControl)
+            if (rotSnap)
+            {
+                if (Input.GetKeyDown(panLeft))
+                {
+                    transform.RotateAround(target.transform.position, Vector3.up, -45);
+                    offset = target.position-transform.position;
+                }
+                else if (Input.GetKeyDown(panRight))
+                {
+                    transform.RotateAround(target.transform.position, Vector3.up, 45);
+                    offset = target.position-transform.position;
+                }
+            }
+            else
             {
                 int mouseX = 0;
                 if (Input.GetKey(panLeft))
@@ -40,13 +52,14 @@ public class CameraFollow : MonoBehaviour
                 }
             }
 
-            else
+            //automatic follow
+            /*else
             {
                 float currY = transform.rotation.eulerAngles.y;
                 float targetY = target.transform.rotation.eulerAngles.y;
                 float yRot = Mathf.LerpAngle(currY, targetY, Time.deltaTime * rotationSpeed);
                 transform.RotateAround(target.transform.position, Vector3.up, yRot - currY);
-            }
+            }*/
         }
     }
 }
