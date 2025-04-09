@@ -18,8 +18,7 @@ public class SpellManager : MonoBehaviour
 
     [Header("Bools")]
     public bool SKIP_CRAFTING;
-    public bool spellsLocked;
-    public bool pauseGame;
+    [HideInInspector] public bool spellsLocked;
     private bool loadNextRoom;
     private bool musicOn;
 
@@ -51,17 +50,36 @@ public class SpellManager : MonoBehaviour
     public string[] bindTxt;
 
     [Header("Spell Data")]
-    public List<GameObject> blocks;
+    //TODO: read directly from prefab folders
+    public List<GameObject> shapeBlocks;
+    public List<GameObject> effectBlocks;
+    public List<GameObject> modBlocks;
+    [HideInInspector] public List<GameObject> blocks;
     public List<Spell> spells = new List<Spell>();
     [HideInInspector] public List<Spell> spellSave = new List<Spell>();
     
 
     public void Start()
     {
+        foreach (GameObject g in shapeBlocks)
+            blocks.Add(g);
+        foreach (GameObject g in effectBlocks)
+            blocks.Add(g);
+        foreach (GameObject g in modBlocks)
+            blocks.Add(g);
         player = GameObject.Find("Player").GetComponent<PlayerSpells>();
 
         if (SKIP_CRAFTING)
         {
+            string[] startingBlocks = new string[]{"Line", "Damage", "Circle", "Knockback", "Melee", "Stun", "Damage"};
+            foreach (string s in startingBlocks)
+            {
+                GameObject prefab = blocks.Find(b=>b.name == s);
+                if (prefab == null)
+                    Debug.LogError("Starting block prefab not found!");
+                else
+                    CreateBlock(prefab);
+            }
             List<Block> lineStun = new List<Block>();
             lineStun.Add(GameObject.Find("Line").GetComponent<Block>());
             lineStun.Add(GameObject.Find("Damage").GetComponent<Block>());
@@ -81,13 +99,64 @@ public class SpellManager : MonoBehaviour
             ConfirmSpells();
             EnterGame();
         }
+        else if (GameManager.Instance.firstRun)
+        {
+            string[] startingBlocks = new string[]{"Line", "Damage", "Damage", "Stun", "Circle"};
+            foreach (string s in startingBlocks)
+            {
+                GameObject prefab = blocks.Find(b=>b.name == s);
+                if (prefab == null)
+                    Debug.LogError("Starting block prefab not found!");
+                else
+                    CreateBlock(prefab);
+            }
+        }
+        else
+        {
+            //TODO: guarantee at least 1 damage effect!!!
+            //TODO: lower pct chance of getting repeats? (maybe)
+            //  eventually we may let player choose (opt into a buildpath) or do something completely different, so no need to optimize rn
+            CreateBlock(shapeBlocks[Random.Range(0, shapeBlocks.Count)]);
+            CreateBlock(shapeBlocks[Random.Range(0, shapeBlocks.Count)]);
+            CreateBlock(effectBlocks[Random.Range(0, effectBlocks.Count)]);
+            CreateBlock(effectBlocks[Random.Range(0, effectBlocks.Count)]);
+            if (Random.Range(0, 1) < 0.3f)
+                CreateBlock(modBlocks[Random.Range(0, modBlocks.Count)]);
+            else
+                CreateBlock(effectBlocks[Random.Range(0, effectBlocks.Count)]);
+        }
+
+    }
+
+
+    public void CreateBlock(GameObject prefab)
+    {
+        GameObject block = Instantiate(prefab, Vector2.zero, Quaternion.identity, blockParent);
+        for (int j = 0; j < 20; j++)
+        {
+            block.GetComponent<RectTransform>().anchoredPosition = new Vector2(Random.Range(-600, 600), Random.Range(-500, 500));
+            //if (Physics2D.OverlapCircleAll(block.GetComponent<RectTransform>().anchoredPosition, 200, LayerMask.GetMask("Block")).Length <= 1)
+            //    break;
+            bool noOverlap = true;
+            foreach (Transform child in blockParent)
+            {
+                if (child.gameObject != block && child.gameObject.activeSelf && Vector3.Distance(block.GetComponent<RectTransform>().anchoredPosition, child.GetComponent<RectTransform>().anchoredPosition) < 400)
+                {
+                    noOverlap = false;
+                }
+            }
+            if (noOverlap)
+                break;
+            //Debug.Log("Trying again " + j);
+        }
+        block.name = block.name.Substring(0, block.name.Length-7);
     }
 
 
     public void Reforge()
     {
         loadNextRoom = true;
-        pauseGame = true;
+        GameManager.Instance.pauseGame = true;
         player.GetComponent<PlayerMovement>().enabled = false;
         player.enabled = false;
         cdParent.gameObject.SetActive(false);
@@ -162,7 +231,7 @@ public class SpellManager : MonoBehaviour
         {
             spells.Add(s);
         }
-        pauseGame = false;
+        GameManager.Instance.pauseGame = false;
         spellUI.gameObject.SetActive(false);
         cdParent.gameObject.SetActive(true);
         player.GetComponent<PlayerMovement>().enabled = true;
@@ -442,7 +511,7 @@ public class SpellManager : MonoBehaviour
         player.GetComponent<PlayerMovement>().enabled = true;
         player.enabled = true;
         player.InitializeAura();
-        pauseGame = false;
+        GameManager.Instance.pauseGame = false;
     }
 
     private void SpawnSpellIcon(Spell s, Vector2 pos, string txt)
@@ -462,8 +531,7 @@ public class SpellManager : MonoBehaviour
 
     public List<Block> ChooseRandom(int n)
     {
-        //TODO: add diff percents
-        //TODO: add rarities
+        //TODO: add diff percents --- keep in 3 separate lists, but decrement pct of given list when chosen (e.g 40-40-20, then choose effect -> 50-25-25)
 
         List<Block> starting = new List<Block>();
         List<Block> chosen = new List<Block>();

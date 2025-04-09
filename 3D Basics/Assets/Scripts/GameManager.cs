@@ -36,11 +36,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform enemyParent;
     [SerializeField] private List<int> waves = new List<int>();
 
-    [Header("Misc")]
-    [SerializeField] private GameObject rewardPrefab;
-
+    [Header("Bools")]
+    public bool firstRun;
+    [HideInInspector] public bool pauseGame;
     private bool inTransition;
 
+    [Header("Misc")]
+    [SerializeField] private GameObject rewardPrefab;
     private Transform player;
 
     

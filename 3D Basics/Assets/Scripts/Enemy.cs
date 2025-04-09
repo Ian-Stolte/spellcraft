@@ -51,7 +51,7 @@ public class Enemy : MonoBehaviour
     {
         if (transform.position.y < 1)
             Destroy(GetComponent<TrailRenderer>());
-        if (!SpellManager.Instance.pauseGame)
+        if (!GameManager.Instance.pauseGame)
         {
             float dist = Vector3.Distance(player.transform.position, transform.position);
             if (dist < aggroRange)

@@ -273,7 +273,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8195665245298062371, guid: 94366c877b8524564ae1d4259b9c416c, type: 3}
       propertyPath: m_text
-      value: ipsus
+      value: instinct
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195665245298062371, guid: 94366c877b8524564ae1d4259b9c416c, type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.7725491
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195665245298062371, guid: 94366c877b8524564ae1d4259b9c416c, type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.34509805
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195665245298062371, guid: 94366c877b8524564ae1d4259b9c416c, type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.93725497
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195665245298062371, guid: 94366c877b8524564ae1d4259b9c416c, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4291123439
       objectReference: {fileID: 0}
     - target: {fileID: 595224449787427922, guid: 7c31d102f40b04510a3ea8b1257d6961, type: 3}
       propertyPath: m_Offset.y

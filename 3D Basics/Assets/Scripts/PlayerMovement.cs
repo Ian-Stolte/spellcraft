@@ -66,7 +66,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (Input.GetKey(KeyCode.Space))
             jumpInputDelay = 0.3f;
-        if (grounded && jumpInputDelay > 0 && jumpDelay == 0 && !SpellManager.Instance.pauseGame)
+        if (grounded && jumpInputDelay > 0 && jumpDelay == 0 && !GameManager.Instance.pauseGame)
         {
             jumpDelay = 0.3f;
             StartCoroutine(JumpAnim());
@@ -103,7 +103,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 camForward = Vector3.ProjectOnPlane(Camera.main.transform.forward, Vector3.up).normalized;
         Vector3 camRight = Vector3.ProjectOnPlane(Camera.main.transform.right, Vector3.up).normalized;
         Vector3 moveDir = (lateral*camRight + forward*camForward).normalized;
-        if (moveDir != Vector3.zero && !SpellManager.Instance.pauseGame)
+        if (moveDir != Vector3.zero && !GameManager.Instance.pauseGame)
         {
             float spd = speed;
             float rotSpd = rotationSpeed;
@@ -153,7 +153,7 @@ public class PlayerMovement : MonoBehaviour
     {
         endingGame = true;
         GetComponent<PlayerSpells>().enabled = false;
-        SpellManager.Instance.pauseGame = true;
+        GameManager.Instance.pauseGame = true;
         StartCoroutine(AudioManager.Instance.FadeOutAll(0));
         AudioManager.Instance.Play("Static");
         Camera.main.GetComponent<GlitchManager>().ShowGlitch(2, 1);
@@ -182,6 +182,7 @@ public class PlayerMovement : MonoBehaviour
         Fader.Instance.FadeIn(0.5f);
         yield return new WaitForSeconds(1f);
         endingGame = false;
+        GameManager.Instance.firstRun = false;
         SceneManager.LoadScene("Playtest Options");
     }
 }

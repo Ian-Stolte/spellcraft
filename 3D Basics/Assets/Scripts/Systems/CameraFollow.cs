@@ -22,7 +22,7 @@ public class CameraFollow : MonoBehaviour
 
     void Update()
     {
-        if (!SpellManager.Instance.pauseGame)
+        if (!GameManager.Instance.pauseGame)
         {
             transform.position = target.position - offset;
             if (rotSnap)
