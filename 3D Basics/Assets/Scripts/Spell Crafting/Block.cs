@@ -126,8 +126,8 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
             rectTransform.anchoredPosition = localMousePos - lastPos;
             
             // Bound to the border of the UI
-            float newX = Mathf.Clamp(rectTransform.anchoredPosition.x, -(860 - rectTransform.sizeDelta.x), 860 - rectTransform.sizeDelta.x);
-            float newY = Mathf.Clamp(rectTransform.anchoredPosition.y, -415, 375);
+            float newX = Mathf.Clamp(rectTransform.anchoredPosition.x, -(860 - rectTransform.sizeDelta.x), 850 - rectTransform.sizeDelta.x);
+            float newY = Mathf.Clamp(rectTransform.anchoredPosition.y, -415, 415);
             rectTransform.anchoredPosition = new Vector2(newX, newY);
 
             targetSpace = null;

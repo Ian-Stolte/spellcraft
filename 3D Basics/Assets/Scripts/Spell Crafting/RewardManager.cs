@@ -46,6 +46,7 @@ public class RewardManager : MonoBehaviour
             Destroy(child.gameObject);
         }
         ShowRewards(SpellManager.Instance.ChooseRandom(n));
+        GameManager.Instance.pauseGame = true;
     }
 
     public void ShowRewards(List<Block> blocks)

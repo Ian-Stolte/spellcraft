@@ -57,7 +57,7 @@ public class OptionsManager : MonoBehaviour
         Fader.Instance.FadeIn(1);
         yield return new WaitForSeconds(1);
         DontDestroyOnLoad(gameObject);
-        string sceneToLoad = (choices[2] == 0) ? "M_ Room 1" : "Room 1";
+        string sceneToLoad = (choices[1] == 0) ? "Room 1" : "M_ Room 1";
         SceneManager.LoadScene(sceneToLoad);
         SceneManager.sceneLoaded += FinishSetup;
     }
@@ -65,18 +65,16 @@ public class OptionsManager : MonoBehaviour
     private void FinishSetup(Scene scene, LoadSceneMode mode)
     {
         Transform player = GameObject.Find("Player").transform;
-        player.GetChild(1).gameObject.SetActive(choices[0] == 1);
-        player.GetChild(2).gameObject.SetActive(choices[0] == 0);
-        player.GetComponent<PlayerMovement>().canDie = (choices[1] == 1);
+        player.GetComponent<PlayerMovement>().canDie = (choices[0] == 0);
 
         GameManager manager = GameObject.Find("Game Manager").GetComponent<GameManager>();
-        if (choices[2] == 0)
-            manager.roomSize = GameManager.RoomSize.MEDIUM;
-        else if (choices[2] == 1)
+        if (choices[1] == 0)
             manager.roomSize = GameManager.RoomSize.SMALL;
-        else if (choices[2] == 2)
+        else if (choices[1] == 1)
+            manager.roomSize = GameManager.RoomSize.MEDIUM;
+        else if (choices[1] == 2)
             manager.roomSize = GameManager.RoomSize.BOTH;
-        manager.staticSpawn = choices[3] == 0;
+        manager.staticSpawn = choices[2] == 1;
 
         SceneManager.sceneLoaded -= FinishSetup;
         Destroy(gameObject);

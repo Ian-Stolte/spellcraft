@@ -18,6 +18,7 @@ public class SpellManager : MonoBehaviour
 
     [Header("Bools")]
     public bool SKIP_CRAFTING;
+    [SerializeField] private bool showTutorial;
     [HideInInspector] public bool spellsLocked;
     private bool loadNextRoom;
     private bool musicOn;
@@ -44,6 +45,7 @@ public class SpellManager : MonoBehaviour
     [SerializeField] private Vector2 spellUIStart;
     [SerializeField] private Color fullSymbolColor;
     [SerializeField] private PlayerSpells player;
+    [SerializeField] private GameObject[] tutorials;
 
     [Header("Keybinds")]
     public KeyCode[] defaultBinds;
@@ -116,9 +118,9 @@ public class SpellManager : MonoBehaviour
             //TODO: guarantee at least 1 damage effect!!!
             //TODO: lower pct chance of getting repeats? (maybe)
             //  eventually we may let player choose (opt into a buildpath) or do something completely different, so no need to optimize rn
+            CreateBlock(blocks.Find(b=>b.name == "Damage"));
             CreateBlock(shapeBlocks[Random.Range(0, shapeBlocks.Count)]);
             CreateBlock(shapeBlocks[Random.Range(0, shapeBlocks.Count)]);
-            CreateBlock(effectBlocks[Random.Range(0, effectBlocks.Count)]);
             CreateBlock(effectBlocks[Random.Range(0, effectBlocks.Count)]);
             if (Random.Range(0f, 1f) < 0.3f)
                 CreateBlock(modBlocks[Random.Range(0, modBlocks.Count)]);
@@ -126,15 +128,18 @@ public class SpellManager : MonoBehaviour
                 CreateBlock(effectBlocks[Random.Range(0, effectBlocks.Count)]);
         }
 
+        if (showTutorial)
+            tutorials[0].SetActive(true);
     }
 
 
     public void CreateBlock(GameObject prefab)
     {
         GameObject block = Instantiate(prefab, Vector2.zero, Quaternion.identity, blockParent);
+        RectTransform r = block.GetComponent<RectTransform>();
         for (int j = 0; j < 20; j++)
         {
-            block.GetComponent<RectTransform>().anchoredPosition = new Vector2(Random.Range(-600, 600), Random.Range(-500, 500));
+            r.anchoredPosition = new Vector2(Random.Range(-(860 - r.sizeDelta.x), 850 - r.sizeDelta.x), Random.Range(-415, 415));
             //if (Physics2D.OverlapCircleAll(block.GetComponent<RectTransform>().anchoredPosition, 200, LayerMask.GetMask("Block")).Length <= 1)
             //    break;
             bool noOverlap = true;
@@ -283,6 +288,11 @@ public class SpellManager : MonoBehaviour
             }
         }
 
+        if (showTutorial)
+        {
+            tutorials[0].SetActive(false);
+            tutorials[1].SetActive(true);
+        }
         craftButton.SetActive(false);
         confirmButton.SetActive(true);
         backButton.SetActive(true);
@@ -323,6 +333,11 @@ public class SpellManager : MonoBehaviour
             }
         }
 
+        if (showTutorial)
+        {
+            tutorials[0].SetActive(true);
+            tutorials[1].SetActive(false);
+        }
         craftButton.SetActive(true);
         confirmButton.SetActive(false);
         backButton.SetActive(false);
@@ -332,6 +347,9 @@ public class SpellManager : MonoBehaviour
 
     public void ConfirmSpells()
     {
+        showTutorial = false;
+        foreach (GameObject g in tutorials)
+            g.SetActive(false);
         confirmButton.SetActive(false);
         backButton.SetActive(false);
         symbolParent.gameObject.SetActive(true);
@@ -378,7 +396,7 @@ public class SpellManager : MonoBehaviour
             float cd = 0;
             foreach (Block b in s.blocks)
             {
-                spellName += b.latin.GetComponent<TMPro.TextMeshProUGUI>().text + " ";
+                spellName += b.name + " + ";
                 cd += b.cd;
                 Vector3 scale = new Vector3(b.symbol.transform.localScale.x*b.transform.localScale.x, b.symbol.transform.localScale.y*b.transform.localScale.y, 1);
                 GameObject sym = Instantiate(b.symbol.gameObject, b.symbol.transform.position, Quaternion.identity, s.symbol.transform);
@@ -396,8 +414,8 @@ public class SpellManager : MonoBehaviour
             }
             GameObject UI = Instantiate(spellListItem, Vector2.zero, Quaternion.identity, symbolParent);
             UI.GetComponent<RectTransform>().anchoredPosition = new Vector2(-80, 350-(index*300));
-            UI.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = spellName;
-            s.name = spellName;
+            UI.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = spellName.Substring(0, spellName.Length-3);
+            s.name = spellName.Substring(0, spellName.Length-3);
             string cdTxt = ((""+cd).Length == 1) ? cd + ".0s" : cd + "s"; 
             UI.transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = cdTxt;
             s.cdMax = cd;
