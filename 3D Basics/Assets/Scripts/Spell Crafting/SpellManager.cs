@@ -30,7 +30,7 @@ public class SpellManager : MonoBehaviour
     [SerializeField] private Transform cdParent;
 
     [Header("Buttons")]
-    [SerializeField] private GameObject craftButton;
+    public GameObject compileButton;
     [SerializeField] private GameObject backButton;
     [SerializeField] private GameObject confirmButton;
     [SerializeField] private GameObject startButton;
@@ -140,7 +140,7 @@ public class SpellManager : MonoBehaviour
         for (int j = 0; j < 20; j++)
         {
             r.anchoredPosition = new Vector2(Random.Range(-(860 - r.sizeDelta.x), 850 - r.sizeDelta.x), Random.Range(-415, 415));
-            //if (Physics2D.OverlapCircleAll(block.GetComponent<RectTransform>().anchoredPosition, 200, LayerMask.GetMask("Block")).Length <= 1)
+            //if (Physics2D.OverlapCircleAll(r.anchoredPosition, 200, LayerMask.GetMask("Block")).Length <= 1)
             //    break;
             bool noOverlap = true;
             foreach (Transform child in blockParent)
@@ -167,7 +167,7 @@ public class SpellManager : MonoBehaviour
         cdParent.gameObject.SetActive(false);
         spellUI.gameObject.SetActive(true);
         skipButton.SetActive(true);
-        craftButton.SetActive(true);
+        compileButton.SetActive(true);
         confirmButton.SetActive(false);
         spellsLocked = false;
 
@@ -293,7 +293,7 @@ public class SpellManager : MonoBehaviour
             tutorials[0].SetActive(false);
             tutorials[1].SetActive(true);
         }
-        craftButton.SetActive(false);
+        compileButton.SetActive(false);
         confirmButton.SetActive(true);
         backButton.SetActive(true);
         spellsLocked = true;
@@ -338,7 +338,7 @@ public class SpellManager : MonoBehaviour
             tutorials[0].SetActive(true);
             tutorials[1].SetActive(false);
         }
-        craftButton.SetActive(true);
+        compileButton.SetActive(true);
         confirmButton.SetActive(false);
         backButton.SetActive(false);
         spellsLocked = false;
@@ -360,6 +360,8 @@ public class SpellManager : MonoBehaviour
         }
 
         //filter out aura and auto spells
+        player.auraSpell.name = "";
+        player.autoSpell.name = "";
         foreach (Spell s in spells)
         {
             float cd = 0;

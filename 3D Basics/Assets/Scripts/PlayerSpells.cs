@@ -22,9 +22,9 @@ public class PlayerSpells : MonoBehaviour
         Destroy(auraObj);
         if (auraSpell.name != "")
         {
-            GameObject aura = Instantiate(auraHitbox, transform.position + new Vector3(0, -1, 0), Quaternion.identity, transform);
-            aura.GetComponent<Hitbox>().spell = auraSpell;
-            aura.GetComponent<AuraHitbox>().tickRate = auraTick;
+            auraObj = Instantiate(auraHitbox, transform.position + new Vector3(0, -1, 0), Quaternion.identity, transform);
+            auraObj.GetComponent<Hitbox>().spell = auraSpell;
+            auraObj.GetComponent<AuraHitbox>().tickRate = auraTick;
         }
     }
 

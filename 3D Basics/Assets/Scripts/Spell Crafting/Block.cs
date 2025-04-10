@@ -167,6 +167,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
                     left.right = this;
                 }
                 targetSpace.SetActive(false);
+                SpellManager.Instance.compileButton.GetComponent<Button>().interactable = true;
             }
         }
     }
