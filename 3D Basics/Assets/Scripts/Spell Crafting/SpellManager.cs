@@ -33,6 +33,7 @@ public class SpellManager : MonoBehaviour
     public GameObject compileButton;
     [SerializeField] private GameObject backButton;
     [SerializeField] private GameObject confirmButton;
+    [SerializeField] private GameObject randomButton;
     [SerializeField] private GameObject startButton;
     [SerializeField] private GameObject skipButton;
 
@@ -56,7 +57,7 @@ public class SpellManager : MonoBehaviour
     public List<GameObject> shapeBlocks;
     public List<GameObject> effectBlocks;
     public List<GameObject> modBlocks;
-    [HideInInspector] public List<GameObject> blocks;
+    private List<GameObject> blocks = new List<GameObject>();
     public List<Spell> spells = new List<Spell>();
     [HideInInspector] public List<Spell> spellSave = new List<Spell>();
     
@@ -169,6 +170,7 @@ public class SpellManager : MonoBehaviour
         skipButton.SetActive(true);
         compileButton.SetActive(true);
         confirmButton.SetActive(false);
+        randomButton.SetActive(false);
         spellsLocked = false;
 
         foreach (Transform child in blockParent)
@@ -295,6 +297,7 @@ public class SpellManager : MonoBehaviour
         }
         compileButton.SetActive(false);
         confirmButton.SetActive(true);
+        randomButton.SetActive(true);
         backButton.SetActive(true);
         spellsLocked = true;
 
@@ -340,8 +343,22 @@ public class SpellManager : MonoBehaviour
         }
         compileButton.SetActive(true);
         confirmButton.SetActive(false);
+        randomButton.SetActive(false);
         backButton.SetActive(false);
         spellsLocked = false;
+    }
+
+
+    public void RandomSymbols()
+    {
+        foreach (Transform child in blockParent)
+        {
+            Block b = child.GetComponent<Block>();
+            Vector2 offset = new Vector2(Random.Range(-20f, 20f), Random.Range(-10f, 10f));
+            b.symbol.GetComponent<RectTransform>().anchoredPosition = new Vector2((b.symbol.min.x + b.symbol.max.x)/2f * 1.35f, (b.symbol.min.y + b.symbol.max.y)/2f) + offset;
+
+        }
+        ConfirmSpells();
     }
 
 
@@ -351,6 +368,7 @@ public class SpellManager : MonoBehaviour
         foreach (GameObject g in tutorials)
             g.SetActive(false);
         confirmButton.SetActive(false);
+        randomButton.SetActive(false);
         backButton.SetActive(false);
         symbolParent.gameObject.SetActive(true);
         
@@ -552,13 +570,28 @@ public class SpellManager : MonoBehaviour
     public List<Block> ChooseRandom(int n)
     {
         //TODO: add diff percents --- keep in 3 separate lists, but decrement pct of given list when chosen (e.g 40-40-20, then choose effect -> 50-25-25)
-
+        bool skipAura = false;
+        bool skipAuto = false;
+        foreach (Transform child in blockParent)
+        {
+            if (child.name == "Aura")
+                skipAura = true;
+            else if (child.name == "Auto")
+                skipAuto = true;
+        }
         List<Block> starting = new List<Block>();
         List<Block> chosen = new List<Block>();
         foreach (GameObject g in blocks)
         {
-            starting.Add(g.GetComponent<Block>());   
+            Debug.Log(g.name);
+            if (!((skipAura && g.name == "Aura") || (skipAuto && g.name == "Auto")))
+            {
+                starting.Add(g.GetComponent<Block>());   
+            }
+            else
+               Debug.Log("Not chosen!");
         }
+        Debug.Log(starting.Count);
 
         for (int i = 0; i < n; i++)
         {
