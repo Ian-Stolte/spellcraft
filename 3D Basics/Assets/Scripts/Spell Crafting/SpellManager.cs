@@ -384,12 +384,14 @@ public class SpellManager : MonoBehaviour
         {
             float cd = 0;
             bool addedAuto = false;
+            bool addedAura = false;
             foreach (Block b in s.blocks)
             {
                 cd += b.cd;
                 if (b.name == "Aura")
                 {
                     player.auraSpell = s;
+                    addedAura = true;
                 }
                 else if (b.name == "Auto")
                 {
@@ -398,9 +400,7 @@ public class SpellManager : MonoBehaviour
                 }
             }
             if (addedAuto)
-            {
                 player.autoTick = cd/2f;
-            }
         }
 
         //add other spells to results UI
@@ -583,16 +583,10 @@ public class SpellManager : MonoBehaviour
         List<Block> chosen = new List<Block>();
         foreach (GameObject g in blocks)
         {
-            Debug.Log(g.name);
             if (!((skipAura && g.name == "Aura") || (skipAuto && g.name == "Auto")))
-            {
                 starting.Add(g.GetComponent<Block>());   
-            }
-            else
-               Debug.Log("Not chosen!");
         }
-        Debug.Log(starting.Count);
-
+        
         for (int i = 0; i < n; i++)
         {
             Block b = starting[Random.Range(0, starting.Count)];

@@ -1,0 +1,102 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8935467834830936461
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4655135024260920828}
+  - component: {fileID: 845690033822569681}
+  - component: {fileID: 8860887469752437314}
+  m_Layer: 0
+  m_Name: Spell Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4655135024260920828
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8935467834830936461}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 751.38074, y: 241.09608, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &845690033822569681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8935467834830936461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93cd10209ea2b41a89e1e6e063bc0c64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SKIP_CRAFTING: 1
+  showTutorial: 1
+  spellsLocked: 0
+  spellUI: {fileID: 0}
+  blockParent: {fileID: 0}
+  symbolParent: {fileID: 0}
+  cdParent: {fileID: 0}
+  compileButton: {fileID: 0}
+  backButton: {fileID: 0}
+  confirmButton: {fileID: 0}
+  randomButton: {fileID: 0}
+  startButton: {fileID: 0}
+  skipButton: {fileID: 0}
+  emptyImage: {fileID: 2349806725699824917, guid: efb78f1eb1e501440acbdf2695ee8194, type: 3}
+  spellListItem: {fileID: 4532206369613023846, guid: cc6be18605e32e94f8bfe4179cb4d156, type: 3}
+  cdIconPrefab: {fileID: 5300717638937045287, guid: 50eafcc156acd6a49a33b9edfd14d1a8, type: 3}
+  spellUIStart: {x: -655, y: 355}
+  fullSymbolColor: {r: 0.5686275, g: 0.8509804, b: 0.90588236, a: 1}
+  player: {fileID: 0}
+  tutorials:
+  - {fileID: 0}
+  - {fileID: 0}
+  defaultBinds: 430100004401000045010000
+  bindTxt:
+  - Left Click
+  - Right Click
+  - Middle Click
+  shapeBlocks:
+  - {fileID: 8727360041391963699, guid: baba1a82241e7ba43b7ba24be3943690, type: 3}
+  - {fileID: 2095598637705310552, guid: 9cdb74ef4402ddd45bdb7d03bb02f53d, type: 3}
+  - {fileID: 6866035921856438703, guid: b4938e2b3b27a7942adc4eef2211bfa0, type: 3}
+  effectBlocks:
+  - {fileID: 5002837315012015344, guid: 875b64e76a7675146b31a510d196830e, type: 3}
+  - {fileID: 9191262866201418245, guid: 09dc64dd640a9484cbcaac62ae3675c1, type: 3}
+  - {fileID: 5002837315012015344, guid: d660541ebbd9f704895d00429c04cbb3, type: 3}
+  - {fileID: 5673812413240789059, guid: bd5d4538876567b408f48dbc666c608c, type: 3}
+  - {fileID: 9191262866201418245, guid: 0f37290e6bbae8f48a0bd3cdf9758eac, type: 3}
+  modBlocks:
+  - {fileID: 1056575017890556035, guid: 8a94b295ff28ebf4fbcb713728abfccd, type: 3}
+  - {fileID: 751068182812198834, guid: 77863b9482fb50b439adbde113d51e76, type: 3}
+  spells: []
+  spellSave: []
+--- !u!114 &8860887469752437314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8935467834830936461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a652c2e0e75815343a48e7990e7ce167, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objTag: SpellManager

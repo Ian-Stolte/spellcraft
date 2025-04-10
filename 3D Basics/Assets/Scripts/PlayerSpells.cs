@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class PlayerSpells : MonoBehaviour
 {
     [HideInInspector] public Spell auraSpell;
-    [SerializeField] private float auraTick;
+    public float auraTick;
+    public float auraDampen;
     [SerializeField] GameObject auraHitbox;
     private GameObject auraObj;
     
@@ -101,13 +102,21 @@ public class PlayerSpells : MonoBehaviour
             Enemy script = c.GetComponent<Enemy>();
             if (script != null)
             {
+                //TODO: better way to do this??
                 int dmg = 0;
+                int burn = 0;
+                float stun = 0;
+                float slow = 0;
                 foreach (Block b in s.blocks)
                 {
                     if (b.name == "Stun")
-                        script.stunTimer = (aura) ? 0.3f : 1f;
+                        stun += (aura) ? 0.3f : 1f; 
+                    else if (b.name == "Slow")
+                        slow += (aura) ? 0.5f : 1f; 
                     else if (b.name == "Damage")
-                        dmg += (aura) ? 2 : 4;
+                        dmg += (aura) ? 1 : 4;
+                    else if (b.name == "Burn")
+                        burn += (aura) ? 1 : 1;
                     else if (b.name == "Knockback")
                     {
                         Vector3 dir = (c.transform.position - pos);
@@ -119,6 +128,22 @@ public class PlayerSpells : MonoBehaviour
                 }
                 if (dmg > 0)
                     script.TakeDamage(dmg);
+                if (burn > 0)
+                {
+                    if (aura)
+                    {
+                        if (script.auraBurn != null)
+                            StopCoroutine(script.auraBurn);
+                        script.auraBurn = script.ApplyBurn(burn, 4);
+                        StartCoroutine(script.auraBurn);
+                    }
+                    else
+                        StartCoroutine(script.ApplyBurn(burn, 4));
+                }
+                if (stun > 0)
+                    script.stunTimer = stun;
+                if (slow > 0)
+                    script.slowTimer = slow;
             }
         }
     }

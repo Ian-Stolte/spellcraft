@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
     [Header("Values")]
     [SerializeField] private int maxHealth;
     public int health;
-    [SerializeField] private float speed;
+    [SerializeField] private float defSpeed;
 
     [Header("States")]
     public int aggroRange;
@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float retreatRange;
     [SerializeField] private float retreatThreshold;
     [HideInInspector] public float stunTimer;
+    [HideInInspector] public float slowTimer;
 
     [Header("Attack")]
     [SerializeField] private float atkDelay;
@@ -36,6 +37,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Animator anim;
     private GameObject player;
     private Transform cam;
+
+    //Misc
+    [HideInInspector] public IEnumerator auraBurn;
 
 
     void Start()
@@ -58,6 +62,8 @@ public class Enemy : MonoBehaviour
                 aggro = true;
 
             stunTimer -= Time.deltaTime;
+            slowTimer -= Time.deltaTime;
+            float speed = (slowTimer > 0) ? defSpeed*0.3f : defSpeed;
             if (aggro && stunTimer <= 0)
             {
                 atkTimer = Mathf.Max(0, atkTimer - Time.deltaTime);
@@ -98,12 +104,26 @@ public class Enemy : MonoBehaviour
             }
 
             anim.SetBool("Stunned", stunTimer > 0);
-            statusTxt.text = (stunTimer > 0) ? "stunned_" : "";
+            if (stunTimer > 0)
+                statusTxt.text = "stunned_";
+            else if (slowTimer > 0)
+                statusTxt.text = "slowed_";
+            else
+                statusTxt.text = "";
 
             transform.GetChild(0).transform.forward = cam.forward;
         }
     }
 
+
+    public IEnumerator ApplyBurn(int burn, int ticks)
+    {
+        for (int i = 0; i < ticks; i++)
+        {
+            TakeDamage(burn);
+            yield return new WaitForSeconds(0.33f);
+        }
+    }
 
     public void TakeDamage(int dmg)
     {

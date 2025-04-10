@@ -103,11 +103,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 11
   health: 0
-  speed: 2
+  defSpeed: 3
   aggroRange: 15
   retreatRange: 12
   retreatThreshold: 0.3
   stunTimer: 0
+  slowTimer: 0
   atkDelay: 3
   atkRange: 10
   meleeRange: 1.5

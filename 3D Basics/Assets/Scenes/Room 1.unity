@@ -3666,115 +3666,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1605688107}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1683716699
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1683716701}
-  - component: {fileID: 1683716700}
-  - component: {fileID: 1683716702}
-  m_Layer: 0
-  m_Name: Spell Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1683716700
+--- !u!114 &1683716700 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
+  m_PrefabInstance: {fileID: 9204590766866688132}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1683716699}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 93cd10209ea2b41a89e1e6e063bc0c64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SKIP_CRAFTING: 1
-  showTutorial: 1
-  spellsLocked: 0
-  spellUI: {fileID: 835217253}
-  blockParent: {fileID: 588616572}
-  symbolParent: {fileID: 1917736761}
-  cdParent: {fileID: 805596107}
-  compileButton: {fileID: 1723749024}
-  backButton: {fileID: 2075642687}
-  confirmButton: {fileID: 1786992442}
-  randomButton: {fileID: 1719771997}
-  startButton: {fileID: 104602886}
-  skipButton: {fileID: 1260909605}
-  emptyImage: {fileID: 2349806725699824917, guid: efb78f1eb1e501440acbdf2695ee8194, type: 3}
-  spellListItem: {fileID: 4532206369613023846, guid: cc6be18605e32e94f8bfe4179cb4d156, type: 3}
-  cdIconPrefab: {fileID: 5300717638937045287, guid: 50eafcc156acd6a49a33b9edfd14d1a8, type: 3}
-  spellUIStart: {x: -655, y: 355}
-  fullSymbolColor: {r: 0.5686275, g: 0.8509804, b: 0.90588236, a: 1}
-  player: {fileID: 0}
-  tutorials:
-  - {fileID: 491244954}
-  - {fileID: 249320213}
-  defaultBinds: 430100004401000045010000
-  bindTxt:
-  - Left Click
-  - Right Click
-  - Middle Click
-  shapeBlocks:
-  - {fileID: 8727360041391963699, guid: baba1a82241e7ba43b7ba24be3943690, type: 3}
-  - {fileID: 2095598637705310552, guid: 9cdb74ef4402ddd45bdb7d03bb02f53d, type: 3}
-  - {fileID: 6866035921856438703, guid: b4938e2b3b27a7942adc4eef2211bfa0, type: 3}
-  effectBlocks:
-  - {fileID: 5002837315012015344, guid: 875b64e76a7675146b31a510d196830e, type: 3}
-  - {fileID: 5002837315012015344, guid: d660541ebbd9f704895d00429c04cbb3, type: 3}
-  - {fileID: 5673812413240789059, guid: bd5d4538876567b408f48dbc666c608c, type: 3}
-  - {fileID: 9191262866201418245, guid: 09dc64dd640a9484cbcaac62ae3675c1, type: 3}
-  modBlocks:
-  - {fileID: 1056575017890556035, guid: 8a94b295ff28ebf4fbcb713728abfccd, type: 3}
-  - {fileID: 751068182812198834, guid: 77863b9482fb50b439adbde113d51e76, type: 3}
-  blocks:
-  - {fileID: 8727360041391963699, guid: baba1a82241e7ba43b7ba24be3943690, type: 3}
-  - {fileID: 2095598637705310552, guid: 9cdb74ef4402ddd45bdb7d03bb02f53d, type: 3}
-  - {fileID: 6866035921856438703, guid: b4938e2b3b27a7942adc4eef2211bfa0, type: 3}
-  - {fileID: 5002837315012015344, guid: 875b64e76a7675146b31a510d196830e, type: 3}
-  - {fileID: 5002837315012015344, guid: d660541ebbd9f704895d00429c04cbb3, type: 3}
-  - {fileID: 5673812413240789059, guid: bd5d4538876567b408f48dbc666c608c, type: 3}
-  - {fileID: 9191262866201418245, guid: 09dc64dd640a9484cbcaac62ae3675c1, type: 3}
-  - {fileID: 1056575017890556035, guid: 8a94b295ff28ebf4fbcb713728abfccd, type: 3}
-  - {fileID: 751068182812198834, guid: 77863b9482fb50b439adbde113d51e76, type: 3}
-  spells: []
-  spellSave: []
---- !u!4 &1683716701
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1683716699}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 751.38074, y: 241.09608, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1683716702
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1683716699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a652c2e0e75815343a48e7990e7ce167, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objTag: SpellManager
 --- !u!1 &1719771997 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1367273166421672861, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
@@ -5000,6 +4902,115 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
+--- !u!1001 &9204590766866688132
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
+      propertyPath: spellUI
+      value: 
+      objectReference: {fileID: 835217253}
+    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
+      propertyPath: cdParent
+      value: 
+      objectReference: {fileID: 805596107}
+    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
+      propertyPath: backButton
+      value: 
+      objectReference: {fileID: 2075642687}
+    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
+      propertyPath: skipButton
+      value: 
+      objectReference: {fileID: 1260909605}
+    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
+      propertyPath: blockParent
+      value: 
+      objectReference: {fileID: 588616572}
+    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
+      propertyPath: startButton
+      value: 
+      objectReference: {fileID: 104602886}
+    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
+      propertyPath: randomButton
+      value: 
+      objectReference: {fileID: 1719771997}
+    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
+      propertyPath: symbolParent
+      value: 
+      objectReference: {fileID: 1917736761}
+    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
+      propertyPath: SKIP_CRAFTING
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
+      propertyPath: compileButton
+      value: 
+      objectReference: {fileID: 1723749024}
+    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
+      propertyPath: confirmButton
+      value: 
+      objectReference: {fileID: 1786992442}
+    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
+      propertyPath: tutorials.Array.data[0]
+      value: 
+      objectReference: {fileID: 491244954}
+    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
+      propertyPath: tutorials.Array.data[1]
+      value: 
+      objectReference: {fileID: 249320213}
+    - target: {fileID: 4655135024260920828, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 751.38074
+      objectReference: {fileID: 0}
+    - target: {fileID: 4655135024260920828, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 241.09608
+      objectReference: {fileID: 0}
+    - target: {fileID: 4655135024260920828, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4655135024260920828, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4655135024260920828, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4655135024260920828, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4655135024260920828, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4655135024260920828, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4655135024260920828, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4655135024260920828, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8935467834830936461, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
+      propertyPath: m_Name
+      value: Spell Manager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -5009,7 +5020,7 @@ SceneRoots:
   - {fileID: 1823951754}
   - {fileID: 1846679249}
   - {fileID: 1722608507}
-  - {fileID: 1683716701}
+  - {fileID: 9204590766866688132}
   - {fileID: 2103865771}
   - {fileID: 36235247}
   - {fileID: 313325272}
