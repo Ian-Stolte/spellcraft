@@ -53,7 +53,7 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        if (transform.position.y < 1)
+        if (transform.position.y < 2)
             Destroy(GetComponent<TrailRenderer>());
         if (!GameManager.Instance.pauseGame)
         {
@@ -93,7 +93,7 @@ public class Enemy : MonoBehaviour
                     {
                         rb.MovePosition(rb.position + transform.forward * speed * Time.deltaTime);
                     }
-                    if (atkTimer <= 0 && dist < meleeRange)
+                    if (atkTimer <= 0 && dist < meleeRange && !player.GetComponent<PlayerSpells>().dashing)
                     {
                         player.GetComponent<PlayerMovement>().TakeDamage(dmg);
                         anim.Play("Attack");

@@ -1090,7 +1090,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panLeft: 113
   panRight: 101
-  rotSnap: 1
+  rotSnap: 0
   offset: {x: -5, y: -4.774, z: 5.32}
   rotationSpeed: 80
 --- !u!81 &582824522
@@ -2310,15 +2310,6 @@ MonoBehaviour:
   shapeBlocks: []
   effectBlocks: []
   modBlocks: []
-  blocks:
-  - {fileID: 8727360041391963699, guid: baba1a82241e7ba43b7ba24be3943690, type: 3}
-  - {fileID: 2095598637705310552, guid: 9cdb74ef4402ddd45bdb7d03bb02f53d, type: 3}
-  - {fileID: 6866035921856438703, guid: b4938e2b3b27a7942adc4eef2211bfa0, type: 3}
-  - {fileID: 5002837315012015344, guid: d660541ebbd9f704895d00429c04cbb3, type: 3}
-  - {fileID: 5673812413240789059, guid: bd5d4538876567b408f48dbc666c608c, type: 3}
-  - {fileID: 9191262866201418245, guid: 09dc64dd640a9484cbcaac62ae3675c1, type: 3}
-  - {fileID: 1056575017890556035, guid: 8a94b295ff28ebf4fbcb713728abfccd, type: 3}
-  - {fileID: 751068182812198834, guid: 77863b9482fb50b439adbde113d51e76, type: 3}
   spells: []
   spellSave: []
 --- !u!4 &1683716701

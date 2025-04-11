@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3098059279156355942}
   - component: {fileID: 1130458891939656548}
   m_Layer: 0
-  m_Name: Self Hit
+  m_Name: Melee Hit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

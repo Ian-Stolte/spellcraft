@@ -103,7 +103,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 camForward = Vector3.ProjectOnPlane(Camera.main.transform.forward, Vector3.up).normalized;
         Vector3 camRight = Vector3.ProjectOnPlane(Camera.main.transform.right, Vector3.up).normalized;
         Vector3 moveDir = (lateral*camRight + forward*camForward).normalized;
-        if (moveDir != Vector3.zero && !GameManager.Instance.pauseGame)
+        if (moveDir != Vector3.zero && !GameManager.Instance.pauseGame && !GetComponent<PlayerSpells>().dashing)
         {
             float spd = speed;
             float rotSpd = rotationSpeed;
