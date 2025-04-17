@@ -44,7 +44,6 @@ public class Missile : MonoBehaviour
             {
                 if (c.CompareTag("Player") && !player.GetComponent<PlayerSpells>().dashing)
                 {
-                    Debug.Log("Deal damage!");
                     player.GetComponent<PlayerMovement>().TakeDamage(dmg);
                     if (warning != null)
                         Destroy(warning);

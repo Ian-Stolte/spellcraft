@@ -23,11 +23,14 @@ public class ArtilleryEnemy : Enemy
     [Header("States")]
     [SerializeField] private float retreatRange;
     [SerializeField] private float retreatThreshold;
+
     
     void Start()
     {
         atkTimer = atkDelay * 0.5f;
         base.Start();
+        if (shield != null)
+            shielded = true;
     }
 
     void Update()
@@ -66,6 +69,11 @@ public class ArtilleryEnemy : Enemy
 
     private IEnumerator FireProjectiles(Vector3 dir)
     {
+        if (shield != null)
+        {
+            shielded = false;
+            shield.SetActive(false);
+        }
         atkTimer = atkDelay;
         anim.Play("Attack");
         yield return new WaitForSeconds(0.3f);
@@ -75,6 +83,12 @@ public class ArtilleryEnemy : Enemy
             proj.GetComponent<Missile>().dmg = dmg;
             proj.GetComponent<Missile>().dir = dir * 0.5f + new Vector3(0, 2.5f+(0.1f*i), 0);
             proj.GetComponent<Missile>().target = new Vector3(player.transform.position.x, 0, player.transform.position.z) + player.GetComponent<PlayerMovement>().moveDir*5 + Quaternion.Euler(0, Random.Range(0, 360), 0) * new Vector3(Random.Range(0f, spread), 0, 0);
+        }
+        if (shield != null)
+        {
+            yield return new WaitForSeconds(2f);
+            shield.SetActive(true);
+            shielded = true;
         }
     }
 }

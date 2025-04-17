@@ -274,6 +274,7 @@ MonoBehaviour:
   - {r: 0.61071545, g: 0.834433, b: 0.8867924, a: 1}
   - {r: 0.37308645, g: 0.9010692, b: 0.9056604, a: 1}
   - {r: 1, g: 0.47484267, b: 0.7862191, a: 1}
+  typeColors: []
   rewardParent: {fileID: 0}
   blockParent: {fileID: 0}
 --- !u!4 &36235247
@@ -1235,7 +1236,7 @@ Transform:
   m_GameObject: {fileID: 568807127}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.74, y: 0, z: 35.39}
+  m_LocalPosition: {x: 2.01, y: 0, z: 32.86}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2835,7 +2836,7 @@ Transform:
   m_GameObject: {fileID: 1356055406}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.36, y: 0, z: 20.79}
+  m_LocalPosition: {x: 13.41, y: 0, z: 20.87}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4887,9 +4888,10 @@ MonoBehaviour:
   staticSpawn: 0
   numEnemies: 0
   enemyPrefabs:
-  - {fileID: 2007115867943464715, guid: 864caa223bbbc4da8af0815cad639079, type: 3}
-  - {fileID: 3374018188190069361, guid: 42e6648da647064478153e4733124e11, type: 3}
-  - {fileID: 4012570538946145393, guid: 1839978922f70cd4184d3634f8ed984a, type: 3}
+  - 
+  - 
+  - 
+  enemyTypes: []
   nodeParent: {fileID: 1133927026}
   enemyParent: {fileID: 1548188222}
   waves: 

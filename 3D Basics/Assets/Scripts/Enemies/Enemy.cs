@@ -27,7 +27,9 @@ public class Enemy : MonoBehaviour
     [HideInInspector] public GameObject player;
     private Transform cam;
 
-    //Misc
+    [Header("Misc")]
+    public GameObject shield;
+    [HideInInspector] public bool shielded;
     [HideInInspector] public IEnumerator auraBurn;
 
 
@@ -84,7 +86,7 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        if (dmg > 0)
+        if (dmg > 0 && !shielded)
         {
             anim.Play("MeleeHit");
             health -= dmg;

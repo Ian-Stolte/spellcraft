@@ -16,6 +16,7 @@ public class BasicEnemy : Enemy
     [SerializeField] private float meleeRange;
     [SerializeField] private int dmg;
     [SerializeField] private GameObject projPrefab;
+    [SerializeField] private float projSpeed;
 
     [Header("States")]
     [SerializeField] private float retreatRange;
@@ -56,6 +57,7 @@ public class BasicEnemy : Enemy
                     GameObject proj = Instantiate(projPrefab, transform.position + dir * 0.5f, Quaternion.LookRotation(dir));
                     proj.GetComponent<Projectile>().dmg = dmg;
                     proj.GetComponent<Projectile>().dir = dir;
+                    proj.GetComponent<Projectile>().speed = projSpeed;
                     anim.Play("Attack");
                     rb.AddForce(dir * -200, ForceMode.Impulse);
                     atkTimer = atkDelay;
