@@ -439,7 +439,7 @@ GameObject:
   - component: {fileID: 937994824593025654}
   - component: {fileID: 8661414148823311882}
   - component: {fileID: 1722471282938555409}
-  - component: {fileID: 2285748899923177160}
+  - component: {fileID: 7199892423218653987}
   - component: {fileID: 8997743322350078428}
   - component: {fileID: 2919210264134469898}
   - component: {fileID: 3618937320431068720}
@@ -526,7 +526,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &2285748899923177160
+--- !u!114 &7199892423218653987
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -535,26 +535,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 3374018188190069361}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 433de8f75a05e415cb67aca849783230, type: 3}
+  m_Script: {fileID: 11500000, guid: f748e5e21fa5e874ba7abdb306bb7980, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 8
   health: 0
-  defSpeed: 5
   aggroRange: 15
-  retreatRange: 12
-  retreatThreshold: 0
+  aggro: 0
   stunTimer: 0
   slowTimer: 0
-  atkDelay: 3
-  atkRange: 0
-  meleeRange: 1.5
-  dmg: 1
-  projPrefab: {fileID: 3512434751255828300, guid: 770fd79ab065a420e9640d64f5ea1c7f, type: 3}
   healthBar: {fileID: 5263845765688459622}
   statusTxt: {fileID: 2107153480294180739}
   damageNumber: {fileID: 2345899596540281866, guid: 753d7799ea08308459e89e0baabf8ac3, type: 3}
   anim: {fileID: 2919210264134469898}
+  rb: {fileID: 0}
+  player: {fileID: 0}
+  defSpeed: 5
+  atkRange: 0
+  atkDelay: 2
+  meleeRange: 1.5
+  dmg: 1
+  projPrefab: {fileID: 0}
+  retreatRange: 0
+  retreatThreshold: 0
 --- !u!54 &8997743322350078428
 Rigidbody:
   m_ObjectHideFlags: 0

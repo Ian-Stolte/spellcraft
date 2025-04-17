@@ -42,8 +42,12 @@ public class DoNotDestroy : MonoBehaviour
     {
         if (scene.name == "Playtest Options")
         {
-            if (name != "Options Manager")
+            Debug.Log(name);
+            if (name != "Options Manager" && name != "Game Manager")
+            {
+                Debug.Log("DESTROY " + name);
                 Destroy(gameObject);
+            }
         }
     }
 }

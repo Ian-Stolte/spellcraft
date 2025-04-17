@@ -22,11 +22,12 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
 
     [Header("Children")]
     public GameObject cdText;
-    public GameObject latin;
+    public GameObject typeTxt;
     public GameObject nameTxt;
     public GameObject highlight;
 
     [Header("Spell Effects")]
+    public string type;
     public string tag;
     [SerializeField] private List<string> blockedTags;
     public GameObject hitbox;
@@ -51,12 +52,14 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
         canvas = GetComponentInParent<Canvas>();
         symbol = transform.GetChild(0).GetComponent<Symbol>();
         symbol.GetComponent<Image>().enabled = false;
+        
         string[] modTags = new string[]{"passive"};
         if (!Array.Exists(modTags, t => t == tag))
         {
             string cdTxt = ((cd+"").Length == 1) ? cd + ".0s" : cd + "s";
             cdText.GetComponent<TMPro.TextMeshProUGUI>().text = cdTxt;
         }
+        //TODO: add type text here (instead of 1 by 1)
     }
 
     private void Update()
@@ -180,7 +183,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
         symbol.ResetPos();
         highlight.SetActive(false); // highlight
         nameTxt.GetComponent<CanvasGroup>().alpha = 1;
-        latin.GetComponent<CanvasGroup>().alpha = 1;
+        typeTxt.GetComponent<CanvasGroup>().alpha = 1;
         cdText.SetActive(true);
 
         if (toRight && right != null)

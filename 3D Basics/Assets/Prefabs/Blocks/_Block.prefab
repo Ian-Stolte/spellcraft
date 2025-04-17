@@ -846,9 +846,10 @@ MonoBehaviour:
   left: {fileID: 0}
   right: {fileID: 0}
   cdText: {fileID: 3411540374391501063}
-  latin: {fileID: 3291358261657501350}
+  typeTxt: {fileID: 3291358261657501350}
   nameTxt: {fileID: 7432336471071709618}
   highlight: {fileID: 2149826067751171597}
+  type: 
   tag: 
   blockedTags: []
   hitbox: {fileID: 0}

@@ -25,6 +25,7 @@ public class RewardManager : MonoBehaviour
     [SerializeField] private Color modColor;
     [SerializeField] private string[] rarityTxts;
     [SerializeField] private Color[] rarityColors;
+    [SerializeField] private Color[] typeColors;
 
     [Header("Transforms")]
     [SerializeField] private Transform rewardParent;
@@ -152,8 +153,16 @@ public class RewardManager : MonoBehaviour
                 reward.GetComponent<Image>().color = modColor;
             else
                 reward.GetComponent<Image>().color = effectColor;
-            reward.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = rarityTxts[row[i].rarity-1];
-            reward.transform.GetChild(3).GetComponent<TextMeshProUGUI>().color = rarityColors[row[i].rarity-1];
+            //reward.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = rarityTxts[row[i].rarity-1];
+            //reward.transform.GetChild(3).GetComponent<TextMeshProUGUI>().color = rarityColors[row[i].rarity-1];
+            TextMeshProUGUI txt = reward.transform.GetChild(4).GetComponent<TextMeshProUGUI>();
+            txt.text = row[i].type;
+            if (txt.text == "instinct")
+                txt.color = typeColors[0];
+            else if (txt.text == "logic")
+                txt.color = typeColors[1];
+            else if (txt.text == "memory")
+                txt.color = typeColors[2];
 
             reward.GetComponent<RectTransform>().anchoredPosition = new Vector2(rowX, rowY);
             reward.GetComponent<RewardClick>().blockParent = blockParent;

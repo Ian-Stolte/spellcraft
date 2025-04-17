@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private float speed;
     [SerializeField] private float rotationSpeed;
+    [HideInInspector] public Vector3 moveDir;
     private Rigidbody rb;
 
     [Header("Ground Check")]
@@ -102,7 +103,7 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 camForward = Vector3.ProjectOnPlane(Camera.main.transform.forward, Vector3.up).normalized;
         Vector3 camRight = Vector3.ProjectOnPlane(Camera.main.transform.right, Vector3.up).normalized;
-        Vector3 moveDir = (lateral*camRight + forward*camForward).normalized;
+        moveDir = (lateral*camRight + forward*camForward).normalized;
         if (moveDir != Vector3.zero && !GameManager.Instance.pauseGame && !GetComponent<PlayerSpells>().dashing)
         {
             float spd = speed;

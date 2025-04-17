@@ -64,6 +64,11 @@ public class SpellManager : MonoBehaviour
 
     public void Start()
     {
+        StartingHand();
+    }
+
+    public void StartingHand()
+    {
         foreach (GameObject g in shapeBlocks)
             blocks.Add(g);
         foreach (GameObject g in effectBlocks)
@@ -71,7 +76,6 @@ public class SpellManager : MonoBehaviour
         foreach (GameObject g in modBlocks)
             blocks.Add(g);
         player = GameObject.Find("Player").GetComponent<PlayerSpells>();
-
         if (SKIP_CRAFTING)
         {
             string[] startingBlocks = new string[]{"Line", "Damage", "Circle", "Knockback", "Melee", "Stun", "Damage"};
@@ -113,6 +117,8 @@ public class SpellManager : MonoBehaviour
                 else
                     CreateBlock(prefab);
             }
+            if (showTutorial)
+                tutorials[0].SetActive(true);
         }
         else
         {
@@ -128,9 +134,6 @@ public class SpellManager : MonoBehaviour
             else
                 CreateBlock(effectBlocks[Random.Range(0, effectBlocks.Count)]);
         }
-
-        if (showTutorial)
-            tutorials[0].SetActive(true);
     }
 
 
@@ -187,7 +190,8 @@ public class SpellManager : MonoBehaviour
                     b.symbol.GetComponent<Image>().enabled = true;
                     b.highlight.gameObject.SetActive(true);
                     b.nameTxt.GetComponent<CanvasGroup>().alpha = 1;
-                    b.latin.GetComponent<CanvasGroup>().alpha = 0.5f;
+                    b.typeTxt.GetComponent<CanvasGroup>().alpha = 0.5f;
+                    b.typeTxt.gameObject.SetActive(true);
                     b.cdText.gameObject.SetActive(false);
                 }
                 else
@@ -196,7 +200,7 @@ public class SpellManager : MonoBehaviour
                     child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 1);
                     b.symbol.GetComponent<Image>().enabled = false;
                     b.nameTxt.GetComponent<CanvasGroup>().alpha = 1;
-                    b.latin.GetComponent<CanvasGroup>().alpha = 1;
+                    b.typeTxt.GetComponent<CanvasGroup>().alpha = 1;
                     b.cdText.GetComponent<CanvasGroup>().alpha = 1;
                     b.cdText.gameObject.SetActive(true);
                 }
@@ -266,7 +270,7 @@ public class SpellManager : MonoBehaviour
                     Color c = child.GetComponent<Image>().color;
                     child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 0.1f);
                     b.nameTxt.GetComponent<CanvasGroup>().alpha = 0.5f;
-                    b.latin.GetComponent<CanvasGroup>().alpha = 0.1f;
+                    b.typeTxt.GetComponent<CanvasGroup>().alpha = 0.1f;
                     b.cdText.GetComponent<CanvasGroup>().alpha = 0.1f;
                 }
                 else
@@ -284,7 +288,7 @@ public class SpellManager : MonoBehaviour
                     }
                     Color c = child.GetComponent<Image>().color;
                     child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 0.3f);
-                    b.latin.GetComponent<CanvasGroup>().alpha = 0.5f;
+                    b.typeTxt.GetComponent<CanvasGroup>().alpha = 0.5f;
                     b.cdText.SetActive(false);
                 }
             }
@@ -326,7 +330,7 @@ public class SpellManager : MonoBehaviour
                 Color c = child.GetComponent<Image>().color;
                 child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 1);
                 b.nameTxt.GetComponent<CanvasGroup>().alpha = 1;
-                b.latin.GetComponent<CanvasGroup>().alpha = 1;
+                b.typeTxt.GetComponent<CanvasGroup>().alpha = 1;
                 b.cdText.GetComponent<CanvasGroup>().alpha = 1;
                 b.cdText.SetActive(true);
 
@@ -503,8 +507,8 @@ public class SpellManager : MonoBehaviour
         if (!musicOn)
         {
             musicOn = true;
-            StartCoroutine(AudioManager.Instance.StartFade("Dreamer", 5, 0.4f));
-            AudioManager.Instance.Play("Dreamer");
+            //StartCoroutine(AudioManager.Instance.StartFade("Dreamer", 5, 0.1f));
+            //AudioManager.Instance.Play("Dreamer");
         }
         foreach (Transform child in cdParent)
         {
