@@ -4584,10 +4584,14 @@ MonoBehaviour:
   staticSpawn: 0
   numEnemies: 0
   enemyPrefabs:
-  - {fileID: 2007115867943464715, guid: 864caa223bbbc4da8af0815cad639079, type: 3}
-  - {fileID: 3374018188190069361, guid: 42e6648da647064478153e4733124e11, type: 3}
-  - {fileID: 4012570538946145393, guid: 1839978922f70cd4184d3634f8ed984a, type: 3}
-  - {fileID: 8717687615653392388, guid: cc4155646204e7c48a6a78334e40087d, type: 3}
+  - Artillery
+  - Basic
+  - Drone
+  - Fast
+  enemyTypes:
+  - Logic
+  - Instinct
+  - Memory
   nodeParent: {fileID: 1133927026}
   enemyParent: {fileID: 1548188222}
   waves: 
@@ -5049,7 +5053,7 @@ PrefabInstance:
       objectReference: {fileID: 1917736761}
     - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
       propertyPath: SKIP_CRAFTING
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
       propertyPath: compileButton

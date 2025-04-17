@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 7751587913277163534}
   - component: {fileID: 573399683719886027}
   m_Layer: 6
-  m_Name: Blue Enemy
+  m_Name: Basic_Logic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31e33533e0d20b042a13a759bb1d8f7e, type: 2}
+  - {fileID: 2100000, guid: f98c621522ef9044f817b224d7b4278d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -26,7 +26,7 @@ public class ArtilleryEnemy : Enemy
     
     void Start()
     {
-        atkTimer = atkDelay;
+        atkTimer = atkDelay * 0.5f;
         base.Start();
     }
 

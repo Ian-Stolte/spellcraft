@@ -445,7 +445,7 @@ GameObject:
   - component: {fileID: 3618937320431068720}
   - component: {fileID: 1225957878668645572}
   m_Layer: 6
-  m_Name: Green Enemy
+  m_Name: Fast_Memory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -504,7 +504,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f988a858c55980642a96c8984dfcd79c, type: 2}
+  - {fileID: 2100000, guid: 11f6f8039c640e64dbe4b02c8b4f4395, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

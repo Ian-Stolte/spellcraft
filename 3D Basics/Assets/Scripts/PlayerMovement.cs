@@ -123,7 +123,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void TakeDamage(int dmg)
     {
-        health -= dmg;
+        health = Mathf.Max(0, health-dmg);
         if (health <= 0)
         {
             Debug.Log("GAME OVER!!");

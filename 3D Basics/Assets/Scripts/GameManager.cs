@@ -36,7 +36,9 @@ public class GameManager : MonoBehaviour
     [Header("Enemy Spawn")]
     public bool staticSpawn;
     [SerializeField] private int numEnemies;
-    [SerializeField] private GameObject[] enemyPrefabs;
+    [SerializeField] private string[] enemyPrefabs; //change to struct w/ spawn pct, weight, etc
+    [SerializeField] private string[] enemyTypes;
+    private string enemyType;
     [SerializeField] private Transform nodeParent;
     [SerializeField] private Transform enemyParent;
     [SerializeField] private List<int> waves = new List<int>();
@@ -73,6 +75,7 @@ public class GameManager : MonoBehaviour
             nodeParent = GameObject.Find("Spawn Nodes").transform;
             if (roomNum != 1)
             {
+                enemyType = enemyTypes[Random.Range(0, enemyTypes.Length)];
                 if (staticSpawn)
                     SetupEnemies(roomNum + Random.Range(1, 4));
                 else
@@ -175,7 +178,12 @@ public class GameManager : MonoBehaviour
                     break;
             }
             if (attempts < 10)
-                Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], nodeParent.GetChild(nodeNum).position + offset, Quaternion.identity, enemyParent);
+            {
+                string name = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)] + "_" + enemyType;
+                GameObject prefab = Resources.Load<GameObject>("Prefabs/Enemies/" + name);
+                if (prefab != null)
+                    Instantiate(prefab, nodeParent.GetChild(nodeNum).position + offset, Quaternion.identity, enemyParent);
+            }
         }
         return numToAdd;
     }
@@ -200,8 +208,13 @@ public class GameManager : MonoBehaviour
             }
             if (attempts < 10)
             {
-                GameObject enemy = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], player.position + offset + new Vector3(0, 15, 0), Quaternion.identity, enemyParent);
-                enemy.GetComponent<Rigidbody>().velocity = new Vector3(0, -100, 0);
+                string name = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)] + "_" + enemyType;
+                GameObject prefab = Resources.Load<GameObject>("Prefabs/Enemies/" + name);
+                if (prefab != null)
+                {
+                    GameObject enemy = Instantiate(prefab, player.position + offset + new Vector3(0, 15, 0), Quaternion.identity, enemyParent);
+                    enemy.GetComponent<Rigidbody>().velocity = new Vector3(0, -100, 0);
+                }
             }
             yield return new WaitForSeconds(1);
         }
