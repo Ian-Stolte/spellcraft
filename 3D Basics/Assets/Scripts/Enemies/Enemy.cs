@@ -31,7 +31,7 @@ public class Enemy : MonoBehaviour
     [HideInInspector] public IEnumerator auraBurn;
 
 
-    void Start()
+    public void Start()
     {
         health = maxHealth;
         rb = GetComponent<Rigidbody>();

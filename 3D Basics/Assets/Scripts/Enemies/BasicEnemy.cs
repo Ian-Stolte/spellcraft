@@ -21,6 +21,11 @@ public class BasicEnemy : Enemy
     [SerializeField] private float retreatRange;
     [SerializeField] private float retreatThreshold;
 
+    void Start()
+    {
+        atkTimer = atkDelay;
+        base.Start();
+    }
 
     void Update()
     {

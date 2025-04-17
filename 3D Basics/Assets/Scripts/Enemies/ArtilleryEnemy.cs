@@ -24,6 +24,11 @@ public class ArtilleryEnemy : Enemy
     [SerializeField] private float retreatRange;
     [SerializeField] private float retreatThreshold;
     
+    void Start()
+    {
+        atkTimer = atkDelay;
+        base.Start();
+    }
 
     void Update()
     {
@@ -31,11 +36,7 @@ public class ArtilleryEnemy : Enemy
 
         float dist = Vector3.Distance(player.transform.position, transform.position);
         if (dist < aggroRange)
-        {
             aggro = true;
-            if (!aggro)
-                atkTimer = atkDelay;
-        }
 
         if (!GameManager.Instance.pauseGame && aggro && stunTimer <= 0)
         {

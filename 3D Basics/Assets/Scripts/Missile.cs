@@ -12,7 +12,7 @@ public class Missile : MonoBehaviour
     private bool waiting;
 
     [SerializeField] private GameObject warningPrefab;
-    private Transform warning;
+    private GameObject warning;
 
     private Transform player;
 
@@ -20,7 +20,7 @@ public class Missile : MonoBehaviour
     private void Start()
     {
         player = GameObject.Find("Player").transform;
-        warning = Instantiate(warningPrefab, target, Quaternion.identity).transform;
+        warning = Instantiate(warningPrefab, target, Quaternion.identity);
         StartCoroutine(Warn(warning.transform.GetChild(0), (20/dir.y + 19/5f)/speed - 0.15f));
     }
 
@@ -37,14 +37,19 @@ public class Missile : MonoBehaviour
         if (!waiting)
             transform.position += Time.deltaTime * dir * speed;
         
-        Collider[] hits = Physics.OverlapSphere(transform.position, 0.5f);
-        foreach (Collider c in hits)
+        if (dir.y < 0)
         {
-            if (c.CompareTag("Player") && !player.GetComponent<PlayerSpells>().dashing)
+            Collider[] hits = Physics.OverlapSphere(transform.position, 0.5f);
+            foreach (Collider c in hits)
             {
-                player.GetComponent<PlayerMovement>().TakeDamage(dmg);
-                Destroy(warning.parent.gameObject);
-                Destroy(gameObject);
+                if (c.CompareTag("Player") && !player.GetComponent<PlayerSpells>().dashing)
+                {
+                    Debug.Log("Deal damage!");
+                    player.GetComponent<PlayerMovement>().TakeDamage(dmg);
+                    if (warning != null)
+                        Destroy(warning);
+                    Destroy(gameObject);
+                }
             }
         }
     }
