@@ -113,13 +113,16 @@ MonoBehaviour:
   anim: {fileID: 7751587913277163534}
   rb: {fileID: 0}
   player: {fileID: 0}
-  defSpeed: 3
-  atkRange: 10
+  shield: {fileID: 0}
+  shielded: 0
+  defSpeed: 4
+  atkRange: 7
   atkDelay: 3
   meleeRange: 1.5
   dmg: 2
   projPrefab: {fileID: 3512434751255828300, guid: 770fd79ab065a420e9640d64f5ea1c7f, type: 3}
-  retreatRange: 9
+  projSpeed: 6
+  retreatRange: 6
   retreatThreshold: 0.3
 --- !u!136 &7073738580829646136
 CapsuleCollider:

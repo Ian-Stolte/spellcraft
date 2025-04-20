@@ -269,7 +269,7 @@ MonoBehaviour:
   atkRange: 9
   atkDelay: 2
   meleeRange: 0
-  dmg: 1
+  dmg: 2
   projPrefab: {fileID: 3512434751255828300, guid: 770fd79ab065a420e9640d64f5ea1c7f, type: 3}
   projSpeed: 4
   retreatRange: 8

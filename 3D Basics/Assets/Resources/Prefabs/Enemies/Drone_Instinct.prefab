@@ -267,7 +267,7 @@ MonoBehaviour:
   shielded: 0
   defSpeed: 3
   atkRange: 7
-  atkDelay: 2
+  atkDelay: 3
   meleeRange: 0
   dmg: 2
   projPrefab: {fileID: 3512434751255828300, guid: 770fd79ab065a420e9640d64f5ea1c7f, type: 3}

@@ -64,7 +64,8 @@ public class SpellManager : MonoBehaviour
 
     public void Start()
     {
-        StartingHand();
+        if (GameObject.Find("Options Manager") == null)
+            StartingHand();
     }
 
     public void StartingHand()

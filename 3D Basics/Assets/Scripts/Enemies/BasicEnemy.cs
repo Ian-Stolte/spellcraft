@@ -58,6 +58,7 @@ public class BasicEnemy : Enemy
                     proj.GetComponent<Projectile>().dmg = dmg;
                     proj.GetComponent<Projectile>().dir = dir;
                     proj.GetComponent<Projectile>().speed = projSpeed;
+                    proj.GetComponent<Projectile>().despawnDist = atkRange + 2f;
                     anim.Play("Attack");
                     rb.AddForce(dir * -200, ForceMode.Impulse);
                     atkTimer = atkDelay;

@@ -538,7 +538,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f748e5e21fa5e874ba7abdb306bb7980, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 8
+  maxHealth: 4
   health: 0
   aggroRange: 15
   aggro: 0
@@ -550,12 +550,15 @@ MonoBehaviour:
   anim: {fileID: 2919210264134469898}
   rb: {fileID: 0}
   player: {fileID: 0}
-  defSpeed: 5
+  shield: {fileID: 0}
+  shielded: 0
+  defSpeed: 7
   atkRange: 0
   atkDelay: 2
   meleeRange: 1.5
   dmg: 1
   projPrefab: {fileID: 0}
+  projSpeed: 0
   retreatRange: 0
   retreatThreshold: 0
 --- !u!54 &8997743322350078428
