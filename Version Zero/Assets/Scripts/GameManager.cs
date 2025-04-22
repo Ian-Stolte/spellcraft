@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     
     [Header("Enemy Spawn")]
     public bool staticSpawn;
-    [SerializeField] private int numEnemies;
+    public int numEnemies;
     [SerializeField] private string[] enemyPrefabs; //change to struct w/ spawn pct, weight, etc
     [SerializeField] private string[] enemyTypes;
     private string enemyType;
@@ -188,7 +188,7 @@ public class GameManager : MonoBehaviour
         return numToAdd;
     }
 
-    private IEnumerator WaveEnemies(int n)
+    public IEnumerator WaveEnemies(int n)
     {
         yield return new WaitForSeconds(1);
         for (int i = 0; i < n; i++)

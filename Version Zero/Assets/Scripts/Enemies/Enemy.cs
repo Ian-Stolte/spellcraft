@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour
     [HideInInspector] public float slowTimer;
 
     [Header("Canvas")]
-    [SerializeField] private Image healthBar;
+    public Image healthBar;
     [SerializeField] private TextMeshProUGUI statusTxt;
     [SerializeField] private GameObject damageNumber;
 

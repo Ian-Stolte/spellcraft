@@ -58,27 +58,30 @@ public class OptionsManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         DontDestroyOnLoad(gameObject);
         //string sceneToLoad = (choices[1] == 0) ? "Room 1" : "M_ Room 1";
-        SceneManager.LoadScene("Room 1");
+        SceneManager.LoadScene("Intro Dialogue");
         SceneManager.sceneLoaded += FinishSetup;
     }
 
     private void FinishSetup(Scene scene, LoadSceneMode mode)
     {
-        Transform player = GameObject.Find("Player").transform;
-        player.GetComponent<PlayerMovement>().canDie = (choices[0] == 0);
+        if (scene.name == "Room 1")
+        {
+            Transform player = GameObject.Find("Player").transform;
+            player.GetComponent<PlayerMovement>().canDie = (choices[0] == 0);
 
-        GameManager manager = GameObject.Find("Game Manager").GetComponent<GameManager>();
-        /*if (choices[1] == 0)
-            manager.roomSize = GameManager.RoomSize.SMALL;
-        else if (choices[1] == 1)
-            manager.roomSize = GameManager.RoomSize.MEDIUM;
-        else if (choices[1] == 2)
-            manager.roomSize = GameManager.RoomSize.BOTH;*/
-        manager.firstRun = (choices[1] == 0);
-        manager.staticSpawn = choices[2] == 1;
-        SpellManager.Instance.StartingHand();
+            GameManager manager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+            /*if (choices[1] == 0)
+                manager.roomSize = GameManager.RoomSize.SMALL;
+            else if (choices[1] == 1)
+                manager.roomSize = GameManager.RoomSize.MEDIUM;
+            else if (choices[1] == 2)
+                manager.roomSize = GameManager.RoomSize.BOTH;*/
+            manager.firstRun = (choices[1] == 0);
+            manager.staticSpawn = choices[2] == 1;
+            SpellManager.Instance.StartingHand();
 
-        SceneManager.sceneLoaded -= FinishSetup;
-        Destroy(gameObject);
+            SceneManager.sceneLoaded -= FinishSetup;
+            Destroy(gameObject);
+        }
     }
 }

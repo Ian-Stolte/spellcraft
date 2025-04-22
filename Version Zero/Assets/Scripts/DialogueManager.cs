@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class DialogueManager : MonoBehaviour
@@ -72,5 +73,10 @@ public class DialogueManager : MonoBehaviour
             txt.text = txt.text.Substring(0, plaintext[i].Length);
             yield return new WaitForSeconds(messageDelay);
         }
+
+        yield return new WaitForSeconds(2);
+        Fader.Instance.FadeIn(2);
+        yield return new WaitForSeconds(2);
+        SceneManager.LoadScene("Room 1");
     }
 }

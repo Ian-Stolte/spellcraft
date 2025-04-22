@@ -46,8 +46,7 @@ public class Missile : MonoBehaviour
                 {
                     player.GetComponent<PlayerMovement>().TakeDamage(dmg);
                     if (warning != null)
-                        Destroy(warning);
-                    Destroy(gameObject);
+                        Destroy(gameObject);
                 }
             }
         }
@@ -70,5 +69,10 @@ public class Missile : MonoBehaviour
             yield return null;
         }
         Destroy(warning.parent.gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        Destroy(warning);
     }
 }

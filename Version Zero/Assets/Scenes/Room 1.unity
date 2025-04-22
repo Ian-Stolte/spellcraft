@@ -208,6 +208,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 943238571334654535, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
   m_PrefabInstance: {fileID: 6154748227236401477}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &117915295 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8420657614417054566, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
+  m_PrefabInstance: {fileID: 6154748227236401477}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &126822363
 GameObject:
   m_ObjectHideFlags: 0
@@ -3268,6 +3279,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1632167169503902077}
   - {fileID: 859176283}
   - {fileID: 2114939713246456004}
   m_Father: {fileID: 0}
@@ -4649,6 +4661,108 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2141129923}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1632167169503902077 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 202930069344222379, guid: 24ed3a4d905d3484d8386560b97add68, type: 3}
+  m_PrefabInstance: {fileID: 1842611186049592370}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1842611186049592370
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1548188222}
+    m_Modifications:
+    - target: {fileID: 202930069344222379, guid: 24ed3a4d905d3484d8386560b97add68, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.29
+      objectReference: {fileID: 0}
+    - target: {fileID: 202930069344222379, guid: 24ed3a4d905d3484d8386560b97add68, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.513
+      objectReference: {fileID: 0}
+    - target: {fileID: 202930069344222379, guid: 24ed3a4d905d3484d8386560b97add68, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 23.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 202930069344222379, guid: 24ed3a4d905d3484d8386560b97add68, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 202930069344222379, guid: 24ed3a4d905d3484d8386560b97add68, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 202930069344222379, guid: 24ed3a4d905d3484d8386560b97add68, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 202930069344222379, guid: 24ed3a4d905d3484d8386560b97add68, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 202930069344222379, guid: 24ed3a4d905d3484d8386560b97add68, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 202930069344222379, guid: 24ed3a4d905d3484d8386560b97add68, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 202930069344222379, guid: 24ed3a4d905d3484d8386560b97add68, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1379239079557998612, guid: 24ed3a4d905d3484d8386560b97add68, type: 3}
+      propertyPath: m_Name
+      value: WalkingTurret_Logic
+      objectReference: {fileID: 0}
+    - target: {fileID: 8769358401370177342, guid: 24ed3a4d905d3484d8386560b97add68, type: 3}
+      propertyPath: healthBar
+      value: 
+      objectReference: {fileID: 117915295}
+    - target: {fileID: 8769358401370177342, guid: 24ed3a4d905d3484d8386560b97add68, type: 3}
+      propertyPath: maxHealth
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8769358401370177342, guid: 24ed3a4d905d3484d8386560b97add68, type: 3}
+      propertyPath: targetMax
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8769358401370177342, guid: 24ed3a4d905d3484d8386560b97add68, type: 3}
+      propertyPath: targetMin
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8769358401370177342, guid: 24ed3a4d905d3484d8386560b97add68, type: 3}
+      propertyPath: enemyPrefab
+      value: 
+      objectReference: {fileID: 3374018188190069361, guid: 1931405160d7663449cb9e0089a73fe9, type: 3}
+    - target: {fileID: 8769358401370177342, guid: 24ed3a4d905d3484d8386560b97add68, type: 3}
+      propertyPath: spawnInterval
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8769358401370177342, guid: 24ed3a4d905d3484d8386560b97add68, type: 3}
+      propertyPath: enemiesToSpawn
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8769358401370177342, guid: 24ed3a4d905d3484d8386560b97add68, type: 3}
+      propertyPath: spawnIndicator
+      value: 
+      objectReference: {fileID: 7385684649305300431, guid: 2605329a885b82447aed8453a60487e2, type: 3}
+    - target: {fileID: 8769358401370177342, guid: 24ed3a4d905d3484d8386560b97add68, type: 3}
+      propertyPath: spawnLayer.m_Bits
+      value: 6208
+      objectReference: {fileID: 0}
+    - target: {fileID: 8769358401370177342, guid: 24ed3a4d905d3484d8386560b97add68, type: 3}
+      propertyPath: terrainLayer.m_Bits
+      value: 2048
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 24ed3a4d905d3484d8386560b97add68, type: 3}
 --- !u!4 &2114939713246456004 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3823167673141859127, guid: b9023683dbf58324cb55af3821397f03, type: 3}
@@ -5059,7 +5173,7 @@ PrefabInstance:
       objectReference: {fileID: 1917736761}
     - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
       propertyPath: SKIP_CRAFTING
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
       propertyPath: compileButton
