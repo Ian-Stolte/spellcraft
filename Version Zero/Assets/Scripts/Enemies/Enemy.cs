@@ -28,7 +28,6 @@ public class Enemy : MonoBehaviour
     private Transform cam;
 
     [Header("Misc")]
-    public GameObject shield;
     [HideInInspector] public bool shielded;
     [HideInInspector] public IEnumerator auraBurn;
 

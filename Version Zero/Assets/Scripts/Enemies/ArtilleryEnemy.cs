@@ -23,6 +23,7 @@ public class ArtilleryEnemy : Enemy
     [Header("States")]
     [SerializeField] private float retreatRange;
     [SerializeField] private float retreatThreshold;
+    public GameObject shield;
 
     
     void Start()

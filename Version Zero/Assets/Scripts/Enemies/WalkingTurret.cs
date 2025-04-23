@@ -6,10 +6,9 @@ using TMPro;
 
 public class WalkingTurret : Enemy
 {   
-    [Header("Values")]
-    [SerializeField] private float defSpeed;
-
+    
     [Header("Movement")]
+    [SerializeField] private float defSpeed;
     [SerializeField] private float targetMin;
     [SerializeField] private float targetMax;
     private Vector3 target;
@@ -39,14 +38,18 @@ public class WalkingTurret : Enemy
     [SerializeField] private int enemiesToSpawn;
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private LayerMask spawnLayer;
+    
+    [Header("Defense")]
+    [SerializeField] private GameObject shield;
+    [SerializeField] private float shieldTime;
+
+    private bool finalForm;
 
     
     void Start()
     {
         atkTimer = atkDelay * 0.5f;
         base.Start();
-        if (shield != null)
-            shielded = true;
 
         healthBar = GameObject.Find("Boss Fill").GetComponent<Image>();
         for (float i = spawnInterval; i < 1; i+=spawnInterval)
@@ -74,7 +77,9 @@ public class WalkingTurret : Enemy
             if (dist > meleeRange)
             {
                 atkTimer = Mathf.Max(0, atkTimer - Time.deltaTime);
-                if (stompTimer > 1)
+                if (finalForm)
+                    stompTimer = Mathf.Max(0, stompTimer - Time.deltaTime);
+                else if (stompTimer > 1)
                     stompTimer = Mathf.Max(1, stompTimer - Time.deltaTime);
                 else
                     stompTimer = Mathf.Max(0.5f, atkTimer);
@@ -82,35 +87,46 @@ public class WalkingTurret : Enemy
             else
             {   
                 stompTimer = Mathf.Max(0, stompTimer - Time.deltaTime);
-                if (atkTimer > 1)
+                if (finalForm)
+                    atkTimer = Mathf.Max(0, atkTimer - Time.deltaTime);
+                else if (atkTimer > 1)
                     atkTimer = Mathf.Max(1, atkTimer - Time.deltaTime);
                 else
                     atkTimer = Mathf.Max(0.5f, atkTimer);
             }
 
+            //move randomly
             float speed = (slowTimer > 0) ? defSpeed*0.3f : defSpeed;
-            
             rb.MovePosition(rb.position + (target-rb.position).normalized * speed * Time.deltaTime);
             if (Vector3.Distance(rb.position, target) < 0.5f)
                 ChooseTarget();
-            //ranged attack
-            if (atkTimer <= 0 && dist > meleeRange)
+            
+            if (atkTimer <= 0 && (dist > meleeRange || finalForm)) //ranged attack
             {
                 Vector3 dir = Vector3.Scale(player.transform.position - transform.position, new Vector3(1, 0, 1)).normalized;
                 StartCoroutine(FireProjectiles(dir));
             }
-            else if (stompTimer <= 0 && dist < meleeRange)
+            else if (stompTimer <= 0 && (dist < meleeRange || finalForm)) //melee attack
             {
                 stompTimer = stompDelay;
                 StartCoroutine(Stomp());
             }
         }
 
+        //spawn enemies @ HP thresholds
         if (health/(maxHealth*1.0f) < spawnInterval*indicators.Count)
         {
+            health = (int)Mathf.Round(spawnInterval*indicators.Count * maxHealth);
             StartCoroutine(SpawnEnemies(enemiesToSpawn - indicators.Count));
+            StartCoroutine(Shield());
             Destroy(indicators[indicators.Count-1]);
             indicators.RemoveAt(indicators.Count-1);
+            if (indicators.Count == 0) //if last tick
+            {
+                atkDelay = 2.5f;
+                stompDelay = 1.5f;
+                finalForm = true;
+            }
         }
     }
 
@@ -127,11 +143,6 @@ public class WalkingTurret : Enemy
 
     private IEnumerator FireProjectiles(Vector3 dir)
     {
-        if (shield != null)
-        {
-            shielded = false;
-            shield.SetActive(false);
-        }
         atkTimer = atkDelay;
         anim.Play("Attack");
         yield return new WaitForSeconds(0.3f);
@@ -141,12 +152,6 @@ public class WalkingTurret : Enemy
             proj.GetComponent<Missile>().dmg = dmg;
             proj.GetComponent<Missile>().dir = dir * 0.5f + new Vector3(0, 2.5f+(0.1f*i), 0);
             proj.GetComponent<Missile>().target = new Vector3(player.transform.position.x, 0, player.transform.position.z) + player.GetComponent<PlayerMovement>().moveDir*3 + Quaternion.Euler(0, Random.Range(0, 360), 0) * new Vector3(Random.Range(0f, spread), 0, 0);
-        }
-        if (shield != null)
-        {
-            yield return new WaitForSeconds(2f);
-            shield.SetActive(true);
-            shielded = true;
         }
     }
 
@@ -202,6 +207,16 @@ public class WalkingTurret : Enemy
             }
             yield return new WaitForSeconds(1);
         }
+    }
+
+
+    private IEnumerator Shield()
+    {
+        shield.SetActive(true);
+        shielded = true;
+        yield return new WaitForSeconds(shieldTime);
+        shield.SetActive(false);
+        shielded = false;
     }
 
 
