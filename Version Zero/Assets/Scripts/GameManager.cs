@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
         BOTH
     }
     public RoomSize roomSize;
+    [SerializeField] private int[] bossRooms;
+    private int bossIndex;
     
     [Header("Enemy Spawn")]
     public bool staticSpawn;
@@ -46,6 +48,7 @@ public class GameManager : MonoBehaviour
     [Header("Misc")]
     [SerializeField] private GameObject rewardPrefab;
     private Transform player;
+    [SerializeField] private GameObject bossTxt;
 
     
     void Start()
@@ -73,7 +76,7 @@ public class GameManager : MonoBehaviour
         {
             enemyParent = GameObject.Find("Enemies").transform;
             nodeParent = GameObject.Find("Spawn Nodes").transform;
-            if (roomNum != 1)
+            if (roomNum != 1 && !scene.name.Contains("Boss"))
             {
                 enemyType = enemyTypes[Random.Range(0, enemyTypes.Length)];
                 if (staticSpawn)
@@ -266,49 +269,59 @@ public class GameManager : MonoBehaviour
     {
         Fader.Instance.FadeIn(1);
         yield return new WaitForSeconds(1);
-        float totalWeight = 0;
-        foreach (Room r in rooms)
+        roomNum++;
+        string areaStr = (roomNum < 10) ? "0" + roomNum : "" + roomNum;
+        roomText.text = "Area_" + areaStr;
+        if (roomNum == bossRooms[bossIndex])
         {
-            if (!r.active)
-                totalWeight += r.weight;
-        }
-        float rand = Random.Range(0f, totalWeight);
-        Room chosen = null;
-        foreach (Room r in rooms)
-        {
-            if (!r.active)
-            {
-                rand -= r.weight;
-                if (rand < 0 && chosen == null)
-                {
-                    chosen = r;
-                }
-                else
-                {
-                    r.weight += 1;
-                }
-            }
-            r.active = false;
-        }
-        if (chosen == null)
-        {
-            Debug.LogError("Could not find a scene to load!");
+            SceneManager.LoadScene("Boss " + (bossIndex+1));
+            if (bossIndex < bossRooms.Length-1)
+                bossIndex++;
+            bossTxt.SetActive(true);
         }
         else
         {
-            roomNum++;
-            string areaStr = (roomNum < 10) ? "0" + roomNum : "" + roomNum;
-            roomText.text = "Area_" + areaStr;
-            bool medium = roomSize == RoomSize.MEDIUM;
-            if (roomSize == RoomSize.BOTH)
+            float totalWeight = 0;
+            foreach (Room r in rooms)
             {
-                if (Random.Range(0f, 1f) < 0.5f)
-                    medium = true;
+                if (!r.active)
+                    totalWeight += r.weight;
             }
-            string roomToLoad = (medium) ?  "M_ " + chosen.name : chosen.name;
-            SceneManager.LoadScene(roomToLoad);
-            chosen.active = true;
-            chosen.weight *= 0.5f;
+            float rand = Random.Range(0f, totalWeight);
+            Room chosen = null;
+            foreach (Room r in rooms)
+            {
+                if (!r.active)
+                {
+                    rand -= r.weight;
+                    if (rand < 0 && chosen == null)
+                    {
+                        chosen = r;
+                    }
+                    else
+                    {
+                        r.weight += 1;
+                    }
+                }
+                r.active = false;
+            }
+            if (chosen == null)
+            {
+                Debug.LogError("Could not find a scene to load!");
+            }
+            else
+            {
+                bool medium = roomSize == RoomSize.MEDIUM;
+                if (roomSize == RoomSize.BOTH)
+                {
+                    if (Random.Range(0f, 1f) < 0.5f)
+                        medium = true;
+                }
+                string roomToLoad = (medium) ?  "M_ " + chosen.name : chosen.name;
+                SceneManager.LoadScene(roomToLoad);
+                chosen.active = true;
+                chosen.weight *= 0.5f;
+            }
         }
     }
 }
