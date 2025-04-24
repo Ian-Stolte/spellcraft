@@ -57,8 +57,9 @@ public class OptionsManager : MonoBehaviour
         Fader.Instance.FadeIn(1);
         yield return new WaitForSeconds(1);
         DontDestroyOnLoad(gameObject);
-        //string sceneToLoad = (choices[1] == 0) ? "Room 1" : "M_ Room 1";
-        SceneManager.LoadScene("Intro Dialogue");
+        string sceneToLoad = (choices[1] == 0) ? "Room 1" : "M_ Room 1";
+        //SceneManager.LoadScene("Intro Dialogue");
+        SceneManager.LoadScene(sceneToLoad);
         SceneManager.sceneLoaded += FinishSetup;
     }
 

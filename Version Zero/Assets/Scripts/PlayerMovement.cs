@@ -30,6 +30,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private int health;
     [SerializeField] private int maxHealth;
     [SerializeField] private Transform hpBar;
+    [SerializeField] private float maxBurstDmg;
+    private float immunityTimer;
+    private int currentBurst;
     public bool canDie;
 
     [Header("Misc")]
@@ -76,6 +79,9 @@ public class PlayerMovement : MonoBehaviour
         //Glitch based on HP
         if (!Camera.main.GetComponent<GlitchManager>().showingGlitch)
             Camera.main.GetComponent<Glitch>().glitch = Mathf.Lerp(0, 0.3f, Mathf.Pow((maxHealth-health)/(1f*maxHealth), 3));
+
+
+        immunityTimer = Mathf.Max(0, immunityTimer-Time.deltaTime);
     }
 
 
@@ -123,31 +129,46 @@ public class PlayerMovement : MonoBehaviour
 
     public void TakeDamage(int dmg)
     {
-        health = Mathf.Max(0, health-dmg);
-        if (health <= 0)
+        if (immunityTimer == 0)
         {
-            Debug.Log("GAME OVER!!");
-            if (canDie)
+            currentBurst += dmg;
+            StartCoroutine(UndoBurst(dmg));
+            if (currentBurst > maxBurstDmg)
             {
-                if (!endingGame)
-                    StartCoroutine(GameOver());
+                immunityTimer = 0.5f;
+            }
+            health = Mathf.Max(0, health-dmg);
+            if (health <= 0)
+            {
+                Debug.Log("GAME OVER!!");
+                if (canDie)
+                {
+                    if (!endingGame)
+                        StartCoroutine(GameOver());
+                }
+                else
+                {
+                    health = maxHealth;
+                }
             }
             else
             {
-                health = maxHealth;
+                damageFlash.Play("DamageFlash");
+                Camera.main.GetComponent<GlitchManager>().ShowGlitch(0.5f, 0.5f);
+            }
+            
+            if (hpBar != null)
+            {
+                hpBar.GetChild(1).GetComponent<Image>().fillAmount = health/(maxHealth*1.0f);
+                hpBar.GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().text = health + "/" + maxHealth;
             }
         }
-        else
-        {
-            damageFlash.Play("DamageFlash");
-            Camera.main.GetComponent<GlitchManager>().ShowGlitch(0.5f, 0.5f);
-        }
-        
-        if (hpBar != null)
-        {
-            hpBar.GetChild(1).GetComponent<Image>().fillAmount = health/(maxHealth*1.0f);
-            hpBar.GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().text = health + "/" + maxHealth;
-        }
+    }
+
+    private IEnumerator UndoBurst(int dmg)
+    {
+        yield return new WaitForSeconds(0.5f);
+        currentBurst -= dmg;
     }
 
     public IEnumerator GameOver()

@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
                     if (roomNum == 2)
                         SetupWaves(3);
                     else
-                        SetupWaves(roomNum*2 + Random.Range(1, 4));
+                        SetupWaves(roomNum + Random.Range(1, 4));
                 }
             }
             else
@@ -193,33 +193,40 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator WaveEnemies(int n)
     {
+        numEnemies += n;
         yield return new WaitForSeconds(1);
         for (int i = 0; i < n; i++)
         {
-            Vector3 offset = new Vector3(Random.Range(-1, 1), 0, Random.Range(-1, 1)).normalized * Random.Range(5, 10) + new Vector3(0, 1, 0);
-            int attempts = 0;
-            while (Physics.OverlapSphere(player.position + offset, 0.5f).Length > 0)
+            string name = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)] + "_" + enemyType;
+            GameObject prefab = Resources.Load<GameObject>("Prefabs/Enemies/" + name);
+            if (prefab != null)
             {
-                offset = new Vector3(Random.Range(-1, 1), 0, Random.Range(-1, 1)).normalized * Random.Range(5, 10) + new Vector3(0, 1, 0);
-                attempts++;
-                if (attempts == 10) //fail to find open spot
+                int repeats = name.Contains("Fast") ? 2 : 1;
+                numEnemies += repeats-1;
+                for (int j = 0; j < repeats; j++)
                 {
-                    Debug.Log("NO OPEN SPOT :(");
-                    numEnemies--;
-                    break;
+                    Vector3 offset = new Vector3(Random.Range(-1, 1), 0, Random.Range(-1, 1)).normalized * Random.Range(5, 10) + new Vector3(0, 1, 0);
+                    int attempts = 0;
+                    while (Physics.OverlapSphere(player.position + offset, 0.5f).Length > 0)
+                    {
+                        offset = new Vector3(Random.Range(-1, 1), 0, Random.Range(-1, 1)).normalized * Random.Range(5, 10) + new Vector3(0, 1, 0);
+                        attempts++;
+                        if (attempts == 10) //fail to find open spot
+                        {
+                            Debug.Log("NO OPEN SPOT :(");
+                            numEnemies--;
+                            break;
+                        }
+                    }
+                    if (attempts < 10)
+                    {
+                        GameObject enemy = Instantiate(prefab, player.position + offset + new Vector3(0, 15, 0), Quaternion.identity, enemyParent);
+                        enemy.GetComponent<Rigidbody>().velocity = new Vector3(0, -100, 0);
+                    }
+                    yield return new WaitForSeconds(0.5f);
                 }
             }
-            if (attempts < 10)
-            {
-                string name = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)] + "_" + enemyType;
-                GameObject prefab = Resources.Load<GameObject>("Prefabs/Enemies/" + name);
-                if (prefab != null)
-                {
-                    GameObject enemy = Instantiate(prefab, player.position + offset + new Vector3(0, 15, 0), Quaternion.identity, enemyParent);
-                    enemy.GetComponent<Rigidbody>().velocity = new Vector3(0, -100, 0);
-                }
-            }
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(0.5f);
         }
         if (numEnemies <= 0)
             UpdateEnemyNum(0);
