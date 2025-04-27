@@ -85,44 +85,34 @@ public class PlayerSpells : MonoBehaviour
         }
         else
         {
-            bool validCast = true;
-            //check if valid cast
-            //  find closest point in range/don't cast if out of range
-            if (validCast)
+            s.cdTimer = s.cdMax;
+            Quaternion rot = Quaternion.Euler(0, Quaternion.LookRotation(transform.position - MousePos()).eulerAngles.y, 0);
+            foreach (Block b in s.blocks)
             {
-                s.cdTimer = s.cdMax;
-                Quaternion rot = Quaternion.Euler(0, Quaternion.LookRotation(transform.position - MousePos()).eulerAngles.y, 0);
-                foreach (Block b in s.blocks)
+                if (b.name == "Circle")
                 {
-                    if (b.name == "Circle")
-                    {
-                        GameObject hitbox = Instantiate(hitboxes[0], MousePos(), rot);
-                        hitbox.GetComponent<Hitbox>().spell = s;
-                        break;
-                    }
-                    else if (b.name == "Line")
-                    {
-                        Vector3 dir = (MousePos() - transform.position);
-                        dir = new Vector3(dir.x, 0, dir.z).normalized;
-                        GameObject hitbox = Instantiate(hitboxes[1], transform.position + dir, rot);
-                        hitbox.GetComponent<LineHitbox>().dir = dir;
-                        hitbox.GetComponent<Hitbox>().spell = s;
-                        break;
-                    }
-                    else if (b.name == "Melee" || b.name == "Shield")
-                    {
-                        GameObject hitbox = Instantiate(hitboxes[2], transform.position + new Vector3(0, -0.8f, 0), Quaternion.identity);
-                        hitbox.GetComponent<Hitbox>().spell = s;
-                        if (b.name == "Shield")
-                            GetComponent<PlayerMovement>().shieldTimer += 1f;
-                        break;
-                    }
+                    GameObject hitbox = Instantiate(hitboxes[0], MousePos(), rot);
+                    hitbox.GetComponent<Hitbox>().spell = s;
+                    break;
+                }
+                else if (b.name == "Line")
+                {
+                    Vector3 dir = (MousePos() - transform.position);
+                    dir = new Vector3(dir.x, 0, dir.z).normalized;
+                    GameObject hitbox = Instantiate(hitboxes[1], transform.position + dir, rot);
+                    hitbox.GetComponent<LineHitbox>().dir = dir;
+                    hitbox.GetComponent<Hitbox>().spell = s;
+                    break;
+                }
+                else if (b.name == "Melee" || b.name == "Shield")
+                {
+                    GameObject hitbox = Instantiate(hitboxes[2], transform.position + new Vector3(0, -0.8f, 0), Quaternion.identity);
+                    hitbox.GetComponent<Hitbox>().spell = s;
+                    if (b.name == "Shield")
+                        GetComponent<PlayerMovement>().shieldTimer += 1f;
+                    break;
                 }
             }
-            else
-            {
-                Debug.Log("Invalid cast of " + s.name + "!");
-            }   
         }
     }
 

@@ -27,6 +27,11 @@ public class RewardManager : MonoBehaviour
     [SerializeField] private Color[] rarityColors;
     [SerializeField] private Color[] typeColors;
 
+    [Header("Objects")]
+    [SerializeField] private GameObject showPrograms;
+    [SerializeField] private GameObject hidePrograms;
+    [SerializeField] private GameObject blockBG;
+
     [Header("Transforms")]
     [SerializeField] private Transform rewardParent;
     [SerializeField] private Transform blockParent;
@@ -44,10 +49,51 @@ public class RewardManager : MonoBehaviour
     {
         foreach (Transform child in rewardParent)
         {
-            Destroy(child.gameObject);
+            if (child.name == "Reward(Clone)")
+                Destroy(child.gameObject);
         }
+        rewardParent.GetComponent<Image>().enabled = true;
+        hidePrograms.SetActive(false);
+        showPrograms.SetActive(true);
+        blockBG.SetActive(false);
         ShowRewards(SpellManager.Instance.ChooseRandom(n));
         GameManager.Instance.pauseGame = true;
+    }
+
+    public void ShowPrograms()
+    {
+        SpellManager.Instance.Reforge();
+        rewardParent.GetComponent<Image>().enabled = false;
+        showPrograms.SetActive(false);
+        hidePrograms.SetActive(true);
+        SpellManager.Instance.compileButton.SetActive(false);
+        SpellManager.Instance.skipButton.SetActive(false);
+        blockBG.SetActive(true);
+        foreach (Transform child in rewardParent)
+        {
+            if (child.name == "Reward(Clone)")
+            {
+                child.GetComponent<RectTransform>().anchoredPosition = new Vector2(child.GetComponent<RectTransform>().anchoredPosition.x * 0.55f, -440);
+                child.localScale *= 0.7f;
+            }
+        }
+    }
+
+    public void HidePrograms()
+    {
+        SpellManager.Instance.spellUI.gameObject.SetActive(false);
+        rewardParent.GetComponent<Image>().enabled = true;
+        hidePrograms.SetActive(false);
+        showPrograms.SetActive(true);
+        blockBG.SetActive(false);
+        foreach (Transform child in rewardParent)
+        {
+            if (child.name == "Reward(Clone)")
+            {
+                child.GetComponent<RectTransform>().anchoredPosition = new Vector2(child.GetComponent<RectTransform>().anchoredPosition.x / 0.55f, 0);
+                child.localScale /= 0.7f;
+            }
+        }
     }
 
     public void ShowRewards(List<Block> blocks)

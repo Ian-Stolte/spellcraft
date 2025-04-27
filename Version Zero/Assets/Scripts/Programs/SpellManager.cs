@@ -24,7 +24,7 @@ public class SpellManager : MonoBehaviour
     private bool musicOn;
 
     [Header("Parents")]
-    [SerializeField] private Transform spellUI;
+    public Transform spellUI;
     [SerializeField] private Transform blockParent;
     [SerializeField] private Transform symbolParent;
     [SerializeField] private Transform cdParent;
@@ -35,7 +35,7 @@ public class SpellManager : MonoBehaviour
     [SerializeField] private GameObject confirmButton;
     [SerializeField] private GameObject randomButton;
     [SerializeField] private GameObject startButton;
-    [SerializeField] private GameObject skipButton;
+    public GameObject skipButton;
 
     [Header("Prefabs")]
     [SerializeField] private GameObject emptyImage;
@@ -534,21 +534,26 @@ public class SpellManager : MonoBehaviour
         int index = 0;
         foreach (Spell s in spells)
         {
-            if (index < defaultBinds.Length)
+            Block shape = s.blocks.Find(b=>b.tag == "shape");
+            if (index < defaultBinds.Length && shape != null)
             {
-                SpawnSpellIcon(s, new Vector2(-800 + (170*index), -465), bindTxt[index]);
+                SpawnSpellIcon(s, new Vector2(-800 + (170*index), -450), bindTxt[index], shape.name);
             }
             index++;
         }
         index = 0;
         if (player.auraSpell.name != "")
         {
-            SpawnSpellIcon(player.auraSpell, new Vector2(800, -465), "AURA");
+            Block shape = player.auraSpell.blocks.Find(b=>b.tag == "shape");
+            if (shape != null)
+                SpawnSpellIcon(player.auraSpell, new Vector2(800, -450), "AURA", shape.name);
             index++;
         }
         if (player.autoSpell.name != "")
         {
-            SpawnSpellIcon(player.autoSpell, new Vector2(800 - (170*index), -465), "AUTO");
+            Block shape = player.autoSpell.blocks.Find(b=>b.tag == "shape");
+            if (shape != null)
+                SpawnSpellIcon(player.autoSpell, new Vector2(800 - (170*index), -450), "AUTO", shape.name);
         }
 
         startButton.SetActive(false);
@@ -565,18 +570,20 @@ public class SpellManager : MonoBehaviour
         GameManager.Instance.pauseGame = false;
     }
 
-    private void SpawnSpellIcon(Spell s, Vector2 pos, string txt)
+    private void SpawnSpellIcon(Spell s, Vector2 pos, string type, string shape)
     {
         Transform cdIcon = Instantiate(cdIconPrefab, Vector2.zero, Quaternion.identity, cdParent).transform;
         cdIcon.GetComponent<RectTransform>().anchoredPosition = pos;
-        cdIcon.GetChild(0).GetComponent<TextMeshProUGUI>().text = txt;
+        cdIcon.GetChild(0).GetComponent<TextMeshProUGUI>().text = type;
         Transform symbol = Instantiate(s.symbol, Vector2.zero, Quaternion.identity, cdIcon).transform;
         symbol.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
         symbol.localScale /= 2.5f;
         symbol.SetSiblingIndex(cdIcon.childCount - 2);
         s.fillTimer = cdIcon.GetChild(cdIcon.childCount-1).gameObject;
-        if (txt == "AURA")
+        if (type == "AURA")
             s.fillTimer.GetComponent<Image>().fillAmount = 1;
+        else
+            cdIcon.GetChild(1).GetComponent<TextMeshProUGUI>().text = shape;
     }
 
 
