@@ -27,6 +27,11 @@ public class Enemy : MonoBehaviour
     [HideInInspector] public GameObject player;
     private Transform cam;
 
+    [Header("Mark")]
+    [SerializeField] private GameObject mark;
+    private int markDmg;
+    private float markTimer;
+
     [Header("Misc")]
     [HideInInspector] public bool shielded;
     [HideInInspector] public IEnumerator auraBurn;
@@ -34,6 +39,8 @@ public class Enemy : MonoBehaviour
 
     public void Start()
     {
+        if (GameManager.Instance.doubleSpeed)
+            maxHealth = (int)(maxHealth*1.5f);
         health = maxHealth;
         rb = GetComponent<Rigidbody>();
         player = GameObject.Find("Player");
@@ -58,6 +65,13 @@ public class Enemy : MonoBehaviour
 
             transform.GetChild(0).transform.forward = cam.forward;
         }
+
+        markTimer -= Time.deltaTime;
+        if (markTimer <= 0)
+        {
+            mark.SetActive(false);
+            markDmg = 0;
+        }
     }
 
 
@@ -70,8 +84,27 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public void MarkDamage(int dmg)
+    {
+        if (markDmg > 0)
+        {
+            int tempDmg = markDmg;
+            markDmg = 0;
+            TakeDamage(tempDmg);
+        }
+
+        markDmg = dmg;
+        mark.SetActive(true);
+        markTimer = 2;
+    }
+
     public void TakeDamage(int dmg)
     {
+        if (markDmg > 0)
+            dmg += markDmg;
+        if (mark != null)
+            mark.SetActive(false);
+
         //warn other enemies
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject e in enemies)

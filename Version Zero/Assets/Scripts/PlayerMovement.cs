@@ -35,6 +35,10 @@ public class PlayerMovement : MonoBehaviour
     private int currentBurst;
     public bool canDie;
 
+    [Header("Shield")]
+    [HideInInspector] public float shieldTimer;
+    [SerializeField] private GameObject shield;
+
     [Header("Misc")]
     [SerializeField] private Animator anim;
     [SerializeField] private Animator damageFlash;
@@ -82,6 +86,8 @@ public class PlayerMovement : MonoBehaviour
 
 
         immunityTimer = Mathf.Max(0, immunityTimer-Time.deltaTime);
+        shieldTimer = Mathf.Max(0, shieldTimer-Time.deltaTime);
+        shield.SetActive(shieldTimer > 0);
     }
 
 
@@ -129,7 +135,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void TakeDamage(int dmg)
     {
-        if (immunityTimer == 0)
+        if (immunityTimer == 0 && shieldTimer == 0)
         {
             currentBurst += dmg;
             StartCoroutine(UndoBurst(dmg));

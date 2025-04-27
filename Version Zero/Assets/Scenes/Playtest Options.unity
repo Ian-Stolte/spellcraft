@@ -412,7 +412,7 @@ GameObject:
   - component: {fileID: 434027270}
   - component: {fileID: 434027269}
   m_Layer: 5
-  m_Name: ROOMS
+  m_Name: STARTING BLOCKS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1124,7 +1124,7 @@ MonoBehaviour:
   options:
   - {fileID: 768774242}
   - {fileID: 434027267}
-  - {fileID: 1318332336}
+  sceneToLoad: Intro Room
 --- !u!1 &1116155545
 GameObject:
   m_ObjectHideFlags: 0
@@ -1509,7 +1509,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1318332337
 RectTransform:
   m_ObjectHideFlags: 0

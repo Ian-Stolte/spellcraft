@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93cd10209ea2b41a89e1e6e063bc0c64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SKIP_CRAFTING: 1
+  SKIP_CRAFTING: 0
   showTutorial: 1
   spellsLocked: 0
   spellUI: {fileID: 0}

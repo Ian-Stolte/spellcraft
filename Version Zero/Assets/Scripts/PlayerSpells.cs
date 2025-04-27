@@ -51,6 +51,10 @@ public class PlayerSpells : MonoBehaviour
             {
                 CastSpell(s);
             }
+            else if (Input.GetKeyDown(s.keybind) && s.cdTimer <= 0.5f)
+            {
+                StartCoroutine(DelayedCast(s));
+            }
         }
 
         if (autoSpell.name != "")
@@ -63,6 +67,13 @@ public class PlayerSpells : MonoBehaviour
             }
             autoSpell.fillTimer.GetComponent<Image>().fillAmount = autoTimer/autoTick;
         }
+    }
+
+
+    private IEnumerator DelayedCast(Spell s)
+    {
+        yield return new WaitUntil(() => s.cdTimer <= 0);
+        CastSpell(s);
     }
 
     private void CastSpell(Spell s)
@@ -98,10 +109,12 @@ public class PlayerSpells : MonoBehaviour
                         hitbox.GetComponent<Hitbox>().spell = s;
                         break;
                     }
-                    else if (b.name == "Melee")
+                    else if (b.name == "Melee" || b.name == "Shield")
                     {
                         GameObject hitbox = Instantiate(hitboxes[2], transform.position + new Vector3(0, -0.8f, 0), Quaternion.identity);
                         hitbox.GetComponent<Hitbox>().spell = s;
+                        if (b.name == "Shield")
+                            GetComponent<PlayerMovement>().shieldTimer += 1f;
                         break;
                     }
                 }
@@ -124,6 +137,7 @@ public class PlayerSpells : MonoBehaviour
                 //TODO: better way to do this??
                 int dmg = 0;
                 int burn = 0;
+                int markDmg = 0;
                 float stun = 0;
                 float slow = 0;
                 foreach (Block b in s.blocks)
@@ -136,9 +150,11 @@ public class PlayerSpells : MonoBehaviour
                         dmg += (aura) ? 1 : 4;
                     else if (b.name == "Burn")
                         burn += (aura) ? 1 : 1;
-                    else if (b.name == "Crit")
-                        dmg += (aura) ? Random.Range(0, 3) : Random.Range(1, 8);
-                    else if (b.name == "Knockback")
+                    else if (b.name == "Mark")
+                        markDmg += (aura) ? 1 : 8;
+                    //else if (b.name == "Crit")
+                    //    dmg += (aura) ? Random.Range(0, 3) : Random.Range(1, 8);
+                    else if (b.name == "Displace")
                     {
                         Vector3 dir = (c.transform.position - pos);
                         dir = (new Vector3(dir.x, 0.2f, dir.z)).normalized;
@@ -160,6 +176,10 @@ public class PlayerSpells : MonoBehaviour
                     }
                     else
                         StartCoroutine(script.ApplyBurn(burn, 4));
+                }
+                if (markDmg > 0)
+                {
+                    script.MarkDamage(markDmg);
                 }
                 if (stun > 0)
                     script.stunTimer = stun;

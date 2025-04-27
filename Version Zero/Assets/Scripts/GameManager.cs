@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public bool firstRun;
     [HideInInspector] public bool pauseGame;
     private bool inTransition;
+    public bool doubleSpeed;
 
     [Header("Rooms")]
     [SerializeField] private Room[] rooms;
