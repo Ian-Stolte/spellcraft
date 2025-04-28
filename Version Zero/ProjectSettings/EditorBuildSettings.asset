@@ -21,16 +21,16 @@ EditorBuildSettings:
     path: Assets/Scenes/Room 4.unity
     guid: f63042764466a444c8eaab94125fb1bd
   - enabled: 0
-    path: Assets/Scenes/M_ Room 1.unity
+    path: Assets/Scenes/Unused/M_ Room 1.unity
     guid: 8123b162ff5d32e4db5151cbc1260b39
   - enabled: 0
-    path: Assets/Scenes/M_ Room 2.unity
+    path: Assets/Scenes/Unused/M_ Room 2.unity
     guid: 754a671fae1ee834ba5fd35d04e21af2
   - enabled: 0
-    path: Assets/Scenes/M_ Room 3.unity
+    path: Assets/Scenes/Unused/M_ Room 3.unity
     guid: fbeebc3ac8e0c7c4e839f54dc19149d8
   - enabled: 0
-    path: Assets/Scenes/M_ Room 4.unity
+    path: Assets/Scenes/Unused/M_ Room 4.unity
     guid: 1b42159b135bcfd449d1cc05032ab312
   - enabled: 1
     path: Assets/Scenes/Intro Dialogue.unity

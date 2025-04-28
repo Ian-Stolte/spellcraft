@@ -16,6 +16,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
     public GameObject rightSpace;
 
     private GameObject targetSpace;
+    private Block upgrade;
     [HideInInspector] public Symbol symbol;
     public Block left;
     public Block right;
@@ -42,11 +43,11 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
 
     private void Awake()
     {
-        Collider2D[] allBlocks = Physics2D.OverlapBoxAll(Vector2.zero, new Vector2(9999, 9999), 0, LayerMask.GetMask("Block"));
+        /*Collider2D[] allBlocks = Physics2D.OverlapBoxAll(Vector2.zero, new Vector2(9999, 9999), 0, LayerMask.GetMask("Block"));
         foreach (Collider2D c in allBlocks)
         {
             blocks.Add(c.GetComponent<Block>());
-        }
+        }*/
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
         symbol = transform.GetChild(0).GetComponent<Symbol>();
@@ -67,10 +68,13 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
     {
         if (dragging)
         {
-            foreach (Block bl in blocks)
+            foreach (Transform child in transform.parent)
             {
+                Block bl = child.GetComponent<Block>();
                 bl.leftSpace.SetActive(false);
                 bl.rightSpace.SetActive(false);
+                if (bl.left == null && bl.right == null)
+                    bl.highlight.SetActive(false);
             }
 
             Bounds b = GetComponent<BoxCollider2D>().bounds;
@@ -92,6 +96,20 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
                         targetSpace.SetActive(true);
                         break;
                     }
+                }
+            }
+
+            upgrade = null;
+            Collider2D[] tightHits = Physics2D.OverlapBoxAll(b.center, b.extents*1.5f, 0, LayerMask.GetMask("Block"));
+            foreach (Collider2D c in tightHits)
+            {
+                if (c.name == name && c.gameObject != gameObject)
+                {
+                    Block bl = c.GetComponent<Block>();
+                    bl.highlight.SetActive(true);
+                    bl.leftSpace.SetActive(false);
+                    bl.rightSpace.SetActive(false);
+                    upgrade = bl;
                 }
             }
         }
@@ -155,7 +173,15 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
         if (!SpellManager.Instance.spellsLocked)
         {
             dragging = false;
-            if (targetSpace != null)
+            if (upgrade != null)
+            {
+                upgrade.highlight.SetActive(false);
+                upgrade.cd -= 1f;
+                string cdTxt = ((upgrade.cd+"").Length == 1) ? upgrade.cd + ".0s" : upgrade.cd + "s";
+                upgrade.cdText.GetComponent<TMPro.TextMeshProUGUI>().text = cdTxt;
+                Destroy(gameObject);
+            }
+            else if (targetSpace != null)
             {
                 Vector3 offset = new Vector3(2 + (rectTransform.sizeDelta.x - 100)/2, 0, 0);
                 if (targetSpace.name == "Left Space")
