@@ -3,6 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
 {
@@ -25,12 +26,15 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
     public GameObject cdText;
     public GameObject typeTxt;
     public GameObject nameTxt;
+    public TextMeshProUGUI levelText;
     public GameObject highlight;
+    public GameObject levelUp;
 
     [Header("Spell Effects")]
     public string type;
     public string tag;
     [SerializeField] private List<string> blockedTags;
+    public float minCd;
     public float cd;
     public int rarity;
 
@@ -59,7 +63,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
             //if (GameManager.Instance.doubleSpeed)
             //    cd = cd*0.5f;
             string cdTxt = ((cd+"").Length == 1) ? cd + ".0s" : cd + "s";
-            cdText.GetComponent<TMPro.TextMeshProUGUI>().text = cdTxt;
+            cdText.GetComponent<TextMeshProUGUI>().text = cdTxt;
         }
         //TODO: add type text here (instead of 1 by 1)
     }
@@ -73,8 +77,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
                 Block bl = child.GetComponent<Block>();
                 bl.leftSpace.SetActive(false);
                 bl.rightSpace.SetActive(false);
-                if (bl.left == null && bl.right == null)
-                    bl.highlight.SetActive(false);
+                bl.levelUp.SetActive(false);
             }
 
             Bounds b = GetComponent<BoxCollider2D>().bounds;
@@ -106,10 +109,13 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
                 if (c.name == name && c.gameObject != gameObject)
                 {
                     Block bl = c.GetComponent<Block>();
-                    bl.highlight.SetActive(true);
-                    bl.leftSpace.SetActive(false);
-                    bl.rightSpace.SetActive(false);
-                    upgrade = bl;
+                    if (bl.cd > bl.minCd && bl.tag != "passive")
+                    {
+                        bl.levelUp.SetActive(true);
+                        bl.leftSpace.SetActive(false);
+                        bl.rightSpace.SetActive(false);
+                        upgrade = bl;
+                    }
                 }
             }
         }
@@ -175,10 +181,12 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
             dragging = false;
             if (upgrade != null)
             {
-                upgrade.highlight.SetActive(false);
-                upgrade.cd -= 1f;
+                upgrade.levelUp.SetActive(false);
+                upgrade.cd = Mathf.Max(upgrade.minCd, upgrade.cd - 1f);
+                string lvlTxt = (upgrade.cd == upgrade.minCd) ? "Max" : "Lv. " + (int.Parse(upgrade.levelText.text.Substring(4))+1);
+                upgrade.levelText.text = lvlTxt;
                 string cdTxt = ((upgrade.cd+"").Length == 1) ? upgrade.cd + ".0s" : upgrade.cd + "s";
-                upgrade.cdText.GetComponent<TMPro.TextMeshProUGUI>().text = cdTxt;
+                upgrade.cdText.GetComponent<TextMeshProUGUI>().text = cdTxt;
                 Destroy(gameObject);
             }
             else if (targetSpace != null)
