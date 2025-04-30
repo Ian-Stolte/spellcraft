@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
@@ -39,34 +40,61 @@ public class DialogueManager : MonoBehaviour
     [Header("Neural Activity")]
     [SerializeField] private RectTransform point;
     [SerializeField] private Vector2 direction;
-    private int sign = 1;
+    private int sign = 0;
     [SerializeField] private float speed;
     private int randomChance;
     [SerializeField] private Vector2 min;
     [SerializeField] private Vector2 max;
     [SerializeField] private Vector2 flipChance;
+    [SerializeField] private GameObject pointTrail;
+    [SerializeField] private float trailDensity;
+    private int trailCount;
+    private bool manualControl;
+
+    [Header("Progress Bar")]
+    [SerializeField] private Image progressBar;
+    [SerializeField] private GameObject completeTxt;
 
 
     void Start()
     {
-        StartCoroutine(TypeText());
+        StartCoroutine(NeuralActivity());
         StartCoroutine(SpeedText(downloadTxt, 2*minSpeed, 2*maxSpeed));
-        StartCoroutine(SpeedText(uploadTxt, minSpeed, maxSpeed));
-        direction = direction.normalized;
+        direction = new Vector2(direction.x/point.parent.localScale.x, direction.y/point.parent.localScale.y).normalized;
     }
 
 
     private void Update()
     {
         point.anchoredPosition += new Vector2(direction.x, direction.y*sign)*speed/60;
-        if (Random.Range(flipChance.x, flipChance.y) <= randomChance || point.anchoredPosition.y > max.y || point.anchoredPosition.y < min.y)
+        if (!manualControl)
         {
-            randomChance = 0;
-            sign *= -1;
+            if (Random.Range(flipChance.x, flipChance.y) <= randomChance || point.anchoredPosition.y > max.y || point.anchoredPosition.y < min.y)
+            {
+                randomChance = 0;
+                if (sign == 0)
+                {
+                    if (Random.Range(0f, 1f) < 0.5f)
+                        sign = 1;
+                    else
+                        sign = -1;
+                }
+                if (Random.Range(0f, 1f) < 0.5f)
+                    sign *= -1;
+                else
+                    sign = 0;
+
+                point.anchoredPosition = new Vector2(point.anchoredPosition.x, Mathf.Clamp(point.anchoredPosition.y, min.y+5, max.y-5));
+            }
+            else
+                randomChance++;
         }
-        else
+        trailCount++;
+        if (trailCount >= trailDensity)
         {
-            randomChance++;
+            GameObject trailObj = Instantiate(pointTrail, point.position, Quaternion.identity, point.parent);
+            trailObj.transform.localScale = new Vector2(trailObj.transform.localScale.x/point.parent.localScale.x, trailObj.transform.localScale.y/point.parent.localScale.y);
+            trailCount = 0;
         }
 
         if (point.anchoredPosition.x > max.x)
@@ -74,14 +102,72 @@ public class DialogueManager : MonoBehaviour
     }
 
 
-    private IEnumerator TypeText()
+    private IEnumerator NeuralActivity()
+    {
+        manualControl = true;
+        sign = 0;
+        yield return new WaitForSeconds(4);
+        StartCoroutine(Peak(0.1f));
+        yield return new WaitForSeconds(2);
+        StartCoroutine(Peak(0.15f));
+        yield return new WaitForSeconds(0.8f);
+        StartCoroutine(Peak(0.1f));
+        StartCoroutine(TypeText());
+        yield return new WaitForSeconds(3);
+        sign = 1;
+        manualControl = false;
+    }
+
+    private IEnumerator PauseNeural()
     {
         yield return new WaitForSeconds(2);
+        manualControl = true;
+        sign = -1;
+        direction *= 2;
+        speed *= 2;
+        trailDensity *= 0.25f;
+        yield return new WaitUntil(() => point.anchoredPosition.y < min.y + 70);
+        sign = 0;
+        direction *= 0.5f;
+        speed *= 0.5f;
+    }
 
+    private IEnumerator Peak(float duration)
+    {
+        sign = 1;
+        yield return new WaitForSeconds(duration);
+        sign = -1;
+        yield return new WaitForSeconds(duration);
+        sign = 0;
+    }
+
+
+    private IEnumerator TypeText()
+    {
         for (int i = 0; i < plaintext.Length; i++)
         {
             if (i == 2)
                 StartCoroutine(ShowLearning());
+            else if (i == 3)
+            {
+                yield return new WaitForSeconds(3);
+                StartCoroutine(SpeedText(uploadTxt, minSpeed, maxSpeed));
+                StartCoroutine(ProgressBar(4));
+            }
+            else if (i == 4)
+            {
+                StartCoroutine(ProgressBar(2));
+                StartCoroutine(PauseNeural());
+            }
+            else if (i == 5)
+            {
+                sign = 1;
+                manualControl = false;
+            }
+            else if (i == 6)
+                StartCoroutine(ProgressBar(9));
+            else if (i == 7)
+                yield return new WaitForSeconds(2);
 
             if (spawnPos.y > -250)
             {
@@ -96,7 +182,12 @@ public class DialogueManager : MonoBehaviour
             else
             {
                 float lastHeight = scrollParent.GetChild(scrollParent.childCount-1).GetComponent<TextMeshProUGUI>().preferredHeight;
-                scrollParent.anchoredPosition += new Vector2(0, spacing + lastHeight);
+                TextMeshProUGUI testObj = Instantiate(txtPrefab, Vector2.zero, Quaternion.identity, scrollParent).GetComponent<TextMeshProUGUI>();
+                testObj.text = plaintext[i];
+                yield return null;
+                scrollParent.anchoredPosition += new Vector2(0, spacing + testObj.preferredHeight);
+                spawnPos -= new Vector2(0, lastHeight - testObj.preferredHeight);
+                Destroy(testObj.gameObject);
             }
             GameObject txtObj = Instantiate(txtPrefab, Vector2.zero, Quaternion.identity, scrollParent);
             txtObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(spawnPos.x, spawnPos.y - scrollParent.anchoredPosition.y);
@@ -139,6 +230,7 @@ public class DialogueManager : MonoBehaviour
 
     private IEnumerator ShowLearning()
     {
+        yield return new WaitForSeconds(1f);
         string message1 = learningTitle.text;
         learningTitle.text = "";
         learningTitle.gameObject.SetActive(true);
@@ -200,5 +292,23 @@ public class DialogueManager : MonoBehaviour
             txt.text = Mathf.Round(10*Random.Range(min, max))/10f + "";
             yield return new WaitForSeconds(Random.Range(minDelay, maxDelay));
         }
+    }
+
+
+    private IEnumerator ProgressBar(float duration)
+    {
+        completeTxt.SetActive(false);
+        progressBar.gameObject.SetActive(true);
+        progressBar.fillAmount = 0;
+        float elapsed = 0;
+        while (elapsed < duration)
+        {
+            progressBar.fillAmount = Mathf.Min(elapsed/duration, progressBar.fillAmount + (Random.Range(0.01f, 0.2f)/duration));
+            float randomWait = Random.Range(0.01f, 0.2f);
+            elapsed += randomWait;
+            yield return new WaitForSeconds(randomWait);
+        }
+        progressBar.fillAmount = 1;
+        completeTxt.SetActive(true);
     }
 }
