@@ -111,7 +111,7 @@ public class SpellManager : MonoBehaviour
             ConfirmSpells();
             EnterGame();
         }
-        else if (GameManager.Instance.firstRun)
+        else if (SequenceManager.Instance.defaultHand)
         {
             /*string[] startingBlocks = new string[]{"Line", "Damage", "Damage", "Stun", "Circle"};
             foreach (string s in startingBlocks)
@@ -129,14 +129,14 @@ public class SpellManager : MonoBehaviour
         {
             //TODO: lower pct chance of getting repeats? (maybe)
             //  eventually we may let player choose (opt into a buildpath) or do something completely different, so no need to optimize rn
-            CreateBlock("Damage");
+            /*CreateBlock("Damage");
             CreateBlock(shapeBlocks[Random.Range(0, shapeBlocks.Count)]);
             CreateBlock(shapeBlocks[Random.Range(0, shapeBlocks.Count)]);
             CreateBlock(effectBlocks[Random.Range(0, effectBlocks.Count)]);
             if (Random.Range(0f, 1f) < 0.3f)
                 CreateBlock(modBlocks[Random.Range(0, modBlocks.Count)]);
             else
-                CreateBlock(effectBlocks[Random.Range(0, effectBlocks.Count)]);
+                CreateBlock(effectBlocks[Random.Range(0, effectBlocks.Count)]);*/
         }
     }
 

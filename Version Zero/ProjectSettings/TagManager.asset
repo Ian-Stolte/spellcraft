@@ -11,6 +11,7 @@ TagManager:
   - SpellManager
   - AudioManager
   - RewardManager
+  - SequenceManager
   layers:
   - Default
   - TransparentFX

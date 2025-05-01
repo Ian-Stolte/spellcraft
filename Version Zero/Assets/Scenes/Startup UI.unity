@@ -2226,15 +2226,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plaintext:
-  - Neural activity detected
-  - Resetting life support systems
-  - Connection established
-  - Re-implanting save file data values in pre-frontal cortex...
+  - Neural activity detected.
+  - Resetting life support systems.
+  - Connection established.
+  - Re-implanting save file data values in pre-frontal cortex.
   - Applying re-stimulation packets... waiting for neural response to proceed with
-    resuscitation procedure
-  - Response received
-  - Uploading layout preferences in accordance with last save data
-  - Procedure complete. Version 1.0 online
+    resuscitation procedure.
+  - Response received.
+  - Uploading layout preferences in accordance with last save data.
+  - Procedure complete. Version 1.0 online.
   encoded:
   - TmV1cmFsIGFjdGl2aXR5IGRldGVjdGVkLi4u
   - UmVzZXR0aW5nIGxpZmUgc3VwcG9ydCBzeXN0ZW1z

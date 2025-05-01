@@ -56,28 +56,28 @@ public class OptionsManager : MonoBehaviour
     
     private IEnumerator LoadGameCor()
     {
-        Fader.Instance.FadeIn(1);
-        yield return new WaitForSeconds(1);
+        Fader.Instance.FadeIn(2);
+        yield return new WaitForSeconds(2);
         DontDestroyOnLoad(gameObject);
         SceneManager.LoadScene(sceneToLoad);
+        SequenceManager.Instance.runNum++;
         SceneManager.sceneLoaded += FinishSetup;
     }
 
     private void FinishSetup(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "Room 1")
+        if (scene.name == "Intro Room")
         {
             Transform player = GameObject.Find("Player").transform;
             player.GetComponent<PlayerMovement>().canDie = (choices[0] == 0);
 
-            GameManager manager = GameObject.Find("Game Manager").GetComponent<GameManager>();
             /*if (choices[1] == 0)
                 manager.roomSize = GameManager.RoomSize.SMALL;
             else if (choices[1] == 1)
                 manager.roomSize = GameManager.RoomSize.MEDIUM;
             else if (choices[1] == 2)
                 manager.roomSize = GameManager.RoomSize.BOTH;*/
-            manager.firstRun = (choices[1] == 0);
+            SequenceManager.Instance.defaultHand = (choices[1] == 0);
             //manager.staticSpawn = choices[2] == 1;
             SpellManager.Instance.StartingHand();
 

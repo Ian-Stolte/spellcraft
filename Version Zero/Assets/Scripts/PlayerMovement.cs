@@ -210,7 +210,6 @@ public class PlayerMovement : MonoBehaviour
         Fader.Instance.FadeIn(0.5f);
         yield return new WaitForSeconds(1f);
         endingGame = false;
-        GameManager.Instance.firstRun = false;
         SceneManager.LoadScene("Playtest Options");
     }
 }

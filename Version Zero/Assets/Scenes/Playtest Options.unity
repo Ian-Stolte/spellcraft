@@ -538,6 +538,66 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 434027267}
   m_CullTransparentMesh: 1
+--- !u!1 &534987045
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 534987046}
+  - component: {fileID: 534987048}
+  - component: {fileID: 534987047}
+  m_Layer: 0
+  m_Name: Sequence Manager
+  m_TagString: SequenceManager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &534987046
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534987045}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 670.93005, y: 329.72253, z: -1.0130894}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &534987047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534987045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5037b3df0bce8d4184dc8c7aab62660, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  runNum: 0
+  defaultHand: 0
+--- !u!114 &534987048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534987045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a652c2e0e75815343a48e7990e7ce167, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objTag: SequenceManager
 --- !u!1 &549632875
 GameObject:
   m_ObjectHideFlags: 0
@@ -1124,7 +1184,7 @@ MonoBehaviour:
   options:
   - {fileID: 768774242}
   - {fileID: 434027267}
-  sceneToLoad: Intro Room
+  sceneToLoad: Startup UI
 --- !u!1 &1116155545
 GameObject:
   m_ObjectHideFlags: 0
@@ -3778,3 +3838,4 @@ SceneRoots:
   - {fileID: 1001819243}
   - {fileID: 262932536}
   - {fileID: 1594562013}
+  - {fileID: 534987046}

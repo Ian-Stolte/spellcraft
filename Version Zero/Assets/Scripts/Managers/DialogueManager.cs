@@ -58,6 +58,7 @@ public class DialogueManager : MonoBehaviour
 
     void Start()
     {
+        plaintext[7] = "Procedure complete. Version " + SequenceManager.Instance.runNum + ".0 online.";
         StartCoroutine(NeuralActivity());
         StartCoroutine(SpeedText(downloadTxt, 2*minSpeed, 2*maxSpeed));
         direction = new Vector2(direction.x/point.parent.localScale.x, direction.y/point.parent.localScale.y).normalized;
@@ -223,8 +224,8 @@ public class DialogueManager : MonoBehaviour
 
         yield return new WaitForSeconds(2);
         Fader.Instance.FadeIn(2);
-        yield return new WaitForSeconds(2);
-        SceneManager.LoadScene("Room 1");
+        yield return new WaitForSeconds(1);
+        SceneManager.LoadScene("Intro Room");
     }
 
 
