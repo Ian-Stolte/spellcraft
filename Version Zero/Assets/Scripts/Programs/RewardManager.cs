@@ -56,7 +56,17 @@ public class RewardManager : MonoBehaviour
         hidePrograms.SetActive(false);
         showPrograms.SetActive(true);
         blockBG.SetActive(false);
-        ShowRewards(SpellManager.Instance.ChooseRandom(n));
+        List<Block> chosenBlocks = new List<Block>();
+        for (int i = 0; i < n; i++)
+        {
+            float rand = Random.Range(0f, 1f);
+            if (rand < 0.4f)
+                chosenBlocks.Add(SpellManager.Instance.ChooseRandom(1, null, SpellManager.Instance.buildpath)[0]);
+            else
+                chosenBlocks.Add(SpellManager.Instance.ChooseRandom(1)[0]);
+        }
+        ShowRewards(chosenBlocks);
+        //ShowRewards(SpellManager.Instance.ChooseRandom(n));
         GameManager.Instance.pauseGame = true;
     }
 

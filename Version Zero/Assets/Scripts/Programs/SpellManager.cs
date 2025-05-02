@@ -53,6 +53,7 @@ public class SpellManager : MonoBehaviour
     public string[] bindTxt;
 
     [Header("Spell Data")]
+    public string buildpath;
     //TODO: read directly from prefab folders
     public List<GameObject> shapeBlocks;
     public List<GameObject> effectBlocks;
@@ -111,9 +112,9 @@ public class SpellManager : MonoBehaviour
             ConfirmSpells();
             EnterGame();
         }
-        else if (SequenceManager.Instance.defaultHand)
+        /*else if (SequenceManager.Instance.defaultHand)
         {
-            /*string[] startingBlocks = new string[]{"Line", "Damage", "Damage", "Stun", "Circle"};
+            string[] startingBlocks = new string[]{"Line", "Damage", "Damage", "Stun", "Circle"};
             foreach (string s in startingBlocks)
             {
                 GameObject prefab = blocks.Find(b=>b.name == s);
@@ -121,23 +122,23 @@ public class SpellManager : MonoBehaviour
                     Debug.LogError("Starting block prefab not found!");
                 else
                     CreateBlock(prefab);
-            }*/
-            if (showTutorial)
-                tutorials[0].SetActive(true);
+            }
         }
         else
         {
             //TODO: lower pct chance of getting repeats? (maybe)
             //  eventually we may let player choose (opt into a buildpath) or do something completely different, so no need to optimize rn
-            /*CreateBlock("Damage");
+            CreateBlock("Damage");
             CreateBlock(shapeBlocks[Random.Range(0, shapeBlocks.Count)]);
             CreateBlock(shapeBlocks[Random.Range(0, shapeBlocks.Count)]);
             CreateBlock(effectBlocks[Random.Range(0, effectBlocks.Count)]);
             if (Random.Range(0f, 1f) < 0.3f)
                 CreateBlock(modBlocks[Random.Range(0, modBlocks.Count)]);
             else
-                CreateBlock(effectBlocks[Random.Range(0, effectBlocks.Count)]);*/
-        }
+                CreateBlock(effectBlocks[Random.Range(0, effectBlocks.Count)]);
+        }*/
+        tutorials[0].SetActive(true);
+        tutorials[0].transform.GetChild(0).gameObject.SetActive(showTutorial);
     }
 
 
@@ -615,15 +616,6 @@ public class SpellManager : MonoBehaviour
             Block b = starting[Random.Range(0, starting.Count)];
             chosen.Add(b);
             starting.Remove(b);
-            float rarity = Random.Range(0f, 1f);
-            if (rarity > 0.9f)
-                b.rarity = 4;
-            else if (rarity > 0.7f)
-                b.rarity = 3;
-            else if (rarity > 0.4f)
-                b.rarity = 2;
-            else
-                b.rarity = 1;
         }
 
         return chosen;

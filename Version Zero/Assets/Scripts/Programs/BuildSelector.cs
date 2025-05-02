@@ -46,6 +46,7 @@ public class BuildSelector : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         {
             SpellManager.Instance.CreateBlock(b.gameObject);
         }
+        SpellManager.Instance.buildpath = type;
         yield return new WaitForSeconds(1);
         Fader.Instance.FadeInOut(0.5f, 0.5f);
         yield return new WaitForSeconds(0.5f);

@@ -1519,6 +1519,7 @@ MonoBehaviour:
   levelText: {fileID: 4478421989492824053}
   highlight: {fileID: 2149826067751171597}
   levelUp: {fileID: 4424365513112757067}
+  lvls: 1
   type: 
   tag: 
   blockedTags: []

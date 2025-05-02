@@ -31,6 +31,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
     public GameObject levelUp;
 
     [Header("Spell Effects")]
+    public int lvls = 1;
     public string type;
     public string tag;
     [SerializeField] private List<string> blockedTags;
@@ -182,7 +183,12 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
             if (upgrade != null)
             {
                 upgrade.levelUp.SetActive(false);
-                upgrade.cd = Mathf.Max(upgrade.minCd, upgrade.cd - 1f);
+                for (int i = 0; i < lvls; i++)
+                {
+                    upgrade.cd = Mathf.Max(upgrade.minCd, upgrade.cd - 1f);
+                    if (upgrade.cd > upgrade.minCd)
+                        upgrade.lvls++;
+                }
                 string lvlTxt = (upgrade.cd == upgrade.minCd) ? "Max" : "Lv. " + (int.Parse(upgrade.levelText.text.Substring(4))+1);
                 upgrade.levelText.text = lvlTxt;
                 string cdTxt = ((upgrade.cd+"").Length == 1) ? upgrade.cd + ".0s" : upgrade.cd + "s";

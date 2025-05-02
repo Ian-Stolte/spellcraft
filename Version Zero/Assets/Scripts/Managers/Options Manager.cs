@@ -10,7 +10,7 @@ public class OptionsManager : MonoBehaviour
     [SerializeField] private GameObject[] options;
     private int[] choices;
 
-    [SerializeField] private string sceneToLoad;
+    //[SerializeField] private string sceneToLoad;
 
 
     public void SelectOption(GameObject chosen)
@@ -59,6 +59,7 @@ public class OptionsManager : MonoBehaviour
         Fader.Instance.FadeIn(2);
         yield return new WaitForSeconds(2);
         DontDestroyOnLoad(gameObject);
+        string sceneToLoad = (choices[1] == 0) ? "Intro Room" : "Startup UI";
         SceneManager.LoadScene(sceneToLoad);
         SequenceManager.Instance.runNum++;
         SceneManager.sceneLoaded += FinishSetup;
@@ -77,7 +78,7 @@ public class OptionsManager : MonoBehaviour
                 manager.roomSize = GameManager.RoomSize.MEDIUM;
             else if (choices[1] == 2)
                 manager.roomSize = GameManager.RoomSize.BOTH;*/
-            SequenceManager.Instance.defaultHand = (choices[1] == 0);
+            //SequenceManager.Instance.defaultHand = (choices[1] == 0);
             //manager.staticSpawn = choices[2] == 1;
             SpellManager.Instance.StartingHand();
 
