@@ -112,6 +112,12 @@ public class PlayerSpells : MonoBehaviour
                         GetComponent<PlayerMovement>().shieldTimer += 1f;
                     break;
                 }
+                else if (b.name == "Trap")
+                {
+                    GameObject hitbox = Instantiate(hitboxes[3], MousePos(), rot);
+                    hitbox.GetComponent<Hitbox>().spell = s;
+                    break;
+                }
             }
         }
     }

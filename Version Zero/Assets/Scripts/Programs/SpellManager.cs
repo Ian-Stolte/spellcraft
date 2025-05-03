@@ -460,7 +460,18 @@ public class SpellManager : MonoBehaviour
             if (bindIndex < defaultBinds.Length && s != player.autoSpell && s != player.auraSpell)
             {
                 s.keybind = defaultBinds[bindIndex];
+                TextMeshProUGUI txt = UI.transform.GetChild(6).GetComponent<TextMeshProUGUI>();
+                if (bindIndex == 0)
+                    txt.text = "Left Click";
+                else if (bindIndex == 1)
+                    txt.text = "Right Click";
+                else if (bindIndex == 2)
+                    txt.text = "Middle Click";
                 bindIndex++;
+            }
+            else
+            {
+                UI.transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = "";
             }
         }
         if (player.auraSpell.name != "")
@@ -545,9 +556,7 @@ public class SpellManager : MonoBehaviour
         index = 0;
         if (player.auraSpell.name != "")
         {
-            Block shape = player.auraSpell.blocks.Find(b=>b.tag == "shape");
-            if (shape != null)
-                SpawnSpellIcon(player.auraSpell, new Vector2(800, -450), "AURA", shape.name);
+            SpawnSpellIcon(player.auraSpell, new Vector2(800, -450), "AURA", "");
             index++;
         }
         if (player.autoSpell.name != "")
@@ -583,8 +592,7 @@ public class SpellManager : MonoBehaviour
         s.fillTimer = cdIcon.GetChild(cdIcon.childCount-1).gameObject;
         if (type == "AURA")
             s.fillTimer.GetComponent<Image>().fillAmount = 1;
-        else
-            cdIcon.GetChild(1).GetComponent<TextMeshProUGUI>().text = shape;
+        cdIcon.GetChild(1).GetComponent<TextMeshProUGUI>().text = shape;
     }
 
 
