@@ -194,7 +194,10 @@ public class RewardManager : MonoBehaviour
             GameObject reward = Instantiate(blockPrefab, Vector2.zero, Quaternion.identity, rewardParent);
             
             //fill out reward elements
-            reward.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = row[i].name;
+            if (GameManager.Instance.scifiNames)
+                reward.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = row[i].scifiName;
+            else
+                reward.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = row[i].name;
             while (reward.transform.GetChild(1).GetComponent<TextMeshProUGUI>().preferredWidth > reward.GetComponent<RectTransform>().sizeDelta.x+15)
             {
                 reward.transform.GetChild(1).GetComponent<TextMeshProUGUI>().fontSize -= 1;

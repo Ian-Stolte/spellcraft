@@ -1515,10 +1515,11 @@ MonoBehaviour:
   right: {fileID: 0}
   cdText: {fileID: 3411540374391501063}
   typeTxt: {fileID: 3291358261657501350}
-  nameTxt: {fileID: 7432336471071709618}
+  nameTxt: {fileID: 7452607151405539719}
   levelText: {fileID: 4478421989492824053}
   highlight: {fileID: 2149826067751171597}
   levelUp: {fileID: 4424365513112757067}
+  scifiName: 
   lvls: 1
   type: 
   tag: 

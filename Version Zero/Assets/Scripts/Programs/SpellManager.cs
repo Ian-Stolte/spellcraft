@@ -45,6 +45,7 @@ public class SpellManager : MonoBehaviour
     [Header("Misc")]
     [SerializeField] private Vector2 spellUIStart;
     [SerializeField] private Color fullSymbolColor;
+    [SerializeField] private Color[] typeColors;
     [SerializeField] private PlayerSpells player;
     [SerializeField] private GameObject[] tutorials;
 
@@ -430,7 +431,7 @@ public class SpellManager : MonoBehaviour
             float cd = 0;
             foreach (Block b in s.blocks)
             {
-                spellName += b.name + " + ";
+                spellName += b.nameTxt.text + " + ";
                 cd += b.cd;
                 Vector3 scale = new Vector3(b.symbol.transform.localScale.x*b.transform.localScale.x, b.symbol.transform.localScale.y*b.transform.localScale.y, 1);
                 GameObject sym = Instantiate(b.symbol.gameObject, b.symbol.transform.position, Quaternion.identity, s.symbol.transform);
@@ -449,13 +450,15 @@ public class SpellManager : MonoBehaviour
             GameObject UI = Instantiate(spellListItem, Vector2.zero, Quaternion.identity, symbolParent);
             UI.GetComponent<RectTransform>().anchoredPosition = new Vector2(-80, 350-(index*300));
             UI.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = spellName.Substring(0, spellName.Length-3);
-            s.name = spellName.Substring(0, spellName.Length-3);
             string cdTxt = ((""+cd).Length == 1) ? cd + ".0s" : cd + "s"; 
             UI.transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = cdTxt;
+            
+            s.name = spellName.Substring(0, spellName.Length-3);
             s.cdMax = cd;
             s.symbol.transform.SetSiblingIndex(s.symbol.transform.parent.childCount - 1);
             s.symbol.GetComponent<RectTransform>().anchoredPosition = spellUIStart + new Vector2(0, -(index*300));
             index++;
+
             //TODO: let player assign keybinds
             if (bindIndex < defaultBinds.Length && s != player.autoSpell && s != player.auraSpell)
             {
@@ -549,7 +552,7 @@ public class SpellManager : MonoBehaviour
             Block shape = s.blocks.Find(b=>b.tag == "shape");
             if (index < defaultBinds.Length && shape != null)
             {
-                SpawnSpellIcon(s, new Vector2(-800 + (170*index), -450), bindTxt[index], shape.name);
+                SpawnSpellIcon(s, new Vector2(-800 + (170*index), -450), bindTxt[index], shape.nameTxt.text);
             }
             index++;
         }
@@ -627,6 +630,21 @@ public class SpellManager : MonoBehaviour
         }
 
         return chosen;
+    }
+
+
+    public Color ColorFromType(string type)
+    {
+        if (type == "logic")
+            return typeColors[0];
+        else if (type == "memory")
+            return typeColors[1];
+        else if (type == "instinct")
+            return typeColors[2];
+        else if (type == "perception")
+            return typeColors[3];
+        else
+            return new Color(1, 1, 1, 1);
     }
 }
 

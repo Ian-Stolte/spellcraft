@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public bool pauseGame;
     private bool inTransition;
     public bool doubleSpeed;
+    public bool scifiNames;
     
     [Header("Rooms")]
     [SerializeField] private Room[] rooms;

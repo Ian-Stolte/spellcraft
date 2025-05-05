@@ -25,12 +25,13 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
     [Header("Children")]
     public GameObject cdText;
     public GameObject typeTxt;
-    public GameObject nameTxt;
+    public TextMeshProUGUI nameTxt;
     public TextMeshProUGUI levelText;
     public GameObject highlight;
     public GameObject levelUp;
 
     [Header("Spell Effects")]
+    public string scifiName;
     public int lvls = 1;
     public string type;
     public string tag;
@@ -66,7 +67,15 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
             string cdTxt = ((cd+"").Length == 1) ? cd + ".0s" : cd + "s";
             cdText.GetComponent<TextMeshProUGUI>().text = cdTxt;
         }
-        //TODO: add type text here (instead of 1 by 1)
+
+        Debug.Log(nameTxt.text);
+        if (GameManager.Instance.scifiNames)
+            nameTxt.text = scifiName;
+        else
+            nameTxt.text = name.Substring(0, name.Length-7);
+
+        typeTxt.GetComponent<TextMeshProUGUI>().text = type;
+        typeTxt.GetComponent<TextMeshProUGUI>().color = SpellManager.Instance.ColorFromType(type);
     }
 
     private void Update()
