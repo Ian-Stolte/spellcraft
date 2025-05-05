@@ -193,17 +193,19 @@ public class RewardManager : MonoBehaviour
             
             GameObject reward = Instantiate(blockPrefab, Vector2.zero, Quaternion.identity, rewardParent);
             
-            //fill out reward elements
+            //Name
             if (GameManager.Instance.scifiNames)
                 reward.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = row[i].scifiName;
             else
-                reward.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = row[i].name;
+                reward.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = row[i].nameTxt.text;
             while (reward.transform.GetChild(1).GetComponent<TextMeshProUGUI>().preferredWidth > reward.GetComponent<RectTransform>().sizeDelta.x+15)
             {
                 reward.transform.GetChild(1).GetComponent<TextMeshProUGUI>().fontSize -= 1;
                 reward.GetComponent<RectTransform>().sizeDelta += new Vector2(8, 0);
                 reward.transform.GetChild(0).GetComponent<RectTransform>().sizeDelta += new Vector2(8, 0);
             }
+
+            //Set properties
             string cdText = ((row[i].cd+"").Length > 1) ? row[i].cd + "s" : row[i].cd + ".0s";
             reward.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = cdText;     
             if (row[i].tag == "shape")
@@ -222,7 +224,9 @@ public class RewardManager : MonoBehaviour
                 txt.color = typeColors[1];
             else if (txt.text == "memory")
                 txt.color = typeColors[2];
-
+            reward.transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = row[i].description;
+            
+            //Set position & references
             reward.GetComponent<RectTransform>().anchoredPosition = new Vector2(rowX, rowY);
             reward.GetComponent<RewardClick>().blockParent = blockParent;
             reward.GetComponent<RewardClick>().blockToAdd = row[i].gameObject;

@@ -39,6 +39,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
     public float minCd;
     public float cd;
     public int rarity;
+    [TextArea(4, 8)] public string description;
 
     [Header("Saves")]
     private Vector3 posSAVE;
@@ -68,11 +69,10 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
             cdText.GetComponent<TextMeshProUGUI>().text = cdTxt;
         }
 
-        Debug.Log(nameTxt.text);
         if (GameManager.Instance.scifiNames)
             nameTxt.text = scifiName;
-        else
-            nameTxt.text = name.Substring(0, name.Length-7);
+        //else
+        //    nameTxt.text = name.Substring(0, name.Length-7);
 
         typeTxt.GetComponent<TextMeshProUGUI>().text = type;
         typeTxt.GetComponent<TextMeshProUGUI>().color = SpellManager.Instance.ColorFromType(type);
