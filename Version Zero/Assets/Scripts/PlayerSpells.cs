@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerSpells : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class PlayerSpells : MonoBehaviour
 
     [Header("Misc")]
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private TextMeshProUGUI noTargetText;
 
     [Header("Dash")]
     [SerializeField] private float dashForce;
@@ -116,6 +118,29 @@ public class PlayerSpells : MonoBehaviour
                 {
                     GameObject hitbox = Instantiate(hitboxes[3], MousePos(), rot);
                     hitbox.GetComponent<Hitbox>().spell = s;
+                    break;
+                }
+                else if (b.name == "Target")
+                {
+                    Collider[] hits = Physics.OverlapSphere(MousePos(), 2, LayerMask.GetMask("Enemy"));
+                    if (hits.Length == 0)
+                    {
+                        //fail SFX & visual
+                        AudioManager.Instance.Play("Error");
+                        StopCoroutine("NoTarget");
+                        StartCoroutine("NoTarget");
+                        s.cdTimer = 0;
+                    }
+                    else
+                    {
+                        Collider closest = hits[0];
+                        foreach (Collider hit in hits)
+                        {
+                            if (Vector3.Distance(hit.transform.position, MousePos()) < Vector3.Distance(closest.transform.position, MousePos()))
+                                closest = hit;
+                        }
+                        SpellEffects(new Collider[]{closest}, s, MousePos());
+                    }
                     break;
                 }
             }
@@ -240,6 +265,21 @@ public class PlayerSpells : MonoBehaviour
                 //apply custom a
             }
         }
+    }
+
+
+    private IEnumerator NoTarget()
+    {
+        noTargetText.gameObject.SetActive(true);
+        Color c = noTargetText.color;
+        noTargetText.color = new Color(c.r, c.g, c.b, 1);
+        yield return new WaitForSeconds(0.5f);
+        for (float i = 1; i > 0; i -= 0.01f)
+        {
+            yield return new WaitForSeconds(0.01f);
+            noTargetText.color = new Color(c.r, c.g, c.b, i);
+        }
+        noTargetText.gameObject.SetActive(false);
     }
 
 

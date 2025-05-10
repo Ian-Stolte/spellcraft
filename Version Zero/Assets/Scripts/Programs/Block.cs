@@ -68,7 +68,11 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
             string cdTxt = ((cd+"").Length == 1) ? cd + ".0s" : cd + "s";
             cdText.GetComponent<TextMeshProUGUI>().text = cdTxt;
         }
+    }
 
+
+    void Start()
+    {
         if (GameManager.Instance.scifiNames)
             nameTxt.text = scifiName;
         //else
