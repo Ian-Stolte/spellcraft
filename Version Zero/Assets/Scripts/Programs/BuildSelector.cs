@@ -25,6 +25,7 @@ public class BuildSelector : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                 }
             }
         }
+        AudioManager.Instance.Play("Build Select");
         Destroy(GetComponent<Button>());
         inTransition = true;
         transform.parent.SetSiblingIndex(transform.parent.parent.childCount - 1);

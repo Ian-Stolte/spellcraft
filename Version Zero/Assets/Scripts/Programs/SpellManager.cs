@@ -491,12 +491,14 @@ public class SpellManager : MonoBehaviour
 
         if (spellsLocked)
         {
+            //enable/disable confirm button depending on valid spells
             if (spells.Count == 0)
             {
                 confirmButton.GetComponent<Button>().interactable = false;
             }
             else
             {
+                //check validity of symbols
                 bool readyToConfirm = true;
                 foreach (Spell s in spells)
                 {

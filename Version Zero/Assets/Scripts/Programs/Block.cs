@@ -116,6 +116,8 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
                 }
             }
 
+
+            //check for same-type blocks to upgrade
             upgrade = null;
             Collider2D[] tightHits = Physics2D.OverlapBoxAll(b.center, b.extents*1.5f, 0, LayerMask.GetMask("Block"));
             foreach (Collider2D c in tightHits)
@@ -129,6 +131,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
                         bl.leftSpace.SetActive(false);
                         bl.rightSpace.SetActive(false);
                         upgrade = bl;
+                        AudioManager.Instance.Play("Upgrade Hover");
                     }
                 }
             }
@@ -193,6 +196,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
         if (!SpellManager.Instance.spellsLocked)
         {
             dragging = false;
+            //upgrade if released on same type
             if (upgrade != null)
             {
                 upgrade.levelUp.SetActive(false);
@@ -207,7 +211,10 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
                 string cdTxt = ((upgrade.cd+"").Length == 1) ? upgrade.cd + ".0s" : upgrade.cd + "s";
                 upgrade.cdText.GetComponent<TextMeshProUGUI>().text = cdTxt;
                 Destroy(gameObject);
+                AudioManager.Instance.Play("Upgrade");
             }
+
+            //snap if released next to valid block
             else if (targetSpace != null)
             {
                 Vector3 offset = new Vector3(2 + (rectTransform.sizeDelta.x - 100)/2, 0, 0);
