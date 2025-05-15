@@ -32,7 +32,10 @@ public class Missile : MonoBehaviour
             Fall();
         }
         else if (transform.position.y < 0)
+        {
             Destroy(gameObject);
+            AudioManager.Instance.Play("Missile Land");
+        }
 
         if (!waiting)
             transform.position += Time.deltaTime * dir * speed;

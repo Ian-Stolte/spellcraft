@@ -137,12 +137,15 @@ public class PlayerMovement : MonoBehaviour
     {
         if (immunityTimer == 0 && shieldTimer == 0)
         {
+            //keep track of damage taken in last 0.5s & give immunity if past burst threshold
             currentBurst += dmg;
             StartCoroutine(UndoBurst(dmg));
             if (currentBurst > maxBurstDmg)
             {
                 immunityTimer = 0.5f;
             }
+
+            //take damage
             health = Mathf.Max(0, health-dmg);
             if (health <= 0)
             {
@@ -159,6 +162,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
+                AudioManager.Instance.Play("Take Damage");
                 damageFlash.Play("DamageFlash");
                 Camera.main.GetComponent<GlitchManager>().ShowGlitch(0.5f, 0.5f);
             }

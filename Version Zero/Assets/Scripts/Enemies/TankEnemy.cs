@@ -84,6 +84,7 @@ public class TankEnemy : Enemy
                 yield break;
             }
         }
+        AudioManager.Instance.Play("Stomp Impact");
         if (Vector3.Distance(player.transform.position, transform.position) < atkRange)
         {
             player.GetComponent<PlayerMovement>().TakeDamage(dmg);
