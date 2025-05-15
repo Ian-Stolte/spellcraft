@@ -118,7 +118,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
 
 
             //check for same-type blocks to upgrade
-            upgrade = null;
+            bool upgradeFound = false;
             Collider2D[] tightHits = Physics2D.OverlapBoxAll(b.center, b.extents*1.5f, 0, LayerMask.GetMask("Block"));
             foreach (Collider2D c in tightHits)
             {
@@ -127,14 +127,18 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
                     Block bl = c.GetComponent<Block>();
                     if (bl.cd > bl.minCd && bl.tag != "passive")
                     {
+                        if (upgrade == null)
+                            AudioManager.Instance.Play("Upgrade Hover");
                         bl.levelUp.SetActive(true);
                         bl.leftSpace.SetActive(false);
                         bl.rightSpace.SetActive(false);
                         upgrade = bl;
-                        AudioManager.Instance.Play("Upgrade Hover");
+                        upgradeFound = true;
                     }
                 }
             }
+            if (!upgradeFound)
+                upgrade = null;
         }
     }
 
@@ -143,6 +147,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
         if (!SpellManager.Instance.spellsLocked)
         {
             dragging = true;
+            AudioManager.Instance.Play("Grab Block");
             // Convert the mouse position to local space relative to the RectTransform
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 rectTransform,
@@ -217,6 +222,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
             //snap if released next to valid block
             else if (targetSpace != null)
             {
+                AudioManager.Instance.Play("Snap Block");
                 Vector3 offset = new Vector3(2 + (rectTransform.sizeDelta.x - 100)/2, 0, 0);
                 if (targetSpace.name == "Left Space")
                 {

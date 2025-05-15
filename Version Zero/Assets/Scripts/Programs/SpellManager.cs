@@ -267,7 +267,7 @@ public class SpellManager : MonoBehaviour
     }
 
 
-    public void CraftSpells()
+    public void CompileSpells()
     {
         spells.Clear();
         foreach (Transform child in blockParent)
@@ -487,7 +487,7 @@ public class SpellManager : MonoBehaviour
 
     private void Update()
     {
-        //TODO: show warning if player attaches passive to just effect/just shape & disable craft button
+        //TODO: show warning if player attaches passive to just effect/just shape & disable compile button
 
         if (spellsLocked)
         {
@@ -530,6 +530,7 @@ public class SpellManager : MonoBehaviour
 
     public IEnumerator EnterGameCor()
     {
+        AudioManager.Instance.Play("Enter Game");
         if (!musicOn)
         {
             musicOn = true;
@@ -647,6 +648,11 @@ public class SpellManager : MonoBehaviour
             return typeColors[3];
         else
             return new Color(1, 1, 1, 1);
+    }
+
+    public void ButtonClick()
+    {
+        AudioManager.Instance.Play("Button Click");
     }
 }
 

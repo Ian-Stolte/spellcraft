@@ -99,6 +99,7 @@ public class PlayerSpells : MonoBehaviour
                 }
                 else if (b.name == "Line")
                 {
+                    AudioManager.Instance.Play("Shoot Projectile");
                     Vector3 dir = (MousePos() - transform.position);
                     dir = new Vector3(dir.x, 0, dir.z).normalized;
                     GameObject hitbox = Instantiate(hitboxes[1], transform.position + dir, rot);
@@ -116,6 +117,7 @@ public class PlayerSpells : MonoBehaviour
                 }
                 else if (b.name == "Trap")
                 {
+                    AudioManager.Instance.Play("Place Trap");
                     GameObject hitbox = Instantiate(hitboxes[3], MousePos(), rot);
                     hitbox.GetComponent<Hitbox>().spell = s;
                     break;
@@ -214,8 +216,10 @@ public class PlayerSpells : MonoBehaviour
     private IEnumerator Dash(Spell s)
     {
         dashing = true;
+        AudioManager.Instance.Play("Dash");
         Physics.IgnoreLayerCollision(6, 12, true);
         GetComponent<TrailRenderer>().emitting = true;
+        
         Vector3 dir = (MousePos() - transform.position);
         dir = new Vector3(dir.x, 0, dir.z).normalized;
         StartCoroutine(GoTransparent(0.3f));

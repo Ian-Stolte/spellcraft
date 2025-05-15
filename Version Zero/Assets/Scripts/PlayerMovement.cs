@@ -184,6 +184,7 @@ public class PlayerMovement : MonoBehaviour
         GameManager.Instance.pauseGame = true;
         StartCoroutine(AudioManager.Instance.FadeOutAll(0));
         AudioManager.Instance.Play("Static");
+        AudioManager.Instance.Play("Game Over");
         Camera.main.GetComponent<GlitchManager>().ShowGlitch(2, 1);
         yield return new WaitForSeconds(2);
         AudioManager.Instance.Stop("Static");
@@ -207,8 +208,9 @@ public class PlayerMovement : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
         yield return new WaitForSeconds(1.5f);
-        Fader.Instance.FadeIn(0.5f);
-        yield return new WaitForSeconds(1f);
+        Fader.Instance.FadeIn(1.5f);
+        StartCoroutine(AudioManager.Instance.StartFade("Game Over", 2, 0));
+        yield return new WaitForSeconds(2f);
         endingGame = false;
         SceneManager.LoadScene("Playtest Options");
     }

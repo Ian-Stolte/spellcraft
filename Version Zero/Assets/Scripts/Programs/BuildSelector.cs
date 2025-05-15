@@ -56,6 +56,7 @@ public class BuildSelector : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        AudioManager.Instance.Play("Button Hover");
         if (!inTransition)
             transform.localScale *= 1.2f;
     }

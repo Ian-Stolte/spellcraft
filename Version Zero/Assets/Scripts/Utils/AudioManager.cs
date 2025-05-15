@@ -13,7 +13,10 @@ public class AudioManager : MonoBehaviour
 
     [Header("Editable")]
     public Sound[] music;
-    public Sound[] sfx;
+    public Sound[] uiSFX;
+    public Sound[] programSFX;
+    public Sound[] combatSFX;
+    private List<Sound> sfx = new List<Sound>();
 
     [Header("Don't edit")]
     public AudioSource[] audios;
@@ -26,6 +29,13 @@ public class AudioManager : MonoBehaviour
             Instance = this;
         else
             Destroy(gameObject);
+
+        foreach (Sound s in uiSFX)
+            sfx.Add(s);
+        foreach (Sound s in programSFX)
+            sfx.Add(s);
+        foreach (Sound s in combatSFX)
+            sfx.Add(s);
 
         foreach (Sound s in music)
         {
@@ -116,7 +126,7 @@ public class AudioManager : MonoBehaviour
 
     public void Play(string name)
     {
-        Sound s = Array.Find(sfx, sound => sound.name == name);
+        Sound s = sfx.Find(sound => sound.name == name);
         if (s == null)
         {
             s = Array.Find(music, sound => sound.name == name);
@@ -125,22 +135,20 @@ public class AudioManager : MonoBehaviour
         }
         if (s == null)
         {
-            Debug.Log("Sound: " + name + " not found!");
+            Debug.LogError("Sound: " + name + " not found!");
             return;
         }
-        //if (s.source.volume == 0)
-        //    s.source.volume = 0.6f;
         s.source.Play();
     }
 
     public void Stop(string name)
     {
-        Sound s = Array.Find(sfx, sound => sound.name == name);
+        Sound s = sfx.Find(sound => sound.name == name);
         if (s == null)
             s = Array.Find(music, sound => sound.name == name);        
         if (s == null)
         {
-            Debug.Log("Sound: " + name + " not found!");
+            Debug.LogError("Sound: " + name + " not found!");
             return;
         }
         currentSongs.Remove(s);
@@ -149,12 +157,12 @@ public class AudioManager : MonoBehaviour
 
     public IEnumerator StartFade(string name, float duration, float end)
     {
-        Sound s = Array.Find(sfx, sound => sound.name == name);
+        Sound s = sfx.Find(sound => sound.name == name);
         if (s == null)
             s = Array.Find(music, sound => sound.name == name);
         if (s == null)
         {
-            Debug.Log("Sound: " + name + " not found!");
+            Debug.LogError("Sound: " + name + " not found!");
             yield break;
         }
 

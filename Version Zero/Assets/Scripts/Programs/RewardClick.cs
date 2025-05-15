@@ -15,6 +15,7 @@ public class RewardClick : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public IEnumerator AddSpellCor()
     {
+        AudioManager.Instance.Play("Reward Click");
         if (SpellManager.Instance.spellUI.gameObject.activeSelf)
         {
             yield return null;
@@ -33,6 +34,7 @@ public class RewardClick : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        AudioManager.Instance.Play("Button Hover");
         transform.localScale *= 1.2f;
         transform.GetChild(5).localScale /= 1.2f;
         RectTransform rect = transform.GetChild(5).GetComponent<RectTransform>();
