@@ -40,10 +40,12 @@ public class BuildSelector : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             yield return new WaitForSeconds(0.01f);
         }
         SpellManager.Instance.CreateBlock("Damage");
-        List<Block> typeBlocks = SpellManager.Instance.ChooseRandom(3, new string[]{"Damage"}, type);
-        List<Block> miscBlocks = SpellManager.Instance.ChooseRandom(1, new string[]{"Damage"});
-        typeBlocks.AddRange(miscBlocks);
-        foreach (Block b in typeBlocks)
+        List<Block> effectBlocks = SpellManager.Instance.ChooseRandom(1, new string[]{"Damage"}, type, "effect");
+        List<Block> miscBlocks = SpellManager.Instance.ChooseRandom(1, new string[]{"Damage"}, "none", "effect");
+        List<Block> shapeBlocks = SpellManager.Instance.ChooseRandom(2, new string[]{"Damage"}, type, "shape");
+        effectBlocks.AddRange(miscBlocks);
+        effectBlocks.AddRange(shapeBlocks);
+        foreach (Block b in effectBlocks)
         {
             SpellManager.Instance.CreateBlock(b.gameObject);
         }

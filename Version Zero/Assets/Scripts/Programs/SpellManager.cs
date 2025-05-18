@@ -602,7 +602,7 @@ public class SpellManager : MonoBehaviour
     }
 
 
-    public List<Block> ChooseRandom(int n, string[] forbidden=null, string type="none")
+    public List<Block> ChooseRandom(int n, string[] forbidden=null, string type="none", string category="none")
     {
         //TODO: add diff percents --- keep in 3 separate lists, but decrement pct of given list when chosen (e.g 40-40-20, then choose effect -> 50-25-25)
         if (forbidden == null)
@@ -621,7 +621,7 @@ public class SpellManager : MonoBehaviour
         List<Block> chosen = new List<Block>();
         foreach (GameObject g in blocks)
         {
-            if (!((skipAura && g.name == "Aura") || (skipAuto && g.name == "Auto")) && (type == "none" || type == g.GetComponent<Block>().type) && !forbidden.Contains(g.name))
+            if (!((skipAura && g.name == "Aura") || (skipAuto && g.name == "Auto")) && (type == "none" || type == g.GetComponent<Block>().type) && (category == "none" || category == g.GetComponent<Block>().tag) && !forbidden.Contains(g.name))
                 starting.Add(g.GetComponent<Block>());
         }
         

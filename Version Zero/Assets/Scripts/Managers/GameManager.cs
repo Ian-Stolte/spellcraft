@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<int> waves = new List<int>();
 
     [Header("Terminals")]
-    public int numTerminals = 2;
+    [HideInInspector] public int numTerminals;
     [SerializeField] private GameObject terminalBar;
     [HideInInspector] public Image bar;
     [HideInInspector] public Terminal currentTerminal;
@@ -59,6 +59,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject terminalIcon;
 
     [Header("Misc")]
+    [SerializeField] private GameObject dialogue;
     [SerializeField] private GameObject rewardPrefab;
     private Transform player;
     [SerializeField] private GameObject bossTxt;
@@ -112,11 +113,15 @@ public class GameManager : MonoBehaviour
 
             if (scene.name.Contains("Full"))
             {
+                foreach (Transform child in terminalIcons)
+                    Destroy(child.gameObject);
+                numTerminals = Physics.OverlapSphere(Vector2.zero, 9999, LayerMask.GetMask("Terminal")).Length;
                 StartCoroutine(SpawnInfiniteWaves());
                 for (int i = 0; i < numTerminals; i++)
                 {
                     GameObject icon = Instantiate(terminalIcon, Vector2.zero, terminalIcon.transform.rotation, terminalIcons);
-                    icon.GetComponent<RectTransform>().anchoredPosition = new Vector2(920 - 150*terminalIcons.childCount, -460);
+                    //icon.GetComponent<RectTransform>().anchoredPosition = new Vector2(920 - 150*terminalIcons.childCount, -460);
+                    icon.GetComponent<RectTransform>().anchoredPosition = new Vector2(-822, 480 - 130*(terminalIcons.childCount-1));
                 }
             }
         }
@@ -259,10 +264,12 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator SpawnInfiniteWaves()
     {
+        int maxTerminals = numTerminals;
+        yield return new WaitUntil(() => numTerminals != maxTerminals);
         while (true)
         {
-            yield return new WaitForSeconds(15);
             StartCoroutine(WaveEnemies(Random.Range(1, 3)));
+            yield return new WaitForSeconds(20);
         }
     }
 
@@ -325,19 +332,41 @@ public class GameManager : MonoBehaviour
         iconToChange.GetChild(0).gameObject.SetActive(true);
         Destroy(bar.transform.parent.gameObject);
         playerPaused = false;
+        StartCoroutine(PlayDialogue(currentTerminal.dialogue));
         numTerminals--;
         if (numTerminals <= 0)
         {
             //Time.timeScale = 0.3f;
-            foreach (Transform child in enemyParent)
-            {
-                Destroy(child.gameObject);
-            }
-            inTransition = true;
-            yield return new WaitForSeconds(0.5f);
             //Time.timeScale = 1;
-            StartCoroutine(LoadNextRoom());
+            //StartCoroutine(LoadNextRoom());
+            GameObject.Find("Barrier").SetActive(false);
         }
+    }
+
+
+    public IEnumerator PlayDialogue(string line)
+    {
+        TextMeshProUGUI txt = dialogue.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+        txt.text = "";
+        dialogue.SetActive(true);
+        foreach (char c in line)
+        {
+            if (c=='*')
+                yield return new WaitForSeconds(0.1f);
+            else
+            {
+                txt.text += c;
+                if (c=='.' || c==',')
+                    yield return new WaitForSeconds(0.15f);
+                else if (c==' ')
+                    yield return new WaitForSeconds(0.1f);
+                else
+                    yield return new WaitForSeconds(0.05f);
+            }
+        }
+        yield return new WaitForSeconds(3);
+        dialogue.SetActive(false);
+        txt.text = "";
     }
 
 

@@ -25,7 +25,6 @@ public class TrapHitbox : Hitbox
     {
         if (hit.gameObject.layer == LayerMask.NameToLayer("Enemy") && lifeTimer > activateTime)
         {
-            Debug.Log("HIT!");
             transform.GetChild(0).gameObject.SetActive(true);
             StartCoroutine(Fade(0.5f));
             CheckCollisions();
