@@ -74,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (Input.GetKey(KeyCode.Space))
             jumpInputDelay = 0.3f;
-        if (grounded && jumpInputDelay > 0 && jumpDelay == 0 && !GameManager.Instance.pauseGame)
+        if (grounded && jumpInputDelay > 0 && jumpDelay == 0 && !GameManager.Instance.pauseGame && !GameManager.Instance.playerPaused)
         {
             jumpDelay = 0.3f;
             StartCoroutine(JumpAnim());
@@ -116,7 +116,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 camForward = Vector3.ProjectOnPlane(Camera.main.transform.forward, Vector3.up).normalized;
         Vector3 camRight = Vector3.ProjectOnPlane(Camera.main.transform.right, Vector3.up).normalized;
         moveDir = (lateral*camRight + forward*camForward).normalized;
-        if (moveDir != Vector3.zero && !GameManager.Instance.pauseGame && !GetComponent<PlayerSpells>().dashing)
+        if (moveDir != Vector3.zero && !GameManager.Instance.pauseGame && !GameManager.Instance.playerPaused && !GetComponent<PlayerSpells>().dashing)
         {
             float spd = speed;
             float rotSpd = rotationSpeed;
@@ -144,6 +144,12 @@ public class PlayerMovement : MonoBehaviour
             {
                 immunityTimer = 0.5f;
             }
+
+            //cancel terminal progress
+            StopCoroutine(GameManager.Instance.UseTerminal());
+            if (GameManager.Instance.bar != null)
+                Destroy(GameManager.Instance.bar.transform.parent.gameObject);
+            GameManager.Instance.playerPaused = false;
 
             //take damage
             health = Mathf.Max(0, health-dmg);

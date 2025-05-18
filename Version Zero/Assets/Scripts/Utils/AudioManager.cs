@@ -79,13 +79,13 @@ public class AudioManager : MonoBehaviour
             foreach (Sound s in currentSongs)
                 StartCoroutine(StartFade(s.name, 1, 0));
 
-            Play("Dreamer");
-            StartCoroutine(StartFade("Dreamer", 1, 0.2f));
+            Play("Boss 1");
+            StartCoroutine(StartFade("Boss 1", 1, 0.2f));
         }
-        else if (currentSongs.Find(s => s.name == "Sky Tower") == null)
+        else if (currentSongs.Find(s => s.name == "Area 1") == null)
         {
-            Play("Sky Tower");
-            StartCoroutine(StartFade("Sky Tower", 0.5f, 0.2f));
+            Play("Area 1");
+            StartCoroutine(StartFade("Area 1", 0.5f, 0.2f));
         }
     }
 

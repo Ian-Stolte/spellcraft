@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
@@ -17,9 +18,11 @@ public class GameManager : MonoBehaviour
 
     [Header("Bools")]
     [HideInInspector] public bool pauseGame;
+    [HideInInspector] public bool playerPaused;
     private bool inTransition;
     public bool doubleSpeed;
     public bool scifiNames;
+    public bool fullArea;
     
     [Header("Rooms")]
     [SerializeField] private Room[] rooms;
@@ -41,10 +44,19 @@ public class GameManager : MonoBehaviour
     public int numEnemies;
     [SerializeField] private string[] enemyPrefabs; //change to struct w/ spawn pct, weight, etc
     [SerializeField] private string[] enemyTypes;
-    private string enemyType;
+    private string enemyType = "Logic";
     [SerializeField] private Transform nodeParent;
     [SerializeField] private Transform enemyParent;
     [SerializeField] private List<int> waves = new List<int>();
+
+    [Header("Terminals")]
+    public int numTerminals = 2;
+    [SerializeField] private GameObject terminalBar;
+    [HideInInspector] public Image bar;
+    [HideInInspector] public Terminal currentTerminal;
+    public KeyCode terminalBind;
+    [SerializeField] private Transform terminalIcons;
+    [SerializeField] private GameObject terminalIcon;
 
     [Header("Misc")]
     [SerializeField] private GameObject rewardPrefab;
@@ -56,6 +68,8 @@ public class GameManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name.Contains("M_"))
             roomSize = RoomSize.MEDIUM;
+        if (SceneManager.GetActiveScene().name.Contains("Full"))
+            fullArea = true;
         player = GameObject.Find("Player").transform;
     }
 
@@ -95,6 +109,16 @@ public class GameManager : MonoBehaviour
                 numEnemies = Physics.OverlapSphere(Vector2.zero, 9999, LayerMask.GetMask("Enemy")).Length;
             }
             inTransition = false;
+
+            if (scene.name.Contains("Full"))
+            {
+                StartCoroutine(SpawnInfiniteWaves());
+                for (int i = 0; i < numTerminals; i++)
+                {
+                    GameObject icon = Instantiate(terminalIcon, Vector2.zero, terminalIcon.transform.rotation, terminalIcons);
+                    icon.GetComponent<RectTransform>().anchoredPosition = new Vector2(920 - 150*terminalIcons.childCount, -460);
+                }
+            }
         }
     }
 
@@ -233,11 +257,20 @@ public class GameManager : MonoBehaviour
             UpdateEnemyNum(0);
     }
 
+    public IEnumerator SpawnInfiniteWaves()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(15);
+            StartCoroutine(WaveEnemies(Random.Range(1, 3)));
+        }
+    }
+
 
     public void UpdateEnemyNum(int n)
     {
         numEnemies += n;
-        if (numEnemies <= 0 && !inTransition)
+        if (numEnemies <= 0 && !inTransition && !fullArea)
         {
             if (!staticSpawn && waves.Count > 0) //spawn more waves!
             {
@@ -270,6 +303,41 @@ public class GameManager : MonoBehaviour
         reward.GetComponent<Rigidbody>().velocity = new Vector3(0, -100, 0);
         reward.GetComponent<Reward>().numOptions = 3;
         inTransition = true;
+    }
+
+
+    public IEnumerator UseTerminal()
+    {
+        playerPaused = true;
+        bar = Instantiate(terminalBar, player.transform.position + new Vector3(0, 1.3f, 0), Quaternion.identity).transform.GetChild(1).GetComponent<Image>();
+        float elapsed = 0;
+        while (elapsed < 4)
+        {
+            if (bar == null)
+                yield break;
+            bar.fillAmount = elapsed/4f;
+            yield return null;
+            elapsed += Time.deltaTime;
+        }
+        currentTerminal.complete = true;
+        Transform iconToChange = terminalIcons.GetChild(terminalIcons.childCount - numTerminals);
+        iconToChange.GetComponent<CanvasGroup>().alpha = 0.5f;
+        iconToChange.GetChild(0).gameObject.SetActive(true);
+        Destroy(bar.transform.parent.gameObject);
+        playerPaused = false;
+        numTerminals--;
+        if (numTerminals <= 0)
+        {
+            //Time.timeScale = 0.3f;
+            foreach (Transform child in enemyParent)
+            {
+                Destroy(child.gameObject);
+            }
+            inTransition = true;
+            yield return new WaitForSeconds(0.5f);
+            //Time.timeScale = 1;
+            StartCoroutine(LoadNextRoom());
+        }
     }
 
 
