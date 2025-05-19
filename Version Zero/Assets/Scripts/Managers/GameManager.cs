@@ -52,8 +52,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject terminalIcon;
     [SerializeField] private Color unlockedColor;
 
-    [Header("Misc")]
+    [Header("Intro Dialogue")]
+    [SerializeField] private string[] reyaDialogue;
     [SerializeField] private GameObject dialogue;
+
+    [Header("Misc")]
     [SerializeField] private GameObject rewardPrefab;
     private Transform player;
     [SerializeField] private GameObject bossTxt;
@@ -117,6 +120,45 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+
+        if (scene.name == "Level 1")
+        {
+            StartCoroutine(IntroDialogue());
+        }
+    }
+
+    private IEnumerator IntroDialogue()
+    {
+        dialogue.SetActive(true);
+        TextMeshProUGUI txt = dialogue.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+        for (int i = 0; i < reyaDialogue.Length; i++)
+        {
+            txt.text = "";
+            foreach (char c in reyaDialogue[i])
+            {
+                if (c=='*')
+                    yield return new WaitForSeconds(0.1f);
+                else
+                {
+                    txt.text += c;
+                    if (c=='.' || c==',')
+                        yield return new WaitForSeconds(0.15f);
+                    else if (c==' ')
+                        yield return new WaitForSeconds(0.15f);
+                    else
+                        yield return new WaitForSeconds(0.08f);
+                }
+            }
+            if (i == reyaDialogue.Length-2)
+                Fader.Instance.FadeOut(12);
+            else if (i == reyaDialogue.Length-1)
+            {
+                player.GetComponent<PlayerMovement>().enabled = true;
+                pauseGame = false;
+            }
+            yield return new WaitForSeconds(2);
+        }
+        dialogue.SetActive(false);   
     }
 
 

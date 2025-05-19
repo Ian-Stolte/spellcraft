@@ -34,7 +34,8 @@ public class Fader : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        FadeOut(0.5f);
+        if (scene.name != "Level 1")
+            FadeOut(0.5f);
     }
 
     public void FadeIn(float n)

@@ -7,12 +7,20 @@ using TMPro;
 
 public class DialogueManager : MonoBehaviour
 {
+    [Header("Bools")]
+    [SerializeField] private bool fail;
+    [SerializeField] private bool instantFail;
+
+    [Header("Dialogue")]
     [SerializeField] private string[] plaintext;
     [SerializeField] private string[] encoded;
+    [SerializeField] private string[] failtext;
+    [SerializeField] private string[] failcodes;
     private string untranslated;
     private string translated;
 
     [SerializeField] private GameObject txtPrefab;
+    private TextMeshProUGUI txt;
     [SerializeField] private RectTransform scrollParent;
     
     [Header("Customizable")]
@@ -36,6 +44,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private float maxSpeed;
     [SerializeField] private float minDelay;
     [SerializeField] private float maxDelay;
+    private bool uploadFailed;
 
     [Header("Neural Activity")]
     [SerializeField] private RectTransform point;
@@ -55,17 +64,25 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private Image progressBar;
     [SerializeField] private GameObject completeTxt;
 
+    [Header("Error")]
+    [SerializeField] private GameObject errorFlash;
+
 
     void Start()
     {
-        plaintext[7] = "Procedure complete. Version " + SequenceManager.Instance.runNum + ".0 online.";
-        StartCoroutine(NeuralActivity());
+        if (SequenceManager.Instance != null)
+            plaintext[7] = "Procedure complete. Version " + SequenceManager.Instance.runNum + ".0 online.";
+        if (!instantFail)
+            StartCoroutine(NeuralActivity());
         StartCoroutine(SpeedText(downloadTxt, 2*minSpeed, 2*maxSpeed));
         direction = new Vector2(direction.x/point.parent.localScale.x, direction.y/point.parent.localScale.y).normalized;
+    
+        if (instantFail)
+            StartCoroutine(UploadFailed());
     }
 
 
-    private void Update()
+    private void FixedUpdate()
     {
         point.anchoredPosition += new Vector2(direction.x, direction.y*sign)*speed/60;
         if (!manualControl)
@@ -113,7 +130,10 @@ public class DialogueManager : MonoBehaviour
         StartCoroutine(Peak(0.15f));
         yield return new WaitForSeconds(0.8f);
         StartCoroutine(Peak(0.1f));
-        StartCoroutine(TypeText());
+        if (fail)
+            StartCoroutine(FailSeq());
+        else
+            StartCoroutine(SuccessSeq());
         yield return new WaitForSeconds(3);
         sign = 1;
         manualControl = false;
@@ -143,7 +163,7 @@ public class DialogueManager : MonoBehaviour
     }
 
 
-    private IEnumerator TypeText()
+    private IEnumerator SuccessSeq()
     {
         for (int i = 0; i < plaintext.Length; i++)
         {
@@ -170,62 +190,112 @@ public class DialogueManager : MonoBehaviour
             else if (i == 7)
                 yield return new WaitForSeconds(2);
 
-            if (spawnPos.y > -250)
-            {
-                if (scrollParent.childCount == 0)
-                    spawnPos += new Vector2(0, spacing);
-                else
-                {
-                    float lastHeight = scrollParent.GetChild(scrollParent.childCount-1).GetComponent<TextMeshProUGUI>().preferredHeight;
-                    spawnPos -= new Vector2(0, spacing + lastHeight);
-                }
-            }
-            else
-            {
-                float lastHeight = scrollParent.GetChild(scrollParent.childCount-1).GetComponent<TextMeshProUGUI>().preferredHeight;
-                TextMeshProUGUI testObj = Instantiate(txtPrefab, Vector2.zero, Quaternion.identity, scrollParent).GetComponent<TextMeshProUGUI>();
-                testObj.text = plaintext[i];
-                yield return null;
-                scrollParent.anchoredPosition += new Vector2(0, spacing + testObj.preferredHeight);
-                spawnPos -= new Vector2(0, lastHeight - testObj.preferredHeight);
-                Destroy(testObj.gameObject);
-            }
-            GameObject txtObj = Instantiate(txtPrefab, Vector2.zero, Quaternion.identity, scrollParent);
-            txtObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(spawnPos.x, spawnPos.y - scrollParent.anchoredPosition.y);
-            TextMeshProUGUI txt = txtObj.GetComponent<TextMeshProUGUI>();
-            txt.text = "";
-            untranslated = "";
-            translated = "";
-        
-            for (int j = 0; j < plaintext[i].Length + transDelay; j++)
-            {
-                int convFactor = Random.Range(1, 3);
-                for (int k = 0; k < convFactor; k++)
-                {
-                    if (j*convFactor + k < encoded[i].Length)
-                    {
-                        untranslated += encoded[i][j*convFactor + k];
-                        txt.text = translated + "<color=#95EAE1> " + untranslated;
-                        yield return new WaitForSeconds(typeSpeed);
-                    }
-                }
-                if (j >= transDelay)
-                {
-                    //string end = (j-transDelay+convFactor < currTxt.Length) ? currTxt.Substring(j-transDelay+convFactor) : "";
-                    untranslated = (convFactor < untranslated.Length) ? untranslated.Substring(convFactor) : "";
-                    translated += plaintext[i][j-transDelay];
-                    txt.text = translated + "<color=#95EAE1> " + untranslated;
-                    yield return new WaitForSeconds(typeSpeed);
-                }
-            }
-            txt.text = translated;
-            yield return new WaitForSeconds(messageDelay);
+            yield return StartCoroutine(TypeText(i));
         }
 
         yield return new WaitForSeconds(2);
         Fader.Instance.FadeIn(2);
         yield return new WaitForSeconds(1);
-        SceneManager.LoadScene("Intro Room");
+        SceneManager.LoadScene("Level 1");
+    }
+
+    private IEnumerator FailSeq()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            if (i == 2)
+                StartCoroutine(ShowLearning());
+            else if (i == 3)
+            {
+                yield return new WaitForSeconds(4.5f);
+                StartCoroutine(SpeedText(uploadTxt, minSpeed, maxSpeed));
+                StartCoroutine(ProgressBar(4, 3));
+            }
+            
+            yield return StartCoroutine(TypeText(i));
+        }
+
+        //type out error warnings
+        yield return new WaitForSeconds(1);
+        for (int i = 0; i < failtext.Length; i++)
+        {
+            yield return SpawnText(failtext[i] + failcodes[i]);
+            int charsTyped = 0;
+            untranslated = "";
+            translated = "";
+            for (int j = 0; j < failtext[i].Length; j++)
+            {
+                untranslated += failtext[i][j];
+                if (Random.Range(0f, 1f) < 0.2f)
+                    untranslated += "<color=#95EAE1>" + failcodes[i][j] + "</color>";
+                //translated += failcodes[i][j];
+                txt.text = untranslated + "<color=#95EAE1> " + translated;
+                yield return new WaitForSeconds(typeSpeed);
+            }
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
+    private IEnumerator SpawnText(string text)
+    {
+        if (spawnPos.y > -250)
+        {
+            if (scrollParent.childCount == 0)
+                spawnPos += new Vector2(0, spacing);
+            else
+            {
+                float lastHeight = scrollParent.GetChild(scrollParent.childCount-1).GetComponent<TextMeshProUGUI>().preferredHeight;
+                spawnPos -= new Vector2(0, spacing + lastHeight);
+            }
+        }
+        else
+        {
+            float lastHeight = scrollParent.GetChild(scrollParent.childCount-1).GetComponent<TextMeshProUGUI>().preferredHeight;
+            TextMeshProUGUI testObj = Instantiate(txtPrefab, Vector2.zero, Quaternion.identity, scrollParent).GetComponent<TextMeshProUGUI>();
+            testObj.text = text;
+            yield return null;
+            scrollParent.anchoredPosition += new Vector2(0, spacing + testObj.preferredHeight);
+            spawnPos -= new Vector2(0, lastHeight - testObj.preferredHeight);
+            Destroy(testObj.gameObject);
+        }
+        GameObject txtObj = Instantiate(txtPrefab, Vector2.zero, Quaternion.identity, scrollParent);
+        txtObj.GetComponent<RectTransform>().anchoredPosition = new Vector2(spawnPos.x, spawnPos.y - scrollParent.anchoredPosition.y);
+        txt = txtObj.GetComponent<TextMeshProUGUI>();
+        txt.text = "";
+    }
+
+    private IEnumerator TypeText(int i)
+    {
+        yield return SpawnText(plaintext[i]);
+        untranslated = "";
+        translated = "";
+    
+        for (int j = 0; j < plaintext[i].Length + transDelay; j++)
+        {
+            int convFactor = Random.Range(1, 3);
+            for (int k = 0; k < convFactor; k++)
+            {
+                if (j*convFactor + k < encoded[i].Length)
+                {
+                    untranslated += encoded[i][j*convFactor + k];
+                    txt.text = translated + "<color=#95EAE1> " + untranslated;
+                    yield return new WaitForSeconds(typeSpeed);
+                }
+            }
+            if (j >= transDelay)
+            {
+                //string end = (j-transDelay+convFactor < currTxt.Length) ? currTxt.Substring(j-transDelay+convFactor) : "";
+                untranslated = (convFactor < untranslated.Length) ? untranslated.Substring(convFactor) : "";
+                translated += plaintext[i][j-transDelay];
+                txt.text = translated + "<color=#95EAE1> " + untranslated;
+                yield return new WaitForSeconds(typeSpeed);
+            }
+
+            if (uploadFailed)
+                yield break;
+        }
+        txt.text = translated;
+        yield return new WaitForSeconds(messageDelay);
     }
 
 
@@ -277,7 +347,7 @@ public class DialogueManager : MonoBehaviour
     private IEnumerator SpeedText(TextMeshProUGUI txt, float totalMin, float totalMax)
     {
         float currSpd = Random.Range(totalMin, totalMax);
-        while (true)
+        while (!uploadFailed)
         {
             float randomNoise = Random.Range(0f, 1f);
             if (randomNoise < 0.05f && currSpd > 1)
@@ -293,10 +363,11 @@ public class DialogueManager : MonoBehaviour
             txt.text = Mathf.Round(10*Random.Range(min, max))/10f + "";
             yield return new WaitForSeconds(Random.Range(minDelay, maxDelay));
         }
+        txt.text = "####";
     }
 
 
-    private IEnumerator ProgressBar(float duration)
+    private IEnumerator ProgressBar(float duration, float failTime=0)
     {
         completeTxt.SetActive(false);
         progressBar.gameObject.SetActive(true);
@@ -308,8 +379,37 @@ public class DialogueManager : MonoBehaviour
             float randomWait = Random.Range(0.01f, 0.2f);
             elapsed += randomWait;
             yield return new WaitForSeconds(randomWait);
+
+            if (failTime != 0 && elapsed > failTime)
+            {
+                StartCoroutine(UploadFailed());
+                yield break;
+            }
         }
         progressBar.fillAmount = 1;
         completeTxt.SetActive(true);
+    }
+
+    private IEnumerator UploadFailed()
+    {
+        uploadFailed = true;
+
+        //change neural activity
+        direction.y = 2;
+        direction.x = 0.1f;
+        speed = 1200;
+        trailDensity = 1;
+        flipChance = new Vector2(1, 10);
+    
+        if (!instantFail)
+            yield return new WaitForSeconds(4);
+        errorFlash.SetActive(true);
+        if (instantFail)
+            yield return new WaitForSeconds(3);
+        else
+            yield return new WaitForSeconds(12);
+        Fader.Instance.GetComponent<CanvasGroup>().alpha = 1;
+        yield return new WaitForSeconds(3);
+        SceneManager.LoadScene("Level 1");
     }
 }
