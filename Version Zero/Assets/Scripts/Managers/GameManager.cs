@@ -29,13 +29,6 @@ public class GameManager : MonoBehaviour
     private int roomNum = 1;
     [SerializeField] private TextMeshProUGUI roomText;
     [SerializeField] private LayerMask terrainLayer;
-    public enum RoomSize
-    {
-        SMALL,
-        MEDIUM,
-        BOTH
-    }
-    public RoomSize roomSize;
     [SerializeField] private int[] bossRooms;
     private int bossIndex;
     
@@ -57,6 +50,7 @@ public class GameManager : MonoBehaviour
     public KeyCode terminalBind;
     [SerializeField] private Transform terminalIcons;
     [SerializeField] private GameObject terminalIcon;
+    [SerializeField] private Color unlockedColor;
 
     [Header("Misc")]
     [SerializeField] private GameObject dialogue;
@@ -67,9 +61,7 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
-        if (SceneManager.GetActiveScene().name.Contains("M_"))
-            roomSize = RoomSize.MEDIUM;
-        if (SceneManager.GetActiveScene().name.Contains("Full"))
+        if (SceneManager.GetActiveScene().name.Contains("Level"))
             fullArea = true;
         player = GameObject.Find("Player").transform;
     }
@@ -111,7 +103,7 @@ public class GameManager : MonoBehaviour
             }
             inTransition = false;
 
-            if (scene.name.Contains("Full"))
+            if (scene.name.Contains("Level"))
             {
                 foreach (Transform child in terminalIcons)
                     Destroy(child.gameObject);
@@ -340,6 +332,8 @@ public class GameManager : MonoBehaviour
             //Time.timeScale = 1;
             //StartCoroutine(LoadNextRoom());
             GameObject.Find("Barrier").SetActive(false);
+            GameObject.Find("Barrier Text").GetComponent<TextMeshProUGUI>().text = "Welcome, AUTH_USER!";
+            GameObject.Find("Barrier Text").GetComponent<TextMeshProUGUI>().color = unlockedColor;
         }
     }
 
@@ -369,6 +363,16 @@ public class GameManager : MonoBehaviour
         txt.text = "";
     }
 
+
+    public IEnumerator LoadNextLevel()
+    {
+        Fader.Instance.FadeIn(1);
+        yield return new WaitForSeconds(1);
+        int levelNum = int.Parse(SceneManager.GetActiveScene().name.Substring(6))+1;
+        string areaStr = (levelNum < 10) ? "0" + levelNum : "" + levelNum;
+        roomText.text = "Area_" + areaStr;
+        SceneManager.LoadScene("Level " + levelNum);
+    }
 
     public IEnumerator LoadNextRoom()
     {
@@ -416,14 +420,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                bool medium = roomSize == RoomSize.MEDIUM;
-                if (roomSize == RoomSize.BOTH)
-                {
-                    if (Random.Range(0f, 1f) < 0.5f)
-                        medium = true;
-                }
-                string roomToLoad = (medium) ?  "M_ " + chosen.name : chosen.name;
-                SceneManager.LoadScene(roomToLoad);
+                SceneManager.LoadScene(chosen.name);
                 chosen.active = true;
                 chosen.weight *= 0.5f;
             }

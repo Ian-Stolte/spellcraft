@@ -8,7 +8,7 @@ public class StageEnd : MonoBehaviour
     {
         if (hit.gameObject.name == "Player")
         {
-            StartCoroutine(GameManager.Instance.LoadNextRoom());
+            StartCoroutine(GameManager.Instance.LoadNextLevel());
         }
     }
 }
