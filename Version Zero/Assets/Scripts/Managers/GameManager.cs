@@ -22,7 +22,8 @@ public class GameManager : MonoBehaviour
     private bool inTransition;
     public bool doubleSpeed;
     public bool scifiNames;
-    public bool fullArea;
+    private bool fullArea;
+    public bool skipDialogue;
     
     [Header("Rooms")]
     [SerializeField] private Room[] rooms;
@@ -52,9 +53,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject terminalIcon;
     [SerializeField] private Color unlockedColor;
 
-    [Header("Intro Dialogue")]
+    [Header("Dialogue")]
     [SerializeField] private string[] reyaDialogue;
     [SerializeField] private GameObject dialogue;
+    [SerializeField] private GameObject[] portraits;
 
     [Header("Misc")]
     [SerializeField] private GameObject rewardPrefab;
@@ -111,12 +113,12 @@ public class GameManager : MonoBehaviour
                 foreach (Transform child in terminalIcons)
                     Destroy(child.gameObject);
                 numTerminals = Physics.OverlapSphere(Vector2.zero, 9999, LayerMask.GetMask("Terminal")).Length;
-                StartCoroutine(SpawnInfiniteWaves());
+                //StartCoroutine(SpawnInfiniteWaves());
                 for (int i = 0; i < numTerminals; i++)
                 {
                     GameObject icon = Instantiate(terminalIcon, Vector2.zero, terminalIcon.transform.rotation, terminalIcons);
                     //icon.GetComponent<RectTransform>().anchoredPosition = new Vector2(920 - 150*terminalIcons.childCount, -460);
-                    icon.GetComponent<RectTransform>().anchoredPosition = new Vector2(-822, 480 - 130*(terminalIcons.childCount-1));
+                    icon.GetComponent<RectTransform>().anchoredPosition = new Vector2(-822, 480 - 130*i);
                 }
             }
         }
@@ -131,34 +133,45 @@ public class GameManager : MonoBehaviour
     {
         dialogue.SetActive(true);
         TextMeshProUGUI txt = dialogue.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
-        for (int i = 0; i < reyaDialogue.Length; i++)
+        if (!skipDialogue)
         {
-            txt.text = "";
-            foreach (char c in reyaDialogue[i])
+            for (int i = 0; i < reyaDialogue.Length; i++)
             {
-                if (c=='*')
-                    yield return new WaitForSeconds(0.1f);
-                else
+                txt.text = "";
+                foreach (char c in reyaDialogue[i])
                 {
-                    txt.text += c;
-                    if (c=='.' || c==',')
-                        yield return new WaitForSeconds(0.15f);
-                    else if (c==' ')
-                        yield return new WaitForSeconds(0.15f);
+                    if (c=='*')
+                        yield return new WaitForSeconds(0.1f);
                     else
-                        yield return new WaitForSeconds(0.08f);
+                    {
+                        txt.text += c;
+                        if (c=='.' || c==',')
+                            yield return new WaitForSeconds(0.15f);
+                        else if (c==' ')
+                            yield return new WaitForSeconds(0.15f);
+                        else
+                            yield return new WaitForSeconds(0.08f);
+                    }
                 }
+                if (i == reyaDialogue.Length-2)
+                    Fader.Instance.FadeOut(12);
+                else if (i == reyaDialogue.Length-1)
+                {
+                    player.GetComponent<PlayerMovement>().enabled = true;
+                    pauseGame = false;
+                }
+                yield return new WaitForSeconds(2);
             }
-            if (i == reyaDialogue.Length-2)
-                Fader.Instance.FadeOut(12);
-            else if (i == reyaDialogue.Length-1)
-            {
-                player.GetComponent<PlayerMovement>().enabled = true;
-                pauseGame = false;
-            }
-            yield return new WaitForSeconds(2);
+            dialogue.SetActive(false);
         }
-        dialogue.SetActive(false);   
+        else
+        {
+            dialogue.SetActive(false);
+            Fader.Instance.FadeOut(0.5f);
+            yield return new WaitForSeconds(0.5f);
+            player.GetComponent<PlayerMovement>().enabled = true;
+            pauseGame = false;
+        }
     }
 
 
@@ -366,7 +379,7 @@ public class GameManager : MonoBehaviour
         iconToChange.GetChild(0).gameObject.SetActive(true);
         Destroy(bar.transform.parent.gameObject);
         playerPaused = false;
-        StartCoroutine(PlayDialogue(currentTerminal.dialogue));
+        StartCoroutine(PlayMultipleDialogues(currentTerminal.dialogue));
         numTerminals--;
         if (numTerminals <= 0)
         {
@@ -379,28 +392,37 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
-    public IEnumerator PlayDialogue(string line)
+    public IEnumerator PlayMultipleDialogues(string[] lines)
     {
+        foreach (string s in lines)
+        {
+            yield return PlayDialogue(s, 1f); 
+        }
+    }
+
+    public IEnumerator PlayDialogue(string line, float waitTime=3f)
+    {
+        portraits[0].SetActive(line[0] != '~');
+        portraits[1].SetActive(line[0] == '~');
         TextMeshProUGUI txt = dialogue.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
         txt.text = "";
         dialogue.SetActive(true);
         foreach (char c in line)
         {
             if (c=='*')
-                yield return new WaitForSeconds(0.1f);
-            else
+                yield return new WaitForSeconds(0.15f);
+            else if (c != '~')
             {
                 txt.text += c;
                 if (c=='.' || c==',')
                     yield return new WaitForSeconds(0.15f);
                 else if (c==' ')
-                    yield return new WaitForSeconds(0.1f);
+                    yield return new WaitForSeconds(0.08f);
                 else
-                    yield return new WaitForSeconds(0.05f);
+                    yield return new WaitForSeconds(0.04f);
             }
         }
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(waitTime);
         dialogue.SetActive(false);
         txt.text = "";
     }
@@ -408,8 +430,9 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator LoadNextLevel()
     {
-        Fader.Instance.FadeIn(1);
         yield return new WaitForSeconds(1);
+        Fader.Instance.FadeIn(2);
+        yield return new WaitForSeconds(2);
         int levelNum = int.Parse(SceneManager.GetActiveScene().name.Substring(6))+1;
         string areaStr = (levelNum < 10) ? "0" + levelNum : "" + levelNum;
         roomText.text = "Area_" + areaStr;
