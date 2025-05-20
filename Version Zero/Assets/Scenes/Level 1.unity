@@ -5810,7 +5810,7 @@ MonoBehaviour:
   playerPaused: 0
   doubleSpeed: 0
   scifiNames: 0
-  skipDialogue: 1
+  skipDialogue: 0
   rooms:
   - name: Room 1
     active: 1

@@ -35,21 +35,29 @@ public class Fader : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (scene.name != "Level 1")
-            FadeOut(0.5f);
+        {
+            if (scene.name.Contains("Level"))
+                FadeOut(1.5f);
+            else
+               FadeOut(0.5f);
+        }
     }
 
-    public void FadeIn(float n)
+    public void FadeIn(float n, bool quad=false)
     {
-        StartCoroutine(FadeInCor(n));
+        StartCoroutine(FadeInCor(n, quad));
     }
 
-    private IEnumerator FadeInCor(float n)
+    private IEnumerator FadeInCor(float n, bool quad)
     {
         float elapsed = 0f;
         while (elapsed < n)
         {
             elapsed += Time.deltaTime;
-            GetComponent<CanvasGroup>().alpha = elapsed/n;
+            if (quad)
+                GetComponent<CanvasGroup>().alpha = Mathf.Pow(elapsed/n, 2);
+            else
+                GetComponent<CanvasGroup>().alpha = elapsed/n;
             yield return null;
         }
         GetComponent<CanvasGroup>().alpha = 1;

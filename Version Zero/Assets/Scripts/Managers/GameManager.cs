@@ -44,14 +44,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<int> waves = new List<int>();
 
     [Header("Terminals")]
-    [HideInInspector] public int numTerminals;
     [SerializeField] private GameObject terminalBar;
     [HideInInspector] public Image bar;
     [HideInInspector] public Terminal currentTerminal;
+    [HideInInspector] public int numTerminals;
     public KeyCode terminalBind;
     [SerializeField] private Transform terminalIcons;
     [SerializeField] private GameObject terminalIcon;
     [SerializeField] private Color unlockedColor;
+    [SerializeField] private Material barrierGreen;
 
     [Header("Dialogue")]
     [SerializeField] private string[] reyaDialogue;
@@ -62,6 +63,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject rewardPrefab;
     private Transform player;
     [SerializeField] private GameObject bossTxt;
+    [SerializeField] private GameObject loadingText;
 
     
     void Start()
@@ -386,7 +388,10 @@ public class GameManager : MonoBehaviour
             //Time.timeScale = 0.3f;
             //Time.timeScale = 1;
             //StartCoroutine(LoadNextRoom());
-            GameObject.Find("Barrier").SetActive(false);
+            Transform barrier = GameObject.Find("Barrier").transform;
+            barrier.GetChild(0).gameObject.SetActive(false);
+            barrier.GetChild(1).GetComponent<MeshRenderer>().material = barrierGreen;
+            barrier.GetChild(2).GetComponent<MeshRenderer>().material = barrierGreen;
             GameObject.Find("Barrier Text").GetComponent<TextMeshProUGUI>().text = "Welcome, AUTH_USER!";
             GameObject.Find("Barrier Text").GetComponent<TextMeshProUGUI>().color = unlockedColor;
         }
@@ -430,9 +435,15 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator LoadNextLevel()
     {
-        yield return new WaitForSeconds(1);
-        Fader.Instance.FadeIn(2);
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(0.5f);
+        Fader.Instance.FadeIn(1.2f, true);
+        yield return new WaitForSeconds(1.2f);
+        yield return new WaitForSeconds(1.5f);
+        //TODO: fade text in & out
+        //TODO: set correct destination for each elevator (grab from elevator script?)
+        loadingText.SetActive(true);
+        yield return new WaitForSeconds(2.5f);
+        loadingText.SetActive(false);
         int levelNum = int.Parse(SceneManager.GetActiveScene().name.Substring(6))+1;
         string areaStr = (levelNum < 10) ? "0" + levelNum : "" + levelNum;
         roomText.text = "Area_" + areaStr;
