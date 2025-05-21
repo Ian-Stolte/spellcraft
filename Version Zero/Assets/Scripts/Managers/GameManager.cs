@@ -92,8 +92,8 @@ public class GameManager : MonoBehaviour
         else
         {
             enemyParent = GameObject.Find("Enemies").transform;
-            nodeParent = GameObject.Find("Spawn Nodes").transform;
-            if (levelNum != 1 && !scene.name.Contains("Boss"))
+            //nodeParent = GameObject.Find("Spawn Nodes").transform;
+            /*if (levelNum != 1 && !scene.name.Contains("Boss"))
             {
                 enemyType = enemyTypes[Random.Range(0, enemyTypes.Length)];
                 if (staticSpawn)
@@ -107,9 +107,9 @@ public class GameManager : MonoBehaviour
                 }
             }
             else
-            {
+            {*/
                 numEnemies = Physics.OverlapSphere(Vector2.zero, 9999, LayerMask.GetMask("Enemy")).Length;
-            }
+            //}
             inTransition = false;
 
             if (scene.name.Contains("Level"))
@@ -135,7 +135,7 @@ public class GameManager : MonoBehaviour
                     minSpawn = 10;
                     maxSpawn = 20;
                 }
-                if (scene.name != "Level 1")
+                if (scene.name != "Level 1" && scene.name != "Level 2")
                     StartCoroutine(SpawnInfiniteWaves());
             }
         }
@@ -154,24 +154,31 @@ public class GameManager : MonoBehaviour
         {
             for (int i = 0; i < reyaDialogue.Length; i++)
             {
+                float slowDown = (i < 2) ? 1.5f : 1f;
+                portraits[0].SetActive(reyaDialogue[i][0] != '~');
+                portraits[1].SetActive(reyaDialogue[i][0] == '~');
                 txt.text = "";
                 foreach (char c in reyaDialogue[i])
                 {
-                    if (c=='*')
-                        yield return new WaitForSeconds(0.1f);
-                    else
+                    if (c == '*')
+                        yield return new WaitForSeconds(0.15f);
+                    else if (c != '~')
                     {
                         txt.text += c;
-                        if (c=='.' || c==',')
-                            yield return new WaitForSeconds(0.15f);
-                        else if (c==' ')
-                            yield return new WaitForSeconds(0.15f);
+                        if (c == '.' || c == ',')
+                            yield return new WaitForSeconds(0.10f * slowDown);
+                        else if (c == ' ')
+                            yield return new WaitForSeconds(0.10f * slowDown);
                         else
-                            yield return new WaitForSeconds(0.08f);
+                            yield return new WaitForSeconds(0.05f * slowDown);
                     }
                 }
                 if (i == reyaDialogue.Length-2)
+                {
                     Fader.Instance.FadeOut(12);
+                    AudioManager.Instance.Play("Area 1");
+                    StartCoroutine(AudioManager.Instance.StartFade("Area 1", 0.5f, 0.2f));
+                }
                 else if (i == reyaDialogue.Length-1)
                 {
                     player.GetComponent<PlayerMovement>().enabled = true;
@@ -184,6 +191,8 @@ public class GameManager : MonoBehaviour
         else
         {
             dialogue.SetActive(false);
+            AudioManager.Instance.Play("Area 1");
+            StartCoroutine(AudioManager.Instance.StartFade("Area 1", 0.5f, 0.2f));
             Fader.Instance.FadeOut(0.5f);
             yield return new WaitForSeconds(0.5f);
             player.GetComponent<PlayerMovement>().enabled = true;
@@ -326,10 +335,10 @@ public class GameManager : MonoBehaviour
             UpdateEnemyNum(0);
     }
 
-    public IEnumerator SpawnInfiniteWaves()
+    public IEnumerator SpawnInfiniteWaves(bool wait=true)
     {
         int maxTerminals = numTerminals;
-        yield return new WaitUntil(() => numTerminals != maxTerminals);
+        yield return new WaitUntil(() => numTerminals != maxTerminals || !wait);
         while (true)
         {
             StartCoroutine(WaveEnemies(1));
@@ -398,18 +407,19 @@ public class GameManager : MonoBehaviour
         playerPaused = false;
         StartCoroutine(PlayMultipleDialogues(currentTerminal.dialogue));
         numTerminals--;
-        if (numTerminals <= 0)
-        {
-            //Time.timeScale = 0.3f;
-            //Time.timeScale = 1;
-            //StartCoroutine(LoadNextRoom());
-            Transform barrier = GameObject.Find("Barrier").transform;
-            barrier.GetChild(0).gameObject.SetActive(false);
-            barrier.GetChild(1).GetComponent<MeshRenderer>().material = barrierGreen;
-            barrier.GetChild(2).GetComponent<MeshRenderer>().material = barrierGreen;
-            GameObject.Find("Barrier Text").GetComponent<TextMeshProUGUI>().text = "Welcome, AUTH_USER!";
-            GameObject.Find("Barrier Text").GetComponent<TextMeshProUGUI>().color = unlockedColor;
-        }
+        
+        //disable barrier
+        //TODO: logic for multiple terminals -> one barrier (int on barrier that gets decremented?)
+        Transform barrier = currentTerminal.barrier;    
+        barrier.GetChild(0).gameObject.SetActive(false);
+        barrier.GetChild(1).GetComponent<MeshRenderer>().material = barrierGreen;
+        barrier.GetChild(2).GetComponent<MeshRenderer>().material = barrierGreen;
+        TextMeshProUGUI txt = barrier.GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
+        txt.text = "Welcome, AUTH_USER!";
+        txt.color = unlockedColor;
+
+        if (SceneManager.GetActiveScene().name == "Level 2" && numTerminals <= 0)
+            StartCoroutine(SpawnInfiniteWaves(false));
     }
 
     public IEnumerator PlayMultipleDialogues(string[] lines)

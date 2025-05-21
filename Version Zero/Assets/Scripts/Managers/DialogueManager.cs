@@ -73,7 +73,10 @@ public class DialogueManager : MonoBehaviour
         if (SequenceManager.Instance != null)
             plaintext[7] = "Procedure complete. Version " + SequenceManager.Instance.runNum + ".0 online.";
         if (!instantFail)
+        {
             StartCoroutine(NeuralActivity());
+            AudioManager.Instance.Play("Startup UI");
+        }
         StartCoroutine(SpeedText(downloadTxt, 2*minSpeed, 2*maxSpeed));
         direction = new Vector2(direction.x/point.parent.localScale.x, direction.y/point.parent.localScale.y).normalized;
     
@@ -210,12 +213,15 @@ public class DialogueManager : MonoBehaviour
                 yield return new WaitForSeconds(4.5f);
                 StartCoroutine(SpeedText(uploadTxt, minSpeed, maxSpeed));
                 StartCoroutine(ProgressBar(4, 3));
+                //StartCoroutine(AudioManager.Instance.StartFade("Startup UI", 3, 0));
             }
             
             yield return StartCoroutine(TypeText(i));
         }
 
         //type out error warnings
+        AudioManager.Instance.Stop("Startup UI");
+        AudioManager.Instance.Play("Alarm");
         yield return new WaitForSeconds(1);
         for (int i = 0; i < failtext.Length; i++)
         {
@@ -226,13 +232,14 @@ public class DialogueManager : MonoBehaviour
             for (int j = 0; j < failtext[i].Length; j++)
             {
                 untranslated += failtext[i][j];
-                if (Random.Range(0f, 1f) < 0.2f)
+                if (Random.Range(0f, 1f) < 0.1f)
                     untranslated += "<color=#95EAE1>" + failcodes[i][j] + "</color>";
                 //translated += failcodes[i][j];
                 txt.text = untranslated + "<color=#95EAE1> " + translated;
                 yield return new WaitForSeconds(typeSpeed);
             }
-            yield return new WaitForSeconds(1f);
+            if (failtext[i] != "Restarting syst")
+               yield return new WaitForSeconds(1f);
         }
     }
 
@@ -407,8 +414,9 @@ public class DialogueManager : MonoBehaviour
         if (instantFail)
             yield return new WaitForSeconds(3);
         else
-            yield return new WaitForSeconds(12);
+            yield return new WaitForSeconds(11);
         Fader.Instance.GetComponent<CanvasGroup>().alpha = 1;
+        AudioManager.Instance.Stop("Alarm");
         yield return new WaitForSeconds(3);
         SceneManager.LoadScene("Level 1");
     }

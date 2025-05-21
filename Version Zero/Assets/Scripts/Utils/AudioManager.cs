@@ -85,11 +85,11 @@ public class AudioManager : MonoBehaviour
             Play("Boss 1");
             StartCoroutine(StartFade("Boss 1", 1, 0.2f));
         }
-        else if (currentSongs.Find(s => s.name == "Area 1") == null)
+        /*else if (currentSongs.Find(s => s.name == "Area 1") == null)
         {
             Play("Area 1");
             StartCoroutine(StartFade("Area 1", 0.5f, 0.2f));
-        }
+        }*/
     }
 
     public IEnumerator FadeOutAll(float duration)

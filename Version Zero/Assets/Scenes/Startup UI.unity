@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465788, g: 0.49641287, b: 0.5748173, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3144,6 +3144,199 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1180529744}
   m_CullTransparentMesh: 1
+--- !u!1001 &1250038987
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 783409167344425059, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.09595777
+      objectReference: {fileID: 0}
+    - target: {fileID: 783409167344425059, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.8145182
+      objectReference: {fileID: 0}
+    - target: {fileID: 783409167344425059, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.72503525
+      objectReference: {fileID: 0}
+    - target: {fileID: 783409167344425059, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 783409167344425059, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 783409167344425059, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 783409167344425059, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 783409167344425059, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 783409167344425059, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 783409167344425059, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: music.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: uiSFX.Array.size
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: music.Array.data[0].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: b5a1aff8af98945bb997fc529371b8a9, type: 3}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: music.Array.data[0].name
+      value: Area 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: music.Array.data[1].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 1bd7c1f34cee1804294c0dacc1cda9d1, type: 3}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: music.Array.data[1].name
+      value: Boss 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: music.Array.data[2].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: c6c93a3fe7a2f4fa18b54d0e7ad4f331, type: 3}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: music.Array.data[2].name
+      value: Startup UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: uiSFX.Array.data[0].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: a9b22799372754acfa237faa5effcab8, type: 3}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: uiSFX.Array.data[0].name
+      value: Alarm
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: uiSFX.Array.data[1].name
+      value: Build Select
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: uiSFX.Array.data[2].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 063fe8287df07634a9e63aad88eaff22, type: 3}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: uiSFX.Array.data[2].name
+      value: Button Click
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: uiSFX.Array.data[3].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: ef98ce750d93e40129589f397be6efc5, type: 3}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: uiSFX.Array.data[3].name
+      value: Button Hover
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: uiSFX.Array.data[4].name
+      value: Enter Game
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: uiSFX.Array.data[5].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 063fe8287df07634a9e63aad88eaff22, type: 3}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: uiSFX.Array.data[5].name
+      value: Error
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: uiSFX.Array.data[6].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: ef98ce750d93e40129589f397be6efc5, type: 3}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: uiSFX.Array.data[6].name
+      value: Grab Block
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: uiSFX.Array.data[7].name
+      value: Reward Click
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: uiSFX.Array.data[8].name
+      value: Snap Block
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: uiSFX.Array.data[9].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 063fe8287df07634a9e63aad88eaff22, type: 3}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: uiSFX.Array.data[9].name
+      value: Upgrade
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: music.Array.data[2].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: uiSFX.Array.data[10].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: ef98ce750d93e40129589f397be6efc5, type: 3}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: uiSFX.Array.data[10].name
+      value: Upgrade Hover
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: uiSFX.Array.data[10].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: uiSFX.Array.data[2].volume
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: uiSFX.Array.data[3].volume
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: uiSFX.Array.data[5].volume
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: uiSFX.Array.data[6].volume
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: uiSFX.Array.data[9].volume
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: uiSFX.Array.data[10].volume
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7551959242866408720, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: m_Name
+      value: Audio Manager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
 --- !u!1 &1261219885
 GameObject:
   m_ObjectHideFlags: 0
@@ -4163,6 +4356,7 @@ CanvasRenderer:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1250038987}
   - {fileID: 312827592}
   - {fileID: 1564378966}
   - {fileID: 970422805}

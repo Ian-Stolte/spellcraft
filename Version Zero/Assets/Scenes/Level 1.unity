@@ -328,7 +328,7 @@ Transform:
   m_GameObject: {fileID: 6663332}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 22.54, y: 1.2, z: 24.82}
+  m_LocalPosition: {x: 22.8, y: 1.2, z: 24.6}
   m_LocalScale: {x: 1.3057889, y: 2.5160525, z: 1.3057889}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -351,13 +351,12 @@ MonoBehaviour:
   activateTxt: {fileID: 1485506045}
   complete: 0
   dialogue:
-  - Hey, Computer--****what's the date today?
-  - ~it is currently 4:13am on Sunday, the 27th of March!*** The current year is--
-  - I didn't ask what year it is.
-  - ~ohh, I am very sorry for providing unnecessary information miss.** It appears
+  - "Hey, Computer\u2014***what time is it?**"
+  - "~it is currently 4:13am on Sunday, the 27th of March!*** The current year is\u2014"
+  - Shit.**** Not even close to curfew.**
+  - And not even close to the way I programmed you to answer, either...
+  - ~oh I am very sorry for providing unnecessary information miss.** It appears
     I have had some trouble in loading your preferred settings
-  - ~please let me know if you do not have the user experiences you are most desiring,
-    and I will certainly fix any issues for you!
 --- !u!1 &11750820 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1429909108834651106, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
@@ -5895,7 +5894,6 @@ MonoBehaviour:
   staticSpawn: 0
   numEnemies: 0
   enemyPrefabs:
-  - Artillery
   - Tank
   - Fast
   enemyTypes:
@@ -5915,10 +5913,12 @@ MonoBehaviour:
   unlockedColor: {r: 0.53677773, g: 0.78616345, b: 0.467248, a: 1}
   barrierGreen: {fileID: 2100000, guid: 4fd16f386ffe51a4288349842c52b899, type: 2}
   reyaDialogue:
-  - ow...** fuck...**** maybe it's time...** to claim my BioSoft extended warranty
-  - Seriously though, I'm pretty sure this isn't... ow... supposed to happen
-  - '"Get to your physical body or you may experience... neural fracturing??"'
-  - I... ow... don't think I want to find out what that means
+  - ow...** fuck...**** maybe it's time... to claim my BioSoft extended warranty
+  - ...this is definitely not... ow... supposed to happen
+  - ~Emergency alerts suggest you return to your physical body immediately, miss
+  - ~I can provide you with directions if that would be to your liking
+  - "Yeah\u2026 I don\u2019t think I want to find out what \u2018neural fragmentation\u2019
+    feels like..."
   dialogue: {fileID: 1435338485}
   portraits:
   - {fileID: 446813074}
@@ -6744,22 +6744,6 @@ PrefabInstance:
     - target: {fileID: 783409167344425059, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
-      propertyPath: music.Array.data[0].clip
-      value: 
-      objectReference: {fileID: 8300000, guid: b5a1aff8af98945bb997fc529371b8a9, type: 3}
-    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
-      propertyPath: music.Array.data[0].name
-      value: Area 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
-      propertyPath: music.Array.data[1].clip
-      value: 
-      objectReference: {fileID: 8300000, guid: 1bd7c1f34cee1804294c0dacc1cda9d1, type: 3}
-    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
-      propertyPath: music.Array.data[1].name
-      value: Boss 1
       objectReference: {fileID: 0}
     - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
       propertyPath: worldSFX.Array.data[0].clip

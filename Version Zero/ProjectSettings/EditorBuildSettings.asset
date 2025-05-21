@@ -9,16 +9,16 @@ EditorBuildSettings:
     path: Assets/Scenes/Playtest Options.unity
     guid: b350d10384e334d4b86461a2cb4ca543
   - enabled: 1
-    path: Assets/Scenes/Room 1.unity
+    path: Assets/Scenes/Old/Room 1.unity
     guid: bc184aec83661044bb612adfa94b7ffc
   - enabled: 1
-    path: Assets/Scenes/Room 2.unity
+    path: Assets/Scenes/Old/Room 2.unity
     guid: 3f13bd57640fdf443a723ce7f004ff5a
   - enabled: 1
-    path: Assets/Scenes/Room 3.unity
+    path: Assets/Scenes/Old/Room 3.unity
     guid: 0cb68510f09f4fe4e9e2ef17b5e1392f
   - enabled: 1
-    path: Assets/Scenes/Room 4.unity
+    path: Assets/Scenes/Old/Room 4.unity
     guid: f63042764466a444c8eaab94125fb1bd
   - enabled: 1
     path: Assets/Scenes/Startup UI.unity
@@ -27,13 +27,13 @@ EditorBuildSettings:
     path: Assets/Scenes/Boss 1.unity
     guid: 7462a4b44a1fa5442a068066ea823306
   - enabled: 1
-    path: Assets/Scenes/Intro Room.unity
+    path: Assets/Scenes/Old/Intro Room.unity
     guid: 06dba10b3c770484598ddd2e48c65c34
   - enabled: 1
     path: Assets/Scenes/Level 1.unity
     guid: f8f885360b2f44a419adc4cf491820c4
   - enabled: 1
-    path: Assets/Scenes/Level 2.unity
+    path: Assets/Scenes/Level 2_alt.unity
     guid: 4260e14de2aea684aa53172d29a507e8
   - enabled: 1
     path: Assets/Scenes/Level 3.unity

@@ -10,6 +10,7 @@ public class Terminal : MonoBehaviour
     [SerializeField] private float activateDist;
     [SerializeField] private GameObject activateTxt;
     [HideInInspector] public bool complete;
+    public Transform barrier;
     [TextArea(3, 5)] public string[] dialogue;
 
     void Start()

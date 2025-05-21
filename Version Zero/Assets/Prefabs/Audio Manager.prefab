@@ -46,19 +46,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   music:
+  - name: Area 1
+    clip: {fileID: 8300000, guid: b5a1aff8af98945bb997fc529371b8a9, type: 3}
+    volume: 0
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
   - name: Boss 1
     clip: {fileID: 8300000, guid: 1bd7c1f34cee1804294c0dacc1cda9d1, type: 3}
     volume: 0
     pitch: 1
     loop: 1
     source: {fileID: 0}
-  - name: Area 1
-    clip: {fileID: 8300000, guid: 9bc48d6584f5df64da4a017756bfb856, type: 3}
-    volume: 0
+  - name: Startup UI
+    clip: {fileID: 8300000, guid: c6c93a3fe7a2f4fa18b54d0e7ad4f331, type: 3}
+    volume: 0.1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  uiSFX:
+  - name: Alarm
+    clip: {fileID: 8300000, guid: a9b22799372754acfa237faa5effcab8, type: 3}
+    volume: 0.05
     pitch: 1
     loop: 1
     source: {fileID: 0}
-  uiSFX:
   - name: Build Select
     clip: {fileID: 8300000, guid: 063fe8287df07634a9e63aad88eaff22, type: 3}
     volume: 0.05
@@ -121,15 +133,15 @@ MonoBehaviour:
     source: {fileID: 0}
   worldSFX:
   - name: Elevator Down
-    clip: {fileID: 0}
-    volume: 0
-    pitch: 1
+    clip: {fileID: 8300000, guid: 04b08c309ce1048fd949c3fc94cf39c0, type: 3}
+    volume: 0.8
+    pitch: 1.2
     loop: 0
     source: {fileID: 0}
   - name: Elevator Stop
     clip: {fileID: 8300000, guid: 9dc5c6a49dfcb410e8ac47c8ed4aca97, type: 3}
-    volume: 0.2
-    pitch: 1
+    volume: 0.4
+    pitch: 0.8
     loop: 0
     source: {fileID: 0}
   programSFX:
