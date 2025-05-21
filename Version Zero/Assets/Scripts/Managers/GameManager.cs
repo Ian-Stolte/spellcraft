@@ -464,23 +464,27 @@ public class GameManager : MonoBehaviour
 
         float elapsed = 1;
         Color c = loadingText.GetComponent<TextMeshProUGUI>().color;
-        bool sfxPlayed = false;
+        StartCoroutine(ElevatorSounds());
         while (elapsed > 0)
         {
             elapsed -= Time.deltaTime;
             yield return null;
             loadingText.GetComponent<TextMeshProUGUI>().color = new Color(c.r, c.g, c.b, elapsed);
-            if (elapsed < 0.5f && !sfxPlayed)
-            {
-                sfxPlayed = true;
-                AudioManager.Instance.Play("Elevator Stop");
-            }
         }
         loadingText.SetActive(false);
         int levelNum = int.Parse(SceneManager.GetActiveScene().name.Substring(6))+1;
         string areaStr = (levelNum < 10) ? "0" + levelNum : "" + levelNum;
         roomText.text = "Area_" + areaStr;
         SceneManager.LoadScene("Level " + levelNum);
+    }
+
+    private IEnumerator ElevatorSounds()
+    {
+        yield return new WaitForSeconds(0.3f);
+        StartCoroutine(AudioManager.Instance.StartFade("Elevator Down", 0, 0.5f));
+        yield return new WaitForSeconds(0.5f);
+        AudioManager.Instance.Play("Elevator Stop");
+        AudioManager.Instance.Stop("Elevator Down");
     }
 
     public IEnumerator LoadNextRoom()
