@@ -410,6 +410,7 @@ public class GameManager : MonoBehaviour
         
         //disable barrier
         //TODO: logic for multiple terminals -> one barrier (int on barrier that gets decremented?)
+        //TODO: show hidden area instead of barrier (use point w/ trail renderer to show direction?)
         Transform barrier = currentTerminal.barrier;    
         barrier.GetChild(0).gameObject.SetActive(false);
         barrier.GetChild(1).GetComponent<MeshRenderer>().material = barrierGreen;
@@ -418,8 +419,9 @@ public class GameManager : MonoBehaviour
         txt.text = "Welcome, AUTH_USER!";
         txt.color = unlockedColor;
 
-        if (SceneManager.GetActiveScene().name == "Level 2" && numTerminals <= 0)
-            StartCoroutine(SpawnInfiniteWaves(false));
+        //if level 2 access point...
+        //   show HP bar
+        //   StartCoroutine(SpawnInfiniteWaves(false));
     }
 
     public IEnumerator PlayMultipleDialogues(string[] lines)
@@ -452,6 +454,8 @@ public class GameManager : MonoBehaviour
                     yield return new WaitForSeconds(0.04f);
             }
         }
+        if (line[line.Length-1] == '—')
+            waitTime *= 0.5f;
         yield return new WaitForSeconds(waitTime);
         dialogue.SetActive(false);
         txt.text = "";

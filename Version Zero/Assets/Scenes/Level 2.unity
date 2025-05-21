@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4465788, g: 0.49641287, b: 0.5748173, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -247,10 +247,10 @@ MonoBehaviour:
   complete: 0
   barrier: {fileID: 649310728}
   dialogue:
-  - And... done.*** Should be able to walk right in now.
-  - ~****I must say I am just ever so slightly concerned about your disregard for
-    restricted areas
-  - ~the sign is there so that you *do not* enter them
+  - Yes! I knew it.
+  - Ok, 32 meters. Back the way we came.
+  - I don't want to be empty-handed when the Collectors notice us still kicking around
+    in here...
 --- !u!1 &17062291
 GameObject:
   m_ObjectHideFlags: 0
@@ -2046,7 +2046,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &543103703
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2126,14 +2126,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 543103702}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.38268343, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 20.02, y: 1.25, z: 7.78}
-  m_LocalScale: {x: 1.1149, y: 1.3662702, z: 1.1149}
+  m_LocalRotation: {x: -0, y: 0.38268343, z: -0, w: 0.92387956}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.1149001, y: 1.3662702, z: 1.1149001}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1080470827}
   - {fileID: 181673165}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 922495085}
   m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
 --- !u!114 &543103707
 MonoBehaviour:
@@ -2449,7 +2449,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &649310728
 Transform:
   m_ObjectHideFlags: 0
@@ -3259,6 +3259,40 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1818502429}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!1 &922495084
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 922495085}
+  m_Layer: 0
+  m_Name: Hidden
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &922495085
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 922495084}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 20.02, y: 1.25, z: 7.78}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1806354739}
+  - {fileID: 1298740653}
+  - {fileID: 543103706}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &930108615 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7893485025667785371, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
@@ -3403,11 +3437,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1806354739}
   - {fileID: 2116929377}
   - {fileID: 1265449931}
   - {fileID: 1736571903}
-  - {fileID: 1298740653}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1026417288
@@ -4683,7 +4715,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1298740653
 Transform:
   m_ObjectHideFlags: 0
@@ -4693,11 +4725,11 @@ Transform:
   m_GameObject: {fileID: 1298740652}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 19.84, y: -2.5, z: -0.7664}
-  m_LocalScale: {x: 12.603677, y: 5, z: 5.677251}
+  m_LocalPosition: {x: -0.1800003, y: -3.75, z: -8.5464}
+  m_LocalScale: {x: 12.603682, y: 5, z: 5.6772513}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1014343620}
+  m_Father: {fileID: 922495085}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!65 &1298740654
 BoxCollider:
@@ -7104,7 +7136,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4544, y: 22}
+  m_AnchoredPosition: {x: 3103, y: 22}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1806237164
@@ -7224,7 +7256,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1806354739
 Transform:
   m_ObjectHideFlags: 0
@@ -7234,11 +7266,11 @@ Transform:
   m_GameObject: {fileID: 1806354738}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 19.98, y: -2.5, z: 7.9708}
-  m_LocalScale: {x: 9.685593, y: 5, z: 13.663748}
+  m_LocalPosition: {x: -0.040000916, y: -3.75, z: 0.19079971}
+  m_LocalScale: {x: 9.685595, y: 5, z: 13.663753}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1014343620}
+  m_Father: {fileID: 922495085}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!65 &1806354740
 BoxCollider:
@@ -9263,12 +9295,12 @@ SceneRoots:
   - {fileID: 597337372}
   - {fileID: 456634966}
   - {fileID: 1014343620}
+  - {fileID: 922495085}
   - {fileID: 1818502429}
   - {fileID: 428421384}
   - {fileID: 465771248}
   - {fileID: 115009511}
   - {fileID: 6663336}
-  - {fileID: 543103706}
   - {fileID: 649310728}
   - {fileID: 745562176}
   - {fileID: 271509842}
