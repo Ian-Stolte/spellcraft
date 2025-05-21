@@ -1,0 +1,217 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7551959242866408720
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 783409167344425059}
+  - component: {fileID: 3063782043873389300}
+  - component: {fileID: 4122189056854009886}
+  m_Layer: 0
+  m_Name: Audio Manager
+  m_TagString: AudioManager
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &783409167344425059
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7551959242866408720}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.09595777, y: 1.8145182, z: 0.72503525}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3063782043873389300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7551959242866408720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57110de8177278e448604ec9533f49cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  music:
+  - name: Boss 1
+    clip: {fileID: 8300000, guid: 1bd7c1f34cee1804294c0dacc1cda9d1, type: 3}
+    volume: 0
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: Area 1
+    clip: {fileID: 8300000, guid: 9bc48d6584f5df64da4a017756bfb856, type: 3}
+    volume: 0
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  uiSFX:
+  - name: Build Select
+    clip: {fileID: 8300000, guid: 063fe8287df07634a9e63aad88eaff22, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Button Click
+    clip: {fileID: 8300000, guid: 063fe8287df07634a9e63aad88eaff22, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Button Hover
+    clip: {fileID: 8300000, guid: ef98ce750d93e40129589f397be6efc5, type: 3}
+    volume: 0.1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Enter Game
+    clip: {fileID: 8300000, guid: 063fe8287df07634a9e63aad88eaff22, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Error
+    clip: {fileID: 8300000, guid: 063fe8287df07634a9e63aad88eaff22, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Grab Block
+    clip: {fileID: 8300000, guid: ef98ce750d93e40129589f397be6efc5, type: 3}
+    volume: 0.1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Reward Click
+    clip: {fileID: 8300000, guid: 063fe8287df07634a9e63aad88eaff22, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Snap Block
+    clip: {fileID: 8300000, guid: 063fe8287df07634a9e63aad88eaff22, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Upgrade
+    clip: {fileID: 8300000, guid: 063fe8287df07634a9e63aad88eaff22, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Upgrade Hover
+    clip: {fileID: 8300000, guid: ef98ce750d93e40129589f397be6efc5, type: 3}
+    volume: 0.1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  worldSFX:
+  - name: Elevator Down
+    clip: {fileID: 0}
+    volume: 0
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Elevator Stop
+    clip: {fileID: 8300000, guid: 9dc5c6a49dfcb410e8ac47c8ed4aca97, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  programSFX:
+  - name: Place Trap
+    clip: {fileID: 8300000, guid: 42e9965b56f1248dfa4858ac510ba056, type: 3}
+    volume: 0.1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Shoot Projectile
+    clip: {fileID: 8300000, guid: d42b571d27fb74775aa6d790b168dba0, type: 3}
+    volume: 0.3
+    pitch: 1.2
+    loop: 0
+    source: {fileID: 0}
+  - name: Dash
+    clip: {fileID: 8300000, guid: 55da64c26943748ed838b5766db8829a, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  combatSFX:
+  - name: Artillerist Fire
+    clip: {fileID: 8300000, guid: ce79f6d0b094547d995616716a08a41a, type: 3}
+    volume: 0.1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Game Over
+    clip: {fileID: 8300000, guid: d33709d654fd64dd89ea7f4731479d9e, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Missile Land
+    clip: {fileID: 8300000, guid: 7e462f361cd354608982287365d694d7, type: 3}
+    volume: 0.3
+    pitch: 0.7
+    loop: 0
+    source: {fileID: 0}
+  - name: Static
+    clip: {fileID: 8300000, guid: ccbf3d16d4a7e4c3799dfbe63a8c6a51, type: 3}
+    volume: 0.3
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Take Damage
+    clip: {fileID: 8300000, guid: 2042e295bf0274fa0af61ef7f35f10c9, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Stomp Impact
+    clip: {fileID: 8300000, guid: 7e462f361cd354608982287365d694d7, type: 3}
+    volume: 0.2
+    pitch: 0.7
+    loop: 0
+    source: {fileID: 0}
+  - name: Walking Turret Fire
+    clip: {fileID: 8300000, guid: ce79f6d0b094547d995616716a08a41a, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Walking Turret Stomp
+    clip: {fileID: 8300000, guid: 7e462f361cd354608982287365d694d7, type: 3}
+    volume: 0.5
+    pitch: 0.7
+    loop: 0
+    source: {fileID: 0}
+  audios: []
+  currentSongs: []
+--- !u!114 &4122189056854009886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7551959242866408720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a652c2e0e75815343a48e7990e7ce167, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objTag: AudioManager

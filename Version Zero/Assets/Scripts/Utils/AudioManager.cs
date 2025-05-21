@@ -14,6 +14,7 @@ public class AudioManager : MonoBehaviour
     [Header("Editable")]
     public Sound[] music;
     public Sound[] uiSFX;
+    public Sound[] worldSFX;
     public Sound[] programSFX;
     public Sound[] combatSFX;
     private List<Sound> sfx = new List<Sound>();
@@ -31,6 +32,8 @@ public class AudioManager : MonoBehaviour
             Destroy(gameObject);
 
         foreach (Sound s in uiSFX)
+            sfx.Add(s);
+        foreach (Sound s in worldSFX)
             sfx.Add(s);
         foreach (Sound s in programSFX)
             sfx.Add(s);

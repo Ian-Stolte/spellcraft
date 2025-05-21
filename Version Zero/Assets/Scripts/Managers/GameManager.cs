@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     
     [Header("Rooms")]
     [SerializeField] private Room[] rooms;
-    private int roomNum = 1;
+    private int levelNum = 1;
     [SerializeField] private TextMeshProUGUI roomText;
     [SerializeField] private LayerMask terrainLayer;
     [SerializeField] private int[] bossRooms;
@@ -36,12 +36,14 @@ public class GameManager : MonoBehaviour
     [Header("Enemy Spawn")]
     public bool staticSpawn;
     public int numEnemies;
-    [SerializeField] private string[] enemyPrefabs; //change to struct w/ spawn pct, weight, etc
+    [SerializeField] private List<string> enemyPrefabs; //TODO: change to struct w/ spawn pct, weight, etc
     [SerializeField] private string[] enemyTypes;
     private string enemyType = "Logic";
     [SerializeField] private Transform nodeParent;
     [SerializeField] private Transform enemyParent;
     [SerializeField] private List<int> waves = new List<int>();
+    private float minSpawn;
+    private float maxSpawn;
 
     [Header("Terminals")]
     [SerializeField] private GameObject terminalBar;
@@ -91,17 +93,17 @@ public class GameManager : MonoBehaviour
         {
             enemyParent = GameObject.Find("Enemies").transform;
             nodeParent = GameObject.Find("Spawn Nodes").transform;
-            if (roomNum != 1 && !scene.name.Contains("Boss"))
+            if (levelNum != 1 && !scene.name.Contains("Boss"))
             {
                 enemyType = enemyTypes[Random.Range(0, enemyTypes.Length)];
                 if (staticSpawn)
-                    SetupEnemies(roomNum + Random.Range(1, 4));
+                    SetupEnemies(levelNum + Random.Range(1, 4));
                 else
                 {
-                    if (roomNum == 2)
+                    if (levelNum == 2)
                         SetupWaves(3);
                     else
-                        SetupWaves(roomNum + Random.Range(1, 4));
+                        SetupWaves(levelNum + Random.Range(1, 4));
                 }
             }
             else
@@ -115,13 +117,26 @@ public class GameManager : MonoBehaviour
                 foreach (Transform child in terminalIcons)
                     Destroy(child.gameObject);
                 numTerminals = Physics.OverlapSphere(Vector2.zero, 9999, LayerMask.GetMask("Terminal")).Length;
-                //StartCoroutine(SpawnInfiniteWaves());
                 for (int i = 0; i < numTerminals; i++)
                 {
                     GameObject icon = Instantiate(terminalIcon, Vector2.zero, terminalIcon.transform.rotation, terminalIcons);
                     //icon.GetComponent<RectTransform>().anchoredPosition = new Vector2(920 - 150*terminalIcons.childCount, -460);
                     icon.GetComponent<RectTransform>().anchoredPosition = new Vector2(-822, 480 - 130*i);
                 }
+
+                if (scene.name == "Level 2")
+                {
+                    minSpawn = 15;
+                    maxSpawn = 25;
+                }
+                if (scene.name == "Level 3")
+                {
+                    enemyPrefabs.Add("Artillerist");
+                    minSpawn = 10;
+                    maxSpawn = 20;
+                }
+                if (scene.name != "Level 1")
+                    StartCoroutine(SpawnInfiniteWaves());
             }
         }
 
@@ -194,9 +209,9 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Spawning more enemies!");
             if (staticSpawn)
-                SetupEnemies(roomNum + Random.Range(1, 4));
+                SetupEnemies(levelNum + Random.Range(1, 4));
             else
-                SetupWaves(roomNum*2 + Random.Range(1, 4), true);
+                SetupWaves(levelNum*2 + Random.Range(1, 4), true);
         }
     }
 
@@ -261,7 +276,7 @@ public class GameManager : MonoBehaviour
             }
             if (attempts < 10)
             {
-                string name = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)] + "_" + enemyType;
+                string name = enemyPrefabs[Random.Range(0, enemyPrefabs.Count)] + "_" + enemyType;
                 GameObject prefab = Resources.Load<GameObject>("Prefabs/Enemies/" + name);
                 if (prefab != null)
                     Instantiate(prefab, nodeParent.GetChild(nodeNum).position + offset, Quaternion.identity, enemyParent);
@@ -276,7 +291,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         for (int i = 0; i < n; i++)
         {
-            string name = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)] + "_" + enemyType;
+            string name = enemyPrefabs[Random.Range(0, enemyPrefabs.Count)] + "_" + enemyType;
             GameObject prefab = Resources.Load<GameObject>("Prefabs/Enemies/" + name);
             if (prefab != null)
             {
@@ -317,8 +332,8 @@ public class GameManager : MonoBehaviour
         yield return new WaitUntil(() => numTerminals != maxTerminals);
         while (true)
         {
-            StartCoroutine(WaveEnemies(Random.Range(1, 3)));
-            yield return new WaitForSeconds(20);
+            StartCoroutine(WaveEnemies(1));
+            yield return new WaitForSeconds(Random.Range(minSpawn, maxSpawn));
         }
     }
 
@@ -433,16 +448,34 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public IEnumerator LoadNextLevel()
+    public IEnumerator LoadNextLevel(string nextArea)
     {
+        AudioManager.Instance.Play("Elevator Down");
+        foreach (Transform child in enemyParent)
+            Destroy(child.gameObject);
         yield return new WaitForSeconds(0.5f);
         Fader.Instance.FadeIn(1.2f, true);
         yield return new WaitForSeconds(1.2f);
         yield return new WaitForSeconds(1.5f);
-        //TODO: fade text in & out
-        //TODO: set correct destination for each elevator (grab from elevator script?)
+        loadingText.GetComponent<TextMeshProUGUI>().text = "Now approaching: \n" + nextArea;
         loadingText.SetActive(true);
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(2f);
+        //fade out elevator down?
+
+        float elapsed = 1;
+        Color c = loadingText.GetComponent<TextMeshProUGUI>().color;
+        bool sfxPlayed = false;
+        while (elapsed > 0)
+        {
+            elapsed -= Time.deltaTime;
+            yield return null;
+            loadingText.GetComponent<TextMeshProUGUI>().color = new Color(c.r, c.g, c.b, elapsed);
+            if (elapsed < 0.5f && !sfxPlayed)
+            {
+                sfxPlayed = true;
+                AudioManager.Instance.Play("Elevator Stop");
+            }
+        }
         loadingText.SetActive(false);
         int levelNum = int.Parse(SceneManager.GetActiveScene().name.Substring(6))+1;
         string areaStr = (levelNum < 10) ? "0" + levelNum : "" + levelNum;
@@ -454,10 +487,10 @@ public class GameManager : MonoBehaviour
     {
         Fader.Instance.FadeIn(1);
         yield return new WaitForSeconds(1);
-        roomNum++;
-        string areaStr = (roomNum < 10) ? "0" + roomNum : "" + roomNum;
+        levelNum++;
+        string areaStr = (levelNum < 10) ? "0" + levelNum : "" + levelNum;
         roomText.text = "Area_" + areaStr;
-        if (roomNum == bossRooms[bossIndex])
+        if (levelNum == bossRooms[bossIndex])
         {
             SceneManager.LoadScene("Boss " + (bossIndex+1));
             if (bossIndex < bossRooms.Length-1)

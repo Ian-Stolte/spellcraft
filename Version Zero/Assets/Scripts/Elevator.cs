@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Elevator : MonoBehaviour
 {
+    public string nextArea;
 
     void OnTriggerEnter(Collider hit)
     {
@@ -17,7 +18,7 @@ public class Elevator : MonoBehaviour
     private IEnumerator LowerElevator(Transform player)
     {
         yield return new WaitForSeconds(0.5f);
-        StartCoroutine(GameManager.Instance.LoadNextLevel());
+        StartCoroutine(GameManager.Instance.LoadNextLevel(nextArea));
         for (float i = 0; i < 2.5f; i += 0.01f)
         {
             yield return new WaitForSeconds(0.01f);
