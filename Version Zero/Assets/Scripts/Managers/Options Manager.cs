@@ -80,7 +80,7 @@ public class OptionsManager : MonoBehaviour
                 manager.roomSize = GameManager.RoomSize.BOTH;*/
             //SequenceManager.Instance.defaultHand = (choices[1] == 0);
             //manager.staticSpawn = choices[2] == 1;
-            SpellManager.Instance.StartingHand();
+            ProgramManager.Instance.StartingHand();
 
             SceneManager.sceneLoaded -= FinishSetup;
             Destroy(gameObject);

@@ -45,7 +45,7 @@ public class Missile : MonoBehaviour
             Collider[] hits = Physics.OverlapSphere(transform.position, 0.5f);
             foreach (Collider c in hits)
             {
-                if (c.CompareTag("Player") && !player.GetComponent<PlayerSpells>().dashing)
+                if (c.CompareTag("Player") && !player.GetComponent<PlayerPrograms>().dashing)
                 {
                     player.GetComponent<PlayerMovement>().TakeDamage(dmg);
                     if (warning != null)

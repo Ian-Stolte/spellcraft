@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class Terminal : MonoBehaviour
 {
-    private Transform player;
-    private Transform cam;
-
     [SerializeField] private float activateDist;
     [SerializeField] private GameObject activateTxt;
     [HideInInspector] public bool complete;
+    
     public Transform barrier;
+    public GameObject hiddenRoom;
+
     [TextArea(3, 5)] public string[] dialogue;
+
+    private Transform player;
+    private Transform cam;
+
 
     void Start()
     {

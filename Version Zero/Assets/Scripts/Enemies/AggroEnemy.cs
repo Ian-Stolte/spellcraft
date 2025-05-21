@@ -56,7 +56,7 @@ public class AggroEnemy : Enemy
             {
                 rb.MovePosition(rb.position + transform.forward * speed * Time.deltaTime);
             }
-            if (atkTimer <= 0 && dist < atkRange && !player.GetComponent<PlayerSpells>().dashing)
+            if (atkTimer <= 0 && dist < atkRange && !player.GetComponent<PlayerPrograms>().dashing)
             {
                 anim.Play("Attack");
                 atkTimer = atkDelay;

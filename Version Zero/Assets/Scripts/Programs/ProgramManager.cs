@@ -5,9 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class SpellManager : MonoBehaviour
+public class ProgramManager : MonoBehaviour
 {
-    public static SpellManager Instance { get; private set; }
+    public static ProgramManager Instance { get; private set; }
     private void Awake()
     {
         if (Instance == null)
@@ -24,7 +24,7 @@ public class SpellManager : MonoBehaviour
     private bool musicOn;
 
     [Header("Parents")]
-    public Transform spellUI;
+    public Transform programUI;
     [SerializeField] private Transform blockParent;
     [SerializeField] private Transform symbolParent;
     [SerializeField] private Transform cdParent;
@@ -43,25 +43,26 @@ public class SpellManager : MonoBehaviour
     [SerializeField] private GameObject cdIconPrefab;
 
     [Header("Misc")]
-    [SerializeField] private Vector2 spellUIStart;
+    [SerializeField] private Vector2 programUIStart;
     [SerializeField] private Color fullSymbolColor;
     [SerializeField] private Color[] typeColors;
-    [SerializeField] private PlayerSpells player;
+    [SerializeField] private PlayerPrograms player;
     [SerializeField] private GameObject[] tutorials;
+    public GameObject buildSelect;
 
     [Header("Keybinds")]
     public KeyCode[] defaultBinds;
     public string[] bindTxt;
 
-    [Header("Spell Data")]
+    [Header("Program Data")]
     public string buildpath;
     //TODO: read directly from prefab folders
     public List<GameObject> shapeBlocks;
     public List<GameObject> effectBlocks;
     public List<GameObject> modBlocks;
     private List<GameObject> blocks = new List<GameObject>();
-    public List<Spell> spells = new List<Spell>();
-    [HideInInspector] public List<Spell> spellSave = new List<Spell>();
+    public List<Program> programs = new List<Program>();
+    [HideInInspector] public List<Program> spellSave = new List<Program>();
     
 
     public void Start()
@@ -78,10 +79,9 @@ public class SpellManager : MonoBehaviour
             blocks.Add(g);
         foreach (GameObject g in modBlocks)
             blocks.Add(g);
-        player = GameObject.Find("Player").GetComponent<PlayerSpells>();
+        player = GameObject.Find("Player").GetComponent<PlayerPrograms>();
         if (SKIP_CRAFTING)
         {
-            GameObject buildSelect = GameObject.Find("Build Selection");
             if (buildSelect != null)
                 buildSelect.SetActive(false);
 
@@ -97,19 +97,19 @@ public class SpellManager : MonoBehaviour
             List<Block> lineStun = new List<Block>();
             lineStun.Add(GameObject.Find("Line").GetComponent<Block>());
             lineStun.Add(GameObject.Find("Damage").GetComponent<Block>());
-            Spell lineStunSpell = new Spell(lineStun, KeyCode.Mouse0);
-            spells.Add(lineStunSpell);
+            Program lineStunSpell = new Program(lineStun, KeyCode.Mouse0);
+            programs.Add(lineStunSpell);
             List<Block> circleDisplace = new List<Block>();
             circleDisplace.Add(GameObject.Find("Circle").GetComponent<Block>());
             circleDisplace.Add(GameObject.Find("Displace").GetComponent<Block>());
-            Spell circleDisplaceSpell = new Spell(circleDisplace, KeyCode.Mouse1);
-            spells.Add(circleDisplaceSpell);
+            Program circleDisplaceSpell = new Program(circleDisplace, KeyCode.Mouse1);
+            programs.Add(circleDisplaceSpell);
             List<Block> meleeUlt = new List<Block>();
             meleeUlt.Add(GameObject.Find("Melee").GetComponent<Block>());
             meleeUlt.Add(GameObject.Find("Stun").GetComponent<Block>());
             meleeUlt.Add(GameObject.Find("Damage").GetComponent<Block>());
-            Spell meleeUltSpell = new Spell(meleeUlt, KeyCode.Mouse2);
-            spells.Add(meleeUltSpell);
+            Program meleeUltSpell = new Program(meleeUlt, KeyCode.Mouse2);
+            programs.Add(meleeUltSpell);
             ConfirmSpells();
             EnterGame();
         }
@@ -175,12 +175,12 @@ public class SpellManager : MonoBehaviour
 
     public void Reforge()
     {
-        loadNextRoom = true;
+        //loadNextRoom = true;
         GameManager.Instance.pauseGame = true;
-        player.GetComponent<PlayerMovement>().enabled = false;
+        //player.GetComponent<PlayerMovement>().enabled = false;
         player.enabled = false;
         cdParent.gameObject.SetActive(false);
-        spellUI.gameObject.SetActive(true);
+        programUI.gameObject.SetActive(true);
         skipButton.SetActive(true);
         compileButton.SetActive(true);
         confirmButton.SetActive(false);
@@ -218,9 +218,9 @@ public class SpellManager : MonoBehaviour
             }
         }
         spellSave.Clear();
-        foreach (Spell s in spells)
+        foreach (Program p in programs)
         {
-            spellSave.Add(s);
+            spellSave.Add(p);
         }
     }
 
@@ -248,13 +248,14 @@ public class SpellManager : MonoBehaviour
             if (child.gameObject.activeSelf)
                 child.GetComponent<Block>().ReadState();
         }
-        spells.Clear();
-        foreach (Spell s in spellSave)
+        programs.Clear();
+        foreach (Program p in spellSave)
         {
-            spells.Add(s);
+            programs.Add(p);
         }
         GameManager.Instance.pauseGame = false;
-        spellUI.gameObject.SetActive(false);
+        GameManager.Instance.playerPaused = false;
+        programUI.gameObject.SetActive(false);
         cdParent.gameObject.SetActive(true);
         player.GetComponent<PlayerMovement>().enabled = true;
         player.enabled = true;
@@ -269,7 +270,7 @@ public class SpellManager : MonoBehaviour
 
     public void CompileSpells()
     {
-        spells.Clear();
+        programs.Clear();
         foreach (Transform child in blockParent)
         {
             if (child.gameObject.activeSelf)
@@ -295,7 +296,7 @@ public class SpellManager : MonoBehaviour
                             newSpell.Add(temp);
                             temp = temp.right;
                         }
-                        spells.Add(new Spell(newSpell));
+                        programs.Add(new Program(newSpell));
                     }
                     Color c = child.GetComponent<Image>().color;
                     child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 0.3f);
@@ -316,15 +317,15 @@ public class SpellManager : MonoBehaviour
         backButton.SetActive(true);
         spellsLocked = true;
 
-        foreach (Spell s in spells)
+        foreach (Program p in programs)
         {
-            foreach (Block b in s.blocks)
+            foreach (Block b in p.blocks)
             {
                 b.transform.GetChild(4).gameObject.SetActive(false);
                 b.transform.GetChild(0).GetComponent<Image>().enabled = true;
                 Symbol sym = b.symbol;
-                sym.min = new Vector2(-80 * s.blocks.IndexOf(b) - 40, sym.min.y);
-                sym.max = new Vector2(80 * (s.blocks.Count - s.blocks.IndexOf(b)) - 40, sym.max.y);
+                sym.min = new Vector2(-80 * p.blocks.IndexOf(b) - 40, sym.min.y);
+                sym.max = new Vector2(80 * (p.blocks.Count - p.blocks.IndexOf(b)) - 40, sym.max.y);
                 sym.canMove = true;
             }
         }
@@ -392,25 +393,25 @@ public class SpellManager : MonoBehaviour
             Destroy(child.gameObject);
         }
 
-        //filter out aura and auto spells
-        player.auraSpell.name = "";
-        player.autoSpell.name = "";
-        foreach (Spell s in spells)
+        //filter out aura and auto programs
+        player.auraProgram.name = "";
+        player.autoProgram.name = "";
+        foreach (Program p in programs)
         {
             float cd = 0;
             bool addedAuto = false;
             bool addedAura = false;
-            foreach (Block b in s.blocks)
+            foreach (Block b in p.blocks)
             {
                 cd += b.cd;
                 if (b.name == "Aura")
                 {
-                    player.auraSpell = s;
+                    player.auraProgram = p;
                     addedAura = true;
                 }
                 else if (b.name == "Auto")
                 {
-                    player.autoSpell = s;
+                    player.autoProgram = p;
                     addedAuto = true;
                 }
             }
@@ -418,30 +419,30 @@ public class SpellManager : MonoBehaviour
                 player.autoTick = cd/2f;
         }
 
-        //add other spells to results UI
+        //add other programs to results UI
         int index = 0;
         int bindIndex = 0;
-        foreach (Spell s in spells)
+        foreach (Program p in programs)
         {
-            s.symbol = Instantiate(emptyImage, Vector2.zero, Quaternion.identity, symbolParent);
-            s.symbol.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
-            s.symbol.name = s.name;
+            p.symbol = Instantiate(emptyImage, Vector2.zero, Quaternion.identity, symbolParent);
+            p.symbol.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
+            p.symbol.name = p.name;
             Vector2 totalPos = Vector2.zero;
             string spellName = "";
             float cd = 0;
-            foreach (Block b in s.blocks)
+            foreach (Block b in p.blocks)
             {
                 spellName += b.nameTxt.text + " + ";
                 cd += b.cd;
                 Vector3 scale = new Vector3(b.symbol.transform.localScale.x*b.transform.localScale.x, b.symbol.transform.localScale.y*b.transform.localScale.y, 1);
-                GameObject sym = Instantiate(b.symbol.gameObject, b.symbol.transform.position, Quaternion.identity, s.symbol.transform);
+                GameObject sym = Instantiate(b.symbol.gameObject, b.symbol.transform.position, Quaternion.identity, p.symbol.transform);
                 sym.transform.localScale = scale;
                 sym.GetComponent<Image>().color = fullSymbolColor;
                 totalPos += sym.GetComponent<RectTransform>().anchoredPosition;
             }
-            foreach (Transform child in s.symbol.transform)
+            foreach (Transform child in p.symbol.transform)
             {
-                child.GetComponent<RectTransform>().anchoredPosition -= totalPos/s.symbol.transform.childCount;
+                child.GetComponent<RectTransform>().anchoredPosition -= totalPos/p.symbol.transform.childCount;
                 child.transform.localScale *= 2.5f;
                 child.GetComponent<RectTransform>().anchoredPosition *= 2.5f;
                 Destroy(child.GetComponent<Symbol>());
@@ -453,16 +454,16 @@ public class SpellManager : MonoBehaviour
             string cdTxt = ((""+cd).Length == 1) ? cd + ".0s" : cd + "s"; 
             UI.transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = cdTxt;
             
-            s.name = spellName.Substring(0, spellName.Length-3);
-            s.cdMax = cd;
-            s.symbol.transform.SetSiblingIndex(s.symbol.transform.parent.childCount - 1);
-            s.symbol.GetComponent<RectTransform>().anchoredPosition = spellUIStart + new Vector2(0, -(index*300));
+            p.name = spellName.Substring(0, spellName.Length-3);
+            p.cdMax = cd;
+            p.symbol.transform.SetSiblingIndex(p.symbol.transform.parent.childCount - 1);
+            p.symbol.GetComponent<RectTransform>().anchoredPosition = programUIStart + new Vector2(0, -(index*300));
             index++;
 
             //TODO: let player assign keybinds
-            if (bindIndex < defaultBinds.Length && s != player.autoSpell && s != player.auraSpell)
+            if (bindIndex < defaultBinds.Length && p != player.autoProgram && p != player.auraProgram)
             {
-                s.keybind = defaultBinds[bindIndex];
+                p.keybind = defaultBinds[bindIndex];
                 TextMeshProUGUI txt = UI.transform.GetChild(6).GetComponent<TextMeshProUGUI>();
                 if (bindIndex == 0)
                     txt.text = "Left Click";
@@ -477,10 +478,10 @@ public class SpellManager : MonoBehaviour
                 UI.transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = "";
             }
         }
-        if (player.auraSpell.name != "")
-            spells.Remove(player.auraSpell);
-        if (player.autoSpell.name != "")
-            spells.Remove(player.autoSpell);
+        if (player.auraProgram.name != "")
+            programs.Remove(player.auraProgram);
+        if (player.autoProgram.name != "")
+            programs.Remove(player.autoProgram);
         startButton.SetActive(true);
     }
 
@@ -491,8 +492,8 @@ public class SpellManager : MonoBehaviour
 
         if (spellsLocked)
         {
-            //enable/disable confirm button depending on valid spells
-            if (spells.Count == 0)
+            //enable/disable confirm button depending on valid programs
+            if (programs.Count == 0)
             {
                 confirmButton.GetComponent<Button>().interactable = false;
             }
@@ -500,19 +501,19 @@ public class SpellManager : MonoBehaviour
             {
                 //check validity of symbols
                 bool readyToConfirm = true;
-                foreach (Spell s in spells)
+                foreach (Program p in programs)
                 {
                     bool finished = true;
-                    foreach (Block b in s.blocks)
+                    foreach (Block b in p.blocks)
                     {
-                        if (b.symbol.adjSymbols < s.blocks.Count)
+                        if (b.symbol.adjSymbols < p.blocks.Count)
                         {
                             finished = false;
                             readyToConfirm = false;
                             break;
                         }
                     }
-                    foreach (Block b in s.blocks)
+                    foreach (Block b in p.blocks)
                     {
                         b.highlight.gameObject.SetActive(finished);
                     }
@@ -544,60 +545,67 @@ public class SpellManager : MonoBehaviour
         cdParent.gameObject.SetActive(true);
 
         if (loadNextRoom)
+        {
             StartCoroutine(GameManager.Instance.LoadNextRoom());
+            yield return new WaitForSeconds(1);
+        }
         else
-            Fader.Instance.FadeIn(1);
-        yield return new WaitForSeconds(1);
+        {
+            Fader.Instance.FadeIn(0.5f);
+            yield return new WaitForSeconds(0.5f);
+        }
         
         int index = 0;
-        foreach (Spell s in spells)
+        foreach (Program p in programs)
         {
-            Block shape = s.blocks.Find(b=>b.tag == "shape");
+            Block shape = p.blocks.Find(b=>b.tag == "shape");
             if (index < defaultBinds.Length && shape != null)
             {
-                SpawnSpellIcon(s, new Vector2(-800 + (170*index), -450), bindTxt[index], shape.nameTxt.text);
+                CreateProgramIcon(p, new Vector2(-800 + (170*index), -450), bindTxt[index], shape.nameTxt.text);
             }
             index++;
         }
         index = 0;
-        if (player.auraSpell.name != "")
+        if (player.auraProgram.name != "")
         {
-            SpawnSpellIcon(player.auraSpell, new Vector2(800, -450), "AURA", "");
+            CreateProgramIcon(player.auraProgram, new Vector2(800, -450), "AURA", "");
             index++;
         }
-        if (player.autoSpell.name != "")
+        if (player.autoProgram.name != "")
         {
-            Block shape = player.autoSpell.blocks.Find(b=>b.tag == "shape");
+            Block shape = player.autoProgram.blocks.Find(b=>b.tag == "shape");
             if (shape != null)
-                SpawnSpellIcon(player.autoSpell, new Vector2(800 - (170*index), -450), "AUTO", shape.name);
+                CreateProgramIcon(player.autoProgram, new Vector2(800 - (170*index), -450), "AUTO", shape.name);
         }
 
         startButton.SetActive(false);
         symbolParent.gameObject.SetActive(false);
-        spellUI.gameObject.SetActive(false);
+        programUI.gameObject.SetActive(false);
 
         if (loadNextRoom)
             loadNextRoom = false;
         else
-            Fader.Instance.FadeOut(1);
+            Fader.Instance.FadeOut(0.5f);
+
+        GameManager.Instance.pauseGame = false;
+        GameManager.Instance.playerPaused = false;
         player.GetComponent<PlayerMovement>().enabled = true;
         player.enabled = true;
         player.InitializeAura();
-        GameManager.Instance.pauseGame = false;
     }
 
-    private void SpawnSpellIcon(Spell s, Vector2 pos, string type, string shape)
+    private void CreateProgramIcon(Program p, Vector2 pos, string type, string shape)
     {
         Transform cdIcon = Instantiate(cdIconPrefab, Vector2.zero, Quaternion.identity, cdParent).transform;
         cdIcon.GetComponent<RectTransform>().anchoredPosition = pos;
         cdIcon.GetChild(0).GetComponent<TextMeshProUGUI>().text = type;
-        Transform symbol = Instantiate(s.symbol, Vector2.zero, Quaternion.identity, cdIcon).transform;
+        Transform symbol = Instantiate(p.symbol, Vector2.zero, Quaternion.identity, cdIcon).transform;
         symbol.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
         symbol.localScale /= 2.5f;
         symbol.SetSiblingIndex(cdIcon.childCount - 2);
-        s.fillTimer = cdIcon.GetChild(cdIcon.childCount-1).gameObject;
+        p.fillTimer = cdIcon.GetChild(cdIcon.childCount-1).gameObject;
         if (type == "AURA")
-            s.fillTimer.GetComponent<Image>().fillAmount = 1;
+            p.fillTimer.GetComponent<Image>().fillAmount = 1;
         cdIcon.GetChild(1).GetComponent<TextMeshProUGUI>().text = shape;
     }
 
@@ -659,16 +667,16 @@ public class SpellManager : MonoBehaviour
 
 
 [System.Serializable]
-public class Spell
+public class Program
 {
-    public Spell(List<Block> blocks_, KeyCode bind)
+    public Program(List<Block> blocks_, KeyCode bind)
     {
         blocks = blocks_;
         name = blocks_[0].name;
         keybind = bind;
     }
 
-    public Spell(List<Block> blocks_)
+    public Program(List<Block> blocks_)
     {
         blocks = blocks_;
         name = blocks_[0].name;

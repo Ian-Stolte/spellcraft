@@ -70,7 +70,7 @@ public class BasicEnemy : Enemy
                 {
                     rb.MovePosition(rb.position + transform.forward * speed * Time.deltaTime);
                 }
-                if (atkTimer <= 0 && dist < meleeRange && !player.GetComponent<PlayerSpells>().dashing)
+                if (atkTimer <= 0 && dist < meleeRange && !player.GetComponent<PlayerPrograms>().dashing)
                 {
                     player.GetComponent<PlayerMovement>().TakeDamage(dmg);
                     anim.Play("Attack");

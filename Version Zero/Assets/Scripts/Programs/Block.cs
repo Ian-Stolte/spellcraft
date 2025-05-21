@@ -79,7 +79,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
         //    nameTxt.text = name.Substring(0, name.Length-7);
 
         typeTxt.GetComponent<TextMeshProUGUI>().text = type;
-        typeTxt.GetComponent<TextMeshProUGUI>().color = SpellManager.Instance.ColorFromType(type);
+        typeTxt.GetComponent<TextMeshProUGUI>().color = ProgramManager.Instance.ColorFromType(type);
     }
 
     private void Update()
@@ -144,7 +144,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (!SpellManager.Instance.spellsLocked)
+        if (!ProgramManager.Instance.spellsLocked)
         {
             dragging = true;
             AudioManager.Instance.Play("Grab Block");
@@ -160,7 +160,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (!SpellManager.Instance.spellsLocked)
+        if (!ProgramManager.Instance.spellsLocked)
         {
             // Bring the dragged window to the front
             transform.SetSiblingIndex(transform.parent.childCount - 1);
@@ -198,7 +198,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (!SpellManager.Instance.spellsLocked)
+        if (!ProgramManager.Instance.spellsLocked)
         {
             dragging = false;
             //upgrade if released on same type
@@ -237,7 +237,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
                     left.right = this;
                 }
                 targetSpace.SetActive(false);
-                SpellManager.Instance.compileButton.GetComponent<Button>().interactable = true;
+                ProgramManager.Instance.compileButton.GetComponent<Button>().interactable = true;
             }
         }
     }

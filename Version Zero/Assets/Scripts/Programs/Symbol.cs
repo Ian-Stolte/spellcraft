@@ -29,7 +29,7 @@ public class Symbol : MonoBehaviour, IDragHandler, IPointerDownHandler
 
     private void Update()
     {
-        if (SpellManager.Instance.spellsLocked && canMove)
+        if (ProgramManager.Instance.spellsLocked && canMove)
         {
             Bounds b = GetComponent<BoxCollider2D>().bounds;
             adjSymbols = Physics2D.OverlapBoxAll(b.center, b.extents, 0, LayerMask.GetMask("Symbol")).Length;
@@ -39,7 +39,7 @@ public class Symbol : MonoBehaviour, IDragHandler, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (SpellManager.Instance.spellsLocked && canMove)
+        if (ProgramManager.Instance.spellsLocked && canMove)
         {
             // Convert the mouse position to local space relative to the RectTransform
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
@@ -54,7 +54,7 @@ public class Symbol : MonoBehaviour, IDragHandler, IPointerDownHandler
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (SpellManager.Instance.spellsLocked && canMove)
+        if (ProgramManager.Instance.spellsLocked && canMove)
         {
             // Bring the dragged window to the front
             transform.parent.SetSiblingIndex(transform.parent.childCount - 1);

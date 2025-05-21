@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465788, g: 0.49641287, b: 0.5748173, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -351,6 +351,7 @@ MonoBehaviour:
   activateTxt: {fileID: 1485506045}
   complete: 0
   barrier: {fileID: 1034278538}
+  hiddenRoom: {fileID: 0}
   dialogue:
   - "Hey, Computer\u2014***what time is it?**"
   - "~it is currently 4:13am on Sunday, the 27th of March!*** The current year is\u2014"
@@ -4831,6 +4832,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1605688107}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1607985231 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9073324932604729840, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
+  m_PrefabInstance: {fileID: 6154748227236401477}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1628073301
 GameObject:
   m_ObjectHideFlags: 0
@@ -7012,6 +7018,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 588616572}
     - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
+      propertyPath: buildSelect
+      value: 
+      objectReference: {fileID: 1607985231}
+    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
       propertyPath: startButton
       value: 
       objectReference: {fileID: 104602886}
@@ -7173,7 +7183,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8935467834830936461, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
       propertyPath: m_Name
-      value: Spell Manager
+      value: Program Manager
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

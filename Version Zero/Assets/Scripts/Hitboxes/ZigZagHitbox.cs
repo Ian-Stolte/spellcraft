@@ -41,6 +41,6 @@ public class ZigZagHitbox : Hitbox
                     cols.Add(c);
         }
         if (cols.Count > 0)
-            GameObject.Find("Player").GetComponent<PlayerSpells>().SpellEffects(cols.ToArray(), spell, transform.position);
+            GameObject.Find("Player").GetComponent<PlayerPrograms>().SpellEffects(cols.ToArray(), spell, transform.position);
     }
 }

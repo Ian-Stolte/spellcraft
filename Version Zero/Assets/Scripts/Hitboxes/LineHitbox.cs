@@ -23,7 +23,7 @@ public class LineHitbox : Hitbox
         Collider[] hits = Physics.OverlapSphere(transform.position, 0.5f, LayerMask.GetMask("Enemy"));
         if (hits.Length > 0)
         {
-            GameObject.Find("Player").GetComponent<PlayerSpells>().SpellEffects(new Collider[]{hits[0]}, spell, transform.position);
+            GameObject.Find("Player").GetComponent<PlayerPrograms>().SpellEffects(new Collider[]{hits[0]}, spell, transform.position);
             Destroy(gameObject);
         }
     }

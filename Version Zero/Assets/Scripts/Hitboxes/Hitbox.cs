@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Hitbox : MonoBehaviour
 {
-    public Spell spell;
+    public Program spell;
 
     public abstract void CheckCollisions();
 }

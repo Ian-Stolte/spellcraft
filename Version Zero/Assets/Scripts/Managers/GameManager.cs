@@ -17,13 +17,12 @@ public class GameManager : MonoBehaviour
     }
 
     [Header("Bools")]
-    [HideInInspector] public bool pauseGame;
-    [HideInInspector] public bool playerPaused;
-    private bool inTransition;
     public bool doubleSpeed;
     public bool scifiNames;
     private bool fullArea;
     public bool skipDialogue;
+    [HideInInspector] public bool pauseGame;
+    [HideInInspector] public bool playerPaused;
     
     [Header("Rooms")]
     [SerializeField] private Room[] rooms;
@@ -42,8 +41,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform nodeParent;
     [SerializeField] private Transform enemyParent;
     [SerializeField] private List<int> waves = new List<int>();
-    private float minSpawn;
-    private float maxSpawn;
+    private float minSpawn = 15;
+    private float maxSpawn = 25;
 
     [Header("Terminals")]
     [SerializeField] private GameObject terminalBar;
@@ -110,26 +109,32 @@ public class GameManager : MonoBehaviour
             {*/
                 numEnemies = Physics.OverlapSphere(Vector2.zero, 9999, LayerMask.GetMask("Enemy")).Length;
             //}
-            inTransition = false;
 
             if (scene.name.Contains("Level"))
             {
                 foreach (Transform child in terminalIcons)
                     Destroy(child.gameObject);
-                numTerminals = Physics.OverlapSphere(Vector2.zero, 9999, LayerMask.GetMask("Terminal")).Length;
+                
+                //create an icon for each terminal in the level
+                numTerminals = 0;
+                foreach (GameObject g in Resources.FindObjectsOfTypeAll<GameObject>())
+                {
+                    if (g.layer == LayerMask.NameToLayer("Terminal") && g.hideFlags == HideFlags.None && g.scene.IsValid())
+                        numTerminals++;
+                }
                 for (int i = 0; i < numTerminals; i++)
                 {
                     GameObject icon = Instantiate(terminalIcon, Vector2.zero, terminalIcon.transform.rotation, terminalIcons);
-                    //icon.GetComponent<RectTransform>().anchoredPosition = new Vector2(920 - 150*terminalIcons.childCount, -460);
                     icon.GetComponent<RectTransform>().anchoredPosition = new Vector2(-822, 480 - 130*i);
                 }
 
-                if (scene.name == "Level 2")
+                //set spawn pct & enemies available by level
+                if (scene.name == "Level 2" || scene.name == "Level 3")
                 {
                     minSpawn = 15;
                     maxSpawn = 25;
                 }
-                if (scene.name == "Level 3")
+                if (scene.name == "Level 4")
                 {
                     enemyPrefabs.Add("Artillerist");
                     minSpawn = 10;
@@ -350,7 +355,7 @@ public class GameManager : MonoBehaviour
     public void UpdateEnemyNum(int n)
     {
         numEnemies += n;
-        if (numEnemies <= 0 && !inTransition && !fullArea)
+        if (numEnemies <= 0 && !fullArea)
         {
             if (!staticSpawn && waves.Count > 0) //spawn more waves!
             {
@@ -382,7 +387,6 @@ public class GameManager : MonoBehaviour
         GameObject reward = Instantiate(rewardPrefab, rewardPos + new Vector3(0, 20, 0), Quaternion.identity);
         reward.GetComponent<Rigidbody>().velocity = new Vector3(0, -100, 0);
         reward.GetComponent<Reward>().numOptions = 3;
-        inTransition = true;
     }
 
 
@@ -408,21 +412,40 @@ public class GameManager : MonoBehaviour
         StartCoroutine(PlayMultipleDialogues(currentTerminal.dialogue));
         numTerminals--;
         
-        //disable barrier
+        //disable barrier &/or show hidden room
         //TODO: logic for multiple terminals -> one barrier (int on barrier that gets decremented?)
-        //TODO: show hidden area instead of barrier (use point w/ trail renderer to show direction?)
-        Transform barrier = currentTerminal.barrier;    
+        if (currentTerminal.barrier != null)
+            UnlockBarrier(currentTerminal.barrier);
+        if (currentTerminal.hiddenRoom != null)
+            currentTerminal.hiddenRoom.SetActive(true);
+
+        //if level 2 access point...
+        //   show HP bar
+        //   StartCoroutine(SpawnInfiniteWaves(false));
+    }
+
+    public IEnumerator FirstAccessPt()
+    {
+        playerPaused = true;
+        ProgramManager.Instance.buildSelect.SetActive(true);
+        ProgramManager.Instance.programUI.gameObject.SetActive(true);
+        //TODO: play access pt dialogue
+        yield return new WaitUntil(() => !playerPaused);
+        StartCoroutine(SpawnInfiniteWaves(false));
+        UnlockBarrier(GameObject.Find("Barrier").transform);
+        player.GetComponent<PlayerMovement>().hpBar.gameObject.SetActive(true);
+    }
+
+    private void UnlockBarrier(Transform barrier)
+    {
         barrier.GetChild(0).gameObject.SetActive(false);
         barrier.GetChild(1).GetComponent<MeshRenderer>().material = barrierGreen;
         barrier.GetChild(2).GetComponent<MeshRenderer>().material = barrierGreen;
         TextMeshProUGUI txt = barrier.GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
         txt.text = "Welcome, AUTH_USER!";
         txt.color = unlockedColor;
-
-        //if level 2 access point...
-        //   show HP bar
-        //   StartCoroutine(SpawnInfiniteWaves(false));
     }
+
 
     public IEnumerator PlayMultipleDialogues(string[] lines)
     {

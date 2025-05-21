@@ -25,7 +25,7 @@ public class CameraFollow : MonoBehaviour
         if (!GameManager.Instance.pauseGame)
         {
             transform.position = target.position - offset;
-            if (rotSnap)
+            /*if (rotSnap)
             {
                 if (Input.GetKeyDown(panLeft))
                 {
@@ -50,7 +50,7 @@ public class CameraFollow : MonoBehaviour
                     transform.RotateAround(target.transform.position, Vector3.up, mouseX * rotationSpeed * Time.deltaTime);
                     offset = target.position-transform.position;
                 }
-            }
+            }*/
 
             //automatic follow
             /*else

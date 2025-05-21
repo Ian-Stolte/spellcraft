@@ -30,6 +30,6 @@ public class CircleHitbox : Hitbox
     {
         Collider[] cols = Physics.OverlapSphere(transform.position, transform.localScale.x/2, LayerMask.GetMask("Enemy"));
         if (cols.Length > 0)
-            GameObject.Find("Player").GetComponent<PlayerSpells>().SpellEffects(cols, spell, transform.position);
+            GameObject.Find("Player").GetComponent<PlayerPrograms>().SpellEffects(cols, spell, transform.position);
     }
 }

@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Health")]
     [SerializeField] private int health;
     [SerializeField] private int maxHealth;
-    [SerializeField] private Transform hpBar;
+    public Transform hpBar;
     [SerializeField] private float maxBurstDmg;
     private float immunityTimer;
     private int currentBurst;
@@ -116,7 +116,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 camForward = Vector3.ProjectOnPlane(Camera.main.transform.forward, Vector3.up).normalized;
         Vector3 camRight = Vector3.ProjectOnPlane(Camera.main.transform.right, Vector3.up).normalized;
         moveDir = (lateral*camRight + forward*camForward).normalized;
-        if (moveDir != Vector3.zero && !GameManager.Instance.pauseGame && !GameManager.Instance.playerPaused && !GetComponent<PlayerSpells>().dashing)
+        if (moveDir != Vector3.zero && !GameManager.Instance.pauseGame && !GameManager.Instance.playerPaused && !GetComponent<PlayerPrograms>().dashing)
         {
             float spd = speed;
             float rotSpd = rotationSpeed;
@@ -190,7 +190,7 @@ public class PlayerMovement : MonoBehaviour
     public IEnumerator GameOver()
     {
         endingGame = true;
-        GetComponent<PlayerSpells>().enabled = false;
+        GetComponent<PlayerPrograms>().enabled = false;
         GameManager.Instance.pauseGame = true;
         StartCoroutine(AudioManager.Instance.FadeOutAll(0));
         AudioManager.Instance.Play("Static");

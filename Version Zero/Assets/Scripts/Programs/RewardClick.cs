@@ -16,20 +16,20 @@ public class RewardClick : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     public IEnumerator AddSpellCor()
     {
         AudioManager.Instance.Play("Reward Click");
-        if (SpellManager.Instance.spellUI.gameObject.activeSelf)
+        if (ProgramManager.Instance.programUI.gameObject.activeSelf)
         {
             yield return null;
-            SpellManager.Instance.skipButton.SetActive(true);
-            SpellManager.Instance.compileButton.SetActive(true);
+            ProgramManager.Instance.skipButton.SetActive(true);
+            ProgramManager.Instance.compileButton.SetActive(true);
         }
         else
         {
             GameObject.Find("Fader").GetComponent<Fader>().FadeInOut(1, 1);
             yield return new WaitForSeconds(1);
-            SpellManager.Instance.Reforge();
+            ProgramManager.Instance.Reforge();
         }
-        GameObject.Find("Spell Rewards").SetActive(false);
-        SpellManager.Instance.CreateBlock(blockToAdd);
+        GameObject.Find("Program Rewards").SetActive(false);
+        ProgramManager.Instance.CreateBlock(blockToAdd);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

@@ -4,19 +4,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class PlayerSpells : MonoBehaviour
+public class PlayerPrograms : MonoBehaviour
 {
     [Header("Aura")]
     public float auraTick;
     public float auraDampen;
     [SerializeField] GameObject auraHitbox;
     private GameObject auraObj;
-    [HideInInspector] public Spell auraSpell;
+    [HideInInspector] public Program auraProgram;
     
     [Header("Auto")]
     public float autoTick;
     [SerializeField] private float autoTimer;
-    [HideInInspector] public Spell autoSpell;
+    [HideInInspector] public Program autoProgram;
     
     [Header("Hitboxes")]
     [SerializeField] private GameObject[] hitboxes;
@@ -35,66 +35,66 @@ public class PlayerSpells : MonoBehaviour
     public void InitializeAura()
     {
         Destroy(auraObj);
-        if (auraSpell.name != "")
+        if (auraProgram.name != "")
         {
             auraObj = Instantiate(auraHitbox, transform.position + new Vector3(0, -1, 0), Quaternion.identity, transform);
-            auraObj.GetComponent<Hitbox>().spell = auraSpell;
+            auraObj.GetComponent<Hitbox>().spell = auraProgram;
             auraObj.GetComponent<AuraHitbox>().tickRate = auraTick;
         }
     }
 
     void Update()
     {
-        foreach (Spell s in SpellManager.Instance.spells)
+        foreach (Program p in ProgramManager.Instance.programs)
         {
-            s.cdTimer = Mathf.Max(0, s.cdTimer - Time.deltaTime);
-            s.fillTimer.GetComponent<Image>().fillAmount = s.cdTimer/s.cdMax;
-            if (Input.GetKeyDown(s.keybind) && s.cdTimer <= 0)
+            p.cdTimer = Mathf.Max(0, p.cdTimer - Time.deltaTime);
+            p.fillTimer.GetComponent<Image>().fillAmount = p.cdTimer/p.cdMax;
+            if (Input.GetKeyDown(p.keybind) && p.cdTimer <= 0)
             {
-                CastSpell(s);
+                CastSpell(p);
             }
-            else if (Input.GetKeyDown(s.keybind) && s.cdTimer <= 0.5f)
+            else if (Input.GetKeyDown(p.keybind) && p.cdTimer <= 0.5f)
             {
-                StartCoroutine(DelayedCast(s));
+                StartCoroutine(DelayedCast(p));
             }
         }
 
-        if (autoSpell.name != "")
+        if (autoProgram.name != "")
         {
             autoTimer = Mathf.Max(0, autoTimer - Time.deltaTime);
             if (autoTimer <= 0)
             {
-                CastSpell(autoSpell);
+                CastSpell(autoProgram);
                 autoTimer = autoTick;
             }
-            autoSpell.fillTimer.GetComponent<Image>().fillAmount = autoTimer/autoTick;
+            autoProgram.fillTimer.GetComponent<Image>().fillAmount = autoTimer/autoTick;
         }
     }
 
 
-    private IEnumerator DelayedCast(Spell s)
+    private IEnumerator DelayedCast(Program p)
     {
-        yield return new WaitUntil(() => s.cdTimer <= 0);
-        CastSpell(s);
+        yield return new WaitUntil(() => p.cdTimer <= 0);
+        CastSpell(p);
     }
 
-    private void CastSpell(Spell s)
+    private void CastSpell(Program p)
     {
-        Block dash = s.blocks.Find(b=>b.name == "Dash");
+        Block dash = p.blocks.Find(b=>b.name == "Dash");
         if (dash != null)
         {
-            StartCoroutine(Dash(s));
+            StartCoroutine(Dash(p));
         }
         else
         {
-            s.cdTimer = s.cdMax;
+            p.cdTimer = p.cdMax;
             Quaternion rot = Quaternion.Euler(0, Quaternion.LookRotation(transform.position - MousePos()).eulerAngles.y, 0);
-            foreach (Block b in s.blocks)
+            foreach (Block b in p.blocks)
             {
                 if (b.name == "Circle")
                 {
                     GameObject hitbox = Instantiate(hitboxes[0], MousePos(), rot);
-                    hitbox.GetComponent<Hitbox>().spell = s;
+                    hitbox.GetComponent<Hitbox>().spell = p;
                     break;
                 }
                 else if (b.name == "Line")
@@ -104,13 +104,13 @@ public class PlayerSpells : MonoBehaviour
                     dir = new Vector3(dir.x, 0, dir.z).normalized;
                     GameObject hitbox = Instantiate(hitboxes[1], transform.position + dir, rot);
                     hitbox.GetComponent<LineHitbox>().dir = dir;
-                    hitbox.GetComponent<Hitbox>().spell = s;
+                    hitbox.GetComponent<Hitbox>().spell = p;
                     break;
                 }
                 else if (b.name == "Melee" || b.name == "Shield")
                 {
                     GameObject hitbox = Instantiate(hitboxes[2], transform.position + new Vector3(0, -0.8f, 0), Quaternion.identity);
-                    hitbox.GetComponent<Hitbox>().spell = s;
+                    hitbox.GetComponent<Hitbox>().spell = p;
                     if (b.name == "Shield")
                         GetComponent<PlayerMovement>().shieldTimer += 1f;
                     break;
@@ -119,7 +119,7 @@ public class PlayerSpells : MonoBehaviour
                 {
                     AudioManager.Instance.Play("Place Trap");
                     GameObject hitbox = Instantiate(hitboxes[3], MousePos(), rot);
-                    hitbox.GetComponent<Hitbox>().spell = s;
+                    hitbox.GetComponent<Hitbox>().spell = p;
                     break;
                 }
                 else if (b.name == "Target")
@@ -131,7 +131,7 @@ public class PlayerSpells : MonoBehaviour
                         AudioManager.Instance.Play("Error");
                         StopCoroutine("NoTarget");
                         StartCoroutine("NoTarget");
-                        s.cdTimer = 0;
+                        p.cdTimer = 0;
                     }
                     else
                     {
@@ -141,7 +141,7 @@ public class PlayerSpells : MonoBehaviour
                             if (Vector3.Distance(hit.transform.position, MousePos()) < Vector3.Distance(closest.transform.position, MousePos()))
                                 closest = hit;
                         }
-                        SpellEffects(new Collider[]{closest}, s, MousePos());
+                        SpellEffects(new Collider[]{closest}, p, MousePos());
                     }
                     break;
                 }
@@ -150,7 +150,7 @@ public class PlayerSpells : MonoBehaviour
     }
 
 
-    public void SpellEffects(Collider[] cols, Spell s, Vector3 pos, bool aura=false)
+    public void SpellEffects(Collider[] cols, Program p, Vector3 pos, bool aura=false)
     {
         foreach (Collider c in cols)
         {
@@ -163,7 +163,7 @@ public class PlayerSpells : MonoBehaviour
                 int markDmg = 0;
                 float stun = 0;
                 float slow = 0;
-                foreach (Block b in s.blocks)
+                foreach (Block b in p.blocks)
                 {
                     if (b.name == "Stun")
                         stun += (aura) ? 0.3f : 1f; 
@@ -213,7 +213,7 @@ public class PlayerSpells : MonoBehaviour
     }
 
 
-    private IEnumerator Dash(Spell s)
+    private IEnumerator Dash(Program p)
     {
         dashing = true;
         AudioManager.Instance.Play("Dash");
@@ -232,9 +232,9 @@ public class PlayerSpells : MonoBehaviour
             yield return null;
         }
         //cast spell
-        s.cdTimer = s.cdMax;
+        p.cdTimer = p.cdMax;
         GameObject hitbox = Instantiate(hitboxes[2], transform.position + new Vector3(0, -0.8f, 0), Quaternion.identity);
-        hitbox.GetComponent<Hitbox>().spell = s;
+        hitbox.GetComponent<Hitbox>().spell = p;
         
         dashing = false;
         GetComponent<TrailRenderer>().emitting = false;

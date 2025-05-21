@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 845690033822569681}
   - component: {fileID: 8860887469752437314}
   m_Layer: 0
-  m_Name: Spell Manager
+  m_Name: Program Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93cd10209ea2b41a89e1e6e063bc0c64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SKIP_CRAFTING: 0
+  SKIP_CRAFTING: 1
   showTutorial: 1
   spellsLocked: 0
   spellUI: {fileID: 0}
@@ -63,31 +63,40 @@ MonoBehaviour:
   cdIconPrefab: {fileID: 5300717638937045287, guid: 50eafcc156acd6a49a33b9edfd14d1a8, type: 3}
   spellUIStart: {x: -655, y: 355}
   fullSymbolColor: {r: 0.5686275, g: 0.8509804, b: 0.90588236, a: 1}
+  typeColors:
+  - {r: 0.47843137, g: 0.9411765, b: 0.38039216, a: 1}
+  - {r: 0.38039216, g: 0.6745098, b: 0.9607843, a: 1}
+  - {r: 0.9372549, g: 0.34509805, b: 0.77254903, a: 1}
+  - {r: 0.9568628, g: 0.7490196, b: 0.40784317, a: 1}
   player: {fileID: 0}
   tutorials:
   - {fileID: 0}
   - {fileID: 0}
+  buildSelect: {fileID: 0}
   defaultBinds: 430100004401000045010000
   bindTxt:
   - Left Click
   - Right Click
   - Middle Click
+  buildpath: 
   shapeBlocks:
   - {fileID: 8727360041391963699, guid: baba1a82241e7ba43b7ba24be3943690, type: 3}
   - {fileID: 2095598637705310552, guid: 9cdb74ef4402ddd45bdb7d03bb02f53d, type: 3}
   - {fileID: 6866035921856438703, guid: b4938e2b3b27a7942adc4eef2211bfa0, type: 3}
   - {fileID: 751068182812198834, guid: 9100215e0a234924eb6e8040db6fb04b, type: 3}
+  - {fileID: 2095598637705310552, guid: 64bdb95a557b15649a605d194fbd0728, type: 3}
+  - {fileID: 2095598637705310552, guid: 3f9fa202c8547cd48b50d6b1b3f1ae21, type: 3}
   effectBlocks:
   - {fileID: 5002837315012015344, guid: d660541ebbd9f704895d00429c04cbb3, type: 3}
   - {fileID: 5002837315012015344, guid: 875b64e76a7675146b31a510d196830e, type: 3}
-  - {fileID: 5002837315012015344, guid: f97836feb5602614ca100e4aff7302d7, type: 3}
+  - {fileID: 5002837315012015344, guid: 844feb172f080e943a2d3f7cc9fac088, type: 3}
   - {fileID: 9191262866201418245, guid: 09dc64dd640a9484cbcaac62ae3675c1, type: 3}
   - {fileID: 5673812413240789059, guid: bd5d4538876567b408f48dbc666c608c, type: 3}
   - {fileID: 9191262866201418245, guid: 0f37290e6bbae8f48a0bd3cdf9758eac, type: 3}
   modBlocks:
   - {fileID: 1056575017890556035, guid: 8a94b295ff28ebf4fbcb713728abfccd, type: 3}
   - {fileID: 751068182812198834, guid: 77863b9482fb50b439adbde113d51e76, type: 3}
-  spells: []
+  programs: []
   spellSave: []
 --- !u!114 &8860887469752437314
 MonoBehaviour:

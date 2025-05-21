@@ -61,23 +61,23 @@ public class RewardManager : MonoBehaviour
         {
             float rand = Random.Range(0f, 1f);
             if (rand < 0.4f)
-                chosenBlocks.Add(SpellManager.Instance.ChooseRandom(1, null, SpellManager.Instance.buildpath)[0]);
+                chosenBlocks.Add(ProgramManager.Instance.ChooseRandom(1, null, ProgramManager.Instance.buildpath)[0]);
             else
-                chosenBlocks.Add(SpellManager.Instance.ChooseRandom(1)[0]);
+                chosenBlocks.Add(ProgramManager.Instance.ChooseRandom(1)[0]);
         }
         ShowRewards(chosenBlocks);
-        //ShowRewards(SpellManager.Instance.ChooseRandom(n));
+        //ShowRewards(ProgramManager.Instance.ChooseRandom(n));
         GameManager.Instance.pauseGame = true;
     }
 
     public void ShowPrograms()
     {
-        SpellManager.Instance.Reforge();
+        ProgramManager.Instance.Reforge();
         rewardParent.GetComponent<Image>().enabled = false;
         showPrograms.SetActive(false);
         hidePrograms.SetActive(true);
-        SpellManager.Instance.compileButton.SetActive(false);
-        SpellManager.Instance.skipButton.SetActive(false);
+        ProgramManager.Instance.compileButton.SetActive(false);
+        ProgramManager.Instance.skipButton.SetActive(false);
         blockBG.SetActive(true);
         foreach (Transform child in rewardParent)
         {
@@ -91,7 +91,7 @@ public class RewardManager : MonoBehaviour
 
     public void HidePrograms()
     {
-        SpellManager.Instance.spellUI.gameObject.SetActive(false);
+        ProgramManager.Instance.programUI.gameObject.SetActive(false);
         rewardParent.GetComponent<Image>().enabled = true;
         hidePrograms.SetActive(false);
         showPrograms.SetActive(true);

@@ -39,17 +39,17 @@ public class BuildSelector : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             fader.alpha = i;
             yield return new WaitForSeconds(0.01f);
         }
-        SpellManager.Instance.CreateBlock("Damage");
-        List<Block> effectBlocks = SpellManager.Instance.ChooseRandom(1, new string[]{"Damage"}, type, "effect");
-        List<Block> miscBlocks = SpellManager.Instance.ChooseRandom(1, new string[]{"Damage"}, "none", "effect");
-        List<Block> shapeBlocks = SpellManager.Instance.ChooseRandom(2, new string[]{"Damage"}, type, "shape");
+        ProgramManager.Instance.CreateBlock("Damage");
+        List<Block> effectBlocks = ProgramManager.Instance.ChooseRandom(1, new string[]{"Damage"}, type, "effect");
+        List<Block> miscBlocks = ProgramManager.Instance.ChooseRandom(1, new string[]{"Damage"}, "none", "effect");
+        List<Block> shapeBlocks = ProgramManager.Instance.ChooseRandom(2, new string[]{"Damage"}, type, "shape");
         effectBlocks.AddRange(miscBlocks);
         effectBlocks.AddRange(shapeBlocks);
         foreach (Block b in effectBlocks)
         {
-            SpellManager.Instance.CreateBlock(b.gameObject);
+            ProgramManager.Instance.CreateBlock(b.gameObject);
         }
-        SpellManager.Instance.buildpath = type;
+        ProgramManager.Instance.buildpath = type;
         yield return new WaitForSeconds(1);
         Fader.Instance.FadeInOut(0.5f, 0.5f);
         yield return new WaitForSeconds(0.5f);
