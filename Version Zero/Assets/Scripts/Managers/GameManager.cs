@@ -140,6 +140,7 @@ public class GameManager : MonoBehaviour
                     minSpawn = 10;
                     maxSpawn = 20;
                 }
+                
                 if (scene.name != "Level 1" && scene.name != "Level 2")
                     StartCoroutine(SpawnInfiniteWaves());
             }
@@ -180,7 +181,7 @@ public class GameManager : MonoBehaviour
                 }
                 if (i == reyaDialogue.Length-2)
                 {
-                    Fader.Instance.FadeOut(12);
+                    Fader.Instance.FadeOut(14);
                     AudioManager.Instance.Play("Area 1");
                     StartCoroutine(AudioManager.Instance.StartFade("Area 1", 0.5f, 0.2f));
                 }
@@ -343,8 +344,10 @@ public class GameManager : MonoBehaviour
     public IEnumerator SpawnInfiniteWaves(bool wait=true)
     {
         int maxTerminals = numTerminals;
+        Debug.Log(maxTerminals);
         yield return new WaitUntil(() => numTerminals != maxTerminals || !wait);
-        while (true)
+        string sceneName = SceneManager.GetActiveScene().name;
+        while (sceneName == SceneManager.GetActiveScene().name)
         {
             StartCoroutine(WaveEnemies(1));
             yield return new WaitForSeconds(Random.Range(minSpawn, maxSpawn));
@@ -355,7 +358,7 @@ public class GameManager : MonoBehaviour
     public void UpdateEnemyNum(int n)
     {
         numEnemies += n;
-        if (numEnemies <= 0 && !fullArea)
+        /*if (numEnemies <= 0 && !fullArea)
         {
             if (!staticSpawn && waves.Count > 0) //spawn more waves!
             {
@@ -365,7 +368,7 @@ public class GameManager : MonoBehaviour
             }
             else
                FinishLevel();
-        }
+        }*/
     }
 
     private void FinishLevel()
@@ -418,10 +421,6 @@ public class GameManager : MonoBehaviour
             UnlockBarrier(currentTerminal.barrier);
         if (currentTerminal.hiddenRoom != null)
             currentTerminal.hiddenRoom.SetActive(true);
-
-        //if level 2 access point...
-        //   show HP bar
-        //   StartCoroutine(SpawnInfiniteWaves(false));
     }
 
     public IEnumerator FirstAccessPt()
@@ -429,10 +428,16 @@ public class GameManager : MonoBehaviour
         playerPaused = true;
         ProgramManager.Instance.buildSelect.SetActive(true);
         ProgramManager.Instance.programUI.gameObject.SetActive(true);
-        //TODO: play access pt dialogue
         yield return new WaitUntil(() => !playerPaused);
-        StartCoroutine(SpawnInfiniteWaves(false));
         UnlockBarrier(GameObject.Find("Barrier").transform);
+        Transform iconToChange = terminalIcons.GetChild(terminalIcons.childCount - numTerminals);
+        iconToChange.GetComponent<CanvasGroup>().alpha = 0.5f;
+        iconToChange.GetChild(0).gameObject.SetActive(true);
+        
+        yield return new WaitForSeconds(2);
+        StartCoroutine(SpawnInfiniteWaves(false));
+        yield return new WaitForSeconds(1);
+        StartCoroutine(PlayMultipleDialogues(new string[]{"Oh shit they found us already.", "Better terminate that thing before more show up..."}));
         player.GetComponent<PlayerMovement>().hpBar.gameObject.SetActive(true);
     }
 

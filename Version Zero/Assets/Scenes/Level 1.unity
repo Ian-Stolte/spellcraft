@@ -4293,7 +4293,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Elevator to:
 
-    Riemann Plaza'
+    Overpass 14A'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7db1232e2848f0149a8c6ae26195804d, type: 2}
   m_sharedMaterial: {fileID: -4933900557216356330, guid: 7db1232e2848f0149a8c6ae26195804d, type: 2}
@@ -5217,8 +5217,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.87058824, g: 0.99215686, b: 0.8784314, a: 1}
-  m_Intensity: 0.7
+  m_Color: {r: 0.87058824, g: 0.9158057, b: 0.99215686, a: 1}
+  m_Intensity: 0.3
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -6079,11 +6079,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff9a5a342f35d6f42a8b83bf928a98c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseGame: 0
-  playerPaused: 0
   doubleSpeed: 0
   scifiNames: 0
   skipDialogue: 1
+  pauseGame: 0
+  playerPaused: 0
   rooms:
   - name: Room 1
     active: 1
@@ -6126,9 +6126,9 @@ MonoBehaviour:
   reyaDialogue:
   - ow...** fuck...**** maybe it's time... to claim my BioSoft extended warranty
   - ...this is definitely not... ow... supposed to happen
-  - ~Emergency alerts suggest you return to your physical body immediately, miss
+  - ~emergency alerts suggest you return to your physical body immediately miss
   - ~I can provide you with directions if that would be to your liking
-  - "Yeah\u2026 I don\u2019t think I want to find out what \u2018neural fragmentation\u2019
+  - "Yeah*.*.*.** I don\u2019t think I want to find out what \u2018neural fracturing\u2019
     feels like..."
   dialogue: {fileID: 1435338485}
   portraits:
@@ -7005,6 +7005,10 @@ PrefabInstance:
       propertyPath: cdParent
       value: 
       objectReference: {fileID: 805596107}
+    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
+      propertyPath: programUI
+      value: 
+      objectReference: {fileID: 835217253}
     - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
       propertyPath: backButton
       value: 

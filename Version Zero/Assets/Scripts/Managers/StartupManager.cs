@@ -1,11 +1,11 @@
-using System.Collections;
+    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class DialogueManager : MonoBehaviour
+public class StartupManager : MonoBehaviour
 {
     [Header("Bools")]
     [SerializeField] private bool fail;
@@ -414,7 +414,7 @@ public class DialogueManager : MonoBehaviour
         if (instantFail)
             yield return new WaitForSeconds(3);
         else
-            yield return new WaitForSeconds(11);
+            yield return new WaitForSeconds(12);
         Fader.Instance.GetComponent<CanvasGroup>().alpha = 1;
         AudioManager.Instance.Stop("Alarm");
         yield return new WaitForSeconds(3);

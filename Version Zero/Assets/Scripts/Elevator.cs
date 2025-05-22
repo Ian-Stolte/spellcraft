@@ -6,10 +6,10 @@ public class Elevator : MonoBehaviour
 {
     public string nextArea;
 
-    void Start()
+    /*void Start()
     {
         transform.GetChild(0).GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = "Elevator to: \n" + nextArea;
-    }
+    }*/
 
     void OnTriggerEnter(Collider hit)
     {

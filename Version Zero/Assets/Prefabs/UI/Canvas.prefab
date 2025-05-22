@@ -1707,7 +1707,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6370179297425021629}
   m_Layer: 5
-  m_Name: Computer
+  m_Name: Computer Portrait
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

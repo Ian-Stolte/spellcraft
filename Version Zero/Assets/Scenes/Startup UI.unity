@@ -2518,7 +2518,7 @@ GameObject:
   - component: {fileID: 970422805}
   - component: {fileID: 970422806}
   m_Layer: 0
-  m_Name: Dialogue Manager
+  m_Name: Startup Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2575,7 +2575,7 @@ MonoBehaviour:
   failtext:
   - 'ERROR: Overflow error'
   - Abnormal neural activity levels detected
-  - Restarting syst
+  - "Restarting syst\u2014"
   - 'ERROR: Restart failed, upload in progress'
   - 'ERROR: Internal temperature warning'
   - Please return to your physical body immediately or neural fracturing may occur
