@@ -380,7 +380,7 @@ GameObject:
   - component: {fileID: 1217673460690319370}
   - component: {fileID: 4986110535702528349}
   - component: {fileID: 8933738464966719760}
-  - component: {fileID: 6646068188239223357}
+  - component: {fileID: 7801337596839946309}
   - component: {fileID: 3045372034943755482}
   - component: {fileID: 1125445811366106364}
   - component: {fileID: 1743986828512889071}
@@ -461,7 +461,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &6646068188239223357
+--- !u!114 &7801337596839946309
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -470,13 +470,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 5805461975746180555}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 025f5a28b13574137bc499d0f4dc24df, type: 3}
+  m_Script: {fileID: 11500000, guid: ba0f132adcc39ed4ba3c5b13aa7da95e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   auraTick: 0.5
   auraDampen: 0
   auraHitbox: {fileID: 1135881467792444086, guid: 224e4b5f94dcb47df8bb4bbaa921aa18, type: 3}
-  auraSpell:
+  auraProgram:
     name: 
     blocks: []
     cdMax: 0
@@ -486,7 +486,7 @@ MonoBehaviour:
     symbol: {fileID: 0}
   autoTick: 2
   autoTimer: 0
-  autoSpell:
+  autoProgram:
     name: 
     blocks: []
     cdMax: 0
@@ -494,14 +494,19 @@ MonoBehaviour:
     fillTimer: {fileID: 0}
     keybind: 0
     symbol: {fileID: 0}
-  hitboxes: []
+  hitboxes:
+  - {fileID: 1135881467792444086, guid: 3f16dce6459334681b4c760907d47519, type: 3}
+  - {fileID: 8968518077185907026, guid: 460a8c4d0314a44d29d2c1613d65de4d, type: 3}
+  - {fileID: 1135881467792444086, guid: 21a1550eb1b984ea98ebe88dfb6e7f99, type: 3}
+  - {fileID: 1135881467792444086, guid: f09269251d385984e9937b1bdbc08910, type: 3}
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  dashForce: 30
-  dashDur: 0.3
+  noTargetText: {fileID: 0}
+  dashForce: 50
+  dashDur: 0.25
   dashing: 0
-  transparentMat: {fileID: 0}
+  transparentMat: {fileID: 2100000, guid: 8452cff573296d64cbf15380ca153736, type: 2}
 --- !u!114 &3045372034943755482
 MonoBehaviour:
   m_ObjectHideFlags: 0

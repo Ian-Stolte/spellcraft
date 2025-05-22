@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class PlayerProgram : MonoBehaviour
+public class PlayerPrograms : MonoBehaviour
 {
     [Header("Aura")]
     public float auraTick;

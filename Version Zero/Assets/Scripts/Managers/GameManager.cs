@@ -300,7 +300,7 @@ public class GameManager : MonoBehaviour
         return numToAdd;
     }
 
-    public IEnumerator WaveEnemies(int n)
+    public IEnumerator WaveEnemies(int n, Vector3 setPos = default)
     {
         numEnemies += n;
         yield return new WaitForSeconds(1);
@@ -314,23 +314,39 @@ public class GameManager : MonoBehaviour
                 numEnemies += repeats-1;
                 for (int j = 0; j < repeats; j++)
                 {
-                    Vector3 offset = new Vector3(Random.Range(-1, 1), 0, Random.Range(-1, 1)).normalized * Random.Range(5, 10) + new Vector3(0, 1, 0);
-                    int attempts = 0;
-                    while (Physics.OverlapSphere(player.position + offset, 0.5f).Length > 0)
+                    if (setPos != Vector3.zero)
                     {
-                        offset = new Vector3(Random.Range(-1, 1), 0, Random.Range(-1, 1)).normalized * Random.Range(5, 10) + new Vector3(0, 1, 0);
-                        attempts++;
-                        if (attempts == 10) //fail to find open spot
-                        {
-                            Debug.Log("NO OPEN SPOT :(");
-                            numEnemies--;
-                            break;
-                        }
-                    }
-                    if (attempts < 10)
-                    {
-                        GameObject enemy = Instantiate(prefab, player.position + offset + new Vector3(0, 15, 0), Quaternion.identity, enemyParent);
+                        GameObject enemy = Instantiate(prefab, setPos + new Vector3(0, 15, 0), Quaternion.identity, enemyParent);
                         enemy.GetComponent<Rigidbody>().velocity = new Vector3(0, -100, 0);
+                    }
+                    else
+                    {
+                        float minDist = 5;
+                        float maxDist = 10;
+                        Vector3 offset = new Vector3(Random.Range(-1, 1), 0, Random.Range(-1, 1)).normalized * Random.Range(5, 10) + new Vector3(0, 1, 0);
+                        int attempts = 0;
+                        while (Physics.OverlapSphere(player.position + offset, 0.5f).Length > 0)
+                        {
+                            offset = new Vector3(Random.Range(-1, 1), 0, Random.Range(-1, 1)).normalized * Random.Range(minDist, maxDist) + new Vector3(0, 1, 0);
+                            attempts++;
+                            if (attempts == 10) //fail to find open spot
+                            {
+                                minDist++;
+                                maxDist++;
+                                attempts = 0;
+                                if (maxDist > 20)
+                                {
+                                    Debug.Log("NO OPEN SPOT :(");
+                                    numEnemies--;
+                                    break;
+                                }
+                            }
+                        }
+                        if (maxDist < 20)
+                        {
+                            GameObject enemy = Instantiate(prefab, player.position + offset + new Vector3(0, 15, 0), Quaternion.identity, enemyParent);
+                            enemy.GetComponent<Rigidbody>().velocity = new Vector3(0, -100, 0);
+                        }
                     }
                     yield return new WaitForSeconds(0.5f);
                 }
@@ -419,8 +435,8 @@ public class GameManager : MonoBehaviour
         //TODO: logic for multiple terminals -> one barrier (int on barrier that gets decremented?)
         if (currentTerminal.barrier != null)
             UnlockBarrier(currentTerminal.barrier);
-        if (currentTerminal.hiddenRoom != null)
-            currentTerminal.hiddenRoom.SetActive(true);
+        foreach (GameObject g in currentTerminal.hiddenRoom)
+            g.SetActive(!g.activeSelf);
     }
 
     public IEnumerator FirstAccessPt()
@@ -435,9 +451,9 @@ public class GameManager : MonoBehaviour
         iconToChange.GetChild(0).gameObject.SetActive(true);
         
         yield return new WaitForSeconds(2);
-        StartCoroutine(SpawnInfiniteWaves(false));
-        yield return new WaitForSeconds(1);
-        StartCoroutine(PlayMultipleDialogues(new string[]{"Oh shit they found us already.", "Better terminate that thing before more show up..."}));
+        StartCoroutine(WaveEnemies(1, new Vector3(31, 0, -5)));
+        yield return new WaitForSeconds(1.2f);
+        StartCoroutine(PlayMultipleDialogues(new string[]{"Shit... they found us already.", "~oh my it appears we may be unwelcome here"}));
         player.GetComponent<PlayerMovement>().hpBar.gameObject.SetActive(true);
     }
 
