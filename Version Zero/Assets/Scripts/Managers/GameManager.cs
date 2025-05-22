@@ -52,8 +52,11 @@ public class GameManager : MonoBehaviour
     public KeyCode terminalBind;
     [SerializeField] private Transform terminalIcons;
     [SerializeField] private GameObject terminalIcon;
-    [SerializeField] private Color unlockedColor;
+
+    [Header("Barrier")]
+    [SerializeField] private Color unlockTextColor;
     [SerializeField] private Material barrierGreen;
+    [SerializeField] private Material barrierUnlockBlue;
 
     [Header("Dialogue")]
     [SerializeField] private string[] reyaDialogue;
@@ -360,7 +363,6 @@ public class GameManager : MonoBehaviour
     public IEnumerator SpawnInfiniteWaves(bool wait=true)
     {
         int maxTerminals = numTerminals;
-        Debug.Log(maxTerminals);
         yield return new WaitUntil(() => numTerminals != maxTerminals || !wait);
         string sceneName = SceneManager.GetActiveScene().name;
         while (sceneName == SceneManager.GetActiveScene().name)
@@ -432,11 +434,11 @@ public class GameManager : MonoBehaviour
         numTerminals--;
         
         //disable barrier &/or show hidden room
-        //TODO: logic for multiple terminals -> one barrier (int on barrier that gets decremented?)
         if (currentTerminal.barrier != null)
             UnlockBarrier(currentTerminal.barrier);
-        foreach (GameObject g in currentTerminal.hiddenRoom)
-            g.SetActive(!g.activeSelf);
+        if (currentTerminal.hiddenRoom != null)
+            foreach (GameObject g in currentTerminal.hiddenRoom)
+                g.SetActive(!g.activeSelf);
     }
 
     public IEnumerator FirstAccessPt()
@@ -459,12 +461,24 @@ public class GameManager : MonoBehaviour
 
     private void UnlockBarrier(Transform barrier)
     {
-        barrier.GetChild(0).gameObject.SetActive(false);
-        barrier.GetChild(1).GetComponent<MeshRenderer>().material = barrierGreen;
-        barrier.GetChild(2).GetComponent<MeshRenderer>().material = barrierGreen;
-        TextMeshProUGUI txt = barrier.GetChild(3).GetChild(0).GetComponent<TextMeshProUGUI>();
-        txt.text = "Welcome, AUTH_USER!";
-        txt.color = unlockedColor;
+        int numLocks = 0;
+        foreach (Transform child in barrier.GetChild(0))
+        {
+            if (child.GetComponent<MeshRenderer>().material.name.Contains("Red"))
+                numLocks++;
+        }
+        barrier.GetChild(0).GetChild(barrier.GetChild(0).childCount - numLocks).GetComponent<MeshRenderer>().material = barrierUnlockBlue;
+
+        if (numLocks <= 1)
+        {
+            barrier.GetChild(0).gameObject.SetActive(false);
+            barrier.GetChild(1).gameObject.SetActive(false);
+            barrier.GetChild(2).GetComponent<MeshRenderer>().material = barrierGreen;
+            barrier.GetChild(3).GetComponent<MeshRenderer>().material = barrierGreen;
+            TextMeshProUGUI txt = barrier.GetChild(4).GetChild(0).GetComponent<TextMeshProUGUI>();
+            txt.text = "Welcome, AUTH_USER!";
+            txt.color = unlockTextColor;
+        }
     }
 
 
