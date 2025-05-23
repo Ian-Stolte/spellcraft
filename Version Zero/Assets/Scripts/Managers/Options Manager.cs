@@ -59,7 +59,7 @@ public class OptionsManager : MonoBehaviour
         Fader.Instance.FadeIn(2);
         yield return new WaitForSeconds(2);
         DontDestroyOnLoad(gameObject);
-        string sceneToLoad = (choices[1] == 0) ? "Intro Room" : "Startup UI";
+        string sceneToLoad = (choices[1] == 1) ? "Level 1" : "Startup UI";
         SceneManager.LoadScene(sceneToLoad);
         SequenceManager.Instance.runNum++;
         SceneManager.sceneLoaded += FinishSetup;
@@ -67,20 +67,12 @@ public class OptionsManager : MonoBehaviour
 
     private void FinishSetup(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "Intro Room")
+        if (scene.name == "Level 1")
         {
             Transform player = GameObject.Find("Player").transform;
             player.GetComponent<PlayerMovement>().canDie = (choices[0] == 0);
-
-            /*if (choices[1] == 0)
-                manager.roomSize = GameManager.RoomSize.SMALL;
-            else if (choices[1] == 1)
-                manager.roomSize = GameManager.RoomSize.MEDIUM;
-            else if (choices[1] == 2)
-                manager.roomSize = GameManager.RoomSize.BOTH;*/
-            //SequenceManager.Instance.defaultHand = (choices[1] == 0);
-            //manager.staticSpawn = choices[2] == 1;
             ProgramManager.Instance.StartingHand();
+            GameManager.Instance.skipDialogue = (choices[1] == 1);
 
             SceneManager.sceneLoaded -= FinishSetup;
             Destroy(gameObject);

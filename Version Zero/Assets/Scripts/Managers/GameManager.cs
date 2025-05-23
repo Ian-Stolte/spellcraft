@@ -531,11 +531,11 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         loadingText.GetComponent<TextMeshProUGUI>().text = "Now approaching: \n" + nextArea;
         loadingText.SetActive(true);
+        Color c = loadingText.GetComponent<TextMeshProUGUI>().color;
+        loadingText.GetComponent<TextMeshProUGUI>().color = new Color(c.r, c.g, c.b, 1);
         yield return new WaitForSeconds(2f);
-        //fade out elevator down?
 
         float elapsed = 1;
-        Color c = loadingText.GetComponent<TextMeshProUGUI>().color;
         StartCoroutine(ElevatorSounds());
         while (elapsed > 0)
         {

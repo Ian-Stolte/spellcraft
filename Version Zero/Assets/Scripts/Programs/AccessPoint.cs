@@ -25,7 +25,7 @@ public class AccessPoint : MonoBehaviour
     void Update()
     {
         bool playerClose = Vector3.Distance(player.position, transform.position) < interactDist;
-        transform.GetChild(0).gameObject.SetActive(playerClose);
+        transform.GetChild(0).gameObject.SetActive(playerClose && !used);
         transform.GetChild(0).transform.forward = cam.forward;
 
         if (playerClose && Input.GetKeyDown(interactKey) && !used)
