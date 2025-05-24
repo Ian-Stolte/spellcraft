@@ -144,6 +144,18 @@ MonoBehaviour:
     pitch: 0.8
     loop: 0
     source: {fileID: 0}
+  - name: Terminal Charge
+    clip: {fileID: 8300000, guid: bd9cf13d946d08a4ab35f7d711eb22c9, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Terminal Activate
+    clip: {fileID: 8300000, guid: 279011b2c7f097a47b3de36e262fd873, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
   programSFX:
   - name: Place Trap
     clip: {fileID: 8300000, guid: 42e9965b56f1248dfa4858ac510ba056, type: 3}

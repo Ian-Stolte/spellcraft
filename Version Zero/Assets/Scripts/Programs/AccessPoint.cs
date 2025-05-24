@@ -11,6 +11,7 @@ public class AccessPoint : MonoBehaviour
 
     public Transform barrier;
     [TextArea(3, 5)][SerializeField] private string[] dialogue;
+    [SerializeField] private bool playDialogue;
 
     private Transform player;
     private Transform cam;
@@ -36,7 +37,8 @@ public class AccessPoint : MonoBehaviour
             else
                 ProgramManager.Instance.Reforge();
 
-            StartCoroutine(DelayedDialogue());
+            if (playDialogue)
+                StartCoroutine(DelayedDialogue());
         }
     }
 

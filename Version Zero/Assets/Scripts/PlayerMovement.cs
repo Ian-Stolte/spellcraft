@@ -147,6 +147,7 @@ public class PlayerMovement : MonoBehaviour
 
             //cancel terminal progress
             StopCoroutine(GameManager.Instance.UseTerminal());
+            AudioManager.Instance.Stop("Terminal Charge");
             if (GameManager.Instance.bar != null)
                 Destroy(GameManager.Instance.bar.transform.parent.gameObject);
             GameManager.Instance.playerPaused = false;

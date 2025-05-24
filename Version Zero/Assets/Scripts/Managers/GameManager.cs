@@ -27,7 +27,8 @@ public class GameManager : MonoBehaviour
     [Header("Rooms")]
     [SerializeField] private Room[] rooms;
     private int levelNum = 1;
-    [SerializeField] private TextMeshProUGUI roomText;
+    [SerializeField] private TextMeshProUGUI areaText;
+    [SerializeField] private TextMeshProUGUI areaIntroText;
     [SerializeField] private LayerMask terrainLayer;
     [SerializeField] private int[] bossRooms;
     private int bossIndex;
@@ -128,7 +129,7 @@ public class GameManager : MonoBehaviour
                 for (int i = 0; i < numTerminals; i++)
                 {
                     GameObject icon = Instantiate(terminalIcon, Vector2.zero, terminalIcon.transform.rotation, terminalIcons);
-                    icon.GetComponent<RectTransform>().anchoredPosition = new Vector2(-822, 480 - 130*i);
+                    icon.GetComponent<RectTransform>().anchoredPosition = new Vector2(-822, 400 - 130*i);
                 }
 
                 //set spawn pct & enemies available by level
@@ -207,6 +208,29 @@ public class GameManager : MonoBehaviour
             player.GetComponent<PlayerMovement>().enabled = true;
             pauseGame = false;
         }
+        
+        //show area intro text
+        float waitTime = 0.1f;
+        foreach (char ch in "Abandoned Rooftop, Hightower District\n(Virtual Layer)")
+        {
+            if (ch == '(')
+                yield return new WaitForSeconds(1);
+            areaIntroText.text += ch;
+            yield return new WaitForSeconds(waitTime);
+            if (ch == 'p')
+            {
+                yield return new WaitForSeconds(0.3f);
+                waitTime = 0.05f;
+            }
+        }
+        yield return new WaitForSeconds(1);
+        Color col = areaIntroText.color;
+        for (float i = 1; i > 0; i -= 0.01f)
+        {
+            yield return new WaitForSeconds(0.01f);
+            areaIntroText.color = new Color(col.r, col.g, col.b, i);
+        }
+        Destroy(areaIntroText.gameObject);
     }
 
 
@@ -415,6 +439,7 @@ public class GameManager : MonoBehaviour
     {
         playerPaused = true;
         bar = Instantiate(terminalBar, player.transform.position + new Vector3(0, 1.3f, 0), Quaternion.identity).transform.GetChild(1).GetComponent<Image>();
+        AudioManager.Instance.Play("Terminal Charge");
         float elapsed = 0;
         while (elapsed < 4)
         {
@@ -430,6 +455,8 @@ public class GameManager : MonoBehaviour
         iconToChange.GetChild(0).gameObject.SetActive(true);
         Destroy(bar.transform.parent.gameObject);
         playerPaused = false;
+        AudioManager.Instance.Play("Terminal Activate");
+        AudioManager.Instance.Stop("Terminal Charge");
         StartCoroutine(PlayMultipleDialogues(currentTerminal.dialogue));
         numTerminals--;
         
@@ -545,8 +572,9 @@ public class GameManager : MonoBehaviour
         }
         loadingText.SetActive(false);
         int levelNum = int.Parse(SceneManager.GetActiveScene().name.Substring(6))+1;
-        string areaStr = (levelNum < 10) ? "0" + levelNum : "" + levelNum;
-        roomText.text = "Area_" + areaStr;
+        //string areaStr = (levelNum < 10) ? "0" + levelNum : "" + levelNum;
+        //areaText.text = "Area_" + areaStr;
+        areaText.text = nextArea;
         SceneManager.LoadScene("Level " + levelNum);
     }
 
@@ -565,7 +593,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         levelNum++;
         string areaStr = (levelNum < 10) ? "0" + levelNum : "" + levelNum;
-        roomText.text = "Area_" + areaStr;
+        areaText.text = "Area_" + areaStr;
         if (levelNum == bossRooms[bossIndex])
         {
             SceneManager.LoadScene("Boss " + (bossIndex+1));

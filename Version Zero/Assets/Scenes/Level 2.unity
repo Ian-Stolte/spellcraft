@@ -2126,6 +2126,7 @@ MonoBehaviour:
   - "~it appears I have had some trouble in loading your preferred settings\r"
   - "~in fact, I am glad you did not let me answer because I actually cannot see
     your biometrics right now haha\r"
+  playDialogue: 0
 --- !u!224 &588616572 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4511819604764240910, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
@@ -4353,17 +4354,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1588601264 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6067461360136487710, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
-  m_PrefabInstance: {fileID: 6154748227236401477}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1683716700 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
@@ -6094,7 +6084,7 @@ MonoBehaviour:
   - name: Room 4
     active: 0
     weight: 1
-  roomText: {fileID: 1588601264}
+  areaText: {fileID: 0}
   terrainLayer:
     serializedVersion: 2
     m_Bits: 2048
