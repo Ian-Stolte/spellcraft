@@ -238,7 +238,7 @@ public class StartupManager : MonoBehaviour
                 txt.text = untranslated + "<color=#95EAE1> " + translated;
                 yield return new WaitForSeconds(typeSpeed);
             }
-            if (failtext[i] != "Restarting syst")
+            if (failtext[i] != "Restarting syst—")
                yield return new WaitForSeconds(1f);
         }
     }

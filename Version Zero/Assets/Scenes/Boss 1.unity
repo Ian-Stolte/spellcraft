@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4465788, g: 0.49641287, b: 0.5748173, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3689,17 +3689,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1818502429}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1588601264 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6067461360136487710, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
-  m_PrefabInstance: {fileID: 6154748227236401477}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1599508214
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4668,6 +4657,7 @@ MonoBehaviour:
     loop: 1
     source: {fileID: 0}
   uiSFX: []
+  worldSFX: []
   programSFX: []
   combatSFX: []
   audios: []
@@ -4850,9 +4840,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff9a5a342f35d6f42a8b83bf928a98c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseGame: 0
   doubleSpeed: 0
   scifiNames: 0
+  skipDialogue: 0
+  pauseGame: 0
+  playerPaused: 0
   rooms:
   - name: Room 1
     active: 1
@@ -4866,11 +4858,11 @@ MonoBehaviour:
   - name: Room 4
     active: 0
     weight: 1
-  roomText: {fileID: 1588601264}
+  areaText: {fileID: 0}
+  areaIntroText: {fileID: 0}
   terrainLayer:
     serializedVersion: 2
     m_Bits: 2048
-  roomSize: 0
   bossRooms: 
   staticSpawn: 0
   numEnemies: 0
@@ -4886,8 +4878,22 @@ MonoBehaviour:
   nodeParent: {fileID: 1133927026}
   enemyParent: {fileID: 1548188222}
   waves: 
+  terminalBar: {fileID: 0}
+  bar: {fileID: 0}
+  currentTerminal: {fileID: 0}
+  numTerminals: 0
+  terminalBind: 0
+  terminalIcons: {fileID: 0}
+  terminalIcon: {fileID: 0}
+  unlockTextColor: {r: 0, g: 0, b: 0, a: 0}
+  barrierGreen: {fileID: 0}
+  barrierUnlockBlue: {fileID: 0}
+  reyaDialogue: []
+  dialogue: {fileID: 0}
+  portraits: []
   rewardPrefab: {fileID: 6820302149536134281, guid: f698185bf3b891a4db6516d49e1eb06a, type: 3}
   bossTxt: {fileID: 0}
+  loadingText: {fileID: 0}
 --- !u!4 &2103865771
 Transform:
   m_ObjectHideFlags: 0

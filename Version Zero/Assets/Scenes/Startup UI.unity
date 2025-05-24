@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4465788, g: 0.49641287, b: 0.5748173, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2576,7 +2576,7 @@ MonoBehaviour:
   - 'ERROR: Overflow error'
   - Abnormal neural activity levels detected
   - "Restarting syst\u2014"
-  - 'ERROR: Restart failed, upload in progress'
+  - 'ERROR: Restart failed, retrying upload'
   - 'ERROR: Internal temperature warning'
   - Please return to your physical body immediately or neural fracturing may occur
   - Please return to your physical body immediately or neural fracturing may occur
@@ -2615,7 +2615,7 @@ MonoBehaviour:
   max: {x: 240, y: 250}
   flipChance: {x: 5, y: 300}
   pointTrail: {fileID: 1432322602882945887, guid: 77ece90f2a588ca47a20f19691862633, type: 3}
-  trailDensity: 2
+  trailDensity: 1
   progressBar: {fileID: 854039246}
   completeTxt: {fileID: 901060341}
   errorFlash: {fileID: 1261219885}
