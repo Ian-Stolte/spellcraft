@@ -2099,7 +2099,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 30.0146, y: -2, z: 6.5334}
-  m_LocalScale: {x: 12.94298, y: 1, z: 9.712952}
+  m_LocalScale: {x: 100, y: 1, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2781,7 +2781,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Elevator to:
 
-    [End of Demo]'
+    Skyline Central'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7db1232e2848f0149a8c6ae26195804d, type: 2}
   m_sharedMaterial: {fileID: -4933900557216356330, guid: 7db1232e2848f0149a8c6ae26195804d, type: 2}
@@ -3990,7 +3990,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30c62b5a1d10aea418d16db8033425ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextArea: '[End of Demo]'
+  nextArea: Skyline Central
 --- !u!65 &1297555924
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4982,17 +4982,6 @@ Transform:
   - {fileID: 129742620}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1588601264 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6067461360136487710, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
-  m_PrefabInstance: {fileID: 6154748227236401477}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1590916345
 GameObject:
   m_ObjectHideFlags: 0
@@ -6631,7 +6620,8 @@ MonoBehaviour:
   - name: Room 4
     active: 0
     weight: 1
-  roomText: {fileID: 1588601264}
+  areaText: {fileID: 6154748227236401480}
+  areaIntroText: {fileID: 0}
   terrainLayer:
     serializedVersion: 2
     m_Bits: 2048
@@ -7096,6 +7086,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 6007445763094581937, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7371273026116259330, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -7143,6 +7137,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1164002079543777606, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
   m_PrefabInstance: {fileID: 6154748227236401477}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6154748227236401480 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7476761001902689281, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
+  m_PrefabInstance: {fileID: 6154748227236401477}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &9204590766866688132
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7365,10 +7370,10 @@ SceneRoots:
   - {fileID: 2068463289}
   - {fileID: 688812257}
   - {fileID: 465771248}
+  - {fileID: 428421384}
   - {fileID: 406110717}
   - {fileID: 6663336}
   - {fileID: 543103706}
-  - {fileID: 428421384}
+  - {fileID: 1588410855}
   - {fileID: 271509842}
   - {fileID: 1297555927}
-  - {fileID: 1588410855}

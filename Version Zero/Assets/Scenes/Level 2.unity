@@ -1880,7 +1880,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 46.13, y: -2, z: 0.29}
-  m_LocalScale: {x: 14.581561, y: 1, z: 7.62145}
+  m_LocalScale: {x: 100, y: 1, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -3813,7 +3813,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30c62b5a1d10aea418d16db8033425ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextArea: 4th Street
+  nextArea: Skyline West
 --- !u!65 &1297555924
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4671,7 +4671,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Elevator to:
 
-    4th Street'
+    Skyline West'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7db1232e2848f0149a8c6ae26195804d, type: 2}
   m_sharedMaterial: {fileID: -4933900557216356330, guid: 7db1232e2848f0149a8c6ae26195804d, type: 2}
@@ -6084,7 +6084,8 @@ MonoBehaviour:
   - name: Room 4
     active: 0
     weight: 1
-  areaText: {fileID: 0}
+  areaText: {fileID: 6154748227236401481}
+  areaIntroText: {fileID: 0}
   terrainLayer:
     serializedVersion: 2
     m_Bits: 2048
@@ -6613,6 +6614,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 9073324932604729840, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
   m_PrefabInstance: {fileID: 6154748227236401477}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6154748227236401481 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7476761001902689281, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
+  m_PrefabInstance: {fileID: 6154748227236401477}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &9204590766866688132
 PrefabInstance:
   m_ObjectHideFlags: 0
