@@ -1,4 +1,4 @@
-    using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -129,7 +129,7 @@ public class GameManager : MonoBehaviour
                 for (int i = 0; i < numTerminals; i++)
                 {
                     GameObject icon = Instantiate(terminalIcon, Vector2.zero, terminalIcon.transform.rotation, terminalIcons);
-                    icon.GetComponent<RectTransform>().anchoredPosition = new Vector2(-822, 400 - 130*i);
+                    icon.GetComponent<RectTransform>().anchoredPosition = new Vector2(-822, 450 - 130*i - areaText.preferredHeight);
                 }
 
                 //set spawn pct & enemies available by level
