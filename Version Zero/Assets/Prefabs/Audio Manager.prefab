@@ -151,7 +151,7 @@ MonoBehaviour:
     loop: 0
     source: {fileID: 0}
   - name: Terminal Activate
-    clip: {fileID: 8300000, guid: 279011b2c7f097a47b3de36e262fd873, type: 3}
+    clip: {fileID: 8300000, guid: 1709f6f17eb9aa541b2e16fd5f55f37d, type: 3}
     volume: 0.2
     pitch: 1
     loop: 0
