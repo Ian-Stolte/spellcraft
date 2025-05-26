@@ -25,13 +25,10 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public bool playerPaused;
     
     [Header("Rooms")]
-    [SerializeField] private Room[] rooms;
     private int levelNum = 1;
     [SerializeField] private TextMeshProUGUI areaText;
     [SerializeField] private TextMeshProUGUI areaIntroText;
     [SerializeField] private LayerMask terrainLayer;
-    [SerializeField] private int[] bossRooms;
-    private int bossIndex;
     
     [Header("Enemy Spawn")]
     public bool staticSpawn;
@@ -67,7 +64,7 @@ public class GameManager : MonoBehaviour
     [Header("Misc")]
     [SerializeField] private GameObject rewardPrefab;
     private Transform player;
-    [SerializeField] private GameObject bossTxt;
+    public GameObject bossTxt;
     [SerializeField] private GameObject loadingText;
 
     
@@ -132,17 +129,17 @@ public class GameManager : MonoBehaviour
                     icon.GetComponent<RectTransform>().anchoredPosition = new Vector2(-822, 450 - 130*i - areaText.preferredHeight);
                 }
 
-                //set spawn pct & enemies available by level
-                if (scene.name == "Level 2" || scene.name == "Level 3")
-                {
-                    minSpawn = 15;
-                    maxSpawn = 25;
-                }
+                //set spawn pct & enemies available by level (15, 25 by default)
                 if (scene.name == "Level 4")
                 {
                     enemyPrefabs.Add("Artillerist");
                     minSpawn = 10;
                     maxSpawn = 20;
+                }
+                else if (scene.name == "Level 5")
+                {
+                    minSpawn = 8;
+                    maxSpawn = 18;
                 }
                 
                 if (scene.name != "Level 1" && scene.name != "Level 2")
@@ -238,7 +235,7 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.N))
         {
-            StartCoroutine(LoadNextRoom());
+            StartCoroutine(LoadNextLevel(GameObject.Find("End Elevator").GetComponent<Elevator>().nextArea));
         }
         if (Input.GetKeyDown(KeyCode.K))
         {
@@ -572,8 +569,6 @@ public class GameManager : MonoBehaviour
         }
         loadingText.SetActive(false);
         int levelNum = int.Parse(SceneManager.GetActiveScene().name.Substring(6))+1;
-        //string areaStr = (levelNum < 10) ? "0" + levelNum : "" + levelNum;
-        //areaText.text = "Area_" + areaStr;
         areaText.text = nextArea;
         SceneManager.LoadScene("Level " + levelNum);
     }
@@ -585,59 +580,6 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         AudioManager.Instance.Play("Elevator Stop");
         AudioManager.Instance.Stop("Elevator Down");
-    }
-
-    public IEnumerator LoadNextRoom()
-    {
-        Fader.Instance.FadeIn(1);
-        yield return new WaitForSeconds(1);
-        levelNum++;
-        string areaStr = (levelNum < 10) ? "0" + levelNum : "" + levelNum;
-        areaText.text = "Area_" + areaStr;
-        if (levelNum == bossRooms[bossIndex])
-        {
-            SceneManager.LoadScene("Boss " + (bossIndex+1));
-            if (bossIndex < bossRooms.Length-1)
-                bossIndex++;
-            bossTxt.SetActive(true);
-        }
-        else
-        {
-            float totalWeight = 0;
-            foreach (Room r in rooms)
-            {
-                if (!r.active)
-                    totalWeight += r.weight;
-            }
-            float rand = Random.Range(0f, totalWeight);
-            Room chosen = null;
-            foreach (Room r in rooms)
-            {
-                if (!r.active)
-                {
-                    rand -= r.weight;
-                    if (rand < 0 && chosen == null)
-                    {
-                        chosen = r;
-                    }
-                    else
-                    {
-                        r.weight += 1;
-                    }
-                }
-                r.active = false;
-            }
-            if (chosen == null)
-            {
-                Debug.LogError("Could not find a scene to load!");
-            }
-            else
-            {
-                SceneManager.LoadScene(chosen.name);
-                chosen.active = true;
-                chosen.weight *= 0.5f;
-            }
-        }
     }
 }
 

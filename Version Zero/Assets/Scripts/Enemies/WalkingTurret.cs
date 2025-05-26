@@ -43,14 +43,20 @@ public class WalkingTurret : Enemy
     [SerializeField] private GameObject shield;
     [SerializeField] private float shieldTime;
 
+    [Header("Barriers")]
+    [SerializeField] private GameObject startBarrier;
+    [SerializeField] private GameObject endBarrier;
+
     private bool finalForm;
 
     
-    void Start()
+    void StartAggro()
     {
         atkTimer = atkDelay * 0.5f;
         base.Start();
 
+        startBarrier.SetActive(true);
+        GameManager.Instance.bossTxt.SetActive(true);
         healthBar = GameObject.Find("Boss Fill").GetComponent<Image>();
         for (float i = spawnInterval; i < 1; i+=spawnInterval)
         {
@@ -58,7 +64,6 @@ public class WalkingTurret : Enemy
             indicator.GetComponent<RectTransform>().anchoredPosition = new Vector2(Mathf.Lerp(-343, 343, i), 0);
             indicators.Add(indicator);
         }
-
         ChooseTarget();
     }
 
@@ -68,8 +73,11 @@ public class WalkingTurret : Enemy
         base.Update();
 
         float dist = Vector3.Distance(player.transform.position, transform.position);
-        if (dist < aggroRange)
+        if (dist < aggroRange && !aggro)
+        {
             aggro = true;
+            StartAggro();
+        } 
 
         if (!GameManager.Instance.pauseGame && aggro && stunTimer <= 0)
         {
@@ -191,7 +199,7 @@ public class WalkingTurret : Enemy
         {
             Vector3 offset = new Vector3(Random.Range(-1, 1), 0, Random.Range(-1, 1)).normalized * Random.Range(3, 15) + new Vector3(0, 1, 0);
             int attempts = 0;
-            while (Physics.OverlapSphere(transform.position + offset, 0.5f, spawnLayer).Length > 0)
+            while (Physics.OverlapSphere(transform.position + offset, 0.5f, spawnLayer).Length > 0 || (transform.position + offset).x < 12 || (transform.position + offset).x > 46)
             {
                 offset = new Vector3(Random.Range(-1, 1), 0, Random.Range(-1, 1)).normalized * Random.Range(3, 15) + new Vector3(0, 1, 0);
                 attempts++;
@@ -229,5 +237,6 @@ public class WalkingTurret : Enemy
             Destroy(child.gameObject);
         
         GameManager.Instance.UpdateEnemyNum(-GameManager.Instance.numEnemies);
+        endBarrier.SetActive(false);
     }
 }

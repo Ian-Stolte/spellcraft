@@ -20,7 +20,7 @@ public class ProgramManager : MonoBehaviour
     public bool SKIP_CRAFTING;
     [SerializeField] private bool showTutorial;
     [HideInInspector] public bool spellsLocked;
-    private bool loadNextRoom;
+    private bool loadNextLevel;
     private bool musicOn;
 
     [Header("Parents")]
@@ -175,7 +175,7 @@ public class ProgramManager : MonoBehaviour
 
     public void Reforge()
     {
-        //loadNextRoom = true;
+        //loadNextLevel = true;
         GameManager.Instance.pauseGame = true;
         //player.GetComponent<PlayerMovement>().enabled = false;
         player.enabled = false;
@@ -232,9 +232,9 @@ public class ProgramManager : MonoBehaviour
 
     private IEnumerator ExitReforgeCor()
     {
-        if (loadNextRoom)
+        if (loadNextLevel)
         {
-            StartCoroutine(GameManager.Instance.LoadNextRoom());
+            StartCoroutine(GameManager.Instance.LoadNextLevel(GameObject.Find("End Elevator").GetComponent<Elevator>().nextArea));
             yield return new WaitForSeconds(1f);
         }
         else
@@ -261,8 +261,8 @@ public class ProgramManager : MonoBehaviour
         player.enabled = true;
 
                     
-        if (loadNextRoom)
-            loadNextRoom = false;
+        if (loadNextLevel)
+            loadNextLevel = false;
         else
             Fader.Instance.FadeOut(0.5f);
     }
@@ -544,9 +544,9 @@ public class ProgramManager : MonoBehaviour
         }
         cdParent.gameObject.SetActive(true);
 
-        if (loadNextRoom)
+        if (loadNextLevel)
         {
-            StartCoroutine(GameManager.Instance.LoadNextRoom());
+            StartCoroutine(GameManager.Instance.LoadNextLevel(GameObject.Find("End Elevator").GetComponent<Elevator>().nextArea));
             yield return new WaitForSeconds(1);
         }
         else
@@ -582,8 +582,8 @@ public class ProgramManager : MonoBehaviour
         symbolParent.gameObject.SetActive(false);
         programUI.gameObject.SetActive(false);
 
-        if (loadNextRoom)
-            loadNextRoom = false;
+        if (loadNextLevel)
+            loadNextLevel = false;
         else
             Fader.Instance.FadeOut(0.5f);
 
