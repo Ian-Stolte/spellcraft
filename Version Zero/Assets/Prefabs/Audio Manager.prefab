@@ -146,7 +146,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Terminal Charge
     clip: {fileID: 8300000, guid: bd9cf13d946d08a4ab35f7d711eb22c9, type: 3}
-    volume: 0.2
+    volume: 0.1
     pitch: 1
     loop: 0
     source: {fileID: 0}

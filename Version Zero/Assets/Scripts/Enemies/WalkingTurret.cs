@@ -55,6 +55,13 @@ public class WalkingTurret : Enemy
         atkTimer = atkDelay * 0.5f;
         base.Start();
 
+        AudioManager a = AudioManager.Instance;
+        foreach (Sound s in a.currentSongs)
+            StartCoroutine(a.StartFade(s.name, 1, 0));
+
+        a.Play("Boss 1");
+        StartCoroutine(a.StartFade("Boss 1", 1, 0.2f));
+
         startBarrier.SetActive(true);
         GameManager.Instance.bossTxt.SetActive(true);
         healthBar = GameObject.Find("Boss Fill").GetComponent<Image>();
@@ -182,7 +189,7 @@ public class WalkingTurret : Enemy
             }
         }
         AudioManager.Instance.Play("Stomp Impact");
-        if (Vector3.Distance(player.transform.position, transform.position) < 4)
+        if (Vector3.Distance(player.transform.position, transform.position) < meleeRange-1)
         {
             player.GetComponent<PlayerMovement>().TakeDamage(stompDmg);
             Vector3 dir = (player.transform.position - transform.position).normalized + new Vector3(0, 0.5f, 0);

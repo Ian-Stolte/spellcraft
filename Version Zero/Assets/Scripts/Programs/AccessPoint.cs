@@ -26,19 +26,26 @@ public class AccessPoint : MonoBehaviour
     void Update()
     {
         bool playerClose = Vector3.Distance(player.position, transform.position) < interactDist;
-        transform.GetChild(0).gameObject.SetActive(playerClose && !used);
+        transform.GetChild(0).gameObject.SetActive(playerClose && !(used && SceneManager.GetActiveScene().name == "Level 2"));
         transform.GetChild(0).transform.forward = cam.forward;
 
-        if (playerClose && Input.GetKeyDown(interactKey) && !used)
+        if (playerClose && Input.GetKeyDown(interactKey))
         {
-            used = true;
-            if (SceneManager.GetActiveScene().name == "Level 2")
-                StartCoroutine(GameManager.Instance.FirstAccessPt());
-            else
-                ProgramManager.Instance.Reforge();
+            if (!used)
+            {
+                used = true;
+                if (SceneManager.GetActiveScene().name == "Level 2")
+                    StartCoroutine(GameManager.Instance.FirstAccessPt());
+                else
+                    RewardManager.Instance.Reward(3);
 
-            if (playDialogue)
-                StartCoroutine(DelayedDialogue());
+                if (playDialogue)
+                    StartCoroutine(DelayedDialogue());
+            }
+            else if (SceneManager.GetActiveScene().name != "Level 2")
+            {
+                ProgramManager.Instance.Reforge();
+            }
         }
     }
 

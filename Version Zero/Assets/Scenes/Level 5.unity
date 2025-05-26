@@ -2301,11 +2301,7 @@ MonoBehaviour:
   complete: 0
   barrier: {fileID: 939192978}
   hiddenRoom: []
-  dialogue:
-  - Ok, there we go!** Should be able to walk right in now.
-  - ~I must say I am just ever so slightly concerned about your disregard for restricted
-    areas
-  - ~the signs are there so that you *do not* enter them you know
+  dialogue: []
 --- !u!65 &389457724
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3303,11 +3299,7 @@ MonoBehaviour:
   complete: 0
   barrier: {fileID: 564916156}
   hiddenRoom: []
-  dialogue:
-  - Ok, there we go!** Should be able to walk right in now.
-  - ~I must say I am just ever so slightly concerned about your disregard for restricted
-    areas
-  - ~the signs are there so that you *do not* enter them you know
+  dialogue: []
 --- !u!1 &555028428
 GameObject:
   m_ObjectHideFlags: 0
@@ -10675,25 +10667,11 @@ MonoBehaviour:
   skipDialogue: 0
   pauseGame: 0
   playerPaused: 0
-  rooms:
-  - name: Room 1
-    active: 1
-    weight: 1
-  - name: Room 2
-    active: 0
-    weight: 1
-  - name: Room 3
-    active: 0
-    weight: 1
-  - name: Room 4
-    active: 0
-    weight: 1
   areaText: {fileID: 6154748227236401480}
   areaIntroText: {fileID: 0}
   terrainLayer:
     serializedVersion: 2
     m_Bits: 2048
-  bossRooms: 05000000
   staticSpawn: 0
   numEnemies: 0
   enemyPrefabs:

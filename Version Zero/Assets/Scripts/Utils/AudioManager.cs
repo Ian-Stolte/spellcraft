@@ -65,32 +65,6 @@ public class AudioManager : MonoBehaviour
         audios = gameObject.GetComponents<AudioSource>();
     }
 
-    void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (scene.name.Contains("Boss"))
-        {
-            foreach (Sound s in currentSongs)
-                StartCoroutine(StartFade(s.name, 1, 0));
-
-            Play("Boss 1");
-            StartCoroutine(StartFade("Boss 1", 1, 0.2f));
-        }
-        /*else if (currentSongs.Find(s => s.name == "Area 1") == null)
-        {
-            Play("Area 1");
-            StartCoroutine(StartFade("Area 1", 0.5f, 0.2f));
-        }*/
-    }
 
     public IEnumerator FadeOutAll(float duration)
     {

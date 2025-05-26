@@ -84,6 +84,7 @@ public class ProgramManager : MonoBehaviour
         {
             if (buildSelect != null)
                 buildSelect.SetActive(false);
+            buildpath = "logic";
 
             string[] startingBlocks = new string[]{"Line", "Damage", "Circle", "Displace", "Melee", "Stun", "Damage"};
             foreach (string s in startingBlocks)
@@ -113,31 +114,6 @@ public class ProgramManager : MonoBehaviour
             ConfirmSpells();
             EnterGame();
         }
-        /*else if (SequenceManager.Instance.defaultHand)
-        {
-            string[] startingBlocks = new string[]{"Line", "Damage", "Damage", "Stun", "Circle"};
-            foreach (string s in startingBlocks)
-            {
-                GameObject prefab = blocks.Find(b=>b.name == s);
-                if (prefab == null)
-                    Debug.LogError("Starting block prefab not found!");
-                else
-                    CreateBlock(prefab);
-            }
-        }
-        else
-        {
-            //TODO: lower pct chance of getting repeats? (maybe)
-            //  eventually we may let player choose (opt into a buildpath) or do something completely different, so no need to optimize rn
-            CreateBlock("Damage");
-            CreateBlock(shapeBlocks[Random.Range(0, shapeBlocks.Count)]);
-            CreateBlock(shapeBlocks[Random.Range(0, shapeBlocks.Count)]);
-            CreateBlock(effectBlocks[Random.Range(0, effectBlocks.Count)]);
-            if (Random.Range(0f, 1f) < 0.3f)
-                CreateBlock(modBlocks[Random.Range(0, modBlocks.Count)]);
-            else
-                CreateBlock(effectBlocks[Random.Range(0, effectBlocks.Count)]);
-        }*/
         tutorials[0].SetActive(true);
         tutorials[0].transform.GetChild(0).gameObject.SetActive(showTutorial);
     }
@@ -167,7 +143,6 @@ public class ProgramManager : MonoBehaviour
             }
             if (noOverlap)
                 break;
-            //Debug.Log("Trying again " + j);
         }
         block.name = block.name.Substring(0, block.name.Length-7);
     }
@@ -615,7 +590,7 @@ public class ProgramManager : MonoBehaviour
         //TODO: add diff percents --- keep in 3 separate lists, but decrement pct of given list when chosen (e.g 40-40-20, then choose effect -> 50-25-25)
         if (forbidden == null)
             forbidden = new string[0];
-        
+
         bool skipAura = false;
         bool skipAuto = false;
         foreach (Transform child in blockParent)
