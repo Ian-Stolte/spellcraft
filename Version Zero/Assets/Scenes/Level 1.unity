@@ -354,7 +354,7 @@ MonoBehaviour:
   hiddenRoom:
   - {fileID: 0}
   dialogue:
-  - "Hey, Computer\u2014***what time is it?**"
+  - "Computer\u2014***what time is it?**"
   - "~it is currently 4:13am on Sunday, the 27th of March!*** The current year is\u2014"
   - Shit.**** Not even close to curfew.**
   - We've got to find somewhere to wire into the system.* These terminals are too
@@ -4709,25 +4709,11 @@ MonoBehaviour:
   skipDialogue: 1
   pauseGame: 0
   playerPaused: 0
-  rooms:
-  - name: Room 1
-    active: 1
-    weight: 1
-  - name: Room 2
-    active: 0
-    weight: 1
-  - name: Room 3
-    active: 0
-    weight: 1
-  - name: Room 4
-    active: 0
-    weight: 1
   areaText: {fileID: 1983910625}
   areaIntroText: {fileID: 341825388}
   terrainLayer:
     serializedVersion: 2
     m_Bits: 2048
-  bossRooms: 05000000
   staticSpawn: 0
   numEnemies: 0
   enemyPrefabs:
@@ -4751,11 +4737,12 @@ MonoBehaviour:
   barrierGreen: {fileID: 2100000, guid: 4fd16f386ffe51a4288349842c52b899, type: 2}
   barrierUnlockBlue: {fileID: 2100000, guid: a0159386ac335d24294f90bb1a6bc51b, type: 2}
   reyaDialogue:
-  - ow...** fuck...**** maybe it's time... to claim my BioSoft extended warranty
-  - ...this is definitely not... ow... supposed to happen
+  - Hey...**** Computer...?****
+  - "maybe\u2014 ow****... maybe it's time... to claim my BioSoft extended warranty"
   - ~emergency alerts suggest you return to your physical body immediately miss
-  - ~I can provide you with directions if that would be to your liking
-  - "Yeah*.*.*.** I don\u2019t think I want to find out what \u2018neural fracturing\u2019
+  - ~I can provide you with directions if that would be to your liking!
+  - '***yeah*.*.*.** do it'
+  - "I don\u2019t think I want to... ow... find out what \u2018neural fracturing\u2019
     feels like..."
   dialogue: {fileID: 1435338485}
   portraits:

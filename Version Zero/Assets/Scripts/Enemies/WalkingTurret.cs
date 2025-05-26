@@ -245,5 +245,7 @@ public class WalkingTurret : Enemy
         
         GameManager.Instance.UpdateEnemyNum(-GameManager.Instance.numEnemies);
         endBarrier.SetActive(false);
+
+        AudioManager.Instance.KillBoss1();
     }
 }

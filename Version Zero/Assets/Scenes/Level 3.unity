@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4465788, g: 0.49641287, b: 0.5748173, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -247,7 +247,11 @@ MonoBehaviour:
   complete: 0
   barrier: {fileID: 1588410855}
   hiddenRoom: []
-  dialogue: []
+  dialogue:
+  - "Damn, can\u2019t fully crack it from here.\r"
+  - "Going to need some alone time with that other terminal...\r"
+  - "~that seems like a strange way to phrase it miss\r"
+  - '***...you know what I meant.'
 --- !u!1 &36235245
 GameObject:
   m_ObjectHideFlags: 0
@@ -2520,7 +2524,11 @@ MonoBehaviour:
   complete: 0
   barrier: {fileID: 1588410855}
   hiddenRoom: []
-  dialogue: []
+  dialogue:
+  - Ok, there we go!** Should be able to walk right in now.
+  - ~I must say I am just ever so slightly concerned about your disregard for restricted
+    areas
+  - ~the signs are there so that you *do not* enter them you know
 --- !u!224 &588616572 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4511819604764240910, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}

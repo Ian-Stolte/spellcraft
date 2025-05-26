@@ -156,6 +156,17 @@ public class AudioManager : MonoBehaviour
         //if (end == 0)
         //    s.source.Stop();
     }
+
+
+    //CONTENT
+    public void KillBoss1()
+    {
+        //StartCoroutine(StartFade("Boss 1", 1, 0f));
+        Stop("Boss 1");
+        //TODO: play boss death SFX
+        Play("Area 1");
+        StartCoroutine(StartFade("Area 1", 2, 0.2f));
+    }
 }
 
 
