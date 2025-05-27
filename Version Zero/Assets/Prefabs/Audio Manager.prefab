@@ -212,6 +212,12 @@ MonoBehaviour:
     pitch: 0.7
     loop: 0
     source: {fileID: 0}
+  - name: Walking Turret Die
+    clip: {fileID: 8300000, guid: 7e462f361cd354608982287365d694d7, type: 3}
+    volume: 0.5
+    pitch: 0.7
+    loop: 0
+    source: {fileID: 0}
   - name: Walking Turret Fire
     clip: {fileID: 8300000, guid: ce79f6d0b094547d995616716a08a41a, type: 3}
     volume: 0.2

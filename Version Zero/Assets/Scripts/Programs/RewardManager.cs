@@ -66,7 +66,6 @@ public class RewardManager : MonoBehaviour
                 chosenBlocks.Add(ProgramManager.Instance.ChooseRandom(1)[0]);
         }
         ShowRewards(chosenBlocks);
-        //ShowRewards(ProgramManager.Instance.ChooseRandom(n));
         GameManager.Instance.pauseGame = true;
     }
 

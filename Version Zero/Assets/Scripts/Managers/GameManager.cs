@@ -31,14 +31,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private LayerMask terrainLayer;
     
     [Header("Enemy Spawn")]
-    public bool staticSpawn;
     public int numEnemies;
     [SerializeField] private List<string> enemyPrefabs; //TODO: change to struct w/ spawn pct, weight, etc
     [SerializeField] private string[] enemyTypes;
     private string enemyType = "Logic";
-    [SerializeField] private Transform nodeParent;
     [SerializeField] private Transform enemyParent;
     [SerializeField] private List<int> waves = new List<int>();
+
+    private float spawnTimer;
+    private bool spawningEnemies;
     private float minSpawn = 15;
     private float maxSpawn = 25;
 
@@ -92,24 +93,7 @@ public class GameManager : MonoBehaviour
         else
         {
             enemyParent = GameObject.Find("Enemies").transform;
-            //nodeParent = GameObject.Find("Spawn Nodes").transform;
-            /*if (levelNum != 1 && !scene.name.Contains("Boss"))
-            {
-                enemyType = enemyTypes[Random.Range(0, enemyTypes.Length)];
-                if (staticSpawn)
-                    SetupEnemies(levelNum + Random.Range(1, 4));
-                else
-                {
-                    if (levelNum == 2)
-                        SetupWaves(3);
-                    else
-                        SetupWaves(levelNum + Random.Range(1, 4));
-                }
-            }
-            else
-            {*/
-                numEnemies = Physics.OverlapSphere(Vector2.zero, 9999, LayerMask.GetMask("Enemy")).Length;
-            //}
+            numEnemies = Physics.OverlapSphere(Vector2.zero, 9999, LayerMask.GetMask("Enemy")).Length;
 
             if (scene.name.Contains("Level"))
             {
@@ -141,9 +125,6 @@ public class GameManager : MonoBehaviour
                     minSpawn = 8;
                     maxSpawn = 18;
                 }
-                
-                if (scene.name != "Level 1" && scene.name != "Level 2")
-                    StartCoroutine(SpawnInfiniteWaves());
             }
         }
 
@@ -242,45 +223,28 @@ public class GameManager : MonoBehaviour
             int killed = enemyParent.childCount;
             foreach (Transform child in enemyParent)
                 Destroy(child.gameObject);
-            UpdateEnemyNum(-killed);
+            numEnemies -= killed;
         }
-        if (Input.GetKeyDown(KeyCode.M))
+
+        if (spawningEnemies && !pauseGame)
         {
-            Debug.Log("Spawning more enemies!");
-            if (staticSpawn)
-                SetupEnemies(levelNum + Random.Range(1, 4));
-            else
-                SetupWaves(levelNum*2 + Random.Range(1, 4), true);
+            spawnTimer -= Time.deltaTime;
+            if (spawnTimer < 0)
+            {
+                StartCoroutine(WaveEnemies(1));
+                spawnTimer = Random.Range(minSpawn, maxSpawn);
+            }
         }
     }
 
 
-    private void SetupEnemies(int n)
-    {
-        foreach (Transform child in enemyParent)
-        {
-            Destroy(child.gameObject);
-        }
-        numEnemies = n;
-        
-        while (n > 0)
-        {
-            n -= RandomEnemies(n);
-        }
-    }
-
-    private void SetupWaves(int n, bool skip=false)
+    private void SetupWaves(int n)
     {
         int maxPerWave = Mathf.Max(2, (int)Mathf.Round(n*3/5));
         waves.Clear();
         foreach (Transform child in enemyParent)
         {
             Destroy(child.gameObject);
-        }
-        if (!skip)
-        {
-            numEnemies = RandomEnemies(n, maxPerWave);
-            n -= numEnemies;
         }
         while (n > 0)
         {
@@ -290,38 +254,6 @@ public class GameManager : MonoBehaviour
             waves.Add(numToAdd);
             n -= numToAdd;
         }
-        if (skip)
-        {
-            UpdateEnemyNum(0);
-        }
-    }
-
-    private int RandomEnemies(int n, int max=5)
-    {
-        int numToAdd = Random.Range(2, Mathf.Min(n, max)+1);
-        if (n - numToAdd == 1)
-            numToAdd--;
-        int nodeNum = Random.Range(0, nodeParent.childCount);
-        for (int i = 0; i < numToAdd; i++)
-        {
-            Vector3 offset = new Vector3(Random.Range(-2, 2), 1, Random.Range(-2, 2));
-            int attempts = 0;
-            while (Physics.OverlapSphere(nodeParent.GetChild(nodeNum).position + offset, 0.5f, LayerMask.GetMask("Enemy")).Length > 0)
-            {
-                offset = new Vector3(Random.Range(-2, 2), 1, Random.Range(-2, 2));
-                attempts++;
-                if (attempts == 10) //fail to find open spot
-                    break;
-            }
-            if (attempts < 10)
-            {
-                string name = enemyPrefabs[Random.Range(0, enemyPrefabs.Count)] + "_" + enemyType;
-                GameObject prefab = Resources.Load<GameObject>("Prefabs/Enemies/" + name);
-                if (prefab != null)
-                    Instantiate(prefab, nodeParent.GetChild(nodeNum).position + offset, Quaternion.identity, enemyParent);
-            }
-        }
-        return numToAdd;
     }
 
     public IEnumerator WaveEnemies(int n, Vector3 setPos = default)
@@ -377,37 +309,6 @@ public class GameManager : MonoBehaviour
             }
             yield return new WaitForSeconds(0.5f);
         }
-        if (numEnemies <= 0)
-            UpdateEnemyNum(0);
-    }
-
-    public IEnumerator SpawnInfiniteWaves(bool wait=true)
-    {
-        int maxTerminals = numTerminals;
-        yield return new WaitUntil(() => numTerminals != maxTerminals || !wait);
-        string sceneName = SceneManager.GetActiveScene().name;
-        while (sceneName == SceneManager.GetActiveScene().name)
-        {
-            StartCoroutine(WaveEnemies(1));
-            yield return new WaitForSeconds(Random.Range(minSpawn, maxSpawn));
-        }
-    }
-
-
-    public void UpdateEnemyNum(int n)
-    {
-        numEnemies += n;
-        /*if (numEnemies <= 0 && !fullArea)
-        {
-            if (!staticSpawn && waves.Count > 0) //spawn more waves!
-            {
-                StartCoroutine(WaveEnemies(waves[0]));
-                numEnemies = waves[0];
-                waves.Remove(waves[0]);
-            }
-            else
-               FinishLevel();
-        }*/
     }
 
     private void FinishLevel()
@@ -463,6 +364,9 @@ public class GameManager : MonoBehaviour
         if (currentTerminal.hiddenRoom != null)
             foreach (GameObject g in currentTerminal.hiddenRoom)
                 g.SetActive(!g.activeSelf);
+
+        if (SceneManager.GetActiveScene().name != "Level 1" && SceneManager.GetActiveScene().name != "Level 2")
+            spawningEnemies = true;
     }
 
     public IEnumerator FirstAccessPt()
@@ -546,6 +450,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator LoadNextLevel(string nextArea)
     {
+        spawningEnemies = false;
         AudioManager.Instance.Play("Elevator Down");
         foreach (Transform child in enemyParent)
             Destroy(child.gameObject);

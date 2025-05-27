@@ -45,29 +45,32 @@ public class PlayerPrograms : MonoBehaviour
 
     void Update()
     {
-        foreach (Program p in ProgramManager.Instance.programs)
+        if (!GameManager.Instance.pauseGame)
         {
-            p.cdTimer = Mathf.Max(0, p.cdTimer - Time.deltaTime);
-            p.fillTimer.GetComponent<Image>().fillAmount = p.cdTimer/p.cdMax;
-            if (Input.GetKeyDown(p.keybind) && p.cdTimer <= 0)
+            foreach (Program p in ProgramManager.Instance.programs)
             {
-                CastSpell(p);
+                p.cdTimer = Mathf.Max(0, p.cdTimer - Time.deltaTime);
+                p.fillTimer.GetComponent<Image>().fillAmount = p.cdTimer/p.cdMax;
+                if (Input.GetKeyDown(p.keybind) && p.cdTimer <= 0)
+                {
+                    CastSpell(p);
+                }
+                else if (Input.GetKeyDown(p.keybind) && p.cdTimer <= 0.5f)
+                {
+                    StartCoroutine(DelayedCast(p));
+                }
             }
-            else if (Input.GetKeyDown(p.keybind) && p.cdTimer <= 0.5f)
-            {
-                StartCoroutine(DelayedCast(p));
-            }
-        }
 
-        if (autoProgram.name != "")
-        {
-            autoTimer = Mathf.Max(0, autoTimer - Time.deltaTime);
-            if (autoTimer <= 0)
+            if (autoProgram.name != "")
             {
-                CastSpell(autoProgram);
-                autoTimer = autoTick;
+                autoTimer = Mathf.Max(0, autoTimer - Time.deltaTime);
+                if (autoTimer <= 0)
+                {
+                    CastSpell(autoProgram);
+                    autoTimer = autoTick;
+                }
+                autoProgram.fillTimer.GetComponent<Image>().fillAmount = autoTimer/autoTick;
             }
-            autoProgram.fillTimer.GetComponent<Image>().fillAmount = autoTimer/autoTick;
         }
     }
 
@@ -166,9 +169,9 @@ public class PlayerPrograms : MonoBehaviour
                 foreach (Block b in p.blocks)
                 {
                     if (b.name == "Stun")
-                        stun += (aura) ? 0.3f : 1f; 
+                        stun += (aura) ? 0.3f : 1.5f; 
                     else if (b.name == "Slow")
-                        slow += (aura) ? 0.5f : 1.5f; 
+                        slow += (aura) ? 0.5f : 2f; 
                     else if (b.name == "Damage")
                         dmg += (aura) ? 1 : 4;
                     else if (b.name == "Burn")
