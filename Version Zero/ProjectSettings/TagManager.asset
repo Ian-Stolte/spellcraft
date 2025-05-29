@@ -12,6 +12,7 @@ TagManager:
   - AudioManager
   - RewardManager
   - SequenceManager
+  - Computer
   layers:
   - Default
   - TransparentFX

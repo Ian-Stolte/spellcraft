@@ -35,9 +35,23 @@ public class PlayerMovement : MonoBehaviour
     private int currentBurst;
     public bool canDie;
 
+    [Header("Computer")]
+    [SerializeField] private Transform computer;
+    [SerializeField] private float maxCompDist;
+    [SerializeField] private float compDist;
+    [SerializeField] private float dampTime;
+    private Vector3 dampVel = Vector3.zero;
+    private Vector3 diff;
+    private List<Vector3> lastPos = new List<Vector3>();
+    [SerializeField] private int maxPosData;
+    //y-movement
+    [SerializeField] private float compYFreq;
+    [SerializeField] private float compYAmp;
+    private float compPhase;
+
     [Header("Shield")]
-    [HideInInspector] public float shieldTimer;
     [SerializeField] private GameObject shield;
+    [HideInInspector] public float shieldTimer;
 
     [Header("Misc")]
     [SerializeField] private Animator anim;
@@ -51,18 +65,19 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         health = maxHealth;
+        lastPos.Add(transform.position);
     }
 
 
     void Update()
     {
         //Anim Values
-        Bounds b = groundCheck.GetComponent<BoxCollider>().bounds;
+        /*Bounds b = groundCheck.GetComponent<BoxCollider>().bounds;
         //grounded = ((Physics.OverlapBox(b.center, b.extents*2, Quaternion.identity, groundLayer) != null) && jumpDelay == 0);
         grounded = (Physics.CheckSphere(groundCheck.position, 0.1f, groundLayer) && jumpDelay == 0);
-        //anim.SetBool("airborne", !grounded);
-        //anim.SetBool("jumpDelay", jumpDelay > 0);
-        //anim.SetFloat("yVel", rb.velocity.y);
+        anim.SetBool("airborne", !grounded);
+        anim.SetBool("jumpDelay", jumpDelay > 0);
+        anim.SetFloat("yVel", rb.velocity.y);
 
         //Jump
         jumpDelay = Mathf.Max(0, jumpDelay-Time.deltaTime);
@@ -78,7 +93,7 @@ public class PlayerMovement : MonoBehaviour
         {
             jumpDelay = 0.3f;
             StartCoroutine(JumpAnim());
-        }
+        }*/
 
         //Glitch based on HP
         if (!Camera.main.GetComponent<GlitchManager>().showingGlitch)
@@ -122,6 +137,34 @@ public class PlayerMovement : MonoBehaviour
             float rotSpd = rotationSpeed;
             rb.MovePosition(rb.position + moveDir * spd * Time.deltaTime);
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDir), rotSpd * Time.deltaTime);
+        }
+
+
+        //COMPUTER FOLLOW
+        //get average direction of movement
+        Vector3 total = Vector3.zero;
+        foreach (Vector3 pos in lastPos)
+            total += pos;
+        diff = transform.position - total/lastPos.Count;
+
+        float distPct = Vector3.Distance(computer.position, transform.position)/maxCompDist - 0.5f;
+        //x-z position
+        float adjustedDampTime = Mathf.Lerp(dampTime*100, dampTime, distPct);
+        computer.position = Vector3.SmoothDamp(computer.position, transform.position - diff*compDist, ref dampVel, dampTime);        
+        //y position
+        float freq = Mathf.Lerp(compYFreq*0.5f, compYFreq, distPct);
+        float amp = Mathf.Lerp(compYAmp, compYAmp*2, distPct);
+        compPhase += freq * Time.deltaTime * 2f * Mathf.PI;
+        computer.position += new Vector3(0, Mathf.Sin(compPhase) * amp, 0);
+
+        //update lastPos array
+        Vector3 dist = lastPos[lastPos.Count-Mathf.Min(5, lastPos.Count)] - transform.position;
+        dist = new Vector3(dist.x, 0, dist.z);
+        if (dist.magnitude > 0.01f)
+        {
+            lastPos.Add(transform.position);
+            if (lastPos.Count > maxPosData)
+                lastPos.Remove(lastPos[0]);
         }
     }
 
