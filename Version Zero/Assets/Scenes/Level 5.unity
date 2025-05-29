@@ -6769,7 +6769,7 @@ GameObject:
   - component: {fileID: 1098179049}
   - component: {fileID: 1098179048}
   - component: {fileID: 1098179047}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Start Elevator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7717,7 +7717,7 @@ GameObject:
   - component: {fileID: 1297555925}
   - component: {fileID: 1297555924}
   - component: {fileID: 1297555923}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: End Elevator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10672,7 +10672,6 @@ MonoBehaviour:
   terrainLayer:
     serializedVersion: 2
     m_Bits: 2048
-  staticSpawn: 0
   numEnemies: 0
   enemyPrefabs:
   - Fast
@@ -10681,7 +10680,6 @@ MonoBehaviour:
   - Logic
   - Instinct
   - Memory
-  nodeParent: {fileID: 0}
   enemyParent: {fileID: 1548188222}
   waves: 
   terminalBar: {fileID: 6707010038411078085, guid: 2d9d87afa2fc5f04285eeb045bcb9a1d, type: 3}

@@ -37,7 +37,7 @@ public class Missile : MonoBehaviour
             AudioManager.Instance.Play("Missile Land");
         }
 
-        if (!waiting)
+        if (!waiting && !GameManager.Instance.pauseGame)
             transform.position += Time.deltaTime * dir * speed;
         
         if (dir.y < 0)
@@ -67,8 +67,11 @@ public class Missile : MonoBehaviour
         float elapsed = 0;
         while (elapsed < duration)
         {
-            warning.localScale = new Vector3(1, 1, 1) * elapsed/duration;
-            elapsed += Time.deltaTime;
+            if (!GameManager.Instance.pauseGame)
+            {
+                warning.localScale = new Vector3(1, 1, 1) * elapsed/duration;
+                elapsed += Time.deltaTime;
+            }
             yield return null;
         }
         Destroy(warning.parent.gameObject);

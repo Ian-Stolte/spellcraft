@@ -243,7 +243,7 @@ public class WalkingTurret : Enemy
         foreach (Transform child in GameObject.Find("Enemies").transform)
             Destroy(child.gameObject);
         
-        GameManager.Instance.UpdateEnemyNum(-GameManager.Instance.numEnemies);
+        GameManager.Instance.numEnemies = 0;
         endBarrier.SetActive(false);
 
         AudioManager.Instance.KillBoss1();

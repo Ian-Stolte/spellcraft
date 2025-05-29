@@ -207,6 +207,7 @@ public class ProgramManager : MonoBehaviour
 
     private IEnumerator ExitReforgeCor()
     {
+        
         if (loadNextLevel)
         {
             StartCoroutine(GameManager.Instance.LoadNextLevel(GameObject.Find("End Elevator").GetComponent<Elevator>().nextArea));

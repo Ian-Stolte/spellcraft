@@ -161,9 +161,8 @@ public class AudioManager : MonoBehaviour
     //CONTENT
     public void KillBoss1()
     {
-        //StartCoroutine(StartFade("Boss 1", 1, 0f));
         Stop("Boss 1");
-        //TODO: play boss death SFX
+        Play("Walking Turret Die");
         Play("Area 1");
         StartCoroutine(StartFade("Area 1", 2, 0.2f));
     }

@@ -74,8 +74,11 @@ public class TankEnemy : Enemy
         float elapsed = 0f;
         while (elapsed < stompTime)
         {
-            stompIndicator.transform.GetChild(0).localScale = new Vector3(1, 1, 1) * Mathf.Lerp(0.3f, 1, elapsed/stompTime);
-            elapsed += Time.deltaTime;
+            if (!GameManager.Instance.pauseGame)
+            {
+                stompIndicator.transform.GetChild(0).localScale = new Vector3(1, 1, 1) * Mathf.Lerp(0.3f, 1, elapsed/stompTime);
+                elapsed += Time.deltaTime;
+            }
             yield return null;
             if (stunTimer > 0)
             {
