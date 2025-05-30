@@ -45,10 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93cd10209ea2b41a89e1e6e063bc0c64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SKIP_CRAFTING: 1
+  SKIP_CRAFTING: 0
   showTutorial: 1
   spellsLocked: 0
-  spellUI: {fileID: 0}
+  programUI: {fileID: 0}
   blockParent: {fileID: 0}
   symbolParent: {fileID: 0}
   cdParent: {fileID: 0}
@@ -61,7 +61,7 @@ MonoBehaviour:
   emptyImage: {fileID: 2349806725699824917, guid: efb78f1eb1e501440acbdf2695ee8194, type: 3}
   spellListItem: {fileID: 4532206369613023846, guid: cc6be18605e32e94f8bfe4179cb4d156, type: 3}
   cdIconPrefab: {fileID: 5300717638937045287, guid: 50eafcc156acd6a49a33b9edfd14d1a8, type: 3}
-  spellUIStart: {x: -655, y: 355}
+  programUIStart: {x: -650, y: 350}
   fullSymbolColor: {r: 0.5686275, g: 0.8509804, b: 0.90588236, a: 1}
   typeColors:
   - {r: 0.47843137, g: 0.9411765, b: 0.38039216, a: 1}

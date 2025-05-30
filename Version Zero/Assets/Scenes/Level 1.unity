@@ -354,12 +354,13 @@ MonoBehaviour:
   hiddenRoom:
   - {fileID: 0}
   dialogue:
-  - "Computer\u2014***what time is it?**"
+  - "[contemplative] Computer\u2014***what time is it?**"
   - "~it is currently 4:13am on Sunday, the 27th of March!*** The current year is\u2014"
-  - Shit.**** Not even close to curfew.**
-  - We've got to find somewhere to wire into the system.* These terminals are too
-    low level to have access...***
-  - "Although\u2014** they might still have some geolocation data stored away*.*.*.**"
+  - '[annoyed] Shit.**** Not even close to curfew.**'
+  - '[focused] We''ve got to find somewhere to wire into the system.* These terminals
+    are too low level to have access...***'
+  - "[contemplative] Although\u2014** they might still have some geolocation data
+    stored away*.*.*.**"
 --- !u!1 &11750820 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1429909108834651106, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
@@ -4714,7 +4715,6 @@ MonoBehaviour:
   terrainLayer:
     serializedVersion: 2
     m_Bits: 2048
-  staticSpawn: 0
   numEnemies: 0
   enemyPrefabs:
   - Tank
@@ -4723,7 +4723,6 @@ MonoBehaviour:
   - Logic
   - Instinct
   - Memory
-  nodeParent: {fileID: 0}
   enemyParent: {fileID: 1548188222}
   waves: 
   terminalBar: {fileID: 6707010038411078085, guid: 2d9d87afa2fc5f04285eeb045bcb9a1d, type: 3}
@@ -4748,6 +4747,10 @@ MonoBehaviour:
   portraits:
   - {fileID: 446813074}
   - {fileID: 11750820}
+  reyaExpressions:
+  - {fileID: 21300000, guid: 209bf25f88d911d4c8267a2554f7dc44, type: 3}
+  - {fileID: 21300000, guid: 03115bcd31cb40841a09c93f354f16f7, type: 3}
+  - {fileID: 21300000, guid: 392577f017bc45346b35231c2e464d46, type: 3}
   rewardPrefab: {fileID: 6820302149536134281, guid: f698185bf3b891a4db6516d49e1eb06a, type: 3}
   bossTxt: {fileID: 1316263000}
   loadingText: {fileID: 667346381}
@@ -5497,10 +5500,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
-      propertyPath: spellUI
-      value: 
-      objectReference: {fileID: 835217253}
-    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
       propertyPath: cdParent
       value: 
       objectReference: {fileID: 805596107}
@@ -5533,10 +5532,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1719771997}
     - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
-      propertyPath: showTutorial
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
       propertyPath: symbolParent
       value: 
       objectReference: {fileID: 1917736761}
@@ -5553,12 +5548,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1786992442}
     - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
-      propertyPath: typeColors.Array.size
-      value: 4
+      propertyPath: programUIStart.x
+      value: -650
       objectReference: {fileID: 0}
     - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
-      propertyPath: shapeBlocks.Array.size
-      value: 6
+      propertyPath: programUIStart.y
+      value: 350
       objectReference: {fileID: 0}
     - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
       propertyPath: tutorials.Array.data[0]
@@ -5568,82 +5563,6 @@ PrefabInstance:
       propertyPath: tutorials.Array.data[1]
       value: 
       objectReference: {fileID: 6154748227236401478}
-    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
-      propertyPath: shapeBlocks.Array.data[4]
-      value: 
-      objectReference: {fileID: 2095598637705310552, guid: 64bdb95a557b15649a605d194fbd0728, type: 3}
-    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
-      propertyPath: shapeBlocks.Array.data[5]
-      value: 
-      objectReference: {fileID: 2095598637705310552, guid: 3f9fa202c8547cd48b50d6b1b3f1ae21, type: 3}
-    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
-      propertyPath: effectBlocks.Array.data[2]
-      value: 
-      objectReference: {fileID: 5002837315012015344, guid: 844feb172f080e943a2d3f7cc9fac088, type: 3}
-    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
-      propertyPath: typeColors.Array.data[0].a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
-      propertyPath: typeColors.Array.data[0].b
-      value: 0.38039216
-      objectReference: {fileID: 0}
-    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
-      propertyPath: typeColors.Array.data[0].g
-      value: 0.9411765
-      objectReference: {fileID: 0}
-    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
-      propertyPath: typeColors.Array.data[0].r
-      value: 0.47843137
-      objectReference: {fileID: 0}
-    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
-      propertyPath: typeColors.Array.data[1].a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
-      propertyPath: typeColors.Array.data[1].b
-      value: 0.9607843
-      objectReference: {fileID: 0}
-    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
-      propertyPath: typeColors.Array.data[1].g
-      value: 0.6745098
-      objectReference: {fileID: 0}
-    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
-      propertyPath: typeColors.Array.data[1].r
-      value: 0.38039216
-      objectReference: {fileID: 0}
-    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
-      propertyPath: typeColors.Array.data[2].a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
-      propertyPath: typeColors.Array.data[2].b
-      value: 0.77254903
-      objectReference: {fileID: 0}
-    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
-      propertyPath: typeColors.Array.data[2].g
-      value: 0.34509805
-      objectReference: {fileID: 0}
-    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
-      propertyPath: typeColors.Array.data[2].r
-      value: 0.9372549
-      objectReference: {fileID: 0}
-    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
-      propertyPath: typeColors.Array.data[3].a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
-      propertyPath: typeColors.Array.data[3].b
-      value: 0.40784317
-      objectReference: {fileID: 0}
-    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
-      propertyPath: typeColors.Array.data[3].g
-      value: 0.7490196
-      objectReference: {fileID: 0}
-    - target: {fileID: 845690033822569681, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
-      propertyPath: typeColors.Array.data[3].r
-      value: 0.9568628
-      objectReference: {fileID: 0}
     - target: {fileID: 4655135024260920828, guid: 8337f4f8fec7b7a4682a1703724d686e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 751.38074

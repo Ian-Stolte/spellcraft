@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -61,6 +62,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private string[] reyaDialogue;
     [SerializeField] private GameObject dialogue;
     [SerializeField] private GameObject[] portraits;
+    [SerializeField] private Sprite[] reyaExpressions;
 
     [Header("Misc")]
     [SerializeField] private GameObject rewardPrefab;
@@ -420,8 +422,24 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator PlayDialogue(string line, float waitTime=3f)
     {
+        //set up portraits
         portraits[0].SetActive(line[0] != '~');
         portraits[1].SetActive(line[0] == '~');
+        if (line[0] == '[')
+        {
+            string portrait = line.Split("]")[0].Substring(1);
+            line = line.Split("]")[1].Trim();
+            Sprite newPortrait = reyaExpressions.FirstOrDefault(s => s.name == portrait);
+            if (newPortrait != null)
+                portraits[0].transform.GetChild(0).GetComponent<Image>().sprite = newPortrait;
+            else
+            {
+                Debug.LogWarning("No portrait found for: " + portrait);
+                portraits[0].transform.GetChild(0).GetComponent<Image>().sprite = reyaExpressions[0];
+            }
+        }
+
+        //type out dialogue
         TextMeshProUGUI txt = dialogue.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
         txt.text = "";
         dialogue.SetActive(true);
