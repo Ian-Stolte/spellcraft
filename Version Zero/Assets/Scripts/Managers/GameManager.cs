@@ -144,9 +144,8 @@ public class GameManager : MonoBehaviour
         {
             for (int i = 0; i < reyaDialogue.Length; i++)
             {
+                reyaDialogue[i] = ShowPortraits(reyaDialogue[i]);
                 float slowDown = (i < 2) ? 1.5f : 1f;
-                portraits[0].SetActive(reyaDialogue[i][0] != '~');
-                portraits[1].SetActive(reyaDialogue[i][0] == '~');
                 txt.text = "";
                 foreach (char c in reyaDialogue[i])
                 {
@@ -423,21 +422,7 @@ public class GameManager : MonoBehaviour
     public IEnumerator PlayDialogue(string line, float waitTime=3f)
     {
         //set up portraits
-        portraits[0].SetActive(line[0] != '~');
-        portraits[1].SetActive(line[0] == '~');
-        if (line[0] == '[')
-        {
-            string portrait = line.Split("]")[0].Substring(1);
-            line = line.Split("]")[1].Trim();
-            Sprite newPortrait = reyaExpressions.FirstOrDefault(s => s.name == portrait);
-            if (newPortrait != null)
-                portraits[0].transform.GetChild(0).GetComponent<Image>().sprite = newPortrait;
-            else
-            {
-                Debug.LogWarning("No portrait found for: " + portrait);
-                portraits[0].transform.GetChild(0).GetComponent<Image>().sprite = reyaExpressions[0];
-            }
-        }
+        line = ShowPortraits(line);
 
         //type out dialogue
         TextMeshProUGUI txt = dialogue.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
@@ -463,6 +448,26 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
         dialogue.SetActive(false);
         txt.text = "";
+    }
+
+    private string ShowPortraits(string line)
+    {
+        portraits[0].SetActive(line[0] != '~');
+        portraits[1].SetActive(line[0] == '~');
+        if (line[0] == '[')
+        {
+            string portrait = line.Split("]")[0].Substring(1);
+            line = line.Split("]")[1].Trim();
+            Sprite newPortrait = reyaExpressions.FirstOrDefault(s => s.name == portrait);
+            if (newPortrait != null)
+                portraits[0].transform.GetChild(0).GetComponent<Image>().sprite = newPortrait;
+            else
+            {
+                Debug.LogWarning("No portrait found for: " + portrait);
+                portraits[0].transform.GetChild(0).GetComponent<Image>().sprite = reyaExpressions[0];
+            }
+        }
+        return line;
     }
 
 
