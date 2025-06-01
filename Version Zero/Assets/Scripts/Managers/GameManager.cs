@@ -18,7 +18,6 @@ public class GameManager : MonoBehaviour
     }
 
     [Header("Bools")]
-    public bool doubleSpeed;
     public bool scifiNames;
     private bool fullArea;
     public bool skipDialogue;
@@ -97,42 +96,53 @@ public class GameManager : MonoBehaviour
             enemyParent = GameObject.Find("Enemies").transform;
             numEnemies = Physics.OverlapSphere(Vector2.zero, 9999, LayerMask.GetMask("Enemy")).Length;
 
-            if (scene.name.Contains("Level"))
+            foreach (Transform child in terminalIcons)
+                Destroy(child.gameObject);
+            
+            //create an icon for each terminal in the level
+            numTerminals = 0;
+            foreach (GameObject g in Resources.FindObjectsOfTypeAll<GameObject>())
             {
-                foreach (Transform child in terminalIcons)
-                    Destroy(child.gameObject);
-                
-                //create an icon for each terminal in the level
-                numTerminals = 0;
-                foreach (GameObject g in Resources.FindObjectsOfTypeAll<GameObject>())
-                {
-                    if (g.layer == LayerMask.NameToLayer("Terminal") && g.hideFlags == HideFlags.None && g.scene.IsValid())
-                        numTerminals++;
-                }
-                for (int i = 0; i < numTerminals; i++)
-                {
-                    GameObject icon = Instantiate(terminalIcon, Vector2.zero, terminalIcon.transform.rotation, terminalIcons);
-                    icon.GetComponent<RectTransform>().anchoredPosition = new Vector2(-822, 450 - 130*i - areaText.preferredHeight);
-                }
+                if (g.layer == LayerMask.NameToLayer("Terminal") && g.hideFlags == HideFlags.None && g.scene.IsValid())
+                    numTerminals++;
+            }
+            for (int i = 0; i < numTerminals; i++)
+            {
+                GameObject icon = Instantiate(terminalIcon, Vector2.zero, terminalIcon.transform.rotation, terminalIcons);
+                icon.GetComponent<RectTransform>().anchoredPosition = new Vector2(-822, 450 - 130*i - areaText.preferredHeight);
+            }
 
-                //set spawn pct & enemies available by level (15, 25 by default)
-                if (scene.name == "Level 4")
-                {
-                    enemyPrefabs.Add("Artillerist");
-                    minSpawn = 10;
-                    maxSpawn = 20;
-                }
-                else if (scene.name == "Level 5")
-                {
-                    minSpawn = 8;
-                    maxSpawn = 18;
-                }
+            //set spawn pct & enemies available by level (15, 25 by default)
+            if (scene.name == "Level 4")
+            {
+                enemyPrefabs.Add("Artillerist");
+                minSpawn = 10;
+                maxSpawn = 20;
+            }
+            else if (scene.name == "Level 5")
+            {
+                minSpawn = 8;
+                maxSpawn = 18;
             }
         }
 
         if (scene.name == "Level 1")
         {
             StartCoroutine(IntroDialogue());
+        }
+        else if (scene.name == "Level 2")
+        {
+            Terminal terminal = GameObject.Find("Terminal").GetComponent<Terminal>();
+            if (SequenceManager.Instance.runNum == 1)
+            {
+                foreach (GameObject g in terminal.hiddenRoom)
+                    g.SetActive(!g.activeSelf);
+            }
+            else
+            {
+                terminal.complete = true;
+                Destroy(terminalIcons.GetChild(1).gameObject);
+            }
         }
     }
 

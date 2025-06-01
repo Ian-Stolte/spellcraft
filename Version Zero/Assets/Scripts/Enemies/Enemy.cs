@@ -39,8 +39,6 @@ public class Enemy : MonoBehaviour
 
     public void Start()
     {
-        if (GameManager.Instance.doubleSpeed)
-            maxHealth = (int)(maxHealth*1.5f);
         health = maxHealth;
         rb = GetComponent<Rigidbody>();
         player = GameObject.Find("Player");

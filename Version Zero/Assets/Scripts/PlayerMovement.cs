@@ -36,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
     public bool canDie;
 
     [Header("Computer")]
-    [SerializeField] private Transform computer;
+    public Transform computer;
     [SerializeField] private float maxCompDist;
     [SerializeField] private float compDist;
     [SerializeField] private float dampTime;
@@ -65,7 +65,18 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         health = maxHealth;
-        lastPos.Add(transform.position);
+        for (int i = 0; i < 30; i++)
+            lastPos.Add(transform.position + new Vector3(-2, 0, 0));
+    }
+
+    void OnEnable() { SceneManager.sceneLoaded += OnSceneLoaded; }
+    void OnDisable() { SceneManager.sceneLoaded -= OnSceneLoaded; }
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        computer.position = transform.position + new Vector3(-2, 1, 0);
+        lastPos.Clear();
+        for (int i = 0; i < 30; i++)
+            lastPos.Add(transform.position + new Vector3(-2, 0, 0));
     }
 
 
@@ -240,10 +251,12 @@ public class PlayerMovement : MonoBehaviour
         AudioManager.Instance.Play("Static");
         AudioManager.Instance.Play("Game Over");
         Camera.main.GetComponent<GlitchManager>().ShowGlitch(2, 1);
+
         yield return new WaitForSeconds(2);
         AudioManager.Instance.Stop("Static");
         gameOver.SetActive(true);
         yield return new WaitForSeconds(1);
+
         TMPro.TextMeshProUGUI txt = gameOver.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>();
         for (int i = 0; i < 4; i++)
         {
@@ -261,9 +274,11 @@ public class PlayerMovement : MonoBehaviour
                 yield return new WaitForSeconds(0.1f);
             yield return new WaitForSeconds(0.1f);
         }
+
         yield return new WaitForSeconds(1.5f);
         Fader.Instance.FadeIn(1.5f);
         StartCoroutine(AudioManager.Instance.StartFade("Game Over", 2, 0));
+
         yield return new WaitForSeconds(2f);
         endingGame = false;
         SceneManager.LoadScene("Playtest Options");

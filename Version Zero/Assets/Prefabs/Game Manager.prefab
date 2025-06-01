@@ -89,9 +89,6 @@ MonoBehaviour:
   - {fileID: 0}
   reyaExpressions:
   - {fileID: 21300000, guid: 209bf25f88d911d4c8267a2554f7dc44, type: 3}
-  - {fileID: 21300000, guid: f07bd1b85568950468a1bca24ffa83ec, type: 3}
-  - {fileID: 21300000, guid: 392577f017bc45346b35231c2e464d46, type: 3}
-  - {fileID: 21300000, guid: b56d9947072ff4a408260806bc0bf3c2, type: 3}
   rewardPrefab: {fileID: 6820302149536134281, guid: f698185bf3b891a4db6516d49e1eb06a, type: 3}
   bossTxt: {fileID: 0}
   loadingText: {fileID: 0}

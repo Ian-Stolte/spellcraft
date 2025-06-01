@@ -538,8 +538,12 @@ MonoBehaviour:
   maxBurstDmg: 4
   canDie: 1
   computer: {fileID: 0}
-  compDist: 20
-  dampTime: 0
+  maxCompDist: 1.5
+  compDist: 0.6
+  dampTime: 0.15
+  maxPosData: 40
+  compYFreq: 0.5
+  compYAmp: 0.02
   shield: {fileID: 5824586200430993362}
   shieldTimer: 0
   anim: {fileID: 0}

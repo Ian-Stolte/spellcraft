@@ -14,5 +14,4 @@ public class SequenceManager : MonoBehaviour
     }
 
     public int runNum;
-    public bool defaultHand;
 }

@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 2124839882018449942}
   - component: {fileID: 1320767693652084883}
   m_Layer: 0
-  m_Name: MeleeWarning
+  m_Name: AggroWarning
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
