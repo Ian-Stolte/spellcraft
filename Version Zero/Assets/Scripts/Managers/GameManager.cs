@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "Playtest Options")
+        if (scene.name == "Playtest Options" || scene.name == "End Screen")
             Destroy(gameObject);
         else
         {
@@ -130,7 +130,7 @@ public class GameManager : MonoBehaviour
         {
             StartCoroutine(IntroDialogue());
         }
-        else if (scene.name == "Level 2")
+        else if (scene.name == "Level 2" && SequenceManager.Instance != null)
         {
             Terminal terminal = GameObject.Find("Terminal").GetComponent<Terminal>();
             if (SequenceManager.Instance.runNum == 1)
@@ -508,7 +508,13 @@ public class GameManager : MonoBehaviour
         loadingText.SetActive(false);
         int levelNum = int.Parse(SceneManager.GetActiveScene().name.Substring(6))+1;
         areaText.text = nextArea;
-        SceneManager.LoadScene("Level " + levelNum);
+        if (levelNum < 7)
+            SceneManager.LoadScene("Level " + levelNum);
+        else
+        {
+            Destroy(player.gameObject);
+            SceneManager.LoadScene("End Screen");
+        }
     }
 
     private IEnumerator ElevatorSounds()
