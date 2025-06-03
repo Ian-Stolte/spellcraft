@@ -281,6 +281,8 @@ public class PlayerMovement : MonoBehaviour
 
         yield return new WaitForSeconds(2f);
         endingGame = false;
-        SceneManager.LoadScene("Playtest Options");
+        SceneManager.LoadScene("Startup UI");
+        Destroy(gameObject);
+        //SceneManager.LoadScene("Playtest Options");
     }
 }

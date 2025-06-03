@@ -351,8 +351,7 @@ MonoBehaviour:
   activateTxt: {fileID: 1485506045}
   complete: 0
   barrier: {fileID: 1034278538}
-  hiddenRoom:
-  - {fileID: 0}
+  hiddenRoom: []
   dialogue:
   - "[contemplative] Computer\u2014***what time is it?**"
   - "~it is currently 4:13am on Sunday, the 27th of March!*** The current year is\u2014"

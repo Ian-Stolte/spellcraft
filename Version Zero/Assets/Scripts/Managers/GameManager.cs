@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "Playtest Options" || scene.name == "End Screen")
+        if (scene.name == "Playtest Options" || scene.name == "End Screen" || scene.name == "Startup UI")
             Destroy(gameObject);
         else
         {
@@ -372,9 +372,8 @@ public class GameManager : MonoBehaviour
         //disable barrier &/or show hidden room
         if (currentTerminal.barrier != null)
             UnlockBarrier(currentTerminal.barrier);
-        if (currentTerminal.hiddenRoom != null)
-            foreach (GameObject g in currentTerminal.hiddenRoom)
-                g.SetActive(!g.activeSelf);
+        foreach (GameObject g in currentTerminal.hiddenRoom)
+            g.SetActive(!g.activeSelf);
 
         if (SceneManager.GetActiveScene().name != "Level 1" && SceneManager.GetActiveScene().name != "Level 2")
             spawningEnemies = true;
