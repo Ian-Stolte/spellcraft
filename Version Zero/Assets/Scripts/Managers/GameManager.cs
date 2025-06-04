@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour
     private Transform player;
     public GameObject bossTxt;
     [SerializeField] private GameObject loadingText;
+    [SerializeField] private GameObject gameOver;
 
     
     void Start()
@@ -463,7 +464,7 @@ public class GameManager : MonoBehaviour
     {
         portraits[0].SetActive(line[0] != '~');
         portraits[1].SetActive(line[0] == '~');
-        if (line[0] == '[')
+        /*if (line[0] == '[')
         {
             string portrait = line.Split("]")[0].Substring(1);
             line = line.Split("]")[1].Trim();
@@ -475,7 +476,7 @@ public class GameManager : MonoBehaviour
                 Debug.LogWarning("No portrait found for: " + portrait);
                 portraits[0].transform.GetChild(0).GetComponent<Image>().sprite = reyaExpressions[0];
             }
-        }
+        }*/
         return line;
     }
 
@@ -523,6 +524,69 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         AudioManager.Instance.Play("Elevator Stop");
         AudioManager.Instance.Stop("Elevator Down");
+    }
+
+
+    public IEnumerator GameOver()
+    {
+        player.GetComponent<PlayerPrograms>().enabled = false;
+        pauseGame = true;
+        StartCoroutine(AudioManager.Instance.FadeOutAll(0));
+        AudioManager.Instance.Play("Static");
+        AudioManager.Instance.Play("Game Over");
+        Camera.main.GetComponent<GlitchManager>().ShowGlitch(2, 1);
+
+        yield return new WaitForSeconds(2);
+        AudioManager.Instance.Stop("Static");
+        gameOver.SetActive(true);
+        yield return new WaitForSeconds(1);
+
+        TMPro.TextMeshProUGUI txt = gameOver.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>();
+        for (int i = 0; i < 4; i++)
+        {
+            txt.text = "_";
+            yield return new WaitForSeconds(0.5f);
+            txt.text = "";
+            yield return new WaitForSeconds(0.3f);
+        }
+        yield return new WaitForSeconds(1);
+        string message = "Program Terminated";
+        foreach (char c in message)
+        {
+            txt.text += c;
+            if (c == ' ')
+                yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        yield return new WaitForSeconds(1.5f);
+        StartCoroutine(AudioManager.Instance.StartFade("Game Over", 2, 0));
+        for (float i = 0; i < 1; i += 0.01f)
+        {
+            gameOver.transform.GetChild(1).GetComponent<CanvasGroup>().alpha = i;
+            gameOver.transform.GetChild(2).GetComponent<CanvasGroup>().alpha = i;
+            yield return new WaitForSeconds(0.01f);
+        }
+    }
+
+    public void Reset()
+    {
+        StartCoroutine(ResetCor());
+    }
+
+    private IEnumerator ResetCor()
+    {
+        Fader.Instance.FadeIn(1.5f);
+        yield return new WaitForSeconds(2);
+        SceneManager.LoadScene("Startup UI");
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #endif
     }
 }
 

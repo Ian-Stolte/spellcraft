@@ -57,7 +57,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Animator anim;
     [SerializeField] private Animator damageFlash;
     //Game Over
-    [SerializeField] private GameObject gameOver;
     private bool endingGame;
 
 
@@ -210,16 +209,13 @@ public class PlayerMovement : MonoBehaviour
             health = Mathf.Max(0, health-dmg);
             if (health <= 0)
             {
-                Debug.Log("GAME OVER!!");
                 if (canDie)
                 {
-                    if (!endingGame)
-                        StartCoroutine(GameOver());
+                    if (!GameManager.Instance.pauseGame)
+                        StartCoroutine(GameManager.Instance.GameOver());
                 }
                 else
-                {
                     health = maxHealth;
-                }
             }
             else
             {
@@ -240,49 +236,5 @@ public class PlayerMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         currentBurst -= dmg;
-    }
-
-    public IEnumerator GameOver()
-    {
-        endingGame = true;
-        GetComponent<PlayerPrograms>().enabled = false;
-        GameManager.Instance.pauseGame = true;
-        StartCoroutine(AudioManager.Instance.FadeOutAll(0));
-        AudioManager.Instance.Play("Static");
-        AudioManager.Instance.Play("Game Over");
-        Camera.main.GetComponent<GlitchManager>().ShowGlitch(2, 1);
-
-        yield return new WaitForSeconds(2);
-        AudioManager.Instance.Stop("Static");
-        gameOver.SetActive(true);
-        yield return new WaitForSeconds(1);
-
-        TMPro.TextMeshProUGUI txt = gameOver.transform.GetChild(0).GetComponent<TMPro.TextMeshProUGUI>();
-        for (int i = 0; i < 4; i++)
-        {
-            txt.text = "_";
-            yield return new WaitForSeconds(0.5f);
-            txt.text = "";
-            yield return new WaitForSeconds(0.3f);
-        }
-        yield return new WaitForSeconds(1);
-        string message = "Program Terminated";
-        foreach (char c in message)
-        {
-            txt.text += c;
-            if (c == ' ')
-                yield return new WaitForSeconds(0.1f);
-            yield return new WaitForSeconds(0.1f);
-        }
-
-        yield return new WaitForSeconds(1.5f);
-        Fader.Instance.FadeIn(1.5f);
-        StartCoroutine(AudioManager.Instance.StartFade("Game Over", 2, 0));
-
-        yield return new WaitForSeconds(2f);
-        endingGame = false;
-        SceneManager.LoadScene("Startup UI");
-        Destroy(gameObject);
-        //SceneManager.LoadScene("Playtest Options");
     }
 }

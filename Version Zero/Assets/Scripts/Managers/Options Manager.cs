@@ -59,7 +59,7 @@ public class OptionsManager : MonoBehaviour
         Fader.Instance.FadeIn(2);
         yield return new WaitForSeconds(2);
         DontDestroyOnLoad(gameObject);
-        string sceneToLoad = (choices[1] == 1) ? "Level 1" : "Startup UI";
+        string sceneToLoad = (choices[0] == 1) ? "Level 1" : "Startup UI";
         SceneManager.LoadScene(sceneToLoad);
         SequenceManager.Instance.runNum++;
         SceneManager.sceneLoaded += FinishSetup;
@@ -69,10 +69,8 @@ public class OptionsManager : MonoBehaviour
     {
         if (scene.name == "Level 1")
         {
-            Transform player = GameObject.Find("Player").transform;
-            player.GetComponent<PlayerMovement>().canDie = (choices[0] == 0);
             ProgramManager.Instance.StartingHand();
-            GameManager.Instance.skipDialogue = (choices[1] == 1);
+            GameManager.Instance.skipDialogue = (choices[0] == 1);
 
             SceneManager.sceneLoaded -= FinishSetup;
             Destroy(gameObject);

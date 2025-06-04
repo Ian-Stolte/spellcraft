@@ -149,7 +149,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &5839098470242269186
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1142,7 +1142,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Continue
+  m_text: Reset
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1fb36033c6d300748b0e2e7580fde9b6, type: 2}
   m_sharedMaterial: {fileID: 2498378941350134116, guid: 1fb36033c6d300748b0e2e7580fde9b6, type: 2}
@@ -3919,13 +3919,14 @@ GameObject:
   - component: {fileID: 4238579202449955156}
   - component: {fileID: 4373503585116718301}
   - component: {fileID: 1699553311482922212}
+  - component: {fileID: 4967739527205136608}
   m_Layer: 5
   m_Name: Button (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &5220463381583600036
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4007,8 +4008,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.8050314, g: 0.8050314, b: 0.8050314, a: 1}
-    m_PressedColor: {r: 0.654088, g: 0.654088, b: 0.654088, a: 1}
+    m_HighlightedColor: {r: 0.6, g: 0.88235295, b: 0.8, a: 1}
+    m_PressedColor: {r: 0.38431373, g: 0.6431373, b: 0.6156863, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -4041,6 +4042,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!225 &4967739527205136608
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4128018321070992015}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &4207746488286597918
 GameObject:
   m_ObjectHideFlags: 0
@@ -5123,7 +5136,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Program Terminated
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7db1232e2848f0149a8c6ae26195804d, type: 2}
   m_sharedMaterial: {fileID: -4933900557216356330, guid: 7db1232e2848f0149a8c6ae26195804d, type: 2}
@@ -7352,13 +7365,14 @@ GameObject:
   - component: {fileID: 2264567300688199751}
   - component: {fileID: 1268970842542643881}
   - component: {fileID: 8778151426287815475}
+  - component: {fileID: 7897028435504932600}
   m_Layer: 5
   m_Name: Button (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4328885720507754126
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7440,8 +7454,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.8050314, g: 0.8050314, b: 0.8050314, a: 1}
-    m_PressedColor: {r: 0.654088, g: 0.654088, b: 0.654088, a: 1}
+    m_HighlightedColor: {r: 0.6, g: 0.88235295, b: 0.7992038, a: 1}
+    m_PressedColor: {r: 0.38530907, g: 0.6415094, b: 0.61545515, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -7474,6 +7488,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!225 &7897028435504932600
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7047078284004346237}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &7139592863780186962
 GameObject:
   m_ObjectHideFlags: 0
@@ -9811,7 +9837,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 209bf25f88d911d4c8267a2554f7dc44, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a08c78b2de9e8854aa9279405211af63, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

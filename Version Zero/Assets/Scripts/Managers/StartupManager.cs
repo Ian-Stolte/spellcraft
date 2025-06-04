@@ -71,7 +71,11 @@ public class StartupManager : MonoBehaviour
     void Start()
     {
         if (SequenceManager.Instance != null)
+        {
             plaintext[7] = "Procedure complete. Version " + SequenceManager.Instance.runNum + ".0 online.";
+            fail = (SequenceManager.Instance.runNum == 1);
+        }
+
         if (!instantFail)
         {
             StartCoroutine(NeuralActivity());
