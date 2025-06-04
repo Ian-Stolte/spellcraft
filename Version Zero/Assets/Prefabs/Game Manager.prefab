@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff9a5a342f35d6f42a8b83bf928a98c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doubleSpeed: 0
   scifiNames: 0
   skipDialogue: 0
   pauseGame: 0
@@ -58,7 +57,7 @@ MonoBehaviour:
   numEnemies: 0
   enemyPrefabs:
   - Tank
-  - Fast
+  - Swarm
   enemyTypes:
   - Logic
   - Instinct
