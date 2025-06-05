@@ -114,6 +114,7 @@ public class GameManager : MonoBehaviour
             }
 
             //set spawn pct & enemies available by level (15, 25 by default)
+            enemyType = enemyTypes[Random.Range(0, enemyTypes.Length)];
             if (scene.name == "Level 4")
             {
                 enemyPrefabs.Add("Artillerist");
@@ -125,6 +126,31 @@ public class GameManager : MonoBehaviour
                 minSpawn = 8;
                 maxSpawn = 18;
             }
+        
+            //replace enemies with chosen type
+            List<GameObject> newEnemies = new List<GameObject>();
+            foreach (Transform child in enemyParent)
+            {
+                for (int i = 0; i < child.name.Length; i++)
+                {
+                    if (child.name[i] == '_')
+                    {
+                        string name = child.name.Substring(0, i) + "_" + enemyType;
+                        GameObject prefab = Resources.Load<GameObject>("Prefabs/Enemies/" + name);
+                        
+                        if (prefab != null && child.gameObject.activeSelf)
+                        {
+                            newEnemies.Add(Instantiate(prefab, child.position, child.rotation));
+                        }
+                        break;
+                    }
+                }
+            }
+            foreach (Transform child in enemyParent)
+                Destroy(child.gameObject);
+
+            foreach (GameObject g in newEnemies)
+                g.transform.parent = enemyParent;
         }
 
         if (scene.name == "Level 1")

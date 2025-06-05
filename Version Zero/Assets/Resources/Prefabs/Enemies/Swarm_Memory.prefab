@@ -445,7 +445,7 @@ GameObject:
   - component: {fileID: 3618937320431068720}
   - component: {fileID: 1225957878668645572}
   m_Layer: 6
-  m_Name: Fast_Memory
+  m_Name: Swarm_Memory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
