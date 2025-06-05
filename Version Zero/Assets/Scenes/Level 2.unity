@@ -250,10 +250,10 @@ MonoBehaviour:
   - {fileID: 48763701}
   - {fileID: 922495084}
   dialogue:
-  - Yes! I knew it.
-  - Ok, 32 meters. Back the way we came.
-  - I don't want to be empty-handed when the Collectors notice us still kicking around
-    in here...
+  - Shit.*** Didn't work.
+  - Computer...** can you find somewhere with auth user permissions?
+  - ~yes of course right away******
+  - ~it is back the way we came
 --- !u!1 &36235245
 GameObject:
   m_ObjectHideFlags: 0
@@ -495,7 +495,10 @@ MonoBehaviour:
   interactDist: 4
   barrier: {fileID: 745562176}
   dialogue:
-  - "Alright, what am I feeling like today?*****\t"
+  - ~it appears you need to identify with one of the three (3) Sectors miss***
+  - ~unfortunately I am unable to find data on which one you belong to
+  - ~perhaps you will feel a calling to one of them?***
+  - Computer**.*.*.*** half these systems are broken, and the other half are ads.
   playDialogue: 1
 --- !u!65 &92722584
 BoxCollider:
@@ -6606,6 +6609,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 6683761588087392741, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
+      propertyPath: m_Alpha
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7371273026116259330, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -6638,6 +6645,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1683716700}
+    - target: {fileID: 9073324932604729840, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
