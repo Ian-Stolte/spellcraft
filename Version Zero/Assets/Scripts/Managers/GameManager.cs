@@ -182,7 +182,7 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < reyaDialogue.Length; i++)
             {
                 reyaDialogue[i] = ShowPortraits(reyaDialogue[i]);
-                float slowDown = (i < 2) ? 1.5f : 1f;
+                float slowDown = (i < 1) ? 1.5f : 1f;
                 txt.text = "";
                 foreach (char c in reyaDialogue[i])
                 {
