@@ -23,9 +23,9 @@ AnimationClip:
     - time: 0
       value: {fileID: -2432090755550338912, guid: f701ca54a4c3b454e9f3577005681649, type: 3}
     - time: 1
-      value: {fileID: -2432090755550338912, guid: f701ca54a4c3b454e9f3577005681649, type: 3}
+      value: {fileID: -2432090755550338912, guid: 49c7fabf35927164987eea9816822a3d, type: 3}
     attribute: m_Mesh
-    path: VZero_Artillerist_Floater/default
+    path: 
     classID: 33
     script: {fileID: 0}
     flags: 2
@@ -37,7 +37,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 2184532711
+      path: 0
       attribute: 3757223753
       script: {fileID: 0}
       typeID: 33
@@ -47,7 +47,7 @@ AnimationClip:
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
     - {fileID: -2432090755550338912, guid: f701ca54a4c3b454e9f3577005681649, type: 3}
-    - {fileID: -2432090755550338912, guid: f701ca54a4c3b454e9f3577005681649, type: 3}
+    - {fileID: -2432090755550338912, guid: 49c7fabf35927164987eea9816822a3d, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

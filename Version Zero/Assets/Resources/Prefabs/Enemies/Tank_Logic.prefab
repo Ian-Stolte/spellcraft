@@ -27,7 +27,7 @@ RectTransform:
   m_GameObject: {fileID: 478695765183486487}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2775356745353893380}
@@ -550,8 +550,8 @@ Transform:
   m_GameObject: {fileID: 6377387012906372630}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.98584056, z: -0, w: 0.16768512}
-  m_LocalPosition: {x: -0.09, y: -1.16, z: -0.43}
-  m_LocalScale: {x: 9.606592, y: 0.78340584, z: 10.253223}
+  m_LocalPosition: {x: 0.02, y: -0.2, z: -0.23}
+  m_LocalScale: {x: 10, y: 0.3, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 50465888860465431}
@@ -619,10 +619,10 @@ GameObject:
   - component: {fileID: 8430190943557601241}
   - component: {fileID: 7365399408238560664}
   - component: {fileID: 6617996554203050702}
-  - component: {fileID: 2188452602672604698}
   - component: {fileID: 3582729303023012263}
   - component: {fileID: 4663055319606692513}
   - component: {fileID: 515406751204157959}
+  - component: {fileID: 3968384855923889730}
   m_Layer: 6
   m_Name: Tank_Logic
   m_TagString: Untagged
@@ -675,7 +675,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f98c621522ef9044f817b224d7b4278d, type: 2}
+  - {fileID: 2100000, guid: 6d940623cab4d0b4ca41817f34cc266f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -730,29 +730,6 @@ MonoBehaviour:
   stompForce: 100
   stompIndicator: {fileID: 6377387012906372630}
   stompTime: 1.5
---- !u!136 &2188452602672604698
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7223448046320628243}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 2
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: -0, y: 1.28, z: -0.41}
 --- !u!54 &3582729303023012263
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -914,6 +891,27 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
+--- !u!65 &3968384855923889730
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7223448046320628243}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4.0795665, y: 2.07182, z: 4.5604863}
+  m_Center: {x: -0.00000048872494, y: 0.97277796, z: -0.3988817}
 --- !u!1 &7233092411780691524
 GameObject:
   m_ObjectHideFlags: 0
