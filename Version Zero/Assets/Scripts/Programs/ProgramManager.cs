@@ -22,6 +22,7 @@ public class ProgramManager : MonoBehaviour
     [HideInInspector] public bool spellsLocked;
     private bool loadNextLevel;
     private bool musicOn;
+    private bool moreInfo;
 
     [Header("Parents")]
     public Transform programUI;
@@ -31,6 +32,7 @@ public class ProgramManager : MonoBehaviour
 
     [Header("Buttons")]
     public GameObject compileButton;
+    [SerializeField] private TextMeshProUGUI infoButton;
     [SerializeField] private GameObject backButton;
     [SerializeField] private GameObject confirmButton;
     [SerializeField] private GameObject randomButton;
@@ -73,6 +75,7 @@ public class ProgramManager : MonoBehaviour
 
     public void StartingHand()
     {
+        buildpath = "logic";
         foreach (GameObject g in shapeBlocks)
             blocks.Add(g);
         foreach (GameObject g in effectBlocks)
@@ -84,7 +87,6 @@ public class ProgramManager : MonoBehaviour
         {
             if (buildSelect != null)
                 buildSelect.SetActive(false);
-            buildpath = "logic";
 
             string[] startingBlocks = new string[]{"Line", "Damage", "Circle", "Displace", "Melee", "Stun", "Damage"};
             foreach (string s in startingBlocks)
@@ -178,7 +180,7 @@ public class ProgramManager : MonoBehaviour
                     b.nameTxt.GetComponent<CanvasGroup>().alpha = 1;
                     b.typeTxt.GetComponent<CanvasGroup>().alpha = 0.5f;
                     b.typeTxt.gameObject.SetActive(true);
-                    b.cdText.gameObject.SetActive(false);
+                    b.cdTxt.gameObject.SetActive(false);
                 }
                 else
                 {
@@ -187,8 +189,8 @@ public class ProgramManager : MonoBehaviour
                     b.symbol.GetComponent<Image>().enabled = false;
                     b.nameTxt.GetComponent<CanvasGroup>().alpha = 1;
                     b.typeTxt.GetComponent<CanvasGroup>().alpha = 1;
-                    b.cdText.GetComponent<CanvasGroup>().alpha = 1;
-                    b.cdText.gameObject.SetActive(true);
+                    b.cdTxt.GetComponent<CanvasGroup>().alpha = 1;
+                    b.cdTxt.gameObject.SetActive(true);
                 }
             }
         }
@@ -259,7 +261,7 @@ public class ProgramManager : MonoBehaviour
                     child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 0.1f);
                     b.nameTxt.GetComponent<CanvasGroup>().alpha = 0.5f;
                     b.typeTxt.GetComponent<CanvasGroup>().alpha = 0.1f;
-                    b.cdText.GetComponent<CanvasGroup>().alpha = 0.1f;
+                    b.cdTxt.GetComponent<CanvasGroup>().alpha = 0.1f;
                 }
                 else
                 {
@@ -277,7 +279,7 @@ public class ProgramManager : MonoBehaviour
                     Color c = child.GetComponent<Image>().color;
                     child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 0.3f);
                     b.typeTxt.GetComponent<CanvasGroup>().alpha = 0.5f;
-                    b.cdText.SetActive(false);
+                    b.cdTxt.SetActive(false);
                 }
             }
         }
@@ -319,12 +321,12 @@ public class ProgramManager : MonoBehaviour
                 child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 1);
                 b.nameTxt.GetComponent<CanvasGroup>().alpha = 1;
                 b.typeTxt.GetComponent<CanvasGroup>().alpha = 1;
-                b.cdText.GetComponent<CanvasGroup>().alpha = 1;
-                b.cdText.SetActive(true);
+                b.cdTxt.GetComponent<CanvasGroup>().alpha = 1;
+                b.cdTxt.SetActive(true);
 
                 child.GetChild(0).GetComponent<Image>().enabled = false;
                 b.highlight.gameObject.SetActive(false); //highlight
-                b.cdText.gameObject.SetActive(true); //cd text
+                b.cdTxt.gameObject.SetActive(true); //cd text
             }
         }
 
@@ -611,9 +613,17 @@ public class ProgramManager : MonoBehaviour
         
         for (int i = 0; i < n; i++)
         {
-            Block b = starting[Random.Range(0, starting.Count)];
-            chosen.Add(b);
-            starting.Remove(b);
+            if (starting.Count > 0)
+            {
+                Block b = starting[Random.Range(0, starting.Count)];
+                chosen.Add(b);
+                starting.Remove(b);
+            }
+            else
+            {
+                Debug.LogError("No valid reward blocks!");
+                break;
+            }
         }
 
         return chosen;
@@ -637,6 +647,18 @@ public class ProgramManager : MonoBehaviour
     public void ButtonClick()
     {
         AudioManager.Instance.Play("Button Click");
+    }
+
+    public void Info()
+    {
+        moreInfo = !moreInfo;
+        foreach (Transform child in blockParent)
+        {
+            GameObject info = child.GetComponent<Block>().infoTxt.gameObject;
+            info.SetActive(moreInfo);
+        }
+        string buttonTxt = (moreInfo) ? "Less Info" : "More Info";
+        infoButton.text = buttonTxt;
     }
 }
 

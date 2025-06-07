@@ -23,10 +23,11 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
     public Block right;
 
     [Header("Children")]
-    public GameObject cdText;
+    public GameObject cdTxt;
     public GameObject typeTxt;
     public TextMeshProUGUI nameTxt;
-    public TextMeshProUGUI levelText;
+    public TextMeshProUGUI levelTxt;
+    public TextMeshProUGUI infoTxt;
     public GameObject highlight;
     public GameObject levelUp;
 
@@ -65,8 +66,8 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
         {
             //if (GameManager.Instance.doubleSpeed)
             //    cd = cd*0.5f;
-            string cdTxt = ((cd+"").Length == 1) ? cd + ".0s" : cd + "s";
-            cdText.GetComponent<TextMeshProUGUI>().text = cdTxt;
+            string formattedCD = ((cd+"").Length == 1) ? cd + ".0s" : cd + "s";
+            cdTxt.GetComponent<TextMeshProUGUI>().text = formattedCD;
         }
     }
 
@@ -80,6 +81,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
 
         typeTxt.GetComponent<TextMeshProUGUI>().text = type;
         typeTxt.GetComponent<TextMeshProUGUI>().color = ProgramManager.Instance.ColorFromType(type);
+        infoTxt.text = description;
     }
 
     private void Update()
@@ -211,10 +213,10 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
                     if (upgrade.cd > upgrade.minCd)
                         upgrade.lvls++;
                 }
-                string lvlTxt = (upgrade.cd == upgrade.minCd) ? "Max" : "Lv. " + (int.Parse(upgrade.levelText.text.Substring(4))+1);
-                upgrade.levelText.text = lvlTxt;
+                string lvlTxt = (upgrade.cd == upgrade.minCd) ? "Max" : "Lv. " + (int.Parse(upgrade.levelTxt.text.Substring(4))+1);
+                upgrade.levelTxt.text = lvlTxt;
                 string cdTxt = ((upgrade.cd+"").Length == 1) ? upgrade.cd + ".0s" : upgrade.cd + "s";
-                upgrade.cdText.GetComponent<TextMeshProUGUI>().text = cdTxt;
+                upgrade.cdTxt.GetComponent<TextMeshProUGUI>().text = cdTxt;
                 Destroy(gameObject);
                 AudioManager.Instance.Play("Upgrade");
             }
@@ -251,7 +253,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
         highlight.SetActive(false); // highlight
         nameTxt.GetComponent<CanvasGroup>().alpha = 1;
         typeTxt.GetComponent<CanvasGroup>().alpha = 1;
-        cdText.SetActive(true);
+        cdTxt.SetActive(true);
 
         if (toRight && right != null)
         {

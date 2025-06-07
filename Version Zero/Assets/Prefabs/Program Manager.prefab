@@ -53,6 +53,7 @@ MonoBehaviour:
   symbolParent: {fileID: 0}
   cdParent: {fileID: 0}
   compileButton: {fileID: 0}
+  infoButton: {fileID: 0}
   backButton: {fileID: 0}
   confirmButton: {fileID: 0}
   randomButton: {fileID: 0}
