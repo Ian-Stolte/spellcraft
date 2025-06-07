@@ -644,11 +644,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &172168491 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1429909108834651106, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
-  m_PrefabInstance: {fileID: 6154748227236401477}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &194214134
 GameObject:
   m_ObjectHideFlags: 0
@@ -4244,11 +4239,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1422089868}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1435338485 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 275432461431091454, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
-  m_PrefabInstance: {fileID: 6154748227236401477}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1501141535
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5576,7 +5566,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 202930069344222379, guid: ccd22b33263484da0a82478b79e830e3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 29.51
+      value: 28.2
       objectReference: {fileID: 0}
     - target: {fileID: 202930069344222379, guid: ccd22b33263484da0a82478b79e830e3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5584,7 +5574,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 202930069344222379, guid: ccd22b33263484da0a82478b79e830e3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 10.14
+      value: 11.17
       objectReference: {fileID: 0}
     - target: {fileID: 202930069344222379, guid: ccd22b33263484da0a82478b79e830e3, type: 3}
       propertyPath: m_LocalRotation.w
@@ -5616,11 +5606,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1379239079557998612, guid: ccd22b33263484da0a82478b79e830e3, type: 3}
       propertyPath: m_Name
-      value: WalkingTurret_Logic
+      value: Gardener_Logic
       objectReference: {fileID: 0}
     - target: {fileID: 8769358401370177342, guid: ccd22b33263484da0a82478b79e830e3, type: 3}
       propertyPath: aggroRange
-      value: 17
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 8769358401370177342, guid: ccd22b33263484da0a82478b79e830e3, type: 3}
       propertyPath: endBarrier
@@ -5635,7 +5625,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 621921260}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 8464525503693445788, guid: ccd22b33263484da0a82478b79e830e3, type: 3}
+    - {fileID: 7610178669195957604, guid: ccd22b33263484da0a82478b79e830e3, type: 3}
+    - {fileID: 4678660684992181194, guid: ccd22b33263484da0a82478b79e830e3, type: 3}
+    - {fileID: 2617433533895145325, guid: ccd22b33263484da0a82478b79e830e3, type: 3}
+    - {fileID: 4186797925796684582, guid: ccd22b33263484da0a82478b79e830e3, type: 3}
+    - {fileID: 6630449482399371419, guid: ccd22b33263484da0a82478b79e830e3, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ccd22b33263484da0a82478b79e830e3, type: 3}
@@ -6385,11 +6381,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1992698885}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &2048834515 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1544588236475558191, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
-  m_PrefabInstance: {fileID: 6154748227236401477}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2068463288
 GameObject:
   m_ObjectHideFlags: 0
@@ -6574,7 +6565,6 @@ MonoBehaviour:
   pauseGame: 0
   playerPaused: 0
   areaText: {fileID: 6154748227236401480}
-  areaIntroText: {fileID: 0}
   terrainLayer:
     serializedVersion: 2
     m_Bits: 2048
@@ -6598,12 +6588,6 @@ MonoBehaviour:
   unlockTextColor: {r: 0.57637817, g: 0.8867924, b: 0.55494237, a: 1}
   barrierGreen: {fileID: 2100000, guid: 4fd16f386ffe51a4288349842c52b899, type: 2}
   barrierUnlockBlue: {fileID: 2100000, guid: a0159386ac335d24294f90bb1a6bc51b, type: 2}
-  reyaDialogue: []
-  dialogue: {fileID: 1435338485}
-  portraits:
-  - {fileID: 2048834515}
-  - {fileID: 172168491}
-  reyaExpressions: []
   rewardPrefab: {fileID: 6820302149536134281, guid: f698185bf3b891a4db6516d49e1eb06a, type: 3}
   bossTxt: {fileID: 1316263000}
   loadingText: {fileID: 877156080}

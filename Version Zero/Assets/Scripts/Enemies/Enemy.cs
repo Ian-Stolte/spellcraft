@@ -25,7 +25,6 @@ public class Enemy : MonoBehaviour
     public Animator anim;
     [HideInInspector] public Rigidbody rb;
     [HideInInspector] public GameObject player;
-    private Transform cam;
 
     [Header("Mark")]
     [SerializeField] private GameObject mark;
@@ -42,7 +41,6 @@ public class Enemy : MonoBehaviour
         health = maxHealth;
         rb = GetComponent<Rigidbody>();
         player = GameObject.Find("Player");
-        cam = GameObject.Find("Main Camera").transform;
     }
 
     public void Update()
@@ -61,7 +59,7 @@ public class Enemy : MonoBehaviour
             else
                 statusTxt.text = "";
 
-            transform.GetChild(0).transform.forward = cam.forward;
+            transform.GetChild(0).transform.forward = Camera.main.transform.forward;
         }
 
         markTimer -= Time.deltaTime;

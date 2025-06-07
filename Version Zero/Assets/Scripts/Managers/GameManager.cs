@@ -27,7 +27,6 @@ public class GameManager : MonoBehaviour
     [Header("Rooms")]
     private int levelNum = 1;
     [SerializeField] private TextMeshProUGUI areaText;
-    [SerializeField] private TextMeshProUGUI areaIntroText;
     [SerializeField] private LayerMask terrainLayer;
     
     [Header("Enemy Spawn")]
@@ -56,17 +55,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Color unlockTextColor;
     [SerializeField] private Material barrierGreen;
     [SerializeField] private Material barrierUnlockBlue;
-
-    [Header("First Access Pt")]
-    [SerializeField] private Transform buildSelect;
-    [SerializeField] private Image progressBar;
-    [SerializeField] private TextMeshProUGUI completeTxt;
-
-    [Header("Dialogue")]
-    [SerializeField] private string[] reyaDialogue;
-    [SerializeField] private GameObject dialogue;
-    [SerializeField] private GameObject[] portraits;
-    [SerializeField] private Sprite[] reyaExpressions;
 
     [Header("Misc")]
     [SerializeField] private GameObject rewardPrefab;
@@ -133,34 +121,37 @@ public class GameManager : MonoBehaviour
             }
         
             //replace enemies with chosen type
-            List<GameObject> newEnemies = new List<GameObject>();
-            foreach (Transform child in enemyParent)
+            if (scene.name != "Level 6")
             {
-                for (int i = 0; i < child.name.Length; i++)
+                List<GameObject> newEnemies = new List<GameObject>();
+                foreach (Transform child in enemyParent)
                 {
-                    if (child.name[i] == '_')
+                    for (int i = 0; i < child.name.Length; i++)
                     {
-                        string name = child.name.Substring(0, i) + "_" + enemyType;
-                        GameObject prefab = Resources.Load<GameObject>("Prefabs/Enemies/" + name);
-                        
-                        if (prefab != null && child.gameObject.activeSelf)
+                        if (child.name[i] == '_')
                         {
-                            newEnemies.Add(Instantiate(prefab, child.position, child.rotation));
+                            string name = child.name.Substring(0, i) + "_" + enemyType;
+                            GameObject prefab = Resources.Load<GameObject>("Prefabs/Enemies/" + name);
+                            
+                            if (prefab != null && child.gameObject.activeSelf)
+                            {
+                                newEnemies.Add(Instantiate(prefab, child.position, child.rotation));
+                            }
+                            break;
                         }
-                        break;
                     }
                 }
-            }
-            foreach (Transform child in enemyParent)
-                Destroy(child.gameObject);
+                foreach (Transform child in enemyParent)
+                    Destroy(child.gameObject);
 
-            foreach (GameObject g in newEnemies)
-                g.transform.parent = enemyParent;
+                foreach (GameObject g in newEnemies)
+                    g.transform.parent = enemyParent;
+            }
         }
 
         if (scene.name == "Level 1")
         {
-            StartCoroutine(IntroDialogue());
+            StartCoroutine(DialogueManager.Instance.IntroDialogue());
         }
         else if (scene.name == "Level 2" && SequenceManager.Instance != null)
         {
@@ -176,82 +167,6 @@ public class GameManager : MonoBehaviour
                 Destroy(terminalIcons.GetChild(1).gameObject);
             }
         }
-    }
-
-    private IEnumerator IntroDialogue()
-    {
-        dialogue.SetActive(true);
-        TextMeshProUGUI txt = dialogue.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
-        if (!skipDialogue)
-        {
-            for (int i = 0; i < reyaDialogue.Length; i++)
-            {
-                reyaDialogue[i] = ShowPortraits(reyaDialogue[i]);
-                float slowDown = (i < 1) ? 1.5f : 1f;
-                txt.text = "";
-                foreach (char c in reyaDialogue[i])
-                {
-                    if (c == '*')
-                        yield return new WaitForSeconds(0.15f);
-                    else if (c != '~')
-                    {
-                        txt.text += c;
-                        if (c == '.' || c == ',')
-                            yield return new WaitForSeconds(0.10f * slowDown);
-                        else if (c == ' ')
-                            yield return new WaitForSeconds(0.10f * slowDown);
-                        else
-                            yield return new WaitForSeconds(0.05f * slowDown);
-                    }
-                }
-                if (i == reyaDialogue.Length-2)
-                {
-                    Fader.Instance.FadeOut(14);
-                    AudioManager.Instance.Play("Area 1");
-                    StartCoroutine(AudioManager.Instance.StartFade("Area 1", 0.5f, 0.2f));
-                }
-                else if (i == reyaDialogue.Length-1)
-                {
-                    player.GetComponent<PlayerMovement>().enabled = true;
-                    pauseGame = false;
-                }
-                yield return new WaitForSeconds(2);
-            }
-            dialogue.SetActive(false);
-        }
-        else
-        {
-            dialogue.SetActive(false);
-            AudioManager.Instance.Play("Area 1");
-            StartCoroutine(AudioManager.Instance.StartFade("Area 1", 0.5f, 0.2f));
-            Fader.Instance.FadeOut(0.5f);
-            yield return new WaitForSeconds(0.5f);
-            player.GetComponent<PlayerMovement>().enabled = true;
-            pauseGame = false;
-        }
-        
-        //show area intro text
-        float waitTime = 0.1f;
-        foreach (char ch in "Abandoned Rooftop, Hightower District\n(Virtual Layer)")
-        {
-            if (ch == '(')
-                yield return new WaitForSeconds(1);
-            areaIntroText.text += ch;
-            yield return new WaitForSeconds(waitTime);
-            if (ch == 'p')
-            {
-                yield return new WaitForSeconds(0.3f);
-                waitTime = 0.05f;
-            }
-        }
-        yield return new WaitForSeconds(1);
-        Color col = areaIntroText.color;
-        for (float i = 1; i > 0; i -= 0.01f)
-        {
-            yield return new WaitForSeconds(0.01f);
-            areaIntroText.color = new Color(col.r, col.g, col.b, i);
-        }
-        Destroy(areaIntroText.gameObject);
     }
 
 
@@ -354,6 +269,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+
     private void FinishLevel()
     {
         float rot = Random.Range(0, 360);
@@ -376,6 +293,7 @@ public class GameManager : MonoBehaviour
     }
 
 
+
     public IEnumerator UseTerminal()
     {
         playerPaused = true;
@@ -391,14 +309,13 @@ public class GameManager : MonoBehaviour
             elapsed += Time.deltaTime;
         }
         currentTerminal.complete = true;
-        Transform iconToChange = terminalIcons.GetChild(terminalIcons.childCount - numTerminals);
-        iconToChange.GetComponent<CanvasGroup>().alpha = 0.5f;
-        iconToChange.GetChild(0).gameObject.SetActive(true);
         Destroy(bar.transform.parent.gameObject);
         playerPaused = false;
         AudioManager.Instance.Play("Terminal Activate");
         AudioManager.Instance.Stop("Terminal Charge");
-        StartCoroutine(PlayMultipleDialogues(currentTerminal.dialogue));
+        StartCoroutine(DialogueManager.Instance.PlayMultipleDialogues(currentTerminal.dialogue));
+
+        FinishTerminalIcon();
         numTerminals--;
         
         //disable barrier &/or show hidden room
@@ -411,67 +328,14 @@ public class GameManager : MonoBehaviour
             spawningEnemies = true;
     }
 
-    public IEnumerator FirstAccessPt(string[] dialogue)
+    public void FinishTerminalIcon()
     {
-        playerPaused = true;
-        buildSelect.GetChild(2).gameObject.SetActive(true);
-        ProgramManager.Instance.programUI.gameObject.SetActive(true);
-        yield return new WaitForSeconds(1.5f);
-        for (int i = 0; i < dialogue.Length; i++)
-        {
-            yield return PlayDialogue(dialogue[i], 1f);
-            if (i == 1)
-            {
-                buildSelect.GetChild(2).gameObject.SetActive(false);
-                buildSelect.GetChild(1).gameObject.SetActive(true);
-                StartCoroutine(ProgressBar());
-                yield return new WaitForSeconds(3);
-            }
-            if (i == 5)
-                yield return new WaitForSeconds(1);
-        }
-        yield return new WaitForSeconds(3);
-        StartCoroutine(PlayMultipleDialogues(new string[]{"~it appears you need to provide your Sector miss***", "~unfortunately I am unable to find data on which one you belong to", "~perhaps you will feel a calling to one of them?***"}));
-        yield return new WaitUntil(() => !playerPaused);
-        UnlockBarrier(GameObject.Find("Barrier").transform);
         Transform iconToChange = terminalIcons.GetChild(terminalIcons.childCount - numTerminals);
         iconToChange.GetComponent<CanvasGroup>().alpha = 0.5f;
         iconToChange.GetChild(0).gameObject.SetActive(true);
-        
-        yield return new WaitForSeconds(2);
-        StartCoroutine(WaveEnemies(1, new Vector3(31, 0, -5)));
-        yield return new WaitForSeconds(1.2f);
-        StartCoroutine(PlayMultipleDialogues(new string[]{"An infected program... guess you were right."}));
-        player.GetComponent<PlayerMovement>().hpBar.gameObject.SetActive(true);
     }
 
-    private IEnumerator ProgressBar()
-    {
-        completeTxt.text = "Restarting... please wait";
-        progressBar.fillAmount = 0;
-        float elapsed = 0;
-        while (elapsed < 18)
-        {
-            progressBar.fillAmount = Mathf.Min(elapsed/30, progressBar.fillAmount + (Random.Range(0.01f, 0.2f)/30));
-            float randomWait = Random.Range(0.01f, 0.2f);
-            elapsed += randomWait;
-            yield return new WaitForSeconds(randomWait);
-        }
-        progressBar.fillAmount = 1;
-        completeTxt.text = "Restart complete!";
-        AudioManager.Instance.Play("Terminal Activate");
-        yield return new WaitForSeconds(2);
-        buildSelect.GetChild(0).gameObject.SetActive(true);
-        for (float i = 2; i > 0; i -= 0.01f)
-        {
-            yield return new WaitForSeconds(0.01f);
-            buildSelect.GetChild(1).GetComponent<CanvasGroup>().alpha = i/2f;
-        }
-        buildSelect.GetChild(1).gameObject.SetActive(false);
-    }
-
-
-    private void UnlockBarrier(Transform barrier)
+    public void UnlockBarrier(Transform barrier)
     {
         int numLocks = 0;
         foreach (Transform child in barrier.GetChild(0))
@@ -491,80 +355,6 @@ public class GameManager : MonoBehaviour
             txt.text = "Welcome, AUTH_USER!";
             txt.color = unlockTextColor;
         }
-    }
-
-
-    public IEnumerator PlayMultipleDialogues(string[] lines)
-    {
-        foreach (string s in lines)
-        {
-            yield return PlayDialogue(s, 1f); 
-        }
-    }
-
-    public IEnumerator PlayDialogue(string line, float waitTime=3f)
-    {
-        //set up portraits
-        line = ShowPortraits(line);
-
-        //type out dialogue
-        TextMeshProUGUI txt = dialogue.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
-        txt.text = "";
-        dialogue.SetActive(true);
-        bool addingHTML = false;
-        string html = "";
-        foreach (char c in line)
-        {
-            if (c=='<')
-            {
-                addingHTML = true;
-                html = "<";
-            }
-            else if (c=='>')
-            {
-                addingHTML = false;
-                txt.text += html+">";
-            }
-            else if (addingHTML)
-                html += c;
-            else if (c=='*')
-                yield return new WaitForSeconds(0.15f);
-            else if (c != '~')
-            {
-                txt.text += c;
-                if (c=='.' || c==',')
-                    yield return new WaitForSeconds(0.15f);
-                else if (c==' ')
-                    yield return new WaitForSeconds(0.08f);
-                else
-                    yield return new WaitForSeconds(0.04f);
-            }
-        }
-        if (line[line.Length-1] == '—')
-            waitTime *= 0.5f;
-        yield return new WaitForSeconds(waitTime);
-        dialogue.SetActive(false);
-        txt.text = "";
-    }
-
-    private string ShowPortraits(string line)
-    {
-        portraits[0].SetActive(line[0] != '~');
-        portraits[1].SetActive(line[0] == '~');
-        /*if (line[0] == '[')
-        {
-            string portrait = line.Split("]")[0].Substring(1);
-            line = line.Split("]")[1].Trim();
-            Sprite newPortrait = reyaExpressions.FirstOrDefault(s => s.name == portrait);
-            if (newPortrait != null)
-                portraits[0].transform.GetChild(0).GetComponent<Image>().sprite = newPortrait;
-            else
-            {
-                Debug.LogWarning("No portrait found for: " + portrait);
-                portraits[0].transform.GetChild(0).GetComponent<Image>().sprite = reyaExpressions[0];
-            }
-        }*/
-        return line;
     }
 
 

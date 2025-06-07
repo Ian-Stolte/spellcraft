@@ -34,7 +34,7 @@ public class AccessPoint : MonoBehaviour
             {
                 used = true;
                 if (SceneManager.GetActiveScene().name == "Level 2")
-                    StartCoroutine(GameManager.Instance.FirstAccessPt(dialogue));
+                    StartCoroutine(DialogueManager.Instance.FirstAccessPt(dialogue));
                 else
                 {
                     RewardManager.Instance.Reward(3);
@@ -52,6 +52,6 @@ public class AccessPoint : MonoBehaviour
     private IEnumerator DelayedDialogue()
     {
         yield return new WaitForSeconds(1);
-        StartCoroutine(GameManager.Instance.PlayMultipleDialogues(dialogue));
+        StartCoroutine(DialogueManager.Instance.PlayMultipleDialogues(dialogue));
     }
 }

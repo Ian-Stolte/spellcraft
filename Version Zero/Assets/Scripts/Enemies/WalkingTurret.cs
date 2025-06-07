@@ -49,31 +49,13 @@ public class WalkingTurret : Enemy
 
     private bool finalForm;
 
-    
-    void StartAggro()
+
+    void Start()
     {
-        atkTimer = atkDelay * 0.5f;
         base.Start();
-
-        AudioManager a = AudioManager.Instance;
-        foreach (Sound s in a.currentSongs)
-            StartCoroutine(a.StartFade(s.name, 1, 0));
-
-        a.Play("Boss 1");
-        StartCoroutine(a.StartFade("Boss 1", 1, 0.2f));
-
-        startBarrier.SetActive(true);
-        GameManager.Instance.bossTxt.SetActive(true);
-        healthBar = GameObject.Find("Boss Fill").GetComponent<Image>();
-        for (float i = spawnInterval; i < 1; i+=spawnInterval)
-        {
-            GameObject indicator = Instantiate(spawnIndicator, Vector2.zero, Quaternion.identity, healthBar.transform.parent);
-            indicator.GetComponent<RectTransform>().anchoredPosition = new Vector2(Mathf.Lerp(-343, 343, i), 0);
-            indicators.Add(indicator);
-        }
-        ChooseTarget();
+        AudioManager.Instance.Play("Area 1");
+        StartCoroutine(AudioManager.Instance.StartFade("Area 1", 1, 0.2f));
     }
-
 
     void Update()
     {
@@ -83,7 +65,7 @@ public class WalkingTurret : Enemy
         if (dist < aggroRange && !aggro)
         {
             aggro = true;
-            StartAggro();
+            StartCoroutine(StartAggro());
         } 
 
         if (!GameManager.Instance.pauseGame && aggro && stunTimer <= 0)
@@ -143,6 +125,32 @@ public class WalkingTurret : Enemy
                 finalForm = true;
             }
         }
+    }
+
+
+    private IEnumerator StartAggro()
+    {
+        atkTimer = atkDelay * 0.5f;
+        base.Start();
+
+        startBarrier.SetActive(true);
+        AudioManager a = AudioManager.Instance;
+        foreach (Sound s in a.currentSongs)
+            StartCoroutine(a.StartFade(s.name, 1, 0));
+        a.Play("Boss 1");
+        StartCoroutine(a.StartFade("Boss 1", 1, 0.2f));
+
+        yield return DialogueManager.Instance.GardenerDialogue();
+
+        GameManager.Instance.bossTxt.SetActive(true);
+        healthBar = GameObject.Find("Boss Fill").GetComponent<Image>();
+        for (float i = spawnInterval; i < 1; i+=spawnInterval)
+        {
+            GameObject indicator = Instantiate(spawnIndicator, Vector2.zero, Quaternion.identity, healthBar.transform.parent);
+            indicator.GetComponent<RectTransform>().anchoredPosition = new Vector2(Mathf.Lerp(-343, 343, i), 0);
+            indicators.Add(indicator);
+        }
+        ChooseTarget();
     }
 
 
