@@ -9,7 +9,8 @@ public class BuildSelector : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public string type;
     [HideInInspector] public bool inTransition;
     [SerializeField] private CanvasGroup fader;
-
+    
+    [SerializeField] private bool hoverable;
 
     public void ChooseBuild()
     {
@@ -58,14 +59,20 @@ public class BuildSelector : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        AudioManager.Instance.Play("Button Hover");
-        if (!inTransition)
-            transform.localScale *= 1.2f;
+        if (hoverable)
+        {
+            AudioManager.Instance.Play("Button Hover");
+            if (!inTransition)
+                transform.localScale *= 1.2f;
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (!inTransition)
-            transform.localScale /= 1.2f;
+        if (hoverable)
+        {
+            if (!inTransition)
+                transform.localScale /= 1.2f;
+        }
     }
 }

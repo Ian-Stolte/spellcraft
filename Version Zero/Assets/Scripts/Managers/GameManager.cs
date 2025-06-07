@@ -57,6 +57,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Material barrierGreen;
     [SerializeField] private Material barrierUnlockBlue;
 
+    [Header("First Access Pt")]
+    [SerializeField] private Transform buildSelect;
+    [SerializeField] private Image progressBar;
+    [SerializeField] private TextMeshProUGUI completeTxt;
+
     [Header("Dialogue")]
     [SerializeField] private string[] reyaDialogue;
     [SerializeField] private GameObject dialogue;
@@ -406,11 +411,27 @@ public class GameManager : MonoBehaviour
             spawningEnemies = true;
     }
 
-    public IEnumerator FirstAccessPt()
+    public IEnumerator FirstAccessPt(string[] dialogue)
     {
         playerPaused = true;
-        ProgramManager.Instance.buildSelect.SetActive(true);
+        buildSelect.GetChild(2).gameObject.SetActive(true);
         ProgramManager.Instance.programUI.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1.5f);
+        for (int i = 0; i < dialogue.Length; i++)
+        {
+            yield return PlayDialogue(dialogue[i], 1f);
+            if (i == 1)
+            {
+                buildSelect.GetChild(2).gameObject.SetActive(false);
+                buildSelect.GetChild(1).gameObject.SetActive(true);
+                StartCoroutine(ProgressBar());
+                yield return new WaitForSeconds(3);
+            }
+            if (i == 5)
+                yield return new WaitForSeconds(1);
+        }
+        yield return new WaitForSeconds(3);
+        StartCoroutine(PlayMultipleDialogues(new string[]{"~it appears you need to provide your Sector miss***", "~unfortunately I am unable to find data on which one you belong to", "~perhaps you will feel a calling to one of them?***"}));
         yield return new WaitUntil(() => !playerPaused);
         UnlockBarrier(GameObject.Find("Barrier").transform);
         Transform iconToChange = terminalIcons.GetChild(terminalIcons.childCount - numTerminals);
@@ -420,9 +441,35 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(2);
         StartCoroutine(WaveEnemies(1, new Vector3(31, 0, -5)));
         yield return new WaitForSeconds(1.2f);
-        StartCoroutine(PlayMultipleDialogues(new string[]{"Shit... they found us already.", "~oh my it appears we may be unwelcome here"}));
+        StartCoroutine(PlayMultipleDialogues(new string[]{"An infected program... guess you were right."}));
         player.GetComponent<PlayerMovement>().hpBar.gameObject.SetActive(true);
     }
+
+    private IEnumerator ProgressBar()
+    {
+        completeTxt.text = "Restarting... please wait";
+        progressBar.fillAmount = 0;
+        float elapsed = 0;
+        while (elapsed < 18)
+        {
+            progressBar.fillAmount = Mathf.Min(elapsed/30, progressBar.fillAmount + (Random.Range(0.01f, 0.2f)/30));
+            float randomWait = Random.Range(0.01f, 0.2f);
+            elapsed += randomWait;
+            yield return new WaitForSeconds(randomWait);
+        }
+        progressBar.fillAmount = 1;
+        completeTxt.text = "Restart complete!";
+        AudioManager.Instance.Play("Terminal Activate");
+        yield return new WaitForSeconds(2);
+        buildSelect.GetChild(0).gameObject.SetActive(true);
+        for (float i = 2; i > 0; i -= 0.01f)
+        {
+            yield return new WaitForSeconds(0.01f);
+            buildSelect.GetChild(1).GetComponent<CanvasGroup>().alpha = i/2f;
+        }
+        buildSelect.GetChild(1).gameObject.SetActive(false);
+    }
+
 
     private void UnlockBarrier(Transform barrier)
     {
@@ -464,9 +511,23 @@ public class GameManager : MonoBehaviour
         TextMeshProUGUI txt = dialogue.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
         txt.text = "";
         dialogue.SetActive(true);
+        bool addingHTML = false;
+        string html = "";
         foreach (char c in line)
         {
-            if (c=='*')
+            if (c=='<')
+            {
+                addingHTML = true;
+                html = "<";
+            }
+            else if (c=='>')
+            {
+                addingHTML = false;
+                txt.text += html+">";
+            }
+            else if (addingHTML)
+                html += c;
+            else if (c=='*')
                 yield return new WaitForSeconds(0.15f);
             else if (c != '~')
             {

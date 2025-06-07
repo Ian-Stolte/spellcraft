@@ -1575,7 +1575,11 @@ MonoBehaviour:
   complete: 0
   barrier: {fileID: 1588410855}
   hiddenRoom: []
-  dialogue: []
+  dialogue:
+  - Hey, I remember when I got my <i>Star Inferno 3</i> mods displayed at that kiosk!
+  - That was a fun month...
+  - ~i was not aware of this story but it sounds very fun indeed miss**
+  - "Maybe I\u2019ll tell you about it sometime, then."
 --- !u!65 &389457724
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2611,7 +2615,10 @@ MonoBehaviour:
   complete: 0
   barrier: {fileID: 1588410855}
   hiddenRoom: []
-  dialogue: []
+  dialogue:
+  - "Hey, Computer? What did you mean earlier by \u201Cgap in my neural data\u201D?"
+  - ~ooh i wish I could tell you it is nothing to worry about
+  - ~but you appear to be missing seven (7) to ten (10) days of memory
 --- !u!1 &564916155
 GameObject:
   m_ObjectHideFlags: 0
@@ -6081,15 +6088,7 @@ MonoBehaviour:
   interactKey: 102
   interactDist: 4
   barrier: {fileID: 0}
-  dialogue:
-  - "Alright, what am I feeling like today?*****\t"
-  - "~according to your biometrics, you appear to be feeling\u2014\r"
-  - Nope, nope, not what I meant.
-  - "~oh I am so very sorry that I provided you with the wrong answer\r"
-  - "~it appears I have had some trouble in loading your preferred settings\r"
-  - "~in fact, I am glad you did not let me answer because I actually cannot see
-    your biometrics right now haha\r"
-  playDialogue: 0
+  dialogue: []
 --- !u!65 &1373578559
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9074,6 +9073,9 @@ MonoBehaviour:
   unlockTextColor: {r: 0.57637817, g: 0.8867924, b: 0.55494237, a: 1}
   barrierGreen: {fileID: 2100000, guid: 4fd16f386ffe51a4288349842c52b899, type: 2}
   barrierUnlockBlue: {fileID: 2100000, guid: a0159386ac335d24294f90bb1a6bc51b, type: 2}
+  buildSelect: {fileID: 0}
+  progressBar: {fileID: 0}
+  completeTxt: {fileID: 0}
   reyaDialogue: []
   dialogue: {fileID: 1435338485}
   portraits:

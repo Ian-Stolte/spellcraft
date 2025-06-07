@@ -11,7 +11,6 @@ public class AccessPoint : MonoBehaviour
 
     public Transform barrier;
     [TextArea(3, 5)][SerializeField] private string[] dialogue;
-    [SerializeField] private bool playDialogue;
 
     private Transform player;
     private Transform cam;
@@ -35,12 +34,13 @@ public class AccessPoint : MonoBehaviour
             {
                 used = true;
                 if (SceneManager.GetActiveScene().name == "Level 2")
-                    StartCoroutine(GameManager.Instance.FirstAccessPt());
+                    StartCoroutine(GameManager.Instance.FirstAccessPt(dialogue));
                 else
+                {
                     RewardManager.Instance.Reward(3);
-
-                if (playDialogue)
-                    StartCoroutine(DelayedDialogue());
+                    if (dialogue.Length > 0)
+                        StartCoroutine(DelayedDialogue());
+                }
             }
             else
             {

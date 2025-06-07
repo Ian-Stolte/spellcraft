@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465788, g: 0.49641287, b: 0.5748173, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2810,14 +2810,7 @@ MonoBehaviour:
   interactDist: 4
   barrier: {fileID: 0}
   dialogue:
-  - "Alright, what am I feeling like today?*****\t"
-  - "~according to your biometrics, you appear to be feeling\u2014\r"
-  - Nope, nope, not what I meant.
-  - "~oh I am so very sorry that I provided you with the wrong answer\r"
-  - "~it appears I have had some trouble in loading your preferred settings\r"
-  - "~in fact, I am glad you did not let me answer because I actually cannot see
-    your biometrics right now haha\r"
-  playDialogue: 0
+  - '[expectation that about to fight a boss, stakes for defeating it]'
 --- !u!65 &820593260
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6614,6 +6607,7 @@ MonoBehaviour:
   rewardPrefab: {fileID: 6820302149536134281, guid: f698185bf3b891a4db6516d49e1eb06a, type: 3}
   bossTxt: {fileID: 1316263000}
   loadingText: {fileID: 877156080}
+  gameOver: {fileID: 0}
 --- !u!4 &2103865771
 Transform:
   m_ObjectHideFlags: 0
