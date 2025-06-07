@@ -224,7 +224,7 @@ public class GameManager : MonoBehaviour
             GameObject prefab = Resources.Load<GameObject>("Prefabs/Enemies/" + name);
             if (prefab != null)
             {
-                int repeats = name.Contains("Fast") ? 2 : 1;
+                int repeats = name.Contains("Swarm") ? 2 : 1;
                 numEnemies += repeats-1;
                 for (int j = 0; j < repeats; j++)
                 {
@@ -239,7 +239,9 @@ public class GameManager : MonoBehaviour
                         float maxDist = 10;
                         Vector3 offset = new Vector3(Random.Range(-1, 1), 0, Random.Range(-1, 1)).normalized * Random.Range(5, 10) + new Vector3(0, 1, 0);
                         int attempts = 0;
-                        while (Physics.OverlapSphere(player.position + offset, 0.5f).Length > 0)
+                        //while pos overlaps something or doesn't touch the ground, regenerate
+                        float checkSize = (prefab.name.Contains("Tank")) ? 1.5f : 0.5f;
+                        while (Physics.OverlapSphere(player.position + offset, checkSize).Length > 0 || Physics.OverlapSphere(player.position + offset + new Vector3(0, -1.5f, 0), 1f, LayerMask.GetMask("Ground")).Length == 0)
                         {
                             offset = new Vector3(Random.Range(-1, 1), 0, Random.Range(-1, 1)).normalized * Random.Range(minDist, maxDist) + new Vector3(0, 1, 0);
                             attempts++;
@@ -313,7 +315,10 @@ public class GameManager : MonoBehaviour
         playerPaused = false;
         AudioManager.Instance.Play("Terminal Activate");
         AudioManager.Instance.Stop("Terminal Charge");
-        StartCoroutine(DialogueManager.Instance.PlayMultipleDialogues(currentTerminal.dialogue));
+        if (currentTerminal.order == 0)
+            StartCoroutine(DialogueManager.Instance.PlayMultipleDialogues(currentTerminal.dialogue));
+        else
+            DialogueManager.Instance.PlayOrderedTerminal();
 
         FinishTerminalIcon();
         numTerminals--;

@@ -12,6 +12,7 @@ public class Terminal : MonoBehaviour
     public GameObject[] hiddenRoom;
 
     [TextArea(3, 5)] public string[] dialogue;
+    public int order;
 
     private Transform player;
     private Transform cam;
@@ -21,6 +22,8 @@ public class Terminal : MonoBehaviour
     {
         player = GameObject.Find("Player").transform;
         cam = GameObject.Find("Main Camera").transform;
+        if (order != 0)
+            DialogueManager.Instance.terminalDialogue[order] = dialogue;
     }
 
     void Update()

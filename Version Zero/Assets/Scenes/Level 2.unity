@@ -254,6 +254,7 @@ MonoBehaviour:
   - Computer, can you find somewhere with auth user permissions?
   - ~yes of course right away******
   - ~it is back the way we came
+  order: 0
 --- !u!1 &36235245
 GameObject:
   m_ObjectHideFlags: 0
@@ -825,11 +826,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &156394212 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1429909108834651106, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
-  m_PrefabInstance: {fileID: 6154748227236401477}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &168217110 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6986617546806371285, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
@@ -1338,11 +1334,6 @@ Transform:
 --- !u!1 &324418789 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6797571141691584449, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
-  m_PrefabInstance: {fileID: 6154748227236401477}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &324418790 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 4341673330729894767, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
   m_PrefabInstance: {fileID: 6154748227236401477}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &391361896
@@ -3070,11 +3061,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7893485025667785371, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
   m_PrefabInstance: {fileID: 6154748227236401477}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &977208234 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1544588236475558191, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
-  m_PrefabInstance: {fileID: 6154748227236401477}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1014343619
 GameObject:
   m_ObjectHideFlags: 0
@@ -3294,17 +3280,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1047838906}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &1055741704 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5279498304469211711, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
-  m_PrefabInstance: {fileID: 6154748227236401477}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1110245318
 GameObject:
   m_ObjectHideFlags: 0
@@ -3861,17 +3836,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1709811464574217216, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
   m_PrefabInstance: {fileID: 6154748227236401477}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1343649624 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4227083385560644938, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
-  m_PrefabInstance: {fileID: 6154748227236401477}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1419210385
 GameObject:
   m_ObjectHideFlags: 0
@@ -3904,11 +3868,6 @@ Transform:
   - {fileID: 818987319}
   m_Father: {fileID: 745562176}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1435338485 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 275432461431091454, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
-  m_PrefabInstance: {fileID: 6154748227236401477}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1485506045
 GameObject:
   m_ObjectHideFlags: 0
@@ -6306,25 +6265,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6154748227236401481}
     - target: {fileID: 1712194664605143150, guid: 372c20bebb6c4ee49ac758cf046f0dbc, type: 3}
-      propertyPath: dialogue
+      propertyPath: gameOver
       value: 
-      objectReference: {fileID: 1435338485}
-    - target: {fileID: 1712194664605143150, guid: 372c20bebb6c4ee49ac758cf046f0dbc, type: 3}
-      propertyPath: firstRun
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1712194664605143150, guid: 372c20bebb6c4ee49ac758cf046f0dbc, type: 3}
-      propertyPath: scifiNames
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1712194664605143150, guid: 372c20bebb6c4ee49ac758cf046f0dbc, type: 3}
-      propertyPath: buildSelect
-      value: 
-      objectReference: {fileID: 324418790}
-    - target: {fileID: 1712194664605143150, guid: 372c20bebb6c4ee49ac758cf046f0dbc, type: 3}
-      propertyPath: completeTxt
-      value: 
-      objectReference: {fileID: 1343649624}
+      objectReference: {fileID: 1963479081}
     - target: {fileID: 1712194664605143150, guid: 372c20bebb6c4ee49ac758cf046f0dbc, type: 3}
       propertyPath: enemyParent
       value: 
@@ -6334,24 +6277,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 877156080}
     - target: {fileID: 1712194664605143150, guid: 372c20bebb6c4ee49ac758cf046f0dbc, type: 3}
-      propertyPath: progressBar
-      value: 
-      objectReference: {fileID: 1055741704}
-    - target: {fileID: 1712194664605143150, guid: 372c20bebb6c4ee49ac758cf046f0dbc, type: 3}
       propertyPath: terminalIcons
       value: 
       objectReference: {fileID: 99334098}
     - target: {fileID: 1712194664605143150, guid: 372c20bebb6c4ee49ac758cf046f0dbc, type: 3}
-      propertyPath: portraits.Array.data[0]
-      value: 
-      objectReference: {fileID: 977208234}
+      propertyPath: enemyPrefabs.Array.data[0]
+      value: Swarm
+      objectReference: {fileID: 0}
     - target: {fileID: 1712194664605143150, guid: 372c20bebb6c4ee49ac758cf046f0dbc, type: 3}
-      propertyPath: portraits.Array.data[1]
-      value: 
-      objectReference: {fileID: 156394212}
-    - target: {fileID: 1712194664605143150, guid: 372c20bebb6c4ee49ac758cf046f0dbc, type: 3}
-      propertyPath: reyaDialogue.Array.size
-      value: 0
+      propertyPath: enemyPrefabs.Array.data[1]
+      value: Tank
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

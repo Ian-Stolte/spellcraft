@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class DialogueManager : MonoBehaviour
@@ -21,6 +22,10 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private GameObject[] portraits;
     //[SerializeField] private Sprite[] reyaExpressions;
 
+    [Header("Terminals")]
+    private int terminalNum;
+    [HideInInspector] public string[][] terminalDialogue = new string[5][];
+
     [Header("First Access Pt")]
     [TextArea(3, 5)] [SerializeField] private string[] firstAccessPt;
     [SerializeField] private string[] firstEnemy;
@@ -33,7 +38,20 @@ public class DialogueManager : MonoBehaviour
     [TextArea(3, 5)] [SerializeField] private string[] gardenerDialogue;
 
     
+    void OnEnable() { SceneManager.sceneLoaded += OnSceneLoaded; }
+    void OnDisable() { SceneManager.sceneLoaded -= OnSceneLoaded; }
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        terminalNum = 0;
+        terminalDialogue = new string[5][];
+    }
     
+    public void PlayOrderedTerminal()
+    {
+        terminalNum++;
+        StartCoroutine(PlayMultipleDialogues(terminalDialogue[terminalNum]));
+    }
+
     public IEnumerator PlayMultipleDialogues(string[] lines)
     {
         foreach (string s in lines)
