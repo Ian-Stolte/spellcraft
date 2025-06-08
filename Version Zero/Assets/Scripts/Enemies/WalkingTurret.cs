@@ -142,7 +142,7 @@ public class WalkingTurret : Enemy
 
         yield return DialogueManager.Instance.GardenerDialogue();
 
-        GameManager.Instance.bossTxt.SetActive(true);
+        GameManager.Instance.bossUI.SetActive(true);
         healthBar = GameObject.Find("Boss Fill").GetComponent<Image>();
         for (float i = spawnInterval; i < 1; i+=spawnInterval)
         {

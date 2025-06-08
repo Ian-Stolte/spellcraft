@@ -27,7 +27,7 @@ public class ProgramManager : MonoBehaviour
     [Header("Parents")]
     public Transform programUI;
     [SerializeField] private Transform blockParent;
-    [SerializeField] private Transform symbolParent;
+    [SerializeField] private Transform keybindUI;
     [SerializeField] private Transform cdParent;
 
     [Header("Buttons")]
@@ -364,12 +364,10 @@ public class ProgramManager : MonoBehaviour
         confirmButton.SetActive(false);
         randomButton.SetActive(false);
         backButton.SetActive(false);
-        symbolParent.gameObject.SetActive(true);
+        keybindUI.gameObject.SetActive(true);
         
-        foreach (Transform child in symbolParent)
-        {
+        foreach (Transform child in keybindUI.GetChild(0))
             Destroy(child.gameObject);
-        }
 
         //filter out aura and auto programs
         player.auraProgram.name = "";
@@ -402,7 +400,7 @@ public class ProgramManager : MonoBehaviour
         int bindIndex = 0;
         foreach (Program p in programs)
         {
-            p.symbol = Instantiate(emptyImage, Vector2.zero, Quaternion.identity, symbolParent);
+            p.symbol = Instantiate(emptyImage, Vector2.zero, Quaternion.identity, keybindUI.GetChild(0));
             p.symbol.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
             p.symbol.name = p.name;
             Vector2 totalPos = Vector2.zero;
@@ -421,13 +419,14 @@ public class ProgramManager : MonoBehaviour
             foreach (Transform child in p.symbol.transform)
             {
                 child.GetComponent<RectTransform>().anchoredPosition -= totalPos/p.symbol.transform.childCount;
-                child.transform.localScale *= 2.5f;
-                child.GetComponent<RectTransform>().anchoredPosition *= 2.5f;
+                child.transform.localScale *= 1.5f;
+                child.GetComponent<RectTransform>().anchoredPosition *= 1.5f;
                 Destroy(child.GetComponent<Symbol>());
                 Destroy(child.GetComponent<BoxCollider2D>());
             }
-            GameObject UI = Instantiate(spellListItem, Vector2.zero, Quaternion.identity, symbolParent);
-            UI.GetComponent<RectTransform>().anchoredPosition = new Vector2(-80, 350-(index*300));
+            GameObject UI = Instantiate(spellListItem, Vector2.zero, Quaternion.identity, keybindUI.GetChild(0));
+            p.symbol.transform.SetSiblingIndex(p.symbol.transform.parent.childCount - 3);
+            UI.GetComponent<RectTransform>().anchoredPosition = new Vector2(-80, 400-(index*260));
             UI.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = spellName.Substring(0, spellName.Length-3);
             string cdTxt = ((""+cd).Length == 1) ? cd + ".0s" : cd + "s"; 
             UI.transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = cdTxt;
@@ -435,7 +434,7 @@ public class ProgramManager : MonoBehaviour
             p.name = spellName.Substring(0, spellName.Length-3);
             p.cdMax = cd;
             p.symbol.transform.SetSiblingIndex(p.symbol.transform.parent.childCount - 1);
-            p.symbol.GetComponent<RectTransform>().anchoredPosition = programUIStart + new Vector2(0, -(index*300));
+            p.symbol.GetComponent<RectTransform>().anchoredPosition = programUIStart + new Vector2(0, -(index*260));
             index++;
 
             //TODO: let player assign keybinds
@@ -557,7 +556,7 @@ public class ProgramManager : MonoBehaviour
         }
 
         startButton.SetActive(false);
-        symbolParent.gameObject.SetActive(false);
+        keybindUI.gameObject.SetActive(false);
         programUI.gameObject.SetActive(false);
 
         if (loadNextLevel)

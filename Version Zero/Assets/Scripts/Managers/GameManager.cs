@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
     [Header("Misc")]
     [SerializeField] private GameObject rewardPrefab;
     private Transform player;
-    public GameObject bossTxt;
+    public GameObject bossUI;
     [SerializeField] private GameObject loadingText;
     [SerializeField] private GameObject gameOver;
 

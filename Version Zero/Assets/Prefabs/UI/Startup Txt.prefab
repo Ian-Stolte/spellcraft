@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 255805054937185153}
   - component: {fileID: 5577216959765079598}
   m_Layer: 5
-  m_Name: Computer Txt
+  m_Name: Startup Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
