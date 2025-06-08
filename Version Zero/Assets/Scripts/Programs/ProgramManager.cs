@@ -28,6 +28,7 @@ public class ProgramManager : MonoBehaviour
     public Transform programUI;
     [SerializeField] private Transform blockParent;
     [SerializeField] private Transform keybindUI;
+    [SerializeField] private Transform keybindIcons;
     [SerializeField] private Transform cdParent;
 
     [Header("Buttons")]
@@ -44,10 +45,12 @@ public class ProgramManager : MonoBehaviour
     [SerializeField] private GameObject spellListItem;
     [SerializeField] private GameObject cdIconPrefab;
 
-    [Header("Misc")]
-    [SerializeField] private Vector2 programUIStart;
+    [Header("Colors")]
     [SerializeField] private Color fullSymbolColor;
     [SerializeField] private Color[] typeColors;
+
+    [Header("Misc")]
+    [SerializeField] private Vector2 programUIStart;
     [SerializeField] private PlayerPrograms player;
     [SerializeField] private GameObject[] tutorials;
     public GameObject buildSelect;
@@ -55,6 +58,7 @@ public class ProgramManager : MonoBehaviour
     [Header("Keybinds")]
     public KeyCode[] defaultBinds;
     public string[] bindTxt;
+    [HideInInspector] public int activeKeybind;
 
     [Header("Program Data")]
     public string buildpath;
@@ -419,8 +423,8 @@ public class ProgramManager : MonoBehaviour
             foreach (Transform child in p.symbol.transform)
             {
                 child.GetComponent<RectTransform>().anchoredPosition -= totalPos/p.symbol.transform.childCount;
-                child.transform.localScale *= 1.5f;
-                child.GetComponent<RectTransform>().anchoredPosition *= 1.5f;
+                child.transform.localScale *= 1.8f;
+                child.GetComponent<RectTransform>().anchoredPosition *= 1.8f;
                 Destroy(child.GetComponent<Symbol>());
                 Destroy(child.GetComponent<BoxCollider2D>());
             }
@@ -437,7 +441,7 @@ public class ProgramManager : MonoBehaviour
             p.symbol.GetComponent<RectTransform>().anchoredPosition = programUIStart + new Vector2(0, -(index*260));
             index++;
 
-            //TODO: let player assign keybinds
+            //KEYBINDS
             if (bindIndex < defaultBinds.Length && p != player.autoProgram && p != player.auraProgram)
             {
                 p.keybind = defaultBinds[bindIndex];
@@ -460,6 +464,14 @@ public class ProgramManager : MonoBehaviour
         if (player.autoProgram.name != "")
             programs.Remove(player.autoProgram);
         startButton.SetActive(true);
+
+        //Keybinds
+        for (int i = 0; i < Mathf.Min(programs.Count, 3); i++)
+        {
+            Transform symbol = Instantiate(programs[i].symbol, Vector2.zero, Quaternion.identity, keybindIcons.GetChild(i)).transform;
+            symbol.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+            symbol.localScale /= 1.8f; 
+        }
     }
 
 
@@ -578,7 +590,7 @@ public class ProgramManager : MonoBehaviour
         cdIcon.GetChild(0).GetComponent<TextMeshProUGUI>().text = type;
         Transform symbol = Instantiate(p.symbol, Vector2.zero, Quaternion.identity, cdIcon).transform;
         symbol.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-        symbol.localScale /= 2.5f;
+        symbol.localScale /= 1.8f;
         symbol.SetSiblingIndex(cdIcon.childCount - 2);
         p.fillTimer = cdIcon.GetChild(cdIcon.childCount-1).gameObject;
         if (type == "AURA")
