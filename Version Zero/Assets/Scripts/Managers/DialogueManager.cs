@@ -213,25 +213,34 @@ public class DialogueManager : MonoBehaviour
     public IEnumerator FirstAccessPt(string[] dialogue)
     {
         GameManager.Instance.playerPaused = true;
-        buildSelect.GetChild(2).gameObject.SetActive(true);
-        ProgramManager.Instance.programUI.gameObject.SetActive(true);
-        yield return new WaitForSeconds(1.5f);
-        for (int i = 0; i < dialogue.Length; i++)
+        if (SequenceManager.Instance.runNum == 1)
         {
-            yield return PlayDialogue(dialogue[i], 1f);
-            if (i == 1)
+            buildSelect.GetChild(2).gameObject.SetActive(true);
+            ProgramManager.Instance.programUI.gameObject.SetActive(true);
+            yield return new WaitForSeconds(1.5f);
+            for (int i = 0; i < dialogue.Length; i++)
             {
-                buildSelect.GetChild(2).gameObject.SetActive(false);
-                buildSelect.GetChild(1).gameObject.SetActive(true);
-                StartCoroutine(ProgressBar());
-                yield return new WaitForSeconds(3);
+                yield return PlayDialogue(dialogue[i], 1f);
+                if (i == 1)
+                {
+                    buildSelect.GetChild(2).gameObject.SetActive(false);
+                    buildSelect.GetChild(1).gameObject.SetActive(true);
+                    StartCoroutine(ProgressBar());
+                    yield return new WaitForSeconds(3);
+                }
+                if (i == 5)
+                    yield return new WaitForSeconds(1);
             }
-            if (i == 5)
-                yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(3);
+            StartCoroutine(PlayMultipleDialogues(firstAccessPt));
         }
-        yield return new WaitForSeconds(3);
-        StartCoroutine(PlayMultipleDialogues(firstAccessPt));
-
+        else
+        {
+            buildSelect.GetChild(0).gameObject.SetActive(true);
+            ProgramManager.Instance.programUI.gameObject.SetActive(true);
+            yield return new WaitForSeconds(1);
+            StartCoroutine(PlayMultipleDialogues(firstAccessPt));
+        }
         yield return new WaitUntil(() => !GameManager.Instance.playerPaused);
         GameManager.Instance.UnlockBarrier(GameObject.Find("Barrier").transform);
         GameManager.Instance.FinishTerminalIcon();

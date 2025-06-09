@@ -23,6 +23,11 @@ public class KeybindButton : MonoBehaviour
     [SerializeField] private TextMeshProUGUI tutorialText;
 
 
+    public void Start()
+    {
+        targetProgram = null;
+    }
+
     public void MakeActiveKeybind()
     {
         foreach (Transform child in transform.parent)

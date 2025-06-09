@@ -89,10 +89,9 @@ public class ProgramManager : MonoBehaviour
         player = GameObject.Find("Player").GetComponent<PlayerPrograms>();
         if (SKIP_CRAFTING)
         {
-            if (buildSelect != null)
-                buildSelect.SetActive(false);
+            programUI.gameObject.SetActive(true);
 
-            string[] startingBlocks = new string[]{"Line", "Damage", "Circle", "Displace", "Melee", "Stun", "Damage"};
+            string[] startingBlocks = new string[]{"Line", "Damage", "Circle", "Displace", "Pulse", "Stun", "Damage"};
             foreach (string s in startingBlocks)
             {
                 GameObject prefab = blocks.Find(b=>b.name == s);
@@ -112,7 +111,7 @@ public class ProgramManager : MonoBehaviour
             Program circleDisplaceSpell = new Program(circleDisplace, KeyCode.Mouse1);
             programs.Add(circleDisplaceSpell);
             List<Block> meleeUlt = new List<Block>();
-            meleeUlt.Add(GameObject.Find("Melee").GetComponent<Block>());
+            meleeUlt.Add(GameObject.Find("Pulse").GetComponent<Block>());
             meleeUlt.Add(GameObject.Find("Stun").GetComponent<Block>());
             meleeUlt.Add(GameObject.Find("Damage").GetComponent<Block>());
             Program meleeUltSpell = new Program(meleeUlt, KeyCode.Mouse2);
@@ -577,9 +576,11 @@ public class ProgramManager : MonoBehaviour
             if (button.targetProgram != null)
             {
                 Block shape = button.targetProgram.blocks.Find(b=>b.tag == "shape");
+                Debug.Log(button.keybindStr);
+                Debug.Log(shape.name);
                 CreateProgramIcon(button.targetProgram, new Vector2(-800 + (170*index), -450), button.keybindStr, shape.name);
+                index++;
             }
-            index++;
         }
         
         index = 0;

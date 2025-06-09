@@ -149,14 +149,18 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        int runNum = 2;
+        if (SequenceManager.Instance != null)
+            runNum = SequenceManager.Instance.runNum;
+
         if (scene.name == "Level 1")
         {
             StartCoroutine(DialogueManager.Instance.IntroDialogue());
         }
-        else if (scene.name == "Level 2" && SequenceManager.Instance != null)
+        else if (scene.name == "Level 2")
         {
             Terminal terminal = GameObject.Find("Terminal").GetComponent<Terminal>();
-            if (SequenceManager.Instance.runNum == 1)
+            if (runNum == 1)
             {
                 foreach (GameObject g in terminal.hiddenRoom)
                     g.SetActive(!g.activeSelf);
@@ -165,7 +169,15 @@ public class GameManager : MonoBehaviour
             {
                 terminal.complete = true;
                 Destroy(terminalIcons.GetChild(1).gameObject);
+                numTerminals--;
             }
+        }
+        
+        int sceneNum = int.Parse(SceneManager.GetActiveScene().name.Substring(6));
+        if (sceneNum > 3 || (sceneNum == 3 && runNum > 1))
+        {
+            spawningEnemies = true;
+            spawnTimer = Random.Range(minSpawn/2f, maxSpawn/2f);
         }
     }
 
@@ -328,9 +340,6 @@ public class GameManager : MonoBehaviour
             UnlockBarrier(currentTerminal.barrier);
         foreach (GameObject g in currentTerminal.hiddenRoom)
             g.SetActive(!g.activeSelf);
-
-        if (SceneManager.GetActiveScene().name != "Level 1" && SceneManager.GetActiveScene().name != "Level 2")
-            spawningEnemies = true;
     }
 
     public void FinishTerminalIcon()

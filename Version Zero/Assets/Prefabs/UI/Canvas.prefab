@@ -3743,7 +3743,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6769001363974368101
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3765,10 +3765,10 @@ RectTransform:
   - {fileID: 597487952063295255}
   - {fileID: 800282073219714476}
   - {fileID: 6953662883179123264}
-  - {fileID: 3239777451368017487}
-  - {fileID: 5968785318586474144}
   - {fileID: 138565496238483826}
   - {fileID: 875267265788055121}
+  - {fileID: 3239777451368017487}
+  - {fileID: 5968785318586474144}
   m_Father: {fileID: 4122393402824031919}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -3837,7 +3837,7 @@ MonoBehaviour:
   - ~unfortunately I am unable to find data on which one you belong to
   - ~perhaps you will feel a calling to one of them?***
   firstEnemy:
-  - "An infected program\u2026 guess you were right."
+  - ~infected systems are approaching miss!
   buildSelect: {fileID: 4341673330729894767}
   progressBar: {fileID: 5279498304469211711}
   completeTxt: {fileID: 4227083385560644938}
