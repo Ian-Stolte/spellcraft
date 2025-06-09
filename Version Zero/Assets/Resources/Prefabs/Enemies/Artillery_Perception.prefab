@@ -1352,6 +1352,8 @@ MonoBehaviour:
   anim: {fileID: 7763100043722708595}
   rb: {fileID: 0}
   player: {fileID: 0}
+  mark: {fileID: 0}
+  shielded: 0
   defSpeed: 1.5
   atkRange: 15
   atkDelay: 5
@@ -1361,6 +1363,7 @@ MonoBehaviour:
   projPrefab: {fileID: 3512434751255828300, guid: 3964fdbb2368ece4ab9b0ca91fedabcc, type: 3}
   retreatRange: 10
   retreatThreshold: 0.3
+  shield: {fileID: 0}
 --- !u!136 &4811061490107833848
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1420,7 +1423,7 @@ TrailRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8717687615653392388}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0

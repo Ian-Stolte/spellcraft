@@ -129,6 +129,7 @@ MonoBehaviour:
     fillTimer: {fileID: 0}
     keybind: 0
     symbol: {fileID: 0}
+    programList: {fileID: 0}
   maxLifetime: 10
   activateTime: 1
   activatedMat: {fileID: 2100000, guid: a1e9fa7d2ec9eb340a650ce47e58854b, type: 2}

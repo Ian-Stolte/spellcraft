@@ -56,6 +56,7 @@ public class BuildSelector : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         Fader.Instance.FadeInOut(0.5f, 0.5f);
         yield return new WaitForSeconds(0.5f);
         GameObject.Find("Build Selection").SetActive(false);
+        DialogueManager.Instance.StopCoroutines();
     }
 
     public void OnPointerEnter(PointerEventData eventData)

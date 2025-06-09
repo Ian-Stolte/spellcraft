@@ -328,7 +328,11 @@ public class GameManager : MonoBehaviour
         AudioManager.Instance.Play("Terminal Activate");
         AudioManager.Instance.Stop("Terminal Charge");
         if (currentTerminal.order == 0)
-            StartCoroutine(DialogueManager.Instance.PlayMultipleDialogues(currentTerminal.dialogue));
+        {
+            DialogueManager.Instance.StopCoroutines();
+            DialogueManager.Instance.playMultipleCor = DialogueManager.Instance.PlayMultipleDialogues(currentTerminal.dialogue);
+            StartCoroutine(DialogueManager.Instance.playMultipleCor);
+        }
         else
             DialogueManager.Instance.PlayOrderedTerminal();
 

@@ -33,6 +33,10 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private Image progressBar;
     [SerializeField] private TextMeshProUGUI completeTxt;
 
+    [Header("Coroutines")]
+    public IEnumerator playMultipleCor;
+    public IEnumerator playCor;
+
     [Header("Misc")]
     [SerializeField] private TextMeshProUGUI areaIntroText;
     [TextArea(3, 5)] [SerializeField] private string[] gardenerDialogue;
@@ -49,14 +53,20 @@ public class DialogueManager : MonoBehaviour
     public void PlayOrderedTerminal()
     {
         terminalNum++;
-        StartCoroutine(PlayMultipleDialogues(terminalDialogue[terminalNum]));
+        if (playMultipleCor != null)
+            StopCoroutine(playMultipleCor);
+        playMultipleCor = PlayMultipleDialogues(terminalDialogue[terminalNum]);
+        StartCoroutine(playMultipleCor);
     }
 
     public IEnumerator PlayMultipleDialogues(string[] lines)
     {
         foreach (string s in lines)
         {
-            yield return PlayDialogue(s, 1f); 
+            if (playCor != null)
+                StopCoroutine(playCor);
+            playCor = PlayDialogue(s, 1f);
+            yield return playCor; 
         }
     }
 
@@ -126,6 +136,16 @@ public class DialogueManager : MonoBehaviour
             }
         }*/
         return line;
+    }
+
+     
+    public void StopCoroutines()
+    {
+        if (playCor != null)
+            StopCoroutine(playCor);
+        if (playMultipleCor != null)
+            StopCoroutine(playMultipleCor);
+        dialogue.SetActive(false);
     }
 
 

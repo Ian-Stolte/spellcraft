@@ -120,3 +120,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0e1d690db25a433bbd9c0a26024f664, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spell:
+    name: 
+    blocks: []
+    cdMax: 0
+    cdTimer: 0
+    fillTimer: {fileID: 0}
+    keybind: 0
+    symbol: {fileID: 0}
+    programList: {fileID: 0}
