@@ -58,7 +58,7 @@ public class ProgramManager : MonoBehaviour
     [Header("Keybinds")]
     public KeyCode[] defaultBinds;
     public string[] bindTxt;
-    [HideInInspector] public int activeKeybind;
+    [HideInInspector] public KeybindButton activeKeybind;
 
     [Header("Program Data")]
     public string buildpath;
@@ -406,6 +406,7 @@ public class ProgramManager : MonoBehaviour
         programList.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
         foreach (Program p in programs)
         {
+            //spawn symbol
             p.symbol = Instantiate(emptyImage, Vector2.zero, Quaternion.identity, programList);
             p.symbol.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
             p.symbol.name = p.name;
@@ -430,14 +431,23 @@ public class ProgramManager : MonoBehaviour
                 Destroy(child.GetComponent<Symbol>());
                 Destroy(child.GetComponent<BoxCollider2D>());
             }
-            GameObject UI = Instantiate(spellListItem, Vector2.zero, Quaternion.identity, programList);
+
+            //create program list UI
+            p.programList = Instantiate(spellListItem, Vector2.zero, Quaternion.identity, programList);
             p.symbol.transform.SetSiblingIndex(p.symbol.transform.parent.childCount - 3);
-            UI.GetComponent<RectTransform>().anchoredPosition = new Vector2(-80, -index*260);
+            p.programList.GetComponent<RectTransform>().anchoredPosition = new Vector2(-80, -index*260);
             programList.parent.GetComponent<RectTransform>().sizeDelta += new Vector2(0, 260);
-            UI.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = spellName.Substring(0, spellName.Length-3);
+
+            p.programList.GetComponent<ProgramList>().hasKeybind = (p != player.autoProgram && p != player.auraProgram);
+            p.programList.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = spellName.Substring(0, spellName.Length-3);
             string cdTxt = ((""+cd).Length == 1) ? cd + ".0s" : cd + "s"; 
-            UI.transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = cdTxt;
+            p.programList.transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = cdTxt;
+            if (p == player.autoProgram)
+                p.programList.transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = "AUTO";
+            else if (p == player.auraProgram)
+                p.programList.transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = "AURA";
             
+            //set program values
             p.name = spellName.Substring(0, spellName.Length-3);
             p.cdMax = cd;
             p.symbol.transform.SetSiblingIndex(p.symbol.transform.parent.childCount - 1);
@@ -448,11 +458,11 @@ public class ProgramManager : MonoBehaviour
             index++;
 
             //default keybinds
-            if (bindIndex < defaultBinds.Length && p != player.autoProgram && p != player.auraProgram)
+            /*if (bindIndex < defaultBinds.Length && p != player.autoProgram && p != player.auraProgram)
             {
                 p.keybind = defaultBinds[bindIndex];
-                keybindIcons.GetChild(bindIndex).GetComponent<KeybindButton>().targetProgram = UI.transform;
-                TextMeshProUGUI txt = UI.transform.GetChild(6).GetComponent<TextMeshProUGUI>();
+                keybindIcons.GetChild(bindIndex).GetComponent<KeybindButton>().targetProgramList = p.programList.transform;
+                TextMeshProUGUI txt = p.programList.transform.GetChild(6).GetComponent<TextMeshProUGUI>();
                 if (bindIndex == 0)
                     txt.text = "Left Click";
                 else if (bindIndex == 1)
@@ -460,11 +470,7 @@ public class ProgramManager : MonoBehaviour
                 else if (bindIndex == 2)
                     txt.text = "Middle Click";
                 bindIndex++;
-            }
-            else
-            {
-                UI.transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = "";
-            }
+            }*/
         }
         if (player.auraProgram.name != "")
             programs.Remove(player.auraProgram);
@@ -473,15 +479,15 @@ public class ProgramManager : MonoBehaviour
         startButton.SetActive(true);
 
         //Keybinds
-        for (int i = 0; i < Mathf.Min(programs.Count, 3); i++)
+        /*for (int i = 0; i < Mathf.Min(programs.Count, 3); i++)
         {
             Transform symbol = Instantiate(programs[i].symbol, Vector2.zero, Quaternion.identity, keybindIcons.GetChild(i)).transform;
             symbol.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
             symbol.localScale /= 1.7f;
             Block shape = programs[i].blocks.Find(b=>b.tag == "shape");
             keybindIcons.GetChild(i).GetChild(4).GetComponent<TextMeshProUGUI>().text = shape.name;
-        }
-        //keybindIcons.GetChild(0).GetComponent<KeybindButton>().MakeActiveKeybind();
+        }*/
+        keybindIcons.GetChild(0).GetComponent<KeybindButton>().MakeActiveKeybind();
     }
 
 
@@ -554,7 +560,7 @@ public class ProgramManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
         
-        int index = 0;
+        /*int index = 0;
         foreach (Program p in programs)
         {
             Block shape = p.blocks.Find(b=>b.tag == "shape");
@@ -563,7 +569,19 @@ public class ProgramManager : MonoBehaviour
                 CreateProgramIcon(p, new Vector2(-800 + (170*index), -450), bindTxt[index], shape.nameTxt.text);
             }
             index++;
+        }*/
+        int index = 0;
+        foreach (Transform child in keybindIcons)
+        {
+            KeybindButton button = child.GetComponent<KeybindButton>();
+            if (button.targetProgram != null)
+            {
+                Block shape = button.targetProgram.blocks.Find(b=>b.tag == "shape");
+                CreateProgramIcon(button.targetProgram, new Vector2(-800 + (170*index), -450), button.keybindStr, shape.name);
+            }
+            index++;
         }
+        
         index = 0;
         if (player.auraProgram.name != "")
         {
@@ -708,4 +726,5 @@ public class Program
     [HideInInspector] public GameObject fillTimer;
     public KeyCode keybind;
     public GameObject symbol;
+    public GameObject programList;
 }

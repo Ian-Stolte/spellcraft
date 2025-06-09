@@ -13,8 +13,14 @@ public class KeybindButton : MonoBehaviour
     [SerializeField] private Color textBlue;
     [SerializeField] private Color dropShadowBlue;
 
-    public Transform programList;
-    public Transform targetProgram;
+    public Transform programListParent;
+    public Transform targetProgramList;
+    public Program targetProgram;
+
+    public KeyCode keybind;
+    public string keybindStr;
+
+    [SerializeField] private TextMeshProUGUI tutorialText;
 
 
     public void MakeActiveKeybind()
@@ -32,13 +38,13 @@ public class KeybindButton : MonoBehaviour
                 child.GetChild(1).GetComponent<Image>().color = borderPink;
             }
         }
-        ProgramManager.Instance.activeKeybind = transform.GetSiblingIndex();
+        ProgramManager.Instance.activeKeybind = this;
     
-        foreach (Transform child in programList)
+        foreach (Transform child in programListParent)
         {
-            if (child.name.Contains("Spell List"))
+            if (child.name.Contains("Program List"))
             {
-                if (child != targetProgram)
+                if (child != targetProgramList)
                 {
                     child.GetChild(0).GetComponent<Image>().color = dropShadowBlue;
                     child.GetChild(2).GetComponent<Image>().color = dropShadowBlue;
@@ -52,5 +58,6 @@ public class KeybindButton : MonoBehaviour
                 }
             }
         }
+        tutorialText.text = "Click on a program to assign it to <b>" + keybindStr;
     }
 }

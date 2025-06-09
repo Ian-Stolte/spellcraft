@@ -83,7 +83,7 @@ public class PlayerPrograms : MonoBehaviour
 
     private void CastSpell(Program p)
     {
-        Block dash = p.blocks.Find(b=>b.name == "Dash");
+        Block dash = p.blocks.Find(b=>b.name == "Phase");
         if (dash != null)
         {
             StartCoroutine(Dash(p));
@@ -110,7 +110,7 @@ public class PlayerPrograms : MonoBehaviour
                     hitbox.GetComponent<Hitbox>().spell = p;
                     break;
                 }
-                else if (b.name == "Melee" || b.name == "Shield")
+                else if (b.name == "Pulse" || b.name == "Shield")
                 {
                     GameObject hitbox = Instantiate(hitboxes[2], transform.position + new Vector3(0, -0.8f, 0), Quaternion.identity);
                     hitbox.GetComponent<Hitbox>().spell = p;
