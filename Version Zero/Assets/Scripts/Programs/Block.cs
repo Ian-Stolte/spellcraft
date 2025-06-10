@@ -51,11 +51,6 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
 
     private void Awake()
     {
-        /*Collider2D[] allBlocks = Physics2D.OverlapBoxAll(Vector2.zero, new Vector2(9999, 9999), 0, LayerMask.GetMask("Block"));
-        foreach (Collider2D c in allBlocks)
-        {
-            blocks.Add(c.GetComponent<Block>());
-        }*/
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
         symbol = transform.GetChild(0).GetComponent<Symbol>();
@@ -64,8 +59,6 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
         string[] modTags = new string[]{"passive"};
         if (!Array.Exists(modTags, t => t == tag))
         {
-            //if (GameManager.Instance.doubleSpeed)
-            //    cd = cd*0.5f;
             string formattedCD = ((cd+"").Length == 1) ? cd + ".0s" : cd + "s";
             cdTxt.GetComponent<TextMeshProUGUI>().text = formattedCD;
         }
@@ -88,6 +81,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
     {
         if (dragging)
         {
+            //hide indicators by default
             foreach (Transform child in transform.parent)
             {
                 Block bl = child.GetComponent<Block>();
@@ -100,6 +94,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
             Collider2D[] hits = Physics2D.OverlapBoxAll(b.center, b.extents*3, 0, LayerMask.GetMask("Block"));
             foreach(Collider2D c in hits)
             {
+                //if overlap another block...
                 Block script = c.GetComponent<Block>();
                 if (c.gameObject != gameObject && script != null)
                 {
