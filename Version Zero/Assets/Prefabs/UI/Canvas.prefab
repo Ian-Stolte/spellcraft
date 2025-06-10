@@ -41,7 +41,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -677.00006, y: -280}
+  m_AnchoredPosition: {x: -681, y: -280}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6484439725133550068
@@ -2555,7 +2555,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 756, y: -293}
+  m_AnchoredPosition: {x: 756, y: -272}
   m_SizeDelta: {x: 110, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &697797472009476505
@@ -2701,7 +2701,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 737, y: -419.2}
+  m_AnchoredPosition: {x: 744, y: -428}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6567036803185907224
@@ -3957,7 +3957,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6769001363974368101
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4016,9 +4016,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1920100929809435253}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -910.6712, y: -569.25037, z: 0}
-  m_LocalScale: {x: 1.2944864, y: 1.2944864, z: 1.2944864}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4122393402824031919}
@@ -4042,6 +4042,18 @@ MonoBehaviour:
   - ~i am also unable to access any of your saved preferences
   - ~did you do something dangerous again miss
   - I... hah... I hope not.
+  - '*.*.*.**'
+  - "...that said***.*.*.* I uh\u2014** I can't log off of this world."
+  - I'm getting an 'upload in progress' error every time I try.
+  - ~ohhh that is indeed a slight issue
+  - ~perhaps it is related to the strange signals I am picking up from this world
+  - ~if we get closer I will be able to perform a more thorough scan
+  introDialogue2:
+  - "~welcome back miss\r"
+  - "~do not take this the wrong way but there appears to be a minor error with your
+    software\r"
+  - "~we may need to stay in this world for a short amount of time\r"
+  - "Shit.*** You\u2019re right.\r"
   dialogue: {fileID: 275432461431091454}
   portraits:
   - {fileID: 1544588236475558191}
@@ -4058,12 +4070,11 @@ MonoBehaviour:
   completeTxt: {fileID: 4227083385560644938}
   areaIntroText: {fileID: 5415879275530104750}
   gardenerDialogue:
-  - "~miss we are being conta\u2014"
+  - "~wWe aReR bEIng cO-contaActT\u2014\r"
   - '!LIFEFORMS ARE NOT PERMITTED IN THE GARDEN'
   - '!I WOULD ASK YOU TO LEAVE BUT ACCORDING TO MY MODELS THAT ONLY HAS A 78% CHANCE
     OF SUCCESS'
   - '!WHEREAS ELIMINATING YOU IS 100% EFFECTIVE'
-  - Computer, I think we found the interference!
 --- !u!1 &1962712692126546188
 GameObject:
   m_ObjectHideFlags: 0
@@ -4475,7 +4486,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.9998779, y: 470.99997}
+  m_AnchoredPosition: {x: -3.0000465, y: 470.99997}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7905378847700929920
@@ -4619,7 +4630,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -677.00006, y: -80}
+  m_AnchoredPosition: {x: -681, y: -80}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4516158450539172058
@@ -4925,8 +4936,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294361343
-  m_fontColor: {r: 1, g: 0.7529412, b: 0.9640642, a: 1}
+    rgba: 4291360184
+  m_fontColor: {r: 0.72156864, g: 0.9607844, b: 0.7843138, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -11927,7 +11938,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 761, y: 447}
+  m_AnchoredPosition: {x: 761, y: 443}
   m_SizeDelta: {x: 110, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3685521895366542141
@@ -12070,7 +12081,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -3.500122, y: -465}
+  m_AnchoredPosition: {x: -7.5000467, y: -465}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7124892767294942598
@@ -13340,7 +13351,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -677.00006, y: 120}
+  m_AnchoredPosition: {x: -681, y: 120}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6002705061454494547
@@ -18238,7 +18249,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &5483898462318665288
 RectTransform:
   m_ObjectHideFlags: 0

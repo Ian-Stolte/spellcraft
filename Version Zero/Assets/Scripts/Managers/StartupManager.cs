@@ -72,7 +72,7 @@ public class StartupManager : MonoBehaviour
     {
         if (SequenceManager.Instance != null)
         {
-            plaintext[7] = "Procedure complete. Version " + SequenceManager.Instance.runNum + ".0 online.";
+            plaintext[6] = "Procedure complete. Version " + SequenceManager.Instance.runNum + ".0 online.";
             fail = (SequenceManager.Instance.runNum == 1);
         }
 
@@ -174,35 +174,35 @@ public class StartupManager : MonoBehaviour
     {
         for (int i = 0; i < plaintext.Length; i++)
         {
-            if (i == 2)
+            if (i == 1)
                 StartCoroutine(ShowLearning());
-            else if (i == 3)
+            else if (i == 2)
             {
                 yield return new WaitForSeconds(3);
                 StartCoroutine(SpeedText(uploadTxt, minSpeed, maxSpeed));
                 StartCoroutine(ProgressBar(4));
             }
-            else if (i == 4)
+            else if (i == 3)
             {
                 StartCoroutine(ProgressBar(2));
                 StartCoroutine(PauseNeural());
             }
-            else if (i == 5)
+            else if (i == 4)
             {
                 sign = 1;
                 manualControl = false;
             }
+            else if (i == 5)
+                StartCoroutine(ProgressBar(8));
             else if (i == 6)
-                StartCoroutine(ProgressBar(9));
-            else if (i == 7)
-                yield return new WaitForSeconds(2);
+                yield return new WaitForSeconds(3);
 
             yield return StartCoroutine(TypeText(i));
         }
 
-        yield return new WaitForSeconds(2);
         Fader.Instance.FadeIn(2);
-        yield return new WaitForSeconds(1);
+        StartCoroutine(AudioManager.Instance.StartFade("Startup UI", 2, 0));
+        yield return new WaitForSeconds(2);
         SceneManager.LoadScene("Level 1");
     }
 
@@ -210,13 +210,13 @@ public class StartupManager : MonoBehaviour
     {
         for (int i = 0; i < 4; i++)
         {
-            if (i == 2)
+            if (i == 1)
                 StartCoroutine(ShowLearning());
             else if (i == 3)
             {
-                yield return new WaitForSeconds(4.5f);
+                yield return new WaitForSeconds(0.5f);
                 StartCoroutine(SpeedText(uploadTxt, minSpeed, maxSpeed));
-                StartCoroutine(ProgressBar(4, 3));
+                StartCoroutine(ProgressBar(3.5f, 2.5f));
                 //StartCoroutine(AudioManager.Instance.StartFade("Startup UI", 3, 0));
             }
             
@@ -312,7 +312,10 @@ public class StartupManager : MonoBehaviour
 
     private IEnumerator ShowLearning()
     {
-        yield return new WaitForSeconds(1f);
+        if (!fail)
+            yield return new WaitForSeconds(1f);
+        else
+            yield return new WaitForSeconds(3f);
         string message1 = learningTitle.text;
         learningTitle.text = "";
         learningTitle.gameObject.SetActive(true);

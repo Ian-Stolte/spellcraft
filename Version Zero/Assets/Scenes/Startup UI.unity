@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1330,6 +1330,67 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1001 &497099887
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7723263354338691615, guid: 06ed8b54c334650419b06590ee1a19ea, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7723263354338691615, guid: 06ed8b54c334650419b06590ee1a19ea, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7723263354338691615, guid: 06ed8b54c334650419b06590ee1a19ea, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7723263354338691615, guid: 06ed8b54c334650419b06590ee1a19ea, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7723263354338691615, guid: 06ed8b54c334650419b06590ee1a19ea, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7723263354338691615, guid: 06ed8b54c334650419b06590ee1a19ea, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7723263354338691615, guid: 06ed8b54c334650419b06590ee1a19ea, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7723263354338691615, guid: 06ed8b54c334650419b06590ee1a19ea, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7723263354338691615, guid: 06ed8b54c334650419b06590ee1a19ea, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7723263354338691615, guid: 06ed8b54c334650419b06590ee1a19ea, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8132017672813185294, guid: 06ed8b54c334650419b06590ee1a19ea, type: 3}
+      propertyPath: m_Name
+      value: Sequence Manager
+      objectReference: {fileID: 0}
+    - target: {fileID: 9202749298986741985, guid: 06ed8b54c334650419b06590ee1a19ea, type: 3}
+      propertyPath: runNum
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 06ed8b54c334650419b06590ee1a19ea, type: 3}
 --- !u!1 &562583554
 GameObject:
   m_ObjectHideFlags: 0
@@ -2551,11 +2612,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1132f1128a0b58b4991a93beea8790ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fail: 1
+  fail: 0
   instantFail: 0
   plaintext:
   - Neural activity detected.
-  - Resetting life support systems.
   - Connection established.
   - Re-implanting save file data values in pre-frontal cortex.
   - Applying re-stimulation packets... waiting for neural response to proceed with
@@ -2578,9 +2638,9 @@ MonoBehaviour:
   - "Restarting syst\u2014"
   - 'ERROR: Restart failed, retrying upload'
   - 'ERROR: Internal temperature warning'
-  - Please return to your physical body immediately or neural fracturing may occur
-  - Please return to your physical body immediately or neural fracturing may occur
-  - Please return to your physical body immediately or neural fracturing may occur
+  - Upload in progress, please do not exit the system.
+  - Upload in progress, please do not exit the system.
+  - Upload in progress, please do not exit the system.
   failcodes:
   - RVJST1I6IE92ZXJmbG93IGVycm9y
   - QWJub3JtYWwgbmV1cmFsIGFjdGl2aXR5IGxldmVscyBkZXRlY3RlZA==
@@ -4362,3 +4422,4 @@ SceneRoots:
   - {fileID: 970422805}
   - {fileID: 262932536}
   - {fileID: 1594562013}
+  - {fileID: 497099887}

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4465788, g: 0.49641287, b: 0.5748173, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1562,10 +1562,10 @@ MonoBehaviour:
   barrier: {fileID: 1588410855}
   hiddenRoom: []
   dialogue:
-  - Hey, I remember when I got my <i>Star Inferno 3</i> mods displayed at that kiosk!
-  - That was a fun month...
-  - ~i was not aware of this story but it sounds very fun indeed miss**
-  - "Maybe I\u2019ll tell you about it sometime, then."
+  - "Hang on... this spot feels really familiar\r\r\n"
+  - ~while I would love to stop and examine it we do not appear to have that luxury
+    right now
+  - "Yeah, you're right.\r"
   order: 0
 --- !u!65 &389457724
 BoxCollider:
@@ -3941,8 +3941,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 1.6333563, z: 1}
+  m_Center: {x: 0, y: -0.31667447, z: 0}
 --- !u!23 &926043002
 MeshRenderer:
   m_ObjectHideFlags: 0

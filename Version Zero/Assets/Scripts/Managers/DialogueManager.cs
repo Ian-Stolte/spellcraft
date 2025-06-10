@@ -18,6 +18,7 @@ public class DialogueManager : MonoBehaviour
 
     [Header("Dialogue")]
     [TextArea(3, 5)] [SerializeField] private string[] introDialogue;
+    [TextArea(3, 5)] [SerializeField] private string[] introDialogue2;
     [SerializeField] private GameObject dialogue;
     [SerializeField] private GameObject[] portraits;
     //[SerializeField] private Sprite[] reyaExpressions;
@@ -159,14 +160,15 @@ public class DialogueManager : MonoBehaviour
         GameManager.Instance.pauseGame = true;
         dialogue.SetActive(true);
         TextMeshProUGUI txt = dialogue.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+        string[] dialogueToPlay = (SequenceManager.Instance.runNum == 1) ? introDialogue : introDialogue2;
         if (!GameManager.Instance.skipDialogue)
         {
-            for (int i = 0; i < introDialogue.Length; i++)
+            for (int i = 0; i < dialogueToPlay.Length; i++)
             {
-                introDialogue[i] = ShowPortraits(introDialogue[i]);
+                dialogueToPlay[i] = ShowPortraits(dialogueToPlay[i]);
                 float slowDown = (i < 1) ? 1.5f : 1f;
                 txt.text = "";
-                foreach (char c in introDialogue[i])
+                foreach (char c in dialogueToPlay[i])
                 {
                     if (c == '*')
                         yield return new WaitForSeconds(0.15f);
@@ -181,13 +183,13 @@ public class DialogueManager : MonoBehaviour
                             yield return new WaitForSeconds(0.05f * slowDown);
                     }
                 }
-                if (i == introDialogue.Length-2)
+                if (i == dialogueToPlay.Length-2)
                 {
                     Fader.Instance.FadeOut(10);
                     AudioManager.Instance.Play("Area 1");
                     StartCoroutine(AudioManager.Instance.StartFade("Area 1", 0.5f, 0.2f));
                 }
-                else if (i == introDialogue.Length-1)
+                else if (i == dialogueToPlay.Length-1)
                 {
                     GameManager.Instance.pauseGame = false;
                 }
@@ -207,7 +209,7 @@ public class DialogueManager : MonoBehaviour
         
         //show area intro text
         float waitTime = 0.1f;
-        foreach (char ch in "Abandoned Rooftop, Hightower District\n(Virtual Layer)")
+        foreach (char ch in "Abandoned Rooftop, Hightower District\n(Virtual Reality)")
         {
             if (ch == '(')
                 yield return new WaitForSeconds(1);

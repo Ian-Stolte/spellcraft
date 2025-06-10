@@ -174,7 +174,7 @@ public class GameManager : MonoBehaviour
         }
         
         int sceneNum = int.Parse(SceneManager.GetActiveScene().name.Substring(6));
-        if (sceneNum > 3 || (sceneNum == 3 && runNum > 1))
+        if ((sceneNum > 3 && sceneNum != 6) || (sceneNum == 3 && runNum > 1))
         {
             spawningEnemies = true;
             spawnTimer = Random.Range(minSpawn/2f, maxSpawn/2f);
@@ -329,9 +329,12 @@ public class GameManager : MonoBehaviour
         AudioManager.Instance.Stop("Terminal Charge");
         if (currentTerminal.order == 0)
         {
-            DialogueManager.Instance.StopCoroutines();
-            DialogueManager.Instance.playMultipleCor = DialogueManager.Instance.PlayMultipleDialogues(currentTerminal.dialogue);
-            StartCoroutine(DialogueManager.Instance.playMultipleCor);
+            if (currentTerminal.dialogue.Length > 0)
+            {
+                DialogueManager.Instance.StopCoroutines();
+                DialogueManager.Instance.playMultipleCor = DialogueManager.Instance.PlayMultipleDialogues(currentTerminal.dialogue);
+                StartCoroutine(DialogueManager.Instance.playMultipleCor);
+            }
         }
         else
             DialogueManager.Instance.PlayOrderedTerminal();
