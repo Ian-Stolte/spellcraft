@@ -157,7 +157,6 @@ public class ProgramManager : MonoBehaviour
     {
         //loadNextLevel = true;
         GameManager.Instance.pauseGame = true;
-        //player.GetComponent<PlayerMovement>().enabled = false;
         player.enabled = false;
         cdParent.gameObject.SetActive(false);
         programUI.gameObject.SetActive(true);
@@ -357,6 +356,7 @@ public class ProgramManager : MonoBehaviour
         }
         ConfirmSpells();
     }
+
 
 
     public void ConfirmSpells()
@@ -575,8 +575,8 @@ public class ProgramManager : MonoBehaviour
             KeybindButton button = child.GetComponent<KeybindButton>();
             if (button.targetProgram != null)
             {
-                Block shape = button.targetProgram.blocks.Find(b=>b.tag == "shape");
                 Debug.Log(button.keybindStr);
+                Block shape = button.targetProgram.blocks.Find(b=>b.tag == "shape");
                 Debug.Log(shape.name);
                 CreateProgramIcon(button.targetProgram, new Vector2(-800 + (170*index), -450), button.keybindStr, shape.name);
                 index++;

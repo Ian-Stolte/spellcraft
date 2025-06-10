@@ -84,7 +84,7 @@ public class PlayerPrograms : MonoBehaviour
     private void CastSpell(Program p)
     {
         Block dash = p.blocks.Find(b=>b.name == "Phase");
-        if (dash != null)
+        if (dash != null && !dashing)
         {
             StartCoroutine(Dash(p));
         }

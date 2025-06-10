@@ -97,7 +97,10 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(int dmg)
     {
         if (markDmg > 0)
+        {
             dmg += markDmg;
+            markDmg = 0;
+        }
         if (mark != null)
             mark.SetActive(false);
 
