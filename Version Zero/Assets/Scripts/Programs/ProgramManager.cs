@@ -20,7 +20,6 @@ public class ProgramManager : MonoBehaviour
     public bool SKIP_CRAFTING;
     [SerializeField] private bool showTutorial;
     [HideInInspector] public bool spellsLocked;
-    private bool loadNextLevel;
     private bool musicOn;
     private bool moreInfo;
 
@@ -29,6 +28,7 @@ public class ProgramManager : MonoBehaviour
     [SerializeField] private Transform blockParent;
     [SerializeField] private Transform keybindUI;
     [SerializeField] private Transform keybindIcons;
+    [SerializeField] private Transform keybindSlots;
     [SerializeField] private Transform programList;
     [SerializeField] private Transform cdParent;
 
@@ -39,7 +39,6 @@ public class ProgramManager : MonoBehaviour
     [SerializeField] private GameObject confirmButton;
     [SerializeField] private GameObject randomButton;
     [SerializeField] private GameObject startButton;
-    public GameObject skipButton;
 
     [Header("Prefabs")]
     [SerializeField] private GameObject emptyImage;
@@ -48,6 +47,7 @@ public class ProgramManager : MonoBehaviour
 
     [Header("Colors")]
     [SerializeField] private Color fullSymbolColor;
+    [SerializeField] private Color invalidColor;
     [SerializeField] private Color[] typeColors;
 
     [Header("Misc")]
@@ -59,6 +59,8 @@ public class ProgramManager : MonoBehaviour
     public KeyCode[] defaultBinds;
     public string[] bindTxt;
     [HideInInspector] public KeybindButton activeKeybind;
+    public List<KeyStringPair> keyStringPairs;
+    [HideInInspector] public Dictionary<KeyCode, string> keybindStrMap = new Dictionary<KeyCode, string>();
 
     [Header("Program Data")]
     public string buildpath;
@@ -73,6 +75,10 @@ public class ProgramManager : MonoBehaviour
 
     public void Start()
     {
+        foreach (var pair in keyStringPairs)
+        {
+            keybindStrMap[pair.key] = pair.value;
+        }
         if (GameObject.Find("Options Manager") == null)
             StartingHand();
     }
@@ -155,12 +161,10 @@ public class ProgramManager : MonoBehaviour
 
     public void Reforge()
     {
-        //loadNextLevel = true;
         GameManager.Instance.pauseGame = true;
         player.enabled = false;
         cdParent.gameObject.SetActive(false);
         programUI.gameObject.SetActive(true);
-        skipButton.SetActive(true);
         compileButton.SetActive(true);
         confirmButton.SetActive(false);
         randomButton.SetActive(false);
@@ -212,16 +216,8 @@ public class ProgramManager : MonoBehaviour
     private IEnumerator ExitReforgeCor()
     {
         
-        if (loadNextLevel)
-        {
-            StartCoroutine(GameManager.Instance.LoadNextLevel(GameObject.Find("End Elevator").GetComponent<Elevator>().nextArea));
-            yield return new WaitForSeconds(1f);
-        }
-        else
-        {
-            Fader.Instance.FadeIn(0.5f);
-            yield return new WaitForSeconds(0.5f);
-        }
+        Fader.Instance.FadeIn(0.5f);
+        yield return new WaitForSeconds(0.5f);
 
         foreach (Transform child in blockParent)
         {
@@ -240,18 +236,53 @@ public class ProgramManager : MonoBehaviour
         player.GetComponent<PlayerMovement>().enabled = true;
         player.enabled = true;
 
-                    
-        if (loadNextLevel)
-            loadNextLevel = false;
-        else
-            Fader.Instance.FadeOut(0.5f);
+        Fader.Instance.FadeOut(0.5f);
     }
 
 
     public void CompileSpells()
     {
+        //create programs from blocks attached to keybinds
         programs.Clear();
+        foreach (Transform child in keybindSlots)
+        {
+            KeybindSlot script = child.GetComponent<KeybindSlot>();
+            if (script.right != null)
+            {
+                List<Block> blockList = new List<Block>();
+                Block b = script.right;
+                while (b != null)
+                {
+                    blockList.Add(b);
+                    b.keybind = script;
+                    
+                    //show symbol UI
+                    Color c = b.GetComponent<Image>().color;
+                    b.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 0.3f);
+                    b.typeTxt.GetComponent<CanvasGroup>().alpha = 0.5f;
+                    b.cdTxt.SetActive(false);
+
+                    b = b.right;
+                }
+                programs.Add(new Program(blockList, script.keybind));
+            }
+        }
+        //hide all other blocks
         foreach (Transform child in blockParent)
+        {
+            Block b = child.GetComponent<Block>();
+            if (b.keybind == null)
+            {
+                b.symbol.canMove = false;
+                Color c = child.GetComponent<Image>().color;
+                child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 0.1f);
+                b.nameTxt.GetComponent<CanvasGroup>().alpha = 0.5f;
+                b.typeTxt.GetComponent<CanvasGroup>().alpha = 0.1f;
+                b.cdTxt.GetComponent<CanvasGroup>().alpha = 0.1f;
+                b.levelTxt.GetComponent<CanvasGroup>().alpha = 0.1f;
+            }
+        }
+        /*foreach (Transform child in blockParent)
         {
             if (child.gameObject.activeSelf)
             {
@@ -284,7 +315,7 @@ public class ProgramManager : MonoBehaviour
                     b.cdTxt.SetActive(false);
                 }
             }
-        }
+        }*/
 
         if (showTutorial)
         {
@@ -327,8 +358,8 @@ public class ProgramManager : MonoBehaviour
                 b.cdTxt.SetActive(true);
 
                 child.GetChild(0).GetComponent<Image>().enabled = false;
-                b.highlight.gameObject.SetActive(false); //highlight
-                b.cdTxt.gameObject.SetActive(true); //cd text
+                b.highlight.gameObject.SetActive(false);
+                b.cdTxt.gameObject.SetActive(true);
             }
         }
 
@@ -356,7 +387,78 @@ public class ProgramManager : MonoBehaviour
         }
         ConfirmSpells();
     }
+    
+    
+    private void Update()
+    {
+        if (!spellsLocked) //check valid blocks
+        {
+            bool minimumOneValid = false;
+            foreach (Transform child in keybindSlots)
+            {
+                KeybindSlot script = child.GetComponent<KeybindSlot>();
+                if (script.right == null)
+                {
+                    child.GetComponent<Image>().color = new Color(1, 1, 1, 1);
+                    continue;
+                }
 
+                Block b = script.right;
+                bool shape = false;
+                bool effect = false;
+                while (b != null)
+                {
+                    if (b.tag == "shape")
+                        shape = true;
+                    else if (b.tag == "effect")
+                        effect = true;
+                    b = b.right;
+                }
+                if (shape && effect)
+                {
+                    child.GetComponent<Image>().color = new Color(1, 1, 1, 1);
+                    minimumOneValid = true;
+                }
+                else
+                {
+                    child.GetComponent<Image>().color = invalidColor;
+                    minimumOneValid = false;
+                    break;
+                }
+            }
+            compileButton.GetComponent<Button>().interactable = (minimumOneValid);
+        }
+
+        else //check valid symbols
+        {
+            if (programs.Count == 0)
+            {
+                confirmButton.GetComponent<Button>().interactable = false;
+            }
+            else
+            {
+                bool readyToConfirm = true;
+                foreach (Program p in programs)
+                {
+                    bool finished = true;
+                    foreach (Block b in p.blocks)
+                    {
+                        if (b.symbol.adjSymbols < p.blocks.Count)
+                        {
+                            finished = false;
+                            readyToConfirm = false;
+                            break;
+                        }
+                    }
+                    foreach (Block b in p.blocks)
+                    {
+                        b.highlight.gameObject.SetActive(finished);
+                    }
+                }
+                confirmButton.GetComponent<Button>().interactable = readyToConfirm;
+            }
+        }
+    }
 
 
     public void ConfirmSpells()
@@ -367,10 +469,10 @@ public class ProgramManager : MonoBehaviour
         confirmButton.SetActive(false);
         randomButton.SetActive(false);
         backButton.SetActive(false);
-        keybindUI.gameObject.SetActive(true);
+        //keybindUI.gameObject.SetActive(true);
         
-        foreach (Transform child in programList)
-            Destroy(child.gameObject);
+        //foreach (Transform child in programList)
+        //    Destroy(child.gameObject);
 
         //filter out aura and auto programs
         player.auraProgram.name = "";
@@ -399,10 +501,10 @@ public class ProgramManager : MonoBehaviour
         }
 
         //add other programs to results UI
-        int index = 0;
+        /*int index = 0;
         int bindIndex = 0;
         programList.parent.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 60);
-        programList.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+        programList.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;*/
         foreach (Program p in programs)
         {
             //spawn symbol
@@ -410,11 +512,11 @@ public class ProgramManager : MonoBehaviour
             p.symbol.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
             p.symbol.name = p.name;
             Vector2 totalPos = Vector2.zero;
-            string spellName = "";
+            string programName = "";
             float cd = 0;
             foreach (Block b in p.blocks)
             {
-                spellName += b.nameTxt.text + " + ";
+                programName += b.nameTxt.text + " + ";
                 cd += b.cd;
                 Vector3 scale = new Vector3(b.symbol.transform.localScale.x*b.transform.localScale.x, b.symbol.transform.localScale.y*b.transform.localScale.y, 1);
                 GameObject sym = Instantiate(b.symbol.gameObject, b.symbol.transform.position, Quaternion.identity, p.symbol.transform);
@@ -432,29 +534,29 @@ public class ProgramManager : MonoBehaviour
             }
 
             //create program list UI
-            p.programList = Instantiate(spellListItem, Vector2.zero, Quaternion.identity, programList);
+            /*p.programList = Instantiate(spellListItem, Vector2.zero, Quaternion.identity, programList);
             p.symbol.transform.SetSiblingIndex(p.symbol.transform.parent.childCount - 3);
             p.programList.GetComponent<RectTransform>().anchoredPosition = new Vector2(-80, -index*260);
             programList.parent.GetComponent<RectTransform>().sizeDelta += new Vector2(0, 260);
 
             p.programList.GetComponent<ProgramList>().hasKeybind = (p != player.autoProgram && p != player.auraProgram);
-            p.programList.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = spellName.Substring(0, spellName.Length-3);
+            p.programList.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = programName.Substring(0, programName.Length-3);
             string cdTxt = ((""+cd).Length == 1) ? cd + ".0s" : cd + "s"; 
             p.programList.transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = cdTxt;
             if (p == player.autoProgram)
                 p.programList.transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = "AUTO";
             else if (p == player.auraProgram)
-                p.programList.transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = "AURA";
+                p.programList.transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = "AURA";*/
             
             //set program values
-            p.name = spellName.Substring(0, spellName.Length-3);
+            p.name = programName.Substring(0, programName.Length-3);
             p.cdMax = cd;
-            p.symbol.transform.SetSiblingIndex(p.symbol.transform.parent.childCount - 1);
-            p.symbol.GetComponent<RectTransform>().anchoredPosition = new Vector2(-630, -index*260);
+            //p.symbol.transform.SetSiblingIndex(p.symbol.transform.parent.childCount - 1);
+            //p.symbol.GetComponent<RectTransform>().anchoredPosition = new Vector2(-630, -index*260);
 
-            if (index > 0)
-                programList.GetComponent<RectTransform>().anchoredPosition += new Vector2(0, 130);
-            index++;
+            //if (index > 0)
+            //    programList.GetComponent<RectTransform>().anchoredPosition += new Vector2(0, 130);
+            //index++;
 
             //default keybinds
             /*if (bindIndex < defaultBinds.Length && p != player.autoProgram && p != player.auraProgram)
@@ -475,7 +577,7 @@ public class ProgramManager : MonoBehaviour
             programs.Remove(player.auraProgram);
         if (player.autoProgram.name != "")
             programs.Remove(player.autoProgram);
-        startButton.SetActive(true);
+        //startButton.SetActive(true);
 
         //Keybinds
         /*for (int i = 0; i < Mathf.Min(programs.Count, 3); i++)
@@ -486,45 +588,8 @@ public class ProgramManager : MonoBehaviour
             Block shape = programs[i].blocks.Find(b=>b.tag == "shape");
             keybindIcons.GetChild(i).GetChild(4).GetComponent<TextMeshProUGUI>().text = shape.name;
         }*/
-        keybindIcons.GetChild(0).GetComponent<KeybindButton>().MakeActiveKeybind();
-    }
-
-
-    private void Update()
-    {
-        //TODO: show warning if player attaches passive to just effect/just shape & disable compile button
-
-        if (spellsLocked)
-        {
-            //enable/disable confirm button depending on valid programs
-            if (programs.Count == 0)
-            {
-                confirmButton.GetComponent<Button>().interactable = false;
-            }
-            else
-            {
-                //check validity of symbols
-                bool readyToConfirm = true;
-                foreach (Program p in programs)
-                {
-                    bool finished = true;
-                    foreach (Block b in p.blocks)
-                    {
-                        if (b.symbol.adjSymbols < p.blocks.Count)
-                        {
-                            finished = false;
-                            readyToConfirm = false;
-                            break;
-                        }
-                    }
-                    foreach (Block b in p.blocks)
-                    {
-                        b.highlight.gameObject.SetActive(finished);
-                    }
-                }
-                confirmButton.GetComponent<Button>().interactable = readyToConfirm;
-            }
-        }
+        //keybindIcons.GetChild(0).GetComponent<KeybindButton>().MakeActiveKeybind();
+        EnterGame();
     }
 
 
@@ -548,16 +613,8 @@ public class ProgramManager : MonoBehaviour
         }
         cdParent.gameObject.SetActive(true);
 
-        if (loadNextLevel)
-        {
-            StartCoroutine(GameManager.Instance.LoadNextLevel(GameObject.Find("End Elevator").GetComponent<Elevator>().nextArea));
-            yield return new WaitForSeconds(1);
-        }
-        else
-        {
-            Fader.Instance.FadeIn(0.5f);
-            yield return new WaitForSeconds(0.5f);
-        }
+        Fader.Instance.FadeIn(0.5f);
+        yield return new WaitForSeconds(0.5f);
         
         /*int index = 0;
         foreach (Program p in programs)
@@ -569,7 +626,7 @@ public class ProgramManager : MonoBehaviour
             }
             index++;
         }*/
-        int index = 0;
+        /*int index = 0;
         foreach (Transform child in keybindIcons)
         {
             KeybindButton button = child.GetComponent<KeybindButton>();
@@ -581,6 +638,13 @@ public class ProgramManager : MonoBehaviour
                 CreateProgramIcon(button.targetProgram, new Vector2(-800 + (170*index), -450), button.keybindStr, shape.name);
                 index++;
             }
+        }*/
+        int index = 0;
+        foreach (Program p in programs)
+        {
+            Block shape = p.blocks.Find(b=>b.tag == "shape");
+            CreateProgramIcon(p, new Vector2(-800 + (170*index), -450), p.keybindStr, shape.name);
+            index++;
         }
         
         index = 0;
@@ -596,14 +660,10 @@ public class ProgramManager : MonoBehaviour
                 CreateProgramIcon(player.autoProgram, new Vector2(800 - (170*index), -450), "AUTO", shape.name);
         }
 
-        startButton.SetActive(false);
-        keybindUI.gameObject.SetActive(false);
+        //startButton.SetActive(false);
+        //keybindUI.gameObject.SetActive(false);
         programUI.gameObject.SetActive(false);
-
-        if (loadNextLevel)
-            loadNextLevel = false;
-        else
-            Fader.Instance.FadeOut(0.5f);
+        Fader.Instance.FadeOut(0.5f);
 
         GameManager.Instance.pauseGame = false;
         GameManager.Instance.playerPaused = false;
@@ -712,12 +772,10 @@ public class Program
         blocks = blocks_;
         name = blocks_[0].name;
         keybind = bind;
-    }
-
-    public Program(List<Block> blocks_)
-    {
-        blocks = blocks_;
-        name = blocks_[0].name;
+        if (ProgramManager.Instance.keybindStrMap.ContainsKey(bind))
+            keybindStr = ProgramManager.Instance.keybindStrMap[bind];
+        else
+            keybindStr = bind.ToString();
     }
 
     public string name;
@@ -726,6 +784,14 @@ public class Program
     public float cdTimer;
     [HideInInspector] public GameObject fillTimer;
     public KeyCode keybind;
+    public string keybindStr;
     public GameObject symbol;
     public GameObject programList;
+}
+
+[System.Serializable]
+public class KeyStringPair
+{
+    public KeyCode key;
+    public string value;
 }

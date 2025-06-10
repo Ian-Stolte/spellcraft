@@ -19,7 +19,6 @@ public class RewardClick : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         if (ProgramManager.Instance.programUI.gameObject.activeSelf)
         {
             yield return null;
-            ProgramManager.Instance.skipButton.SetActive(true);
             ProgramManager.Instance.compileButton.SetActive(true);
         }
         else

@@ -7,11 +7,14 @@ using TMPro;
 
 public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
 {
+    [Header("Dragging")]
     private Vector2 lastPos;
     [HideInInspector] public RectTransform rectTransform;
     private Canvas canvas;
     private bool dragging;
+    [HideInInspector] public bool attached;
 
+    [Header("Movement Children")]
     private List<Block> blocks = new List<Block>();
     public GameObject leftSpace;
     public GameObject rightSpace;
@@ -21,8 +24,9 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
     [HideInInspector] public Symbol symbol;
     public Block left;
     public Block right;
+    public KeybindSlot keybind;
 
-    [Header("Children")]
+    [Header("Info Children")]
     public GameObject cdTxt;
     public GameObject typeTxt;
     public TextMeshProUGUI nameTxt;
@@ -89,26 +93,43 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
                 bl.rightSpace.SetActive(false);
                 bl.levelUp.SetActive(false);
             }
+            foreach (Transform child in GameObject.Find("Slots").transform)
+            {
+                child.GetComponent<KeybindSlot>().rightSpace.SetActive(false);
+            }
 
             Bounds b = GetComponent<BoxCollider2D>().bounds;
             Collider2D[] hits = Physics2D.OverlapBoxAll(b.center, b.extents*3, 0, LayerMask.GetMask("Block"));
             foreach(Collider2D c in hits)
             {
-                //if overlap another block...
-                Block script = c.GetComponent<Block>();
-                if (c.gameObject != gameObject && script != null)
+                if (c.gameObject != gameObject)
                 {
-                    if (rectTransform.anchoredPosition.x > script.rectTransform.anchoredPosition.x && script.right == null && script.ValidTag(this, false))
+                    //if overlap another block...
+                    Block bScript = c.GetComponent<Block>();
+                    KeybindSlot kScript = c.GetComponent<KeybindSlot>();
+                    if (bScript != null)
                     {
-                        targetSpace = script.rightSpace;
-                        targetSpace.SetActive(true);
-                        break;
+                        if (rectTransform.anchoredPosition.x > bScript.rectTransform.anchoredPosition.x && bScript.right == null && bScript.ValidTag(this, false) && bScript.attached)
+                        {
+                            targetSpace = bScript.rightSpace;
+                            targetSpace.SetActive(true);
+                            break;
+                        }
+                        /*else if (rectTransform.anchoredPosition.x < script.rectTransform.anchoredPosition.x && script.left == null && script.ValidTag(this, true))
+                        {
+                            targetSpace = script.leftSpace;
+                            targetSpace.SetActive(true);
+                            break;
+                        }*/
                     }
-                    else if (rectTransform.anchoredPosition.x < script.rectTransform.anchoredPosition.x && script.left == null && script.ValidTag(this, true))
+                    else if (kScript != null)
                     {
-                        targetSpace = script.leftSpace;
-                        targetSpace.SetActive(true);
-                        break;
+                        if (rectTransform.anchoredPosition.x > kScript.GetComponent<RectTransform>().anchoredPosition.x && kScript.right == null)
+                        {
+                            targetSpace = kScript.rightSpace;
+                            targetSpace.SetActive(true);
+                            break;
+                        }
                     }
                 }
             }
@@ -190,6 +211,12 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
                 right.left = null;
                 right = null;
             }
+            if (keybind != null)
+            {
+                keybind.right = null;
+                keybind = null;
+            }
+            attached = false;
         }
     }
 
@@ -221,20 +248,27 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
             {
                 AudioManager.Instance.Play("Snap Block");
                 Vector3 offset = new Vector3(2 + (rectTransform.sizeDelta.x - 100)/2, 0, 0);
-                if (targetSpace.name == "Left Space")
+                /*if (targetSpace.name == "Left Space")
                 {
                     rectTransform.position = targetSpace.GetComponent<RectTransform>().position - offset;
                     right = targetSpace.transform.parent.GetComponent<Block>();
                     right.left = this;
                 }
                 else
+                {*/
+                rectTransform.position = targetSpace.GetComponent<RectTransform>().position + offset;
+                if (targetSpace.transform.parent.name.Contains("Slot"))
                 {
-                    rectTransform.position = targetSpace.GetComponent<RectTransform>().position + offset;
+                    keybind = targetSpace.transform.parent.GetComponent<KeybindSlot>();
+                    keybind.right = this;
+                }
+                else
+                {
                     left = targetSpace.transform.parent.GetComponent<Block>();
                     left.right = this;
                 }
                 targetSpace.SetActive(false);
-                ProgramManager.Instance.compileButton.GetComponent<Button>().interactable = true;
+                attached = true;
             }
         }
     }

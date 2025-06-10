@@ -76,7 +76,6 @@ public class RewardManager : MonoBehaviour
         showPrograms.SetActive(false);
         hidePrograms.SetActive(true);
         ProgramManager.Instance.compileButton.SetActive(false);
-        ProgramManager.Instance.skipButton.SetActive(false);
         blockBG.SetActive(true);
         foreach (Transform child in rewardParent)
         {

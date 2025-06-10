@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6484439725133550068}
   - component: {fileID: 8914343632666231946}
   - component: {fileID: 992191636582535860}
-  - component: {fileID: 1477947578992434480}
+  - component: {fileID: 995915876296351029}
   m_Layer: 9
   m_Name: 3rd Slot
   m_TagString: Untagged
@@ -41,7 +41,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -681, y: -280}
+  m_AnchoredPosition: {x: -681, y: -270.00003}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6484439725133550068
@@ -127,18 +127,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 100, y: 100}
   m_EdgeRadius: 0
---- !u!225 &1477947578992434480
-CanvasGroup:
+--- !u!114 &995915876296351029
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 50161897099231640}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61f7f3b2171a443adbdf0419883cb308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rightSpace: {fileID: 7611516167981660592}
+  right: {fileID: 0}
+  keybind: 324
 --- !u!1 &57252268719651094
 GameObject:
   m_ObjectHideFlags: 0
@@ -2555,7 +2558,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 756, y: -272}
+  m_AnchoredPosition: {x: 756, y: -282}
   m_SizeDelta: {x: 110, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &697797472009476505
@@ -2767,7 +2770,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0.8962264, g: 0.8962264, b: 0.8962264, a: 1}
     m_PressedColor: {r: 0.6886792, g: 0.6886792, b: 0.6886792, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_DisabledColor: {r: 0.84313726, g: 0.5254902, b: 0.5254902, a: 0.59607846}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -3957,7 +3960,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6769001363974368101
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4547,8 +4550,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 42
-  m_fontSizeBase: 42
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -4601,7 +4604,7 @@ GameObject:
   - component: {fileID: 4516158450539172058}
   - component: {fileID: 7155868644947816269}
   - component: {fileID: 6593213376103208407}
-  - component: {fileID: 1090764079920003208}
+  - component: {fileID: 5985304908811760027}
   m_Layer: 9
   m_Name: 2nd Slot
   m_TagString: Untagged
@@ -4630,7 +4633,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -681, y: -80}
+  m_AnchoredPosition: {x: -681, y: -70.000046}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4516158450539172058
@@ -4716,18 +4719,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 100, y: 100}
   m_EdgeRadius: 0
---- !u!225 &1090764079920003208
-CanvasGroup:
+--- !u!114 &5985304908811760027
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2271614163757811231}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61f7f3b2171a443adbdf0419883cb308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rightSpace: {fileID: 8279304342469362666}
+  right: {fileID: 0}
+  keybind: 325
 --- !u!1 &2330173792436213227
 GameObject:
   m_ObjectHideFlags: 0
@@ -12140,8 +12146,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 42
-  m_fontSizeBase: 42
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -13322,7 +13328,7 @@ GameObject:
   - component: {fileID: 6002705061454494547}
   - component: {fileID: 6721121211993203235}
   - component: {fileID: 7016796830913765718}
-  - component: {fileID: 7734939720025866819}
+  - component: {fileID: 3096432266456696654}
   m_Layer: 9
   m_Name: 1st Slot
   m_TagString: Untagged
@@ -13351,7 +13357,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -681, y: 120}
+  m_AnchoredPosition: {x: -681, y: 130}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6002705061454494547
@@ -13437,18 +13443,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 100, y: 100}
   m_EdgeRadius: 0
---- !u!225 &7734939720025866819
-CanvasGroup:
+--- !u!114 &3096432266456696654
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6948041681211042802}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61f7f3b2171a443adbdf0419883cb308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rightSpace: {fileID: 423506288350405740}
+  right: {fileID: 0}
+  keybind: 323
 --- !u!1 &6978115788230697922
 GameObject:
   m_ObjectHideFlags: 0
@@ -13745,7 +13754,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -743, y: -436}
+  m_AnchoredPosition: {x: 509.8, y: -428}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3526740283004026989
@@ -14533,6 +14542,7 @@ MonoBehaviour:
   blockParent: {fileID: 4511819604764240910}
   keybindUI: {fileID: 3239777451368017487}
   keybindIcons: {fileID: 64830168584506863}
+  keybindSlots: {fileID: 863368944638950122}
   programList: {fileID: 1123968500370930841}
   cdParent: {fileID: 4391171350677256713}
   compileButton: {fileID: 1389725270690931056}
@@ -14546,6 +14556,7 @@ MonoBehaviour:
   spellListItem: {fileID: 4532206369613023846, guid: cc6be18605e32e94f8bfe4179cb4d156, type: 3}
   cdIconPrefab: {fileID: 5300717638937045287, guid: 50eafcc156acd6a49a33b9edfd14d1a8, type: 3}
   fullSymbolColor: {r: 0.5686275, g: 0.8509804, b: 0.90588236, a: 1}
+  invalidColor: {r: 0.7372549, g: 0.27450982, b: 0.28627452, a: 1}
   typeColors:
   - {r: 0.47843137, g: 0.9411765, b: 0.38039216, a: 1}
   - {r: 0.38039216, g: 0.6745098, b: 0.9607843, a: 1}
@@ -14562,6 +14573,13 @@ MonoBehaviour:
   - Right Click
   - Middle Click
   activeKeybind: {fileID: 0}
+  keyStringPairs:
+  - key: 323
+    value: Left Click
+  - key: 324
+    value: Right Click
+  - key: 325
+    value: Middle Click
   buildpath: logic
   shapeBlocks:
   - {fileID: 8727360041391963699, guid: baba1a82241e7ba43b7ba24be3943690, type: 3}
@@ -15154,7 +15172,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Drag <color=#86EBFF>symbols</color> next to each other to create an icon
+  m_text: Drag <color=#86EBFF>symbols</color> next to each other to create an icon*
     for each program
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1fb36033c6d300748b0e2e7580fde9b6, type: 2}
@@ -15182,8 +15200,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 42
-  m_fontSizeBase: 42
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -15218,7 +15236,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -272.16217, w: 0}
+  m_margin: {x: 0, y: 0, z: -303.18747, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -17815,7 +17833,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Icon = all symbols must be touching
+  m_text: '*Icon = all symbols must be touching'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1fb36033c6d300748b0e2e7580fde9b6, type: 2}
   m_sharedMaterial: {fileID: 2498378941350134116, guid: 1fb36033c6d300748b0e2e7580fde9b6, type: 2}
@@ -17842,8 +17860,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 42
-  m_fontSizeBase: 42
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -17878,7 +17896,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -520.9932, w: 0}
+  m_margin: {x: 0, y: 0, z: -561.78644, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -18249,7 +18267,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5483898462318665288
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18563,6 +18581,7 @@ MonoBehaviour:
     cdTimer: 0
     fillTimer: {fileID: 0}
     keybind: 0
+    keybindStr: 
     symbol: {fileID: 0}
     programList: {fileID: 0}
   keybind: 325
@@ -18828,6 +18847,7 @@ MonoBehaviour:
     cdTimer: 0
     fillTimer: {fileID: 0}
     keybind: 0
+    keybindStr: 
     symbol: {fileID: 0}
     programList: {fileID: 0}
   keybind: 323
@@ -19065,6 +19085,7 @@ MonoBehaviour:
     cdTimer: 0
     fillTimer: {fileID: 0}
     keybind: 0
+    keybindStr: 
     symbol: {fileID: 0}
     programList: {fileID: 0}
   keybind: 324
