@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class Symbol : MonoBehaviour, IDragHandler, IPointerDownHandler
+public class Symbol : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
 {
     private Vector2 lastPos;
     private Vector2 startingPos;
@@ -32,7 +32,7 @@ public class Symbol : MonoBehaviour, IDragHandler, IPointerDownHandler
         if (ProgramManager.Instance.spellsLocked && canMove)
         {
             Bounds b = GetComponent<BoxCollider2D>().bounds;
-            adjSymbols = Physics2D.OverlapBoxAll(b.center, b.extents, 0, LayerMask.GetMask("Symbol")).Length;
+            adjSymbols = Physics2D.OverlapBoxAll(b.center, b.extents*2f, 0, LayerMask.GetMask("Symbol")).Length;
         }
     }
 
@@ -50,6 +50,7 @@ public class Symbol : MonoBehaviour, IDragHandler, IPointerDownHandler
             );
             lastPos -= rectTransform.anchoredPosition;
         }
+        GetComponent<Image>().color = new Color32(255, 197, 92, 255);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -74,6 +75,11 @@ public class Symbol : MonoBehaviour, IDragHandler, IPointerDownHandler
             float newY = Mathf.Clamp(rectTransform.anchoredPosition.y, min.y, max.y);
             rectTransform.anchoredPosition = new Vector2(newX, newY);
         }
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        GetComponent<Image>().color = new Color32(134, 235, 255, 255);
     }
 
     public void ResetPos()

@@ -13,6 +13,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
     private Canvas canvas;
     private bool dragging;
     [HideInInspector] public bool attached;
+    [SerializeField] private bool noKeybind;
 
     [Header("Movement Children")]
     private List<Block> blocks = new List<Block>();
@@ -109,18 +110,18 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
                     KeybindSlot kScript = c.GetComponent<KeybindSlot>();
                     if (bScript != null)
                     {
-                        if (rectTransform.anchoredPosition.x > bScript.rectTransform.anchoredPosition.x && bScript.right == null && bScript.ValidTag(this, false) && bScript.attached)
+                        if (rectTransform.anchoredPosition.x > bScript.rectTransform.anchoredPosition.x && bScript.right == null && bScript.ValidTag(this, false) && (bScript.attached || bScript.noKeybind) && !noKeybind)
                         {
                             targetSpace = bScript.rightSpace;
                             targetSpace.SetActive(true);
                             break;
                         }
-                        /*else if (rectTransform.anchoredPosition.x < script.rectTransform.anchoredPosition.x && script.left == null && script.ValidTag(this, true))
+                        else if (noKeybind && rectTransform.anchoredPosition.x < bScript.rectTransform.anchoredPosition.x && bScript.left == null && bScript.ValidTag(this, true) && !bScript.attached)
                         {
-                            targetSpace = script.leftSpace;
+                            targetSpace = bScript.leftSpace;
                             targetSpace.SetActive(true);
                             break;
-                        }*/
+                        }
                     }
                     else if (kScript != null)
                     {
@@ -199,8 +200,8 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
             rectTransform.anchoredPosition = new Vector2(newX, newY);
 
             targetSpace = null;
-            ResetSymbol(false);
-            ResetSymbol(true);
+            //ResetSymbol(false);
+            //ResetSymbol(true);
             if (left != null)
             {
                 left.right = null;
@@ -248,24 +249,27 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
             {
                 AudioManager.Instance.Play("Snap Block");
                 Vector3 offset = new Vector3(2 + (rectTransform.sizeDelta.x - 100)/2, 0, 0);
-                /*if (targetSpace.name == "Left Space")
+                if (targetSpace.name == "Left Space") //if we're an auto/aura block
                 {
                     rectTransform.position = targetSpace.GetComponent<RectTransform>().position - offset;
                     right = targetSpace.transform.parent.GetComponent<Block>();
                     right.left = this;
-                }
-                else
-                {*/
-                rectTransform.position = targetSpace.GetComponent<RectTransform>().position + offset;
-                if (targetSpace.transform.parent.name.Contains("Slot"))
-                {
-                    keybind = targetSpace.transform.parent.GetComponent<KeybindSlot>();
-                    keybind.right = this;
+                    right.attached = true;
                 }
                 else
                 {
-                    left = targetSpace.transform.parent.GetComponent<Block>();
-                    left.right = this;
+                    rectTransform.position = targetSpace.GetComponent<RectTransform>().position + offset;
+                    if (targetSpace.transform.parent.name.Contains("Slot"))
+                    {
+                        keybind = targetSpace.transform.parent.GetComponent<KeybindSlot>();
+                        keybind.right = this;
+                    }
+                    else
+                    {
+                        left = targetSpace.transform.parent.GetComponent<Block>();
+                        left.right = this;
+                        left.attached = true;
+                    }
                 }
                 targetSpace.SetActive(false);
                 attached = true;
@@ -274,7 +278,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
     }
 
 
-    public void ResetSymbol(bool toRight)
+    /*public void ResetSymbol(bool toRight)
     {
         Color c = GetComponent<Image>().color;
         GetComponent<Image>().color = new Color(c.r, c.g, c.b, 1);
@@ -292,7 +296,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
         {
             left.ResetSymbol(false);
         }
-    }
+    }*/
 
 
     public bool ValidTag(Block script, bool toRight)

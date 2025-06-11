@@ -19,10 +19,10 @@ public class GameManager : MonoBehaviour
 
     [Header("Bools")]
     public bool scifiNames;
-    private bool fullArea;
     public bool skipDialogue;
     [HideInInspector] public bool pauseGame;
     [HideInInspector] public bool playerPaused;
+    private bool loadingLevel;
     
     [Header("Rooms")]
     private int levelNum = 1;
@@ -66,8 +66,6 @@ public class GameManager : MonoBehaviour
     
     void Start()
     {
-        if (SceneManager.GetActiveScene().name.Contains("Level"))
-            fullArea = true;
         player = GameObject.Find("Player").transform;
     }
 
@@ -179,6 +177,10 @@ public class GameManager : MonoBehaviour
             spawningEnemies = true;
             spawnTimer = Random.Range(minSpawn/2f, maxSpawn/2f);
         }
+        else
+        {
+            spawningEnemies = false;
+        }
     }
 
 
@@ -196,7 +198,7 @@ public class GameManager : MonoBehaviour
             numEnemies -= killed;
         }
 
-        if (spawningEnemies && !pauseGame)
+        if (spawningEnemies && !pauseGame && !loadingLevel)
         {
             spawnTimer -= Time.deltaTime;
             if (spawnTimer < 0)
@@ -230,7 +232,7 @@ public class GameManager : MonoBehaviour
     {
         numEnemies += n;
         yield return new WaitForSeconds(1);
-        if (!spawningEnemies)
+        if (loadingLevel)
             yield break;
         for (int i = 0; i < n; i++)
         {
@@ -242,7 +244,7 @@ public class GameManager : MonoBehaviour
                 numEnemies += repeats-1;
                 for (int j = 0; j < repeats; j++)
                 {
-                    if (!spawningEnemies)
+                    if (loadingLevel)
                         yield break;
                     if (setPos != Vector3.zero)
                     {
@@ -385,7 +387,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator LoadNextLevel(string nextArea)
     {
-        spawningEnemies = false;
+        loadingLevel = true;
         AudioManager.Instance.Play("Elevator Down");
         foreach (Transform child in enemyParent)
             Destroy(child.gameObject);
@@ -417,6 +419,7 @@ public class GameManager : MonoBehaviour
             Destroy(player.gameObject);
             SceneManager.LoadScene("End Screen");
         }
+        loadingLevel = false;
     }
 
     private IEnumerator ElevatorSounds()

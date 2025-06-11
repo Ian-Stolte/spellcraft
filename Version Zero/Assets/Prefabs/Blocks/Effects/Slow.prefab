@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2911789837362934299}
   - component: {fileID: 3282058520257119073}
   - component: {fileID: 2987444843528874654}
+  - component: {fileID: 7815850297097157813}
   m_Layer: 10
   m_Name: Symbol
   m_TagString: Untagged
@@ -126,7 +127,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 1}
+  m_Offset: {x: 1.47, y: 2.65}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -137,8 +138,59 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 80, y: 80}
+  m_Size: {x: 60, y: 60}
   m_EdgeRadius: 0
+--- !u!60 &7815850297097157813
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2664033759864762601}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -11.297083, y: 34.082466}
+      - {x: -29.434603, y: 32.95607}
+      - {x: -28.392561, y: -30.25993}
+      - {x: 33.222515, y: -30.117731}
+      - {x: 33.16385, y: -12.774773}
+      - {x: -10.360625, y: -13.501164}
+  m_UseDelaunayMesh: 0
 --- !u!1001 &1437832070108225300
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -250,6 +302,10 @@ PrefabInstance:
     - target: {fileID: 4145732063751185695, guid: 94366c877b8524564ae1d4259b9c416c, type: 3}
       propertyPath: description
       value: Slows enemy movement
+      objectReference: {fileID: 0}
+    - target: {fileID: 4478421989492824053, guid: 94366c877b8524564ae1d4259b9c416c, type: 3}
+      propertyPath: m_text
+      value: Max
       objectReference: {fileID: 0}
     - target: {fileID: 7452607151405539719, guid: 94366c877b8524564ae1d4259b9c416c, type: 3}
       propertyPath: m_text

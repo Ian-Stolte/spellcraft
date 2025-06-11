@@ -97,7 +97,7 @@ public class ProgramManager : MonoBehaviour
         {
             programUI.gameObject.SetActive(true);
 
-            string[] startingBlocks = new string[]{"Line", "Damage", "Circle", "Displace", "Pulse", "Stun", "Damage"};
+            string[] startingBlocks = new string[]{"Line", "Damage", "Circle", "Displace", "Pulse", "Pause", "Damage"};
             foreach (string s in startingBlocks)
             {
                 GameObject prefab = blocks.Find(b=>b.name == s);
@@ -118,7 +118,7 @@ public class ProgramManager : MonoBehaviour
             programs.Add(circleDisplaceSpell);
             List<Block> meleeUlt = new List<Block>();
             meleeUlt.Add(GameObject.Find("Pulse").GetComponent<Block>());
-            meleeUlt.Add(GameObject.Find("Stun").GetComponent<Block>());
+            meleeUlt.Add(GameObject.Find("Pause").GetComponent<Block>());
             meleeUlt.Add(GameObject.Find("Damage").GetComponent<Block>());
             Program meleeUltSpell = new Program(meleeUlt, KeyCode.Mouse2);
             programs.Add(meleeUltSpell);
@@ -141,13 +141,11 @@ public class ProgramManager : MonoBehaviour
         RectTransform r = block.GetComponent<RectTransform>();
         for (int j = 0; j < 20; j++)
         {
-            r.anchoredPosition = new Vector2(Random.Range(-(860 - r.sizeDelta.x), 850 - r.sizeDelta.x), Random.Range(-415, 415));
-            //if (Physics2D.OverlapCircleAll(r.anchoredPosition, 200, LayerMask.GetMask("Block")).Length <= 1)
-            //    break;
+            r.anchoredPosition = new Vector2(Random.Range(-(540 - r.sizeDelta.x), 820 - r.sizeDelta.x), Random.Range(-360, 330));
             bool noOverlap = true;
             foreach (Transform child in blockParent)
             {
-                if (child.gameObject != block && child.gameObject.activeSelf && Vector3.Distance(block.GetComponent<RectTransform>().anchoredPosition, child.GetComponent<RectTransform>().anchoredPosition) < 400)
+                if (child.gameObject != block && child.gameObject.activeSelf && Vector2.Distance(block.GetComponent<RectTransform>().anchoredPosition, child.GetComponent<RectTransform>().anchoredPosition) < 150)
                 {
                     noOverlap = false;
                 }
@@ -166,6 +164,7 @@ public class ProgramManager : MonoBehaviour
         cdParent.gameObject.SetActive(false);
         programUI.gameObject.SetActive(true);
         compileButton.SetActive(true);
+        infoButton.transform.parent.gameObject.SetActive(true);
         confirmButton.SetActive(false);
         randomButton.SetActive(false);
         spellsLocked = false;
@@ -177,27 +176,15 @@ public class ProgramManager : MonoBehaviour
             {
                 b.SaveState();
 
-                if (b.left != null || b.right != null) //if crafted spell
-                {
-                    Color c = child.GetComponent<Image>().color;
-                    child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 0.5f);
-                    b.symbol.GetComponent<Image>().enabled = true;
-                    b.highlight.gameObject.SetActive(true);
-                    b.nameTxt.GetComponent<CanvasGroup>().alpha = 1;
-                    b.typeTxt.GetComponent<CanvasGroup>().alpha = 0.5f;
-                    b.typeTxt.gameObject.SetActive(true);
-                    b.cdTxt.gameObject.SetActive(false);
-                }
-                else
-                {
-                    Color c = child.GetComponent<Image>().color;
-                    child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 1);
-                    b.symbol.GetComponent<Image>().enabled = false;
-                    b.nameTxt.GetComponent<CanvasGroup>().alpha = 1;
-                    b.typeTxt.GetComponent<CanvasGroup>().alpha = 1;
-                    b.cdTxt.GetComponent<CanvasGroup>().alpha = 1;
-                    b.cdTxt.gameObject.SetActive(true);
-                }
+                Color c = child.GetComponent<Image>().color;
+                child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 1);
+                b.symbol.GetComponent<Image>().enabled = false;
+                b.highlight.gameObject.SetActive(false);
+                b.nameTxt.GetComponent<CanvasGroup>().alpha = 1;
+                b.levelTxt.GetComponent<CanvasGroup>().alpha = 1;
+                b.typeTxt.GetComponent<CanvasGroup>().alpha = 1;
+                b.typeTxt.gameObject.SetActive(true);
+                b.cdTxt.gameObject.SetActive(true);
             }
         }
         spellSave.Clear();
@@ -210,10 +197,10 @@ public class ProgramManager : MonoBehaviour
 
     public void ExitReforge()
     {
-        StartCoroutine(ExitReforgeCor());
+        //StartCoroutine(ExitReforgeCor());
     }
 
-    private IEnumerator ExitReforgeCor()
+    /*private IEnumerator ExitReforgeCor()
     {
         
         Fader.Instance.FadeIn(0.5f);
@@ -237,41 +224,45 @@ public class ProgramManager : MonoBehaviour
         player.enabled = true;
 
         Fader.Instance.FadeOut(0.5f);
-    }
+    }*/
 
 
     public void CompileSpells()
     {
         //create programs from blocks attached to keybinds
         programs.Clear();
+        if (moreInfo)
+            Info();
         foreach (Transform child in keybindSlots)
         {
             KeybindSlot script = child.GetComponent<KeybindSlot>();
             if (script.right != null)
             {
-                List<Block> blockList = new List<Block>();
-                Block b = script.right;
-                while (b != null)
-                {
-                    blockList.Add(b);
-                    b.keybind = script;
-                    
-                    //show symbol UI
-                    Color c = b.GetComponent<Image>().color;
-                    b.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 0.3f);
-                    b.typeTxt.GetComponent<CanvasGroup>().alpha = 0.5f;
-                    b.cdTxt.SetActive(false);
-
-                    b = b.right;
-                }
-                programs.Add(new Program(blockList, script.keybind));
+                GetBlockList(script.right, script.keybind);
             }
         }
+        GameObject auto = GameObject.Find("Auto");
+        GameObject aura = GameObject.Find("Aura");
+        if (auto != null)
+        {
+            if (auto.GetComponent<Block>().right != null)
+            {
+                GetBlockList(auto.GetComponent<Block>());
+            }
+        }
+        if (aura != null)
+        {
+            if (aura.GetComponent<Block>().right != null)
+            {
+                GetBlockList(aura.GetComponent<Block>());
+            }
+        }
+
         //hide all other blocks
         foreach (Transform child in blockParent)
         {
             Block b = child.GetComponent<Block>();
-            if (b.keybind == null)
+            if (b.attached)
             {
                 b.symbol.canMove = false;
                 Color c = child.GetComponent<Image>().color;
@@ -322,6 +313,7 @@ public class ProgramManager : MonoBehaviour
             tutorials[0].SetActive(false);
             tutorials[1].SetActive(true);
         }
+        infoButton.transform.parent.gameObject.SetActive(false);
         compileButton.SetActive(false);
         confirmButton.SetActive(true);
         randomButton.SetActive(true);
@@ -342,6 +334,25 @@ public class ProgramManager : MonoBehaviour
         }
     }
 
+    private void GetBlockList(Block b, KeyCode keybind=KeyCode.None)
+    {
+        List<Block> blockList = new List<Block>();
+        while (b != null)
+        {
+            blockList.Add(b);
+            
+            //show symbol UI
+            Color c = b.GetComponent<Image>().color;
+            b.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 0.3f);
+            b.typeTxt.GetComponent<CanvasGroup>().alpha = 0.5f;
+            b.levelTxt.GetComponent<CanvasGroup>().alpha = 0.5f;
+            b.cdTxt.SetActive(false);
+
+            b = b.right;
+        }
+        programs.Add(new Program(blockList, keybind));
+    }
+
 
     public void UndoSpells()
     {
@@ -354,6 +365,7 @@ public class ProgramManager : MonoBehaviour
                 child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 1);
                 b.nameTxt.GetComponent<CanvasGroup>().alpha = 1;
                 b.typeTxt.GetComponent<CanvasGroup>().alpha = 1;
+                b.levelTxt.GetComponent<CanvasGroup>().alpha = 1;
                 b.cdTxt.GetComponent<CanvasGroup>().alpha = 1;
                 b.cdTxt.SetActive(true);
 
@@ -375,25 +387,13 @@ public class ProgramManager : MonoBehaviour
         spellsLocked = false;
     }
 
-
-    public void RandomSymbols()
-    {
-        foreach (Transform child in blockParent)
-        {
-            Block b = child.GetComponent<Block>();
-            Vector2 offset = new Vector2(Random.Range(-20f, 20f), Random.Range(-10f, 10f));
-            b.symbol.GetComponent<RectTransform>().anchoredPosition = new Vector2((b.symbol.min.x + b.symbol.max.x)/2f * 1.35f, (b.symbol.min.y + b.symbol.max.y)/2f) + offset;
-
-        }
-        ConfirmSpells();
-    }
     
     
     private void Update()
     {
         if (!spellsLocked) //check valid blocks
         {
-            bool minimumOneValid = false;
+            int valid = 0;
             foreach (Transform child in keybindSlots)
             {
                 KeybindSlot script = child.GetComponent<KeybindSlot>();
@@ -417,16 +417,16 @@ public class ProgramManager : MonoBehaviour
                 if (shape && effect)
                 {
                     child.GetComponent<Image>().color = new Color(1, 1, 1, 1);
-                    minimumOneValid = true;
+                    valid++;
                 }
                 else
                 {
                     child.GetComponent<Image>().color = invalidColor;
-                    minimumOneValid = false;
+                    valid = -99;
                     break;
                 }
             }
-            compileButton.GetComponent<Button>().interactable = (minimumOneValid);
+            compileButton.GetComponent<Button>().interactable = (valid > 0);
         }
 
         else //check valid symbols
@@ -460,6 +460,19 @@ public class ProgramManager : MonoBehaviour
         }
     }
 
+
+
+    public void RandomSymbols()
+    {
+        foreach (Transform child in blockParent)
+        {
+            Block b = child.GetComponent<Block>();
+            Vector2 offset = new Vector2(Random.Range(-20f, 20f), Random.Range(-10f, 10f));
+            b.symbol.GetComponent<RectTransform>().anchoredPosition = new Vector2((b.symbol.min.x + b.symbol.max.x)/2f * 1.35f, (b.symbol.min.y + b.symbol.max.y)/2f) + offset;
+
+        }
+        ConfirmSpells();
+    }
 
     public void ConfirmSpells()
     {
