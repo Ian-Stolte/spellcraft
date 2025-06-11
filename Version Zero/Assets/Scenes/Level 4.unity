@@ -1562,10 +1562,10 @@ MonoBehaviour:
   barrier: {fileID: 1588410855}
   hiddenRoom: []
   dialogue:
-  - "Hang on... this spot feels really familiar\r\r\n"
+  - Hang on... does this spot feel familiar to you?
   - ~while I would love to stop and examine it we do not appear to have that luxury
     right now
-  - "Yeah, you're right.\r"
+  - Right...
   order: 0
 --- !u!65 &389457724
 BoxCollider:

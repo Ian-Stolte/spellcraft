@@ -4067,7 +4067,7 @@ MonoBehaviour:
   - ~unfortunately I am unable to find data on which one you belong to
   - ~perhaps you will feel a calling to one of them?***
   firstEnemy:
-  - ~infected systems are approaching miss!
+  - "~warning\u2014 infected systems detected!"
   buildSelect: {fileID: 4341673330729894767}
   progressBar: {fileID: 5279498304469211711}
   completeTxt: {fileID: 4227083385560644938}

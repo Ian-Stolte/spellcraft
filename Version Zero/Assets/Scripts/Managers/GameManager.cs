@@ -230,6 +230,8 @@ public class GameManager : MonoBehaviour
     {
         numEnemies += n;
         yield return new WaitForSeconds(1);
+        if (!spawningEnemies)
+            yield break;
         for (int i = 0; i < n; i++)
         {
             string name = enemyPrefabs[Random.Range(0, enemyPrefabs.Count)] + "_" + enemyType;
@@ -240,6 +242,8 @@ public class GameManager : MonoBehaviour
                 numEnemies += repeats-1;
                 for (int j = 0; j < repeats; j++)
                 {
+                    if (!spawningEnemies)
+                        yield break;
                     if (setPos != Vector3.zero)
                     {
                         GameObject enemy = Instantiate(prefab, setPos + new Vector3(0, 15, 0), Quaternion.identity, enemyParent);
