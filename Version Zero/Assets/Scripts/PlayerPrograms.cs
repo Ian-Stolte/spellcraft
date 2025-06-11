@@ -118,7 +118,7 @@ public class PlayerPrograms : MonoBehaviour
                         GetComponent<PlayerMovement>().shieldTimer += 1f;
                     break;
                 }
-                else if (b.name == "Trap")
+                else if (b.name == "Load")
                 {
                     AudioManager.Instance.Play("Place Trap");
                     GameObject hitbox = Instantiate(hitboxes[3], MousePos(), rot);

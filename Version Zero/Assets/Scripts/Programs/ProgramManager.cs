@@ -754,8 +754,8 @@ public class ProgramManager : MonoBehaviour
         moreInfo = !moreInfo;
         foreach (Transform child in blockParent)
         {
-            GameObject info = child.GetComponent<Block>().infoTxt.gameObject;
-            info.SetActive(moreInfo);
+            child.GetComponent<Block>().infoTxt.gameObject.SetActive(moreInfo);
+            child.GetComponent<Block>().cdTxt.gameObject.SetActive(!moreInfo);
         }
         string buttonTxt = (moreInfo) ? "Less Info" : "More Info";
         infoButton.text = buttonTxt;

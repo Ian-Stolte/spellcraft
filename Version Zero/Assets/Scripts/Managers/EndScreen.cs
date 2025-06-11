@@ -7,12 +7,14 @@ using UnityEngine.SceneManagement;
 
 public class EndScreen : MonoBehaviour
 {
+    [Header("Canvas Groups")]
     [SerializeField] private CanvasGroup[] symbols;
+    [SerializeField] private CanvasGroup bottomHalf;
+    [SerializeField] private CanvasGroup fader;
 
+    [Header("Text")]
     [SerializeField] private TextMeshProUGUI txt;
     [SerializeField] private string[] colorTags;
-
-    [SerializeField] private CanvasGroup fader;
 
 
     void Start()
@@ -40,7 +42,7 @@ public class EndScreen : MonoBehaviour
         if (symbols[index].alpha < 1)
             StartCoroutine(FadeInSymbol(symbols[index]));
 
-        txt.text = "You've reached the end of the demo with a " + colorTags[index] + build + "</color> build.";
+        txt.text = "You've reached the end of the demo with a " + colorTags[index] + build + "</color> build!";
     }
 
     private IEnumerator FadeInSymbol(CanvasGroup image)
@@ -55,6 +57,14 @@ public class EndScreen : MonoBehaviour
         }
         image.alpha = 1;
         AudioManager.Instance.Play("Terminal Activate");
+        yield return new WaitForSeconds(1);
+        elapsed = 0;
+        while (elapsed < 1)
+        {
+            elapsed += Time.deltaTime;
+            bottomHalf.alpha = elapsed;
+            yield return null;
+        }
     }
 
     public void Quit()

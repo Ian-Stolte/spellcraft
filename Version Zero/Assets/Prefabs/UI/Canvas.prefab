@@ -14551,7 +14551,6 @@ MonoBehaviour:
   confirmButton: {fileID: 6018601890530140510}
   randomButton: {fileID: 1367273166421672861}
   startButton: {fileID: 943238571334654535}
-  skipButton: {fileID: 1186012838054314721}
   emptyImage: {fileID: 2349806725699824917, guid: efb78f1eb1e501440acbdf2695ee8194, type: 3}
   spellListItem: {fileID: 4532206369613023846, guid: cc6be18605e32e94f8bfe4179cb4d156, type: 3}
   cdIconPrefab: {fileID: 5300717638937045287, guid: 50eafcc156acd6a49a33b9edfd14d1a8, type: 3}
@@ -14595,6 +14594,7 @@ MonoBehaviour:
   - {fileID: 9191262866201418245, guid: 09dc64dd640a9484cbcaac62ae3675c1, type: 3}
   - {fileID: 5673812413240789059, guid: bd5d4538876567b408f48dbc666c608c, type: 3}
   - {fileID: 9191262866201418245, guid: 0f37290e6bbae8f48a0bd3cdf9758eac, type: 3}
+  - {fileID: 1056575017890556035, guid: 8a94b295ff28ebf4fbcb713728abfccd, type: 3}
   modBlocks:
   - {fileID: 1056575017890556035, guid: 8a94b295ff28ebf4fbcb713728abfccd, type: 3}
   - {fileID: 751068182812198834, guid: 77863b9482fb50b439adbde113d51e76, type: 3}
