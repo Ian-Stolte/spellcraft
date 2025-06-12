@@ -95,7 +95,7 @@ public class WalkingTurret : Enemy
             //move randomly
             float speed = (slowTimer > 0) ? defSpeed*0.3f : defSpeed;
             rb.MovePosition(rb.position + (target-rb.position).normalized * speed * Time.deltaTime);
-            if (Vector3.Distance(rb.position, target) < 0.5f)
+            if (Vector3.Distance(rb.position, target) < 1f)
                 ChooseTarget();
             
             if (atkTimer <= 0 && (dist > meleeRange || finalForm)) //ranged attack
@@ -160,6 +160,7 @@ public class WalkingTurret : Enemy
         {
             target = transform.position + Quaternion.Euler(0, Random.Range(0, 360), 0) * new Vector3(1, 0, 1) * Random.Range(targetMin, targetMax);
             lineOfSight = !Physics.Raycast(transform.position, target-transform.position, Vector3.Distance(target, transform.position), terrainLayer);
+            Debug.Log(lineOfSight);
         } while (Physics.OverlapSphere(target, 1, terrainLayer).Length > 0 || !lineOfSight);
     }
 
@@ -209,7 +210,6 @@ public class WalkingTurret : Enemy
 
     private IEnumerator SpawnEnemies(int n)
     {
-        GameManager.Instance.numEnemies += enemiesToSpawn;
         for (int i = 0; i < n; i++)
         {
             Vector3 offset = new Vector3(Random.Range(-1, 1), 0, Random.Range(-1, 1)).normalized * Random.Range(3, 15) + new Vector3(0, 1, 0);
@@ -221,7 +221,6 @@ public class WalkingTurret : Enemy
                 if (attempts == 10) //fail to find open spot
                 {
                     Debug.Log("NO OPEN SPOT :(");
-                    GameManager.Instance.numEnemies--;
                     break;
                 }
             }
@@ -251,7 +250,6 @@ public class WalkingTurret : Enemy
         foreach (Transform child in GameObject.Find("Enemies").transform)
             Destroy(child.gameObject);
         
-        GameManager.Instance.numEnemies = 0;
         endBarrier.SetActive(false);
 
         AudioManager.Instance.KillBoss1();

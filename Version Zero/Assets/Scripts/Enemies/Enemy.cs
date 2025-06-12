@@ -71,6 +71,7 @@ public class Enemy : MonoBehaviour
     }
 
 
+
     public IEnumerator ApplyBurn(int burn, int ticks)
     {
         for (int i = 0; i < ticks; i++)
@@ -133,9 +134,8 @@ public class Enemy : MonoBehaviour
         healthBar.fillAmount = health/(maxHealth*1.0f);
         if (health <= 0)
         {
-            GameManager.Instance.numEnemies -= 1;
+            //play death anim
             Destroy(gameObject);
-            //play any death anims, give player any rewards for kill
         }
     }
 

@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 10571627}
   - component: {fileID: 10571626}
   - component: {fileID: 10571625}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Barrier Middle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -450,7 +450,7 @@ GameObject:
   - component: {fileID: 129742623}
   - component: {fileID: 129742622}
   - component: {fileID: 129742621}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -551,7 +551,7 @@ GameObject:
   - component: {fileID: 194214135}
   - component: {fileID: 194214137}
   - component: {fileID: 194214136}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: Barrier Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1190,7 +1190,7 @@ GameObject:
   - component: {fileID: 357895426}
   - component: {fileID: 357895425}
   - component: {fileID: 357895424}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Lock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1401,7 +1401,7 @@ GameObject:
   - component: {fileID: 389288884}
   - component: {fileID: 389288886}
   - component: {fileID: 389288885}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: Barrier Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1883,7 +1883,7 @@ GameObject:
   - component: {fileID: 471516536}
   - component: {fileID: 471516535}
   - component: {fileID: 471516534}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Barrier (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2245,7 +2245,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 621921261}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Barrier 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2914,7 +2914,7 @@ GameObject:
   - component: {fileID: 926907324}
   - component: {fileID: 926907323}
   - component: {fileID: 926907322}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Barrier (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3185,7 +3185,7 @@ GameObject:
   - component: {fileID: 1141360686}
   - component: {fileID: 1141360685}
   - component: {fileID: 1141360684}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Barrier Middle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3428,6 +3428,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Scroll Rect
       objectReference: {fileID: 0}
+    - target: {fileID: 1699553311482922212, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1372443055}
+    - target: {fileID: 1699553311482922212, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Reset
+      objectReference: {fileID: 0}
     - target: {fileID: 2011890719116741141, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -3576,6 +3584,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -152
       objectReference: {fileID: 0}
+    - target: {fileID: 8778151426287815475, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1372443055}
+    - target: {fileID: 8778151426287815475, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Quit
+      objectReference: {fileID: 0}
     - target: {fileID: 9149627474376572225, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -3608,7 +3624,7 @@ GameObject:
   - component: {fileID: 1256723241}
   - component: {fileID: 1256723240}
   - component: {fileID: 1256723239}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Lock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3817,7 +3833,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1295090551}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Locks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4260,6 +4276,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 372c20bebb6c4ee49ac758cf046f0dbc, type: 3}
+--- !u!114 &1372443055 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1712194664605143150, guid: 372c20bebb6c4ee49ac758cf046f0dbc, type: 3}
+  m_PrefabInstance: {fileID: 1372443054}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff9a5a342f35d6f42a8b83bf928a98c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1375467946
 GameObject:
   m_ObjectHideFlags: 0
@@ -4377,7 +4404,7 @@ GameObject:
   - component: {fileID: 1422089872}
   - component: {fileID: 1422089871}
   - component: {fileID: 1422089870}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Barrier (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4641,7 +4668,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1509640024}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Locks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4972,7 +4999,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1588410855}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Barrier 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5315,7 +5342,7 @@ GameObject:
   - component: {fileID: 1670789397}
   - component: {fileID: 1670789396}
   - component: {fileID: 1670789395}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Barrier (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6376,7 +6403,7 @@ GameObject:
   - component: {fileID: 1962239161}
   - component: {fileID: 1962239160}
   - component: {fileID: 1962239159}
-  m_Layer: 6
+  m_Layer: 11
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}

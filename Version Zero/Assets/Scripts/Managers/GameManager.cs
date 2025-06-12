@@ -30,7 +30,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private LayerMask terrainLayer;
     
     [Header("Enemy Spawn")]
-    public int numEnemies;
     [SerializeField] private List<string> enemyPrefabs; //TODO: change to struct w/ spawn pct, weight, etc
     [SerializeField] private string[] enemyTypes;
     private string enemyType = "Logic";
@@ -86,7 +85,6 @@ public class GameManager : MonoBehaviour
         else
         {
             enemyParent = GameObject.Find("Enemies").transform;
-            numEnemies = Physics.OverlapSphere(Vector2.zero, 9999, LayerMask.GetMask("Enemy")).Length;
 
             foreach (Transform child in terminalIcons)
                 Destroy(child.gameObject);
@@ -195,7 +193,6 @@ public class GameManager : MonoBehaviour
             int killed = enemyParent.childCount;
             foreach (Transform child in enemyParent)
                 Destroy(child.gameObject);
-            numEnemies -= killed;
         }
 
         if (spawningEnemies && !pauseGame && !loadingLevel)
@@ -230,7 +227,6 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator WaveEnemies(int n, Vector3 setPos = default)
     {
-        numEnemies += n;
         yield return new WaitForSeconds(1);
         if (loadingLevel)
             yield break;
@@ -241,7 +237,6 @@ public class GameManager : MonoBehaviour
             if (prefab != null)
             {
                 int repeats = name.Contains("Swarm") ? 2 : 1;
-                numEnemies += repeats-1;
                 for (int j = 0; j < repeats; j++)
                 {
                     if (loadingLevel)
@@ -271,7 +266,6 @@ public class GameManager : MonoBehaviour
                                 if (maxDist > 20)
                                 {
                                     Debug.Log("NO OPEN SPOT :(");
-                                    numEnemies--;
                                     break;
                                 }
                             }

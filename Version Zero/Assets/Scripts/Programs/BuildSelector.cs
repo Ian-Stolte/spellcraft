@@ -42,9 +42,9 @@ public class BuildSelector : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             yield return new WaitForSeconds(0.01f);
         }
         ProgramManager.Instance.CreateBlock("Damage");
-        List<Block> effectBlocks = ProgramManager.Instance.ChooseRandom(1, new string[]{"Damage"}, type, "effect");
-        List<Block> miscBlocks = ProgramManager.Instance.ChooseRandom(1, new string[]{"Damage"}, "none", "effect");
-        List<Block> shapeBlocks = ProgramManager.Instance.ChooseRandom(2, new string[]{"Damage"}, type, "shape");
+        List<Block> effectBlocks = ProgramManager.Instance.ChooseRandom(1, new string[]{"Damage"}, type, new string[]{"effect", "passive"});
+        List<Block> miscBlocks = ProgramManager.Instance.ChooseRandom(1, new string[]{"Damage"}, "none", new string[]{"effect", "passive"});
+        List<Block> shapeBlocks = ProgramManager.Instance.ChooseRandom(2, new string[]{"Damage"}, type, new string[]{"shape"});
         effectBlocks.AddRange(miscBlocks);
         effectBlocks.AddRange(shapeBlocks);
         foreach (Block b in effectBlocks)
