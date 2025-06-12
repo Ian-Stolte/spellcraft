@@ -35,7 +35,10 @@ public class StartupManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI learningTitle;
     [SerializeField] private TextMeshProUGUI ellipsisTxt;
     [SerializeField] private TextMeshProUGUI errorTxt;
+    [SerializeField] private TextMeshProUGUI statsTxt;
     [SerializeField] private Animator hideLearning;
+    private float rawTime;
+    private float gameplayTime;
 
     [Header("Upload/Download")]
     [SerializeField] private TextMeshProUGUI downloadTxt;
@@ -74,7 +77,9 @@ public class StartupManager : MonoBehaviour
         {
             plaintext[6] = "Procedure complete. Version " + SequenceManager.Instance.runNum + ".0 online.";
             fail = (SequenceManager.Instance.runNum == 1);
+            rawTime = SequenceManager.Instance.rawTimer;
             SequenceManager.Instance.rawTimer = 0;
+            gameplayTime = SequenceManager.Instance.gameplayTimer;
             SequenceManager.Instance.gameplayTimer = 0;
         }
 
@@ -349,14 +354,53 @@ public class StartupManager : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         ellipsisTxt.text = "";
 
-        string message2 = errorTxt.text;
-        errorTxt.text = "";
-        errorTxt.gameObject.SetActive(true);
-        foreach (char c in message2)
+        if (fail)
         {
-            errorTxt.text += c;
-            yield return new WaitForSeconds(0.001f);
+            string errorMessage = errorTxt.text;
+            errorTxt.text = "";
+            errorTxt.gameObject.SetActive(true);
+            foreach (char c in errorMessage)
+            {
+                errorTxt.text += c;
+                yield return new WaitForSeconds(0.001f);
+            }
         }
+        else if (SequenceManager.Instance.lastRoom == 0)
+        {
+            foreach (char c in "No data found.")
+            {
+                statsTxt.text += c;
+                yield return new WaitForSeconds(0.01f);
+            }   
+        }
+        else
+        {
+            foreach (string s in new string[]{"Furthest level reached: "+SequenceManager.Instance.lastRoom, "Time (gameplay): "+FormatTime(gameplayTime), "Time (total): "+FormatTime(rawTime), "Reason for reset:", "Corrupted memory files, neural overload", "(Compromised data removed to preserve cognitive integrity)"})
+            {
+                if (s.Contains("Reason") || s.Contains("Compromised data"))
+                {
+                    statsTxt.text += "\n";
+                    yield return new WaitForSeconds(1.5f);
+                }
+                foreach (char c in s)
+                {
+                    statsTxt.text += c;
+                    yield return new WaitForSeconds(0.01f);
+                }
+                statsTxt.text += "\n";
+                yield return new WaitForSeconds(1f);
+            }
+        }
+    }
+
+    private string FormatTime(float time)
+    {
+        if (time > 3600)
+            return "> 1hr";
+        int minutes = (int)time/60;
+        int seconds = (int)Mathf.Min(59, Mathf.Round(time%60));
+        string secondsStr = (seconds < 10) ? ":0" + seconds : ":" + seconds;
+        return minutes + secondsStr;
     }
 
 

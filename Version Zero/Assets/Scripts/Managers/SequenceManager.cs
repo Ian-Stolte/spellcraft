@@ -18,6 +18,7 @@ public class SequenceManager : MonoBehaviour
     public int health;
     public float rawTimer;
     public float gameplayTimer;
+    public int lastRoom;
 
 
     private void Update()

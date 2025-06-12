@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   music:
   - name: Area 1
-    clip: {fileID: 8300000, guid: b5a1aff8af98945bb997fc529371b8a9, type: 3}
+    clip: {fileID: 8300000, guid: c20c781ed089f7a439df6b472ba9ea43, type: 3}
     volume: 0
     pitch: 1
     loop: 1

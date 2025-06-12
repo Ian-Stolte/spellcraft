@@ -471,14 +471,20 @@ public class GameManager : MonoBehaviour
 
     public void Reset()
     {
-        StartCoroutine(ResetCor());
+        if (!loadingLevel)
+            StartCoroutine(ResetCor());
     }
 
     private IEnumerator ResetCor()
     {
+        loadingLevel = true;
+        SequenceManager.Instance.runNum++;
+        SequenceManager.Instance.lastRoom = int.Parse(SceneManager.GetActiveScene().name.Substring(6));
         Fader.Instance.FadeIn(1.5f);
         yield return new WaitForSeconds(2);
         SceneManager.LoadScene("Startup UI");
+        Destroy(player.gameObject);
+        loadingLevel = false;
     }
 
     public void Quit()
