@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465788, g: 0.49641287, b: 0.5748173, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1725,7 +1725,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &428421381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2515,9 +2515,11 @@ MonoBehaviour:
   barrier: {fileID: 1588410855}
   hiddenRoom: []
   dialogue:
-  - "Hey, Computer? What did you mean earlier by \u201Cgap in my neural data\u201D?"
-  - ~ooh i wish I could tell you it is nothing to worry about
-  - ~but you appear to be missing seven (7) to ten (10) days of memory
+  - Hey, Computer?** Any more progress on that scan?
+  - ~unfortunately all of my processing is currently directed toward the antivirus
+    system
+  - ~it would be rather inconvenient if my systems were corrupted right now****
+  - ~*****inconvenient for me*** because I suspect you would win that fight
   order: 0
 --- !u!1 &564916155
 GameObject:

@@ -1,4 +1,4 @@
-    using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -74,6 +74,8 @@ public class StartupManager : MonoBehaviour
         {
             plaintext[6] = "Procedure complete. Version " + SequenceManager.Instance.runNum + ".0 online.";
             fail = (SequenceManager.Instance.runNum == 1);
+            SequenceManager.Instance.rawTimer = 0;
+            SequenceManager.Instance.gameplayTimer = 0;
         }
 
         if (!instantFail)

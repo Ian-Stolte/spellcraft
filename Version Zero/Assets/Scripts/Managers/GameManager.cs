@@ -410,6 +410,7 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene("Level " + levelNum);
         else
         {
+            SequenceManager.Instance.health = player.GetComponent<PlayerMovement>().health;
             Destroy(player.gameObject);
             SceneManager.LoadScene("End Screen");
         }

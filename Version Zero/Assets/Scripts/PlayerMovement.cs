@@ -27,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
     public bool grounded;
 
     [Header("Health")]
-    [SerializeField] private int health;
+    public int health;
     [SerializeField] private int maxHealth;
     public Transform hpBar;
     [SerializeField] private float maxBurstDmg;

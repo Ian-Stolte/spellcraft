@@ -15,7 +15,18 @@ public class SequenceManager : MonoBehaviour
     }
 
     public int runNum;
+    public int health;
+    public float rawTimer;
+    public float gameplayTimer;
 
+
+    private void Update()
+    {
+        rawTimer += Time.deltaTime;
+        if (GameManager.Instance != null)
+            if (!GameManager.Instance.pauseGame && !GameManager.Instance.playerPaused)
+                gameplayTimer += Time.deltaTime;
+    }
     
     public void LoadGame(bool newGame)
     {

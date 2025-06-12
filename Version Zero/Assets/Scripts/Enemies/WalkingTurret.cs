@@ -160,7 +160,6 @@ public class WalkingTurret : Enemy
         {
             target = transform.position + Quaternion.Euler(0, Random.Range(0, 360), 0) * new Vector3(1, 0, 1) * Random.Range(targetMin, targetMax);
             lineOfSight = !Physics.Raycast(transform.position, target-transform.position, Vector3.Distance(target, transform.position), terrainLayer);
-            Debug.Log(lineOfSight);
         } while (Physics.OverlapSphere(target, 1, terrainLayer).Length > 0 || !lineOfSight);
     }
 
