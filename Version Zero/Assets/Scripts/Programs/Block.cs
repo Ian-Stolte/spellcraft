@@ -44,7 +44,6 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
     [SerializeField] private List<string> blockedTags;
     public float minCd;
     public float cd;
-    public int rarity;
     [TextArea(4, 8)] public string description;
 
     [Header("Saves")]

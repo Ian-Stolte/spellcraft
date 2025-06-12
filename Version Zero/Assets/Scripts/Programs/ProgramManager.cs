@@ -262,7 +262,7 @@ public class ProgramManager : MonoBehaviour
         foreach (Transform child in blockParent)
         {
             Block b = child.GetComponent<Block>();
-            if (b.attached)
+            if (!b.attached)
             {
                 b.symbol.canMove = false;
                 Color c = child.GetComponent<Image>().color;
@@ -324,7 +324,7 @@ public class ProgramManager : MonoBehaviour
         {
             foreach (Block b in p.blocks)
             {
-                b.transform.GetChild(4).gameObject.SetActive(false);
+                b.typeTxt.SetActive(false);
                 b.transform.GetChild(0).GetComponent<Image>().enabled = true;
                 Symbol sym = b.symbol;
                 sym.min = new Vector2(-80 * p.blocks.IndexOf(b) - 40, sym.min.y);
@@ -397,35 +397,14 @@ public class ProgramManager : MonoBehaviour
             foreach (Transform child in keybindSlots)
             {
                 KeybindSlot script = child.GetComponent<KeybindSlot>();
-                if (script.right == null)
-                {
-                    child.GetComponent<Image>().color = new Color(1, 1, 1, 1);
-                    continue;
-                }
-
-                Block b = script.right;
-                bool shape = false;
-                bool effect = false;
-                while (b != null)
-                {
-                    if (b.tag == "shape")
-                        shape = true;
-                    else if (b.tag == "effect")
-                        effect = true;
-                    b = b.right;
-                }
-                if (shape && effect)
-                {
-                    child.GetComponent<Image>().color = new Color(1, 1, 1, 1);
-                    valid++;
-                }
-                else
-                {
-                    child.GetComponent<Image>().color = invalidColor;
-                    valid = -99;
-                    break;
-                }
+                valid = CheckValidBlocks(valid, script.right, child.GetComponent<Image>());
             }
+            GameObject aura = GameObject.Find("Aura");
+            if (aura != null)
+                valid = CheckValidBlocks(valid, aura.GetComponent<Block>().right, aura.GetComponent<Image>(), true);
+            GameObject auto = GameObject.Find("Auto");
+            if (auto != null)
+                valid = CheckValidBlocks(valid, auto.GetComponent<Block>().right, auto.GetComponent<Image>());
             compileButton.GetComponent<Button>().interactable = (valid > 0);
         }
 
@@ -457,6 +436,36 @@ public class ProgramManager : MonoBehaviour
                 }
                 confirmButton.GetComponent<Button>().interactable = readyToConfirm;
             }
+        }
+    }
+
+    private int CheckValidBlocks(int valid, Block b, Image img, bool noShape=false)
+    {
+        if (b == null)
+        {
+            img.color = new Color(1, 1, 1, 1);
+            return valid;
+        }
+
+        bool shape = noShape;
+        bool effect = false;
+        while (b != null)
+        {
+            if (b.tag == "shape")
+                shape = true;
+            else if (b.tag == "effect")
+                effect = true;
+            b = b.right;
+        }
+        if (shape && effect)
+        {
+            img.color = new Color(1, 1, 1, 1);
+            return valid+1;
+        }
+        else
+        {
+            img.color = invalidColor;
+            return -99;
         }
     }
 

@@ -20,6 +20,7 @@ public class RewardManager : MonoBehaviour
 
     [Header("Block UI")]
     [SerializeField] private GameObject blockPrefab;
+    [SerializeField] private GameObject modPrefab;
     [SerializeField] private Color shapeColor;
     [SerializeField] private Color effectColor;
     [SerializeField] private Color modColor;
@@ -49,7 +50,7 @@ public class RewardManager : MonoBehaviour
     {
         foreach (Transform child in rewardParent)
         {
-            if (child.name == "Reward(Clone)")
+            if (child.name.Contains("Reward"))
                 Destroy(child.gameObject);
         }
         rewardParent.GetComponent<Image>().enabled = true;
@@ -69,6 +70,7 @@ public class RewardManager : MonoBehaviour
         GameManager.Instance.pauseGame = true;
     }
 
+
     public void ShowPrograms()
     {
         ProgramManager.Instance.Reforge();
@@ -79,7 +81,7 @@ public class RewardManager : MonoBehaviour
         blockBG.SetActive(true);
         foreach (Transform child in rewardParent)
         {
-            if (child.name == "Reward(Clone)")
+            if (child.name.Contains("Reward"))
             {
                 child.GetComponent<RectTransform>().anchoredPosition = new Vector2(child.GetComponent<RectTransform>().anchoredPosition.x * 0.55f, -440);
                 child.localScale *= 0.7f;
@@ -96,7 +98,7 @@ public class RewardManager : MonoBehaviour
         blockBG.SetActive(false);
         foreach (Transform child in rewardParent)
         {
-            if (child.name == "Reward(Clone)")
+            if (child.name.Contains("Reward"))
             {
                 child.GetComponent<RectTransform>().anchoredPosition = new Vector2(child.GetComponent<RectTransform>().anchoredPosition.x / 0.55f, 0);
                 child.localScale /= 0.7f;
@@ -189,7 +191,11 @@ public class RewardManager : MonoBehaviour
             else if (row.Count == 4)
                 rowX = 400*(i-1.5f);    
             
-            GameObject reward = Instantiate(blockPrefab, Vector2.zero, Quaternion.identity, rewardParent);
+            GameObject reward;
+            if (row[i].name == "Auto" || row[i].name == "Aura")
+                reward = Instantiate(modPrefab, Vector2.zero, Quaternion.identity, rewardParent);
+            else
+                reward = Instantiate(blockPrefab, Vector2.zero, Quaternion.identity, rewardParent);
             
             //Name
             if (GameManager.Instance.scifiNames)
@@ -208,13 +214,9 @@ public class RewardManager : MonoBehaviour
             reward.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = cdText;     
             if (row[i].tag == "shape")
                 reward.GetComponent<Image>().color = shapeColor;
-            else if (row[i].tag == "passive")
-                reward.GetComponent<Image>().color = modColor;
-            else
+            else if (row[i].tag == "effect")
                 reward.GetComponent<Image>().color = effectColor;
-            //reward.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = rarityTxts[row[i].rarity-1];
-            //reward.transform.GetChild(3).GetComponent<TextMeshProUGUI>().color = rarityColors[row[i].rarity-1];
-            TextMeshProUGUI txt = reward.transform.GetChild(4).GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI txt = reward.transform.GetChild(3).GetComponent<TextMeshProUGUI>();
             txt.text = row[i].type;
             if (txt.text == "instinct")
                 txt.color = typeColors[0];
@@ -222,7 +224,7 @@ public class RewardManager : MonoBehaviour
                 txt.color = typeColors[1];
             else if (txt.text == "memory")
                 txt.color = typeColors[2];
-            reward.transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = row[i].description;
+            reward.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = row[i].description;
             
             //Set position & references
             reward.GetComponent<RectTransform>().anchoredPosition = new Vector2(rowX, rowY);

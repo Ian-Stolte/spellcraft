@@ -27,7 +27,7 @@ public class RewardClick : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             yield return new WaitForSeconds(1);
             ProgramManager.Instance.Reforge();
         }
-        GameObject.Find("Program Rewards").SetActive(false);
+        GameObject.Find("Rewards").SetActive(false);
         ProgramManager.Instance.CreateBlock(blockToAdd);
     }
 
@@ -35,16 +35,16 @@ public class RewardClick : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         AudioManager.Instance.Play("Button Hover");
         transform.localScale *= 1.2f;
-        transform.GetChild(5).localScale /= 1.2f;
-        RectTransform rect = transform.GetChild(5).GetComponent<RectTransform>();
+        transform.GetChild(4).localScale /= 1.2f;
+        RectTransform rect = transform.GetChild(4).GetComponent<RectTransform>();
         rect.anchoredPosition = new Vector2(rect.anchoredPosition.x, rect.anchoredPosition.y/1.2f);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         transform.localScale /= 1.2f;
-        transform.GetChild(5).localScale *= 1.2f;
-        RectTransform rect = transform.GetChild(5).GetComponent<RectTransform>();
+        transform.GetChild(4).localScale *= 1.2f;
+        RectTransform rect = transform.GetChild(4).GetComponent<RectTransform>();
         rect.anchoredPosition = new Vector2(rect.anchoredPosition.x, rect.anchoredPosition.y*1.2f);
     }
 }

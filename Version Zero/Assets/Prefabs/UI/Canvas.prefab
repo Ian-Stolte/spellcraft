@@ -3787,7 +3787,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 5951377598077963791}
         m_TargetAssemblyTypeName: RewardManager, Assembly-CSharp
         m_MethodName: ShowPrograms
         m_Mode: 1
@@ -3799,8 +3799,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SpellManager, Assembly-CSharp
+      - m_Target: {fileID: 1244321252458295409}
+        m_TargetAssemblyTypeName: ProgramManager, Assembly-CSharp
         m_MethodName: ButtonClick
         m_Mode: 1
         m_Arguments:
@@ -3960,7 +3960,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6769001363974368101
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5652,7 +5652,7 @@ GameObject:
   - component: {fileID: 438658635798805198}
   - component: {fileID: 4467288042859035219}
   m_Layer: 5
-  m_Name: Program Rewards
+  m_Name: Rewards
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10215,7 +10215,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 5951377598077963791}
         m_TargetAssemblyTypeName: RewardManager, Assembly-CSharp
         m_MethodName: HidePrograms
         m_Mode: 1
@@ -10227,8 +10227,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SpellManager, Assembly-CSharp
+      - m_Target: {fileID: 1244321252458295409}
+        m_TargetAssemblyTypeName: ProgramManager, Assembly-CSharp
         m_MethodName: ButtonClick
         m_Mode: 1
         m_Arguments:
@@ -11083,6 +11083,7 @@ RectTransform:
   - {fileID: 6512932590144901468}
   - {fileID: 6769001363974368101}
   - {fileID: 4391171350677256713}
+  - {fileID: 6031616879673627772}
   - {fileID: 2531940724968868339}
   - {fileID: 1393418394969484926}
   - {fileID: 4341673330729894767}
@@ -15559,6 +15560,90 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &8055933279209473436
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6031616879673627772}
+  - component: {fileID: 5951377598077963791}
+  - component: {fileID: 4483514818172913399}
+  m_Layer: 0
+  m_Name: Reward Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6031616879673627772
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8055933279209473436}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -910.7666, y: -569.1908, z: 0}
+  m_LocalScale: {x: 1.838076, y: 1.838076, z: 1.838076}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4122393402824031919}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5951377598077963791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8055933279209473436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 916c7f706615ab040b99532d453d78c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  num: 3
+  width: 4
+  blockPrefab: {fileID: 7816516429751747857, guid: 215c5b89e0678414dbd0e847e1f7220f, type: 3}
+  modPrefab: {fileID: 751068182812198834, guid: 5f4e07fd3d5d9e1418e3ade97a0123eb, type: 3}
+  shapeColor: {r: 0.56078434, g: 0.627451, b: 0.5921569, a: 1}
+  effectColor: {r: 0.59026533, g: 0.77818805, b: 0.7987421, a: 1}
+  modColor: {r: 0.5773494, g: 0.735849, b: 0.5206478, a: 1}
+  rarityTxts:
+  - COMMON
+  - UNCOMMON
+  - RARE_
+  - "\u2014ULTRA\u2014"
+  rarityColors:
+  - {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 1}
+  - {r: 0.61071545, g: 0.834433, b: 0.8867924, a: 1}
+  - {r: 0.37308645, g: 0.9010692, b: 0.9056604, a: 1}
+  - {r: 1, g: 0.47484267, b: 0.7862191, a: 1}
+  typeColors:
+  - {r: 0.9372549, g: 0.34509805, b: 0.77254903, a: 1}
+  - {r: 0.47843137, g: 0.9411765, b: 0.38039216, a: 1}
+  - {r: 0.38039216, g: 0.6745098, b: 0.9607843, a: 1}
+  showPrograms: {fileID: 1836178223142995098}
+  hidePrograms: {fileID: 5526881303026788195}
+  blockBG: {fileID: 7893485025667785371}
+  rewardParent: {fileID: 2531940724968868339}
+  blockParent: {fileID: 4511819604764240910}
+--- !u!114 &4483514818172913399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8055933279209473436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a652c2e0e75815343a48e7990e7ce167, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objTag: RewardManager
 --- !u!1 &8176336146228608964
 GameObject:
   m_ObjectHideFlags: 0
@@ -17935,7 +18020,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &5483898462318665288
 RectTransform:
   m_ObjectHideFlags: 0
