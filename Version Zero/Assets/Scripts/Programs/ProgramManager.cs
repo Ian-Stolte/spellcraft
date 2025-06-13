@@ -549,8 +549,6 @@ public class ProgramManager : MonoBehaviour
             foreach (Transform child in p.symbol.transform)
             {
                 child.GetComponent<RectTransform>().anchoredPosition -= totalPos/p.symbol.transform.childCount;
-                child.transform.localScale *= 1.7f;
-                child.GetComponent<RectTransform>().anchoredPosition *= 1.7f;
                 Destroy(child.GetComponent<Symbol>());
                 Destroy(child.GetComponent<BoxCollider2D>());
             }
@@ -701,7 +699,7 @@ public class ProgramManager : MonoBehaviour
         cdIcon.GetChild(0).GetComponent<TextMeshProUGUI>().text = type;
         Transform symbol = Instantiate(p.symbol, Vector2.zero, Quaternion.identity, cdIcon).transform;
         symbol.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-        symbol.localScale /= 1.7f;
+        symbol.localScale *= 1.2f;
         symbol.SetSiblingIndex(cdIcon.childCount - 2);
         p.fillTimer = cdIcon.GetChild(cdIcon.childCount-1).gameObject;
         if (type == "AURA")
