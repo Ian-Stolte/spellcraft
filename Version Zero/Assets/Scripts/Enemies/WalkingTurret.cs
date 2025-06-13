@@ -167,7 +167,7 @@ public class WalkingTurret : Enemy
     private IEnumerator FireProjectiles(Vector3 dir)
     {
         atkTimer = atkDelay;
-        anim.Play("Attack");
+        anim.Play("Gardener_Fire");
         yield return new WaitForSeconds(0.3f);
         AudioManager.Instance.Play("Walking Turret Fire");
         for (int i = 0; i < numProj; i++)
@@ -182,7 +182,7 @@ public class WalkingTurret : Enemy
 
     private IEnumerator Stomp()
     {
-        anim.Play("WalkingTurret_Stomp");
+        anim.Play("Gardener_Stomp");
         stompIndicator.SetActive(true);
         float elapsed = 0f;
         while (elapsed < 0.75f)

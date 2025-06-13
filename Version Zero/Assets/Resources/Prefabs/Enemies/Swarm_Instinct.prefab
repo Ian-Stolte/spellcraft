@@ -248,16 +248,12 @@ MonoBehaviour:
   rb: {fileID: 0}
   player: {fileID: 0}
   mark: {fileID: 2666412720124463178}
+  damageMat: {fileID: 2100000, guid: 561a99ac704f68b45a6200f02eead067, type: 2}
   shielded: 0
   defSpeed: 5
-  atkRange: 0
   atkDelay: 2
   meleeRange: 2.5
   dmg: 1
-  projPrefab: {fileID: 0}
-  projSpeed: 0
-  retreatRange: 0
-  retreatThreshold: 0
 --- !u!54 &8997743322350078428
 Rigidbody:
   m_ObjectHideFlags: 0

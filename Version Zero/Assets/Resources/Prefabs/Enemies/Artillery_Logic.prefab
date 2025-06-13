@@ -721,6 +721,7 @@ MonoBehaviour:
   rb: {fileID: 0}
   player: {fileID: 0}
   mark: {fileID: 3475644836673767805}
+  damageMat: {fileID: 2100000, guid: 561a99ac704f68b45a6200f02eead067, type: 2}
   shielded: 0
   defSpeed: 1.5
   atkRange: 15
@@ -882,7 +883,7 @@ Animator:
   m_GameObject: {fileID: 8717687615653392388}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ac8834aff1c0b49a49eb13b4739459f3, type: 2}
+  m_Controller: {fileID: 9100000, guid: 4570c27e71fd56b4a95a565b3093831b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

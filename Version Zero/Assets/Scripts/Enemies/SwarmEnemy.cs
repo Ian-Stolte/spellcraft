@@ -49,7 +49,7 @@ public class SwarmEnemy : Enemy
             if (atkTimer <= 0 && dist < meleeRange && !player.GetComponent<PlayerPrograms>().dashing)
             {
                 player.GetComponent<PlayerMovement>().TakeDamage(dmg);
-                anim.Play("Attack");
+                anim.Play("Swarm_Attack");
                 rb.AddForce(dir * -400, ForceMode.Impulse);
                 atkTimer = atkDelay;
             }

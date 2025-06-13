@@ -2429,6 +2429,7 @@ MonoBehaviour:
   rb: {fileID: 508583999}
   player: {fileID: 0}
   mark: {fileID: 1674915429}
+  damageMat: {fileID: 0}
   shielded: 0
   defSpeed: 3
   atkRange: 10
@@ -5587,7 +5588,7 @@ Transform:
   - {fileID: 1433754689}
   - {fileID: 396756711}
   - {fileID: 937994825349224797}
-  - {fileID: 1794380346}
+  - {fileID: 1613346104}
   - {fileID: 710552341}
   - {fileID: 508583997}
   - {fileID: 1814066692}
@@ -5733,8 +5734,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 1548188222}
     m_Modifications:
     - target: {fileID: 1733786206433412511, guid: 2fa9536fc9895a64eb50713f54f11f74, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.60000056
+      objectReference: {fileID: 0}
+    - target: {fileID: 1733786206433412511, guid: 2fa9536fc9895a64eb50713f54f11f74, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.60000056
+      objectReference: {fileID: 0}
+    - target: {fileID: 1733786206433412511, guid: 2fa9536fc9895a64eb50713f54f11f74, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.208842
+      value: -10.208847
       objectReference: {fileID: 0}
     - target: {fileID: 1733786206433412511, guid: 2fa9536fc9895a64eb50713f54f11f74, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5742,7 +5751,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1733786206433412511, guid: 2fa9536fc9895a64eb50713f54f11f74, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 29.549551
+      value: 29.549572
       objectReference: {fileID: 0}
     - target: {fileID: 1733786206433412511, guid: 2fa9536fc9895a64eb50713f54f11f74, type: 3}
       propertyPath: m_LocalRotation.w
@@ -5785,6 +5794,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2fa9536fc9895a64eb50713f54f11f74, type: 3}
+--- !u!4 &1613346104 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1733786206433412511, guid: 2fa9536fc9895a64eb50713f54f11f74, type: 3}
+  m_PrefabInstance: {fileID: 1613346103}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1613806446
 GameObject:
   m_ObjectHideFlags: 0
@@ -6867,11 +6881,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!4 &1794380346 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1733786206433412511, guid: 2fa9536fc9895a64eb50713f54f11f74, type: 3}
-  m_PrefabInstance: {fileID: 1613346103}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1806237162
 GameObject:
   m_ObjectHideFlags: 0
@@ -7352,6 +7361,7 @@ MonoBehaviour:
   rb: {fileID: 1814066694}
   player: {fileID: 0}
   mark: {fileID: 611465830}
+  damageMat: {fileID: 0}
   shielded: 0
   defSpeed: 3
   atkRange: 10

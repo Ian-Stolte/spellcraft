@@ -78,7 +78,7 @@ public class ArtilleryEnemy : Enemy
         atkTimer = atkDelay;
         yield return new WaitForSeconds(0.3f);
         AudioManager.Instance.Play("Artillerist Fire");
-        anim.Play("ArtilleristFire");
+        anim.Play("Artillerist_Fire");
         for (int i = 0; i < numProj; i++)
         {
             GameObject proj = Instantiate(projPrefab, transform.position + dir * 0.5f + new Vector3(0, 1, 0), Quaternion.LookRotation(dir));

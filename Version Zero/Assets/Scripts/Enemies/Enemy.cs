@@ -31,6 +31,10 @@ public class Enemy : MonoBehaviour
     private int markDmg;
     private float markTimer;
 
+    [Header("Materials")]
+    [SerializeField] private Material damageMat;
+    private Material baseMat;
+
     [Header("Misc")]
     [HideInInspector] public bool shielded;
     [HideInInspector] public IEnumerator auraBurn;
@@ -40,6 +44,7 @@ public class Enemy : MonoBehaviour
     {
         health = maxHealth;
         rb = GetComponent<Rigidbody>();
+        baseMat = GetComponent<MeshRenderer>().material;
         player = GameObject.Find("Player");
     }
 
@@ -120,7 +125,8 @@ public class Enemy : MonoBehaviour
 
         if (dmg > 0 && !shielded)
         {
-            anim.Play("MeleeHit");
+            StartCoroutine(TakeDamageFlash());
+            //anim.Play("TakeDamage");
             health -= dmg;
             //show damage number
             GameObject dmgNumber = Instantiate(damageNumber, transform.position, Quaternion.identity, transform.GetChild(0));
@@ -137,6 +143,13 @@ public class Enemy : MonoBehaviour
             //play death anim
             Destroy(gameObject);
         }
+    }
+
+    private IEnumerator TakeDamageFlash()
+    {
+        GetComponent<MeshRenderer>().material = damageMat;
+        yield return new WaitForSeconds(0.2f);
+        GetComponent<MeshRenderer>().material = baseMat;
     }
 
 
