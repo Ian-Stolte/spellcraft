@@ -187,7 +187,7 @@ public class WalkingTurret : Enemy
         float elapsed = 0f;
         while (elapsed < 0.75f)
         {
-            stompIndicator.transform.GetChild(0).localScale = new Vector3(1, 1, 1) * Mathf.Lerp(0, 1, elapsed/0.75f);
+            stompIndicator.transform.GetChild(0).localScale = new Vector3(1, 1, 1) * Mathf.Lerp(0, 1, elapsed / 0.75f);
             elapsed += Time.deltaTime;
             yield return null;
             if (stunTimer > 0)
@@ -196,14 +196,16 @@ public class WalkingTurret : Enemy
                 yield break;
             }
         }
+        Debug.Log("STOMP");
         AudioManager.Instance.Play("Stomp Impact");
-        if (Vector3.Distance(player.transform.position, transform.position) < meleeRange-1)
+        if (Vector3.Distance(player.transform.position, transform.position) < meleeRange - 1.5f)
         {
             player.GetComponent<PlayerMovement>().TakeDamage(stompDmg);
             Vector3 dir = (player.transform.position - transform.position).normalized + new Vector3(0, 0.5f, 0);
             player.GetComponent<Rigidbody>().AddForce(dir * stompForce, ForceMode.Impulse);
         }
         stompIndicator.SetActive(false);
+        Debug.Log("Finished w/ stomp");
     }
 
 

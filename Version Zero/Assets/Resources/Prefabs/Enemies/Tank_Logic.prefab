@@ -550,8 +550,8 @@ Transform:
   m_GameObject: {fileID: 6377387012906372630}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.9858406, z: -0, w: 0.16768515}
-  m_LocalPosition: {x: 0.008117566, y: -0.7611678, z: 0.12988389}
-  m_LocalScale: {x: 8.117714, y: 0.29052207, z: 8.117714}
+  m_LocalPosition: {x: 0.02, y: -0.7611678, z: -0.1}
+  m_LocalScale: {x: 10, y: 0.29052207, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 50465888860465431}
@@ -1034,7 +1034,7 @@ MonoBehaviour:
   damageMat: {fileID: 2100000, guid: 561a99ac704f68b45a6200f02eead067, type: 2}
   shielded: 0
   defSpeed: 2.5
-  atkRange: 5
+  atkRange: 4.5
   atkDelay: 4
   dmg: 3
   stompForce: 100

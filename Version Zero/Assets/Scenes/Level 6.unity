@@ -1178,6 +1178,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330921836}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!95 &332224495 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4330846773592314196, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
+  m_PrefabInstance: {fileID: 1243056213}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &357895422
 GameObject:
   m_ObjectHideFlags: 0
@@ -3424,6 +3429,10 @@ PrefabInstance:
       propertyPath: programList
       value: 
       objectReference: {fileID: 201241617}
+    - target: {fileID: 1244321252458295409, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
+      propertyPath: SKIP_CRAFTING
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1606203488914803925, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
       propertyPath: m_Name
       value: Scroll Rect
@@ -5854,10 +5863,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1588410854}
     - target: {fileID: 8769358401370177342, guid: ccd22b33263484da0a82478b79e830e3, type: 3}
-      propertyPath: enemyPrefab
-      value: 
-      objectReference: {fileID: 3374018188190069361, guid: efbfce48a5ce846259968a2e7b48147b, type: 3}
-    - target: {fileID: 8769358401370177342, guid: ccd22b33263484da0a82478b79e830e3, type: 3}
       propertyPath: startBarrier
       value: 
       objectReference: {fileID: 621921260}
@@ -6816,7 +6821,7 @@ PrefabInstance:
     - target: {fileID: 3045372034943755482, guid: ed366113f1ef7954bba91e37b4256f57, type: 3}
       propertyPath: damageFlash
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 332224495}
     - target: {fileID: 3045372034943755482, guid: ed366113f1ef7954bba91e37b4256f57, type: 3}
       propertyPath: maxBurstDmg
       value: 4

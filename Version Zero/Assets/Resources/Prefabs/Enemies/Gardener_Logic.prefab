@@ -357,7 +357,7 @@ MonoBehaviour:
   spawnInterval: 0.2
   spawnIndicator: {fileID: 7385684649305300431, guid: 2605329a885b82447aed8453a60487e2, type: 3}
   enemiesToSpawn: 6
-  enemyPrefab: {fileID: 3374018188190069361, guid: 1931405160d7663449cb9e0089a73fe9, type: 3}
+  enemyPrefab: {fileID: 6239445980307028466, guid: efbfce48a5ce846259968a2e7b48147b, type: 3}
   spawnLayer:
     serializedVersion: 2
     m_Bits: 6208
@@ -783,7 +783,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5294427187884546044
 Transform:
   m_ObjectHideFlags: 0
@@ -793,8 +793,8 @@ Transform:
   m_GameObject: {fileID: 6550220193499272690}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.9858407, z: -0, w: 0.16768514}
-  m_LocalPosition: {x: 0.0000011056, y: -1.157, z: 0.0000027378}
-  m_LocalScale: {x: 5.3297915, y: 0.37185445, z: 5.3297915}
+  m_LocalPosition: {x: 0.08, y: -1.157, z: 0.09}
+  m_LocalScale: {x: 6.1463156, y: 0.42882258, z: 6.1463156}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 924679076059938202}

@@ -33,7 +33,6 @@ public class Enemy : MonoBehaviour
 
     [Header("Materials")]
     [SerializeField] private Material damageMat;
-    private Material baseMat;
 
     [Header("Misc")]
     [HideInInspector] public bool shielded;
@@ -44,7 +43,6 @@ public class Enemy : MonoBehaviour
     {
         health = maxHealth;
         rb = GetComponent<Rigidbody>();
-        //baseMat = GetComponent<MeshRenderer>().material;
         player = GameObject.Find("Player");
     }
 
@@ -125,15 +123,18 @@ public class Enemy : MonoBehaviour
 
         if (dmg > 0 && !shielded)
         {
-            //StartCoroutine(TakeDamageFlash());
             health -= dmg;
-            //show damage number
-            GameObject dmgNumber = Instantiate(damageNumber, transform.position, Quaternion.identity, transform.GetChild(0));
-            dmgNumber.transform.forward = transform.GetChild(0).forward;
-            dmgNumber.GetComponent<TextMeshProUGUI>().text = "" + dmg;
-            Vector2 randomPos = new Vector2(Random.Range(-100, 100), Random.Range(0, 100));
-            dmgNumber.GetComponent<RectTransform>().anchoredPosition = randomPos;
-            StartCoroutine(FadeText(dmgNumber, 0.5f, randomPos.normalized * 100));
+            if (health > 0)
+            {
+                StartCoroutine(TakeDamageFlash());
+                //show damage number
+                GameObject dmgNumber = Instantiate(damageNumber, transform.position, Quaternion.identity, transform.GetChild(0));
+                dmgNumber.transform.forward = transform.GetChild(0).forward;
+                dmgNumber.GetComponent<TextMeshProUGUI>().text = "" + dmg;
+                Vector2 randomPos = new Vector2(Random.Range(-100, 100), Random.Range(0, 100));
+                dmgNumber.GetComponent<RectTransform>().anchoredPosition = randomPos;
+                StartCoroutine(FadeText(dmgNumber, 0.5f, randomPos.normalized * 100));
+            }
         }
         aggro = true;
         healthBar.fillAmount = health/(maxHealth*1.0f);
@@ -144,12 +145,32 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    /*private IEnumerator TakeDamageFlash()
+    private IEnumerator TakeDamageFlash()
     {
-        GetComponent<MeshRenderer>().material = damageMat;
+        // Cache all MeshRenderers and their original materials in descendants
+        List<MeshRenderer> meshRenderers = new List<MeshRenderer>();
+        List<Material> originalMaterials = new List<Material>();
+
+        foreach (Transform child in GetComponentsInChildren<Transform>(true))
+        {
+            MeshRenderer mr = child.GetComponent<MeshRenderer>();
+            if (mr != null && child.name != "Shield" && !child.name.Contains("Warning"))
+            {
+                meshRenderers.Add(mr);
+                originalMaterials.Add(mr.material);
+                mr.material = damageMat;
+            }
+        }
+
         yield return new WaitForSeconds(0.2f);
-        GetComponent<MeshRenderer>().material = baseMat;
-    }*/
+
+        // Restore original materials
+        for (int i = 0; i < meshRenderers.Count; i++)
+        {
+            if (meshRenderers[i] != null)
+                meshRenderers[i].material = originalMaterials[i];
+        }
+    }
 
 
     private IEnumerator FadeText(GameObject txt, float duration, Vector2 dir)
