@@ -184,7 +184,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.N))
+        /*if (Input.GetKeyDown(KeyCode.N))
         {
             StartCoroutine(LoadNextLevel(GameObject.Find("End Elevator").GetComponent<Elevator>().nextArea));
         }
@@ -193,7 +193,7 @@ public class GameManager : MonoBehaviour
             int killed = enemyParent.childCount;
             foreach (Transform child in enemyParent)
                 Destroy(child.gameObject);
-        }
+        }*/
 
         if (spawningEnemies && !pauseGame && !loadingLevel)
         {

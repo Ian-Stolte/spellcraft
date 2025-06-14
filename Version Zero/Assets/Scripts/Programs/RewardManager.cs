@@ -40,10 +40,10 @@ public class RewardManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        /*if (Input.GetKeyDown(KeyCode.P))
         {
             Reward(num);
-        }
+        }*/
     }
 
     public void Reward(int n)

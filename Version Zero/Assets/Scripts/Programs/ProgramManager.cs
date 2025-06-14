@@ -697,9 +697,9 @@ public class ProgramManager : MonoBehaviour
         Transform cdIcon = Instantiate(cdIconPrefab, Vector2.zero, Quaternion.identity, cdParent).transform;
         cdIcon.GetComponent<RectTransform>().anchoredPosition = pos;
         cdIcon.GetChild(0).GetComponent<TextMeshProUGUI>().text = type;
-        Transform symbol = Instantiate(p.symbol, Vector2.zero, Quaternion.identity, cdIcon).transform;
+        Transform symbol = Instantiate(p.symbol, Vector2.zero, Quaternion.identity, cdIcon.GetChild(3)).transform;
         symbol.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-        symbol.localScale *= 1.2f;
+        symbol.localScale *= 1.1f;
         symbol.SetSiblingIndex(cdIcon.childCount - 2);
         p.fillTimer = cdIcon.GetChild(cdIcon.childCount-1).gameObject;
         if (type == "AURA")

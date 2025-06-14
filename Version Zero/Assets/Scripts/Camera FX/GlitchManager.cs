@@ -13,14 +13,6 @@ public class GlitchManager : MonoBehaviour
         g = GetComponent<Glitch>();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            ShowGlitch(2);
-        }
-    }
-
     public void ShowGlitch(float duration = 0.5f, float strength = 1)
     {
         showingGlitch = true;
