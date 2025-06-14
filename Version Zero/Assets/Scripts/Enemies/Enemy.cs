@@ -44,7 +44,7 @@ public class Enemy : MonoBehaviour
     {
         health = maxHealth;
         rb = GetComponent<Rigidbody>();
-        baseMat = GetComponent<MeshRenderer>().material;
+        //baseMat = GetComponent<MeshRenderer>().material;
         player = GameObject.Find("Player");
     }
 
@@ -125,8 +125,7 @@ public class Enemy : MonoBehaviour
 
         if (dmg > 0 && !shielded)
         {
-            StartCoroutine(TakeDamageFlash());
-            //anim.Play("TakeDamage");
+            //StartCoroutine(TakeDamageFlash());
             health -= dmg;
             //show damage number
             GameObject dmgNumber = Instantiate(damageNumber, transform.position, Quaternion.identity, transform.GetChild(0));
@@ -145,12 +144,12 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private IEnumerator TakeDamageFlash()
+    /*private IEnumerator TakeDamageFlash()
     {
         GetComponent<MeshRenderer>().material = damageMat;
         yield return new WaitForSeconds(0.2f);
         GetComponent<MeshRenderer>().material = baseMat;
-    }
+    }*/
 
 
     private IEnumerator FadeText(GameObject txt, float duration, Vector2 dir)

@@ -168,7 +168,7 @@ public class PlayerPrograms : MonoBehaviour
                 float slow = 0;
                 foreach (Block b in p.blocks)
                 {
-                    if (b.name == "Stun")
+                    if (b.name == "Pause")
                         stun += (aura) ? 0.3f : 1.5f; 
                     else if (b.name == "Slow")
                         slow += (aura) ? 0.5f : 2f; 

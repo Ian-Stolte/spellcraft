@@ -76,12 +76,12 @@ public class ArtilleryEnemy : Enemy
             shield.SetActive(false);
         }
         atkTimer = atkDelay;
+        anim.Play("Artillerist_Open");
         yield return new WaitForSeconds(0.3f);
         AudioManager.Instance.Play("Artillerist Fire");
-        anim.Play("Artillerist_Fire");
         for (int i = 0; i < numProj; i++)
         {
-            GameObject proj = Instantiate(projPrefab, transform.position + dir * 0.5f + new Vector3(0, 1, 0), Quaternion.LookRotation(dir));
+            GameObject proj = Instantiate(projPrefab, transform.position, Quaternion.LookRotation(dir));
             proj.GetComponent<Missile>().dmg = dmg;
             proj.GetComponent<Missile>().dir = dir * 0.5f + new Vector3(0, 2.5f+(0.1f*i), 0);
             proj.GetComponent<Missile>().target = new Vector3(player.transform.position.x, 0, player.transform.position.z) + player.GetComponent<PlayerMovement>().moveDir*5 + Quaternion.Euler(0, Random.Range(0, 360), 0) * new Vector3(Random.Range(0f, spread), 0, 0);
