@@ -168,7 +168,7 @@ public class WalkingTurret : Enemy
     private IEnumerator FireProjectiles(Vector3 dir)
     {
         atkTimer = atkDelay;
-        anim.Play("Gardener_Fire");
+        anim.Play("Gardener_Open");
         yield return new WaitForSeconds(0.3f);
         AudioManager.Instance.Play("Walking Turret Fire");
         for (int i = 0; i < numProj; i++)
@@ -260,6 +260,7 @@ public class WalkingTurret : Enemy
         
         endBarrier.SetActive(false);
 
-        AudioManager.Instance.KillBoss1();
+        if (!GameManager.Instance.pauseGame)
+            AudioManager.Instance.KillBoss1();
     }
 }

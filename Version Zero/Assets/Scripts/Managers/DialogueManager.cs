@@ -262,14 +262,14 @@ public class DialogueManager : MonoBehaviour
                     yield return new WaitForSeconds(1);
             }
             yield return new WaitForSeconds(3);
-            StartCoroutine(PlayMultipleDialogues(firstAccessPt));
+            PlayMultiple(firstAccessPt);
         }
         else
         {
             buildSelect.GetChild(0).gameObject.SetActive(true);
             ProgramManager.Instance.programUI.gameObject.SetActive(true);
-            yield return new WaitForSeconds(1);
-            StartCoroutine(PlayMultipleDialogues(firstAccessPt));
+            //yield return new WaitForSeconds(1);
+            //StartCoroutine(PlayMultipleDialogues(firstAccessPt));
         }
         yield return new WaitUntil(() => !GameManager.Instance.playerPaused);
         GameManager.Instance.UnlockBarrier(GameObject.Find("Barrier").transform);

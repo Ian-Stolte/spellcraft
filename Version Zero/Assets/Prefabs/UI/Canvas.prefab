@@ -4100,13 +4100,13 @@ MonoBehaviour:
   - "ow\u2026*** my head"
   - ~do not take this the wrong way but i am seeing an unexpectedly large gap in
     your neural data
-  - ~i am also unable to access any of your saved preferences
   - ~did you do something dangerous again miss
   - I... hah... I hope not.
   - '*.*.*.**'
-  - "...that said***.*.*.* I uh\u2014** I'm seeing more than a couple errors here."
-  - Shit.*** I'm getting blocked by an 'upload in progress' override every time I
-    try to log off.
+  - "...that said***.*.*.* I uh\u2014** I'm seeing more than a couple errors here.***
+    Let me try a quick restart..."
+  - Shit.*** I'm getting blocked by an 'upload in progress' override.*** I... can't
+    log off.
   - ~ohhh that is indeed a slight issue
   - ~perhaps it is related to the strange signals I am picking up from this world
   - ~if we get closer I will be able to perform a more thorough scan
@@ -4114,9 +4114,6 @@ MonoBehaviour:
   - ~welcome back miss!
   - "~do not take this the wrong way but there appears to be a minor error with your
     software\r"
-  - "Shit.*** I'm getting blocked by an 'upload in progress' override every time
-    I try to log off.\r"
-  - ~indeed that is what I was worried about
   - ~it seems perhaps there is something not quite right with this world
   - ~if we move further I will be able to perform a more thorough scan
   dialogue: {fileID: 275432461431091454}
@@ -4135,11 +4132,11 @@ MonoBehaviour:
   completeTxt: {fileID: 4227083385560644938}
   areaIntroText: {fileID: 5415879275530104750}
   gardenerDialogue:
-  - "~wWe aReR bEIng cO-contaActT\u2014\r"
-  - '!LIFEFORMS ARE NOT PERMITTED IN THE GARDEN'
+  - "~wWe aReR bEIng cO**-conta**ActT\u2014\r"
+  - '!LIFEFORMS ARE NOT PERMITTED IN THE GARDEN**'
   - '!I WOULD ASK YOU TO LEAVE BUT ACCORDING TO MY MODELS THAT ONLY HAS A 78% CHANCE
     OF SUCCESS'
-  - '!WHEREAS ELIMINATING YOU IS 100% EFFECTIVE'
+  - '!WHEREAS ELIMINATING YOU IS 100% EFFECTIVE***'
 --- !u!1 &1962712692126546188
 GameObject:
   m_ObjectHideFlags: 0
