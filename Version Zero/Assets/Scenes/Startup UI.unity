@@ -1384,7 +1384,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9202749298986741985, guid: 06ed8b54c334650419b06590ee1a19ea, type: 3}
       propertyPath: runNum
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9202749298986741985, guid: 06ed8b54c334650419b06590ee1a19ea, type: 3}
       propertyPath: lastRoom
@@ -2768,7 +2768,6 @@ MonoBehaviour:
   - Applying re-stimulation packets... waiting for neural response to proceed with
     resuscitation procedure.
   - Response received.
-  - Uploading layout preferences in accordance with last save data.
   - Procedure complete. Version 1.0 online.
   encoded:
   - TmV1cmFsIGFjdGl2aXR5IGRldGVjdGVkLi4u
@@ -3407,22 +3406,6 @@ PrefabInstance:
     - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
       propertyPath: uiSFX.Array.size
       value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
-      propertyPath: music.Array.data[0].clip
-      value: 
-      objectReference: {fileID: 8300000, guid: c20c781ed089f7a439df6b472ba9ea43, type: 3}
-    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
-      propertyPath: music.Array.data[0].name
-      value: Area 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
-      propertyPath: music.Array.data[1].clip
-      value: 
-      objectReference: {fileID: 8300000, guid: 1bd7c1f34cee1804294c0dacc1cda9d1, type: 3}
-    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
-      propertyPath: music.Array.data[1].name
-      value: Boss 1
       objectReference: {fileID: 0}
     - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
       propertyPath: music.Array.data[2].clip

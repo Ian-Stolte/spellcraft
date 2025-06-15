@@ -312,6 +312,7 @@ public class DialogueManager : MonoBehaviour
 
     public IEnumerator GardenerDialogue()
     {
+        StopCoroutines();
         GameManager.Instance.pauseGame = true;
         dialogue.SetActive(true);
         for (int i = 0; i < gardenerDialogue.Length-1; i++)

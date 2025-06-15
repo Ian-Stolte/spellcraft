@@ -251,7 +251,7 @@ MonoBehaviour:
   - {fileID: 922495084}
   dialogue:
   - Shit.*** Didn't work.
-  - Computer, can you find somewhere with auth user permissions?
+  - Computer, can you find me somewhere to access the codebase directly?***
   - ~yes of course right away******
   - ~it is back the way we came
   order: 0
@@ -413,8 +413,8 @@ MonoBehaviour:
   interactDist: 4
   barrier: {fileID: 745562176}
   dialogue:
-  - Damn, half of these systems are broken, and the other half are ads.****
-  - "Hang on***, I\u2019m going to try a hard reset.**"
+  - Amazing*.*.*.** half of these systems are broken, and the other half are ads.****
+  - Hang on***, let me try a hard reset.**
   - ~**i do not wish to alarm you but I am detecting numerous attempts to breach
     my antivirus software
   - ~you may want to prepare yourself****
@@ -5460,7 +5460,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9202749298986741985, guid: 06ed8b54c334650419b06590ee1a19ea, type: 3}
       propertyPath: runNum
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -75,7 +75,7 @@ public class StartupManager : MonoBehaviour
     {
         if (SequenceManager.Instance != null)
         {
-            plaintext[6] = "Procedure complete. Version " + SequenceManager.Instance.runNum + ".0 online.";
+            plaintext[5] = "Procedure complete. Version " + SequenceManager.Instance.runNum + ".0 online.";
             fail = (SequenceManager.Instance.runNum == 1);
             rawTime = SequenceManager.Instance.rawTimer;
             SequenceManager.Instance.rawTimer = 0;
@@ -199,10 +199,10 @@ public class StartupManager : MonoBehaviour
                 sign = 1;
                 manualControl = false;
             }
-            else if (i == 5)
+            /*else if (i == 5)
                 StartCoroutine(ProgressBar(8));
             else if (i == 6)
-                yield return new WaitForSeconds(3);
+                yield return new WaitForSeconds(3);*/
 
             yield return StartCoroutine(TypeText(i));
         }
@@ -356,6 +356,7 @@ public class StartupManager : MonoBehaviour
 
         if (fail)
         {
+            yield return new WaitForSeconds(0.3f);
             string errorMessage = errorTxt.text;
             errorTxt.text = "";
             errorTxt.gameObject.SetActive(true);

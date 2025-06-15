@@ -1510,7 +1510,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Drag 2 of the same blocks together to <color=#FFC55C>upgrade them</color>!
+  m_text: Drag 2 of the same functions together to <color=#FFC55C>upgrade them</color>!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1fb36033c6d300748b0e2e7580fde9b6, type: 2}
   m_sharedMaterial: {fileID: 2498378941350134116, guid: 1fb36033c6d300748b0e2e7580fde9b6, type: 2}
@@ -4103,10 +4103,10 @@ MonoBehaviour:
   - ~did you do something dangerous again miss
   - I... hah... I hope not.
   - '*.*.*.**'
-  - "...that said***.*.*.* I uh\u2014** I'm seeing more than a couple errors here.***
-    Let me try a quick restart..."
-  - Shit.*** I'm getting blocked by an 'upload in progress' override.*** I... can't
-    log off.
+  - "...that said***.*.*.* I uh\u2014** I'm seeing more than a couple errors here.*******
+    Let me try*.*.*.** turning it off and back on\u2014"
+  - Shit.*** I'm getting blocked by an 'upload in progress' override every time I
+    try to log off.
   - ~ohhh that is indeed a slight issue
   - ~perhaps it is related to the strange signals I am picking up from this world
   - ~if we get closer I will be able to perform a more thorough scan
@@ -4579,8 +4579,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Drag blocks to a <color=#C0FFD0>keybind slot</color> to create a program*,
-    which you will use to fight off enemies.
+  m_text: 'Drag function blocks to a <color=#C0FFD0>keybind slot</color> to create
+    a program*, which you will use to fight off enemies.
 
 '
   m_isRightToLeft: 0
@@ -12055,8 +12055,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '*Program = <color=#9AAEA3>1 Shape block</color> and <color=#8EBCD1>1+
-    Effect blocks</color>'
+  m_text: '*Program = <color=#9AAEA3>1 Shape function</color> and <color=#8EBCD1>1+
+    Effect functions</color>'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1fb36033c6d300748b0e2e7580fde9b6, type: 2}
   m_sharedMaterial: {fileID: 2498378941350134116, guid: 1fb36033c6d300748b0e2e7580fde9b6, type: 2}

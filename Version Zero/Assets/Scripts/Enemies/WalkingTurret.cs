@@ -123,6 +123,7 @@ public class WalkingTurret : Enemy
                 atkDelay = 2.5f;
                 stompDelay = 1.5f;
                 finalForm = true;
+                StopAllCoroutines();
                 StartCoroutine(Stomp());
             }
         }
