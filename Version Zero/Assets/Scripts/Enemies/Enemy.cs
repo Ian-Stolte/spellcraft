@@ -33,6 +33,8 @@ public class Enemy : MonoBehaviour
 
     [Header("Materials")]
     [SerializeField] private Material damageMat;
+    private List<MeshRenderer> meshRenderers = new List<MeshRenderer>();
+    private List<Material> originalMaterials = new List<Material>();
 
     [Header("Misc")]
     [HideInInspector] public bool shielded;
@@ -44,6 +46,17 @@ public class Enemy : MonoBehaviour
         health = maxHealth;
         rb = GetComponent<Rigidbody>();
         player = GameObject.Find("Player");
+
+        //cache material refs
+        foreach (Transform child in GetComponentsInChildren<Transform>(true))
+        {
+            MeshRenderer mr = child.GetComponent<MeshRenderer>();
+            if (mr != null && child.name != "Shield" && !child.name.Contains("Warning"))
+            {
+                meshRenderers.Add(mr);
+                originalMaterials.Add(mr.material);
+            }
+        }
     }
 
     public void Update()
@@ -147,17 +160,11 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator TakeDamageFlash()
     {
-        // Cache all MeshRenderers and their original materials in descendants
-        List<MeshRenderer> meshRenderers = new List<MeshRenderer>();
-        List<Material> originalMaterials = new List<Material>();
-
         foreach (Transform child in GetComponentsInChildren<Transform>(true))
         {
             MeshRenderer mr = child.GetComponent<MeshRenderer>();
             if (mr != null && child.name != "Shield" && !child.name.Contains("Warning"))
             {
-                meshRenderers.Add(mr);
-                originalMaterials.Add(mr.material);
                 mr.material = damageMat;
             }
         }

@@ -47,13 +47,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   music:
   - name: Area 1
-    clip: {fileID: 8300000, guid: c20c781ed089f7a439df6b472ba9ea43, type: 3}
+    clip: {fileID: 8300000, guid: 75114c56c07dd4edfbe24ddd62b97c56, type: 3}
     volume: 0
     pitch: 1
     loop: 1
     source: {fileID: 0}
   - name: Boss 1
-    clip: {fileID: 8300000, guid: 1bd7c1f34cee1804294c0dacc1cda9d1, type: 3}
+    clip: {fileID: 8300000, guid: 9d0a395a609a94a0fbb5dbfaf81c804c, type: 3}
     volume: 0
     pitch: 1
     loop: 1

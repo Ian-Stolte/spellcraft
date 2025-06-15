@@ -47,14 +47,14 @@ public class WalkingTurret : Enemy
     [SerializeField] private GameObject startBarrier;
     [SerializeField] private GameObject endBarrier;
 
-    private bool finalForm;
+    public bool finalForm;
 
 
     void Start()
     {
         base.Start();
-        AudioManager.Instance.Play("Area 1");
-        StartCoroutine(AudioManager.Instance.StartFade("Area 1", 1, 0.2f));
+        //AudioManager.Instance.Play("Area 1");
+        //StartCoroutine(AudioManager.Instance.StartFade("Area 1", 1, 0.2f));
     }
 
     void Update()
@@ -98,12 +98,12 @@ public class WalkingTurret : Enemy
             if (Vector3.Distance(rb.position, target) < 1f)
                 ChooseTarget();
             
-            if (atkTimer <= 0 && (dist > meleeRange || finalForm)) //ranged attack
+            if (atkTimer <= 0 && (dist > meleeRange) && !finalForm) //ranged attack
             {
                 Vector3 dir = Vector3.Scale(player.transform.position - transform.position, new Vector3(1, 0, 1)).normalized;
                 StartCoroutine(FireProjectiles(dir));
             }
-            else if (stompTimer <= 0 && (dist < meleeRange || finalForm)) //melee attack
+            else if (stompTimer <= 0 && (dist < meleeRange) && !finalForm) //melee attack
             {
                 stompTimer = stompDelay;
                 StartCoroutine(Stomp());
@@ -123,6 +123,7 @@ public class WalkingTurret : Enemy
                 atkDelay = 2.5f;
                 stompDelay = 1.5f;
                 finalForm = true;
+                StartCoroutine(Stomp());
             }
         }
     }
@@ -177,6 +178,9 @@ public class WalkingTurret : Enemy
             proj.GetComponent<Missile>().dir = dir * 0.5f + new Vector3(0, 2.5f+(0.1f*i), 0);
             proj.GetComponent<Missile>().target = new Vector3(player.transform.position.x, 0, player.transform.position.z) + player.GetComponent<PlayerMovement>().moveDir*3 + Quaternion.Euler(0, Random.Range(0, 360), 0) * new Vector3(Random.Range(0f, spread), 0, 0);
         }
+        yield return new WaitForSeconds(1);
+        if (finalForm)
+            StartCoroutine(Stomp());
     }
 
 
@@ -190,13 +194,12 @@ public class WalkingTurret : Enemy
             stompIndicator.transform.GetChild(0).localScale = new Vector3(1, 1, 1) * Mathf.Lerp(0, 1, elapsed / 0.75f);
             elapsed += Time.deltaTime;
             yield return null;
-            if (stunTimer > 0)
+            if (stunTimer > 0 && !finalForm)
             {
                 stompIndicator.SetActive(false);
                 yield break;
             }
         }
-        Debug.Log("STOMP");
         AudioManager.Instance.Play("Stomp Impact");
         if (Vector3.Distance(player.transform.position, transform.position) < meleeRange - 1.5f)
         {
@@ -205,7 +208,11 @@ public class WalkingTurret : Enemy
             player.GetComponent<Rigidbody>().AddForce(dir * stompForce, ForceMode.Impulse);
         }
         stompIndicator.SetActive(false);
-        Debug.Log("Finished w/ stomp");
+        if (finalForm)
+        {
+            Vector3 dir = Vector3.Scale(player.transform.position - transform.position, new Vector3(1, 0, 1)).normalized;
+            StartCoroutine(FireProjectiles(dir));
+        }
     }
 
 

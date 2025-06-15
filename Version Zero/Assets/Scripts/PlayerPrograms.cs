@@ -61,7 +61,7 @@ public class PlayerPrograms : MonoBehaviour
                 }
             }
 
-            if (autoProgram.name != "")
+            if (autoProgram.name != "" && !GameManager.Instance.loadingLevel)
             {
                 autoTimer = Mathf.Max(0, autoTimer - Time.deltaTime);
                 if (autoTimer <= 0)

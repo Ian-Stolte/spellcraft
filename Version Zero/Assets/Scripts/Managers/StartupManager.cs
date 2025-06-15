@@ -160,7 +160,7 @@ public class StartupManager : MonoBehaviour
         sign = -1;
         direction *= 2;
         speed *= 2;
-        trailDensity *= 0.25f;
+        //trailDensity *= 0.25f;
         yield return new WaitUntil(() => point.anchoredPosition.y < min.y + 70);
         sign = 0;
         direction *= 0.5f;

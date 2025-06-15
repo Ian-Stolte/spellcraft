@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     public bool skipDialogue;
     [HideInInspector] public bool pauseGame;
     [HideInInspector] public bool playerPaused;
-    private bool loadingLevel;
+    [HideInInspector] public bool loadingLevel;
     
     [Header("Rooms")]
     private int levelNum = 1;
@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviour
     public GameObject bossUI;
     [SerializeField] private GameObject loadingText;
     [SerializeField] private GameObject gameOver;
+    private GameObject canvas;
 
     
     void Start()
@@ -80,9 +81,12 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "Playtest Options" || scene.name == "End Screen" || scene.name == "Startup UI")
+        if (scene.name == "Playtest Options" || scene.name == "Startup UI")
+        {
+            Destroy(canvas);
             Destroy(gameObject);
-        else
+        }
+        else if (scene.name != "End Screen")
         {
             enemyParent = GameObject.Find("Enemies").transform;
 
@@ -164,20 +168,23 @@ public class GameManager : MonoBehaviour
             else
             {
                 terminal.complete = true;
-                Destroy(terminalIcons.GetChild(1).gameObject);
+                Destroy(terminalIcons.GetChild(2).gameObject);
                 numTerminals--;
             }
         }
         
-        int sceneNum = int.Parse(SceneManager.GetActiveScene().name.Substring(6));
-        if ((sceneNum > 3 && sceneNum != 6) || (sceneNum == 3 && runNum > 1))
+        if (scene.name != "End Screen")
         {
-            spawningEnemies = true;
-            spawnTimer = Random.Range(minSpawn/2f, maxSpawn/2f);
-        }
-        else
-        {
-            spawningEnemies = false;
+            int sceneNum = int.Parse(SceneManager.GetActiveScene().name.Substring(6));
+            if ((sceneNum > 3 && sceneNum != 6) || (sceneNum == 3 && runNum > 1))
+            {
+                spawningEnemies = true;
+                spawnTimer = Random.Range(minSpawn/2f, maxSpawn/2f);
+            }
+            else
+            {
+                spawningEnemies = false;
+            }
         }
     }
 
@@ -332,8 +339,9 @@ public class GameManager : MonoBehaviour
             if (currentTerminal.dialogue.Length > 0)
             {
                 DialogueManager.Instance.StopCoroutines();
-                DialogueManager.Instance.playMultipleCor = DialogueManager.Instance.PlayMultipleDialogues(currentTerminal.dialogue);
-                StartCoroutine(DialogueManager.Instance.playMultipleCor);
+                DialogueManager.Instance.PlayMultiple(currentTerminal.dialogue);
+                //DialogueManager.Instance.playMultipleCor = DialogueManager.Instance.PlayMultipleDialogues();
+                //StartCoroutine(DialogueManager.Instance.playMultipleCor);
             }
         }
         else
@@ -479,11 +487,22 @@ public class GameManager : MonoBehaviour
     {
         loadingLevel = true;
         SequenceManager.Instance.runNum++;
-        SequenceManager.Instance.lastRoom = int.Parse(SceneManager.GetActiveScene().name.Substring(6));
+        if (SceneManager.GetActiveScene().name != "End Screen")
+            SequenceManager.Instance.lastRoom = int.Parse(SceneManager.GetActiveScene().name.Substring(6));
+        else
+            SequenceManager.Instance.lastRoom = 7;
         Fader.Instance.FadeIn(1.5f);
         yield return new WaitForSeconds(2);
+        gameOver.SetActive(false);
+        if (player == null)
+            Destroy(GameObject.Find("Computer"));
+        else
+        {
+            Destroy(player.GetComponent<PlayerMovement>().computer.gameObject);
+            Destroy(player.gameObject);
+        }
+        canvas = GameObject.Find("Canvas");
         SceneManager.LoadScene("Startup UI");
-        Destroy(player.gameObject);
         loadingLevel = false;
     }
 

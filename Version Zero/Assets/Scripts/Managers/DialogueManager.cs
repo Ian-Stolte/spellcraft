@@ -60,6 +60,13 @@ public class DialogueManager : MonoBehaviour
         StartCoroutine(playMultipleCor);
     }
 
+    public void PlayMultiple(string[] lines)
+    {
+        StopCoroutines();
+        playMultipleCor = PlayMultipleDialogues(lines);
+        StartCoroutine(playMultipleCor);
+    }
+
     public IEnumerator PlayMultipleDialogues(string[] lines)
     {
         foreach (string s in lines)
@@ -146,6 +153,7 @@ public class DialogueManager : MonoBehaviour
             StopCoroutine(playCor);
         if (playMultipleCor != null)
             StopCoroutine(playMultipleCor);
+        //StopAllCoroutines();
         dialogue.SetActive(false);
     }
 

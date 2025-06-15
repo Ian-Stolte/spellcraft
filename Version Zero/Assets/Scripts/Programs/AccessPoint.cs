@@ -51,7 +51,8 @@ public class AccessPoint : MonoBehaviour
 
     private IEnumerator DelayedDialogue()
     {
+        DialogueManager.Instance.StopCoroutines();
         yield return new WaitForSeconds(1);
-        StartCoroutine(DialogueManager.Instance.PlayMultipleDialogues(dialogue));
+        DialogueManager.Instance.PlayMultiple(dialogue);
     }
 }

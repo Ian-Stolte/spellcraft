@@ -110,8 +110,6 @@ public class EndScreen : MonoBehaviour
             yield return null;
         }
         yield return new WaitForSeconds(1);
-        SequenceManager.Instance.runNum++;
-        SequenceManager.Instance.lastRoom = 7;
-        SceneManager.LoadScene("Startup UI");
+        GameManager.Instance.Reset();
     }
 }
