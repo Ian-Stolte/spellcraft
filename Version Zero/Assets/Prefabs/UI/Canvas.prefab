@@ -4097,14 +4097,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   introDialogue:
-  - "ow\u2026*** my head"
+  - ow*.*.*.**** my head
   - ~do not take this the wrong way but i am seeing an unexpectedly large gap in
     your neural data
   - ~did you do something dangerous again miss
   - I... hah... I hope not.
   - '*.*.*.**'
   - "...that said***.*.*.* I uh\u2014** I'm seeing more than a couple errors here.*******
-    Let me try*.*.*.** turning it off and back on\u2014"
+    Let me try turning it off and back\u2014"
   - Shit.*** I'm getting blocked by an 'upload in progress' override every time I
     try to log off.
   - ~ohhh that is indeed a slight issue
@@ -4112,15 +4112,16 @@ MonoBehaviour:
   - ~if we get closer I will be able to perform a more thorough scan
   introDialogue2:
   - ~welcome back miss!
-  - "~do not take this the wrong way but there appears to be a minor error with your
-    software\r"
-  - ~it seems perhaps there is something not quite right with this world
-  - ~if we move further I will be able to perform a more thorough scan
+  - ~I am glad your reset appears to have worked better this time
+  - ~unfortunately I am still seeing a minor software error with your memory upload
+    process
+  - ~I hope you do not mind a bit more walking
   dialogue: {fileID: 275432461431091454}
   portraits:
   - {fileID: 1544588236475558191}
   - {fileID: 1429909108834651106}
   - {fileID: 522683671815730594}
+  typeSpeed: 0.7
   firstAccessPt:
   - ~it appears you need to provide your Sector miss***
   - ~unfortunately I am unable to find data on which one you belong to
@@ -4133,10 +4134,10 @@ MonoBehaviour:
   areaIntroText: {fileID: 5415879275530104750}
   gardenerDialogue:
   - "~wWe aReR bEIng cO**-conta**ActT\u2014\r"
-  - '!LIFEFORMS ARE NOT PERMITTED IN THE GARDEN**'
+  - '!LIFEFORMS ARE NOT PERMITTED IN THE GARDEN'
   - '!I WOULD ASK YOU TO LEAVE BUT ACCORDING TO MY MODELS THAT ONLY HAS A 78% CHANCE
     OF SUCCESS'
-  - '!WHEREAS ELIMINATING YOU IS 100% EFFECTIVE***'
+  - '!WHEREAS ELIMINATING YOU IS 100% EFFECTIVE'
 --- !u!1 &1962712692126546188
 GameObject:
   m_ObjectHideFlags: 0

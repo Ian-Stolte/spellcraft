@@ -21,6 +21,7 @@ public class DialogueManager : MonoBehaviour
     [TextArea(3, 5)] [SerializeField] private string[] introDialogue2;
     [SerializeField] private GameObject dialogue;
     [SerializeField] private GameObject[] portraits;
+    [SerializeField] private float typeSpeed;
     //[SerializeField] private Sprite[] reyaExpressions;
 
     [Header("Terminals")]
@@ -54,10 +55,7 @@ public class DialogueManager : MonoBehaviour
     public void PlayOrderedTerminal()
     {
         terminalNum++;
-        if (playMultipleCor != null)
-            StopCoroutine(playMultipleCor);
-        playMultipleCor = PlayMultipleDialogues(terminalDialogue[terminalNum]);
-        StartCoroutine(playMultipleCor);
+        PlayMultiple(terminalDialogue[terminalNum]);
     }
 
     public void PlayMultiple(string[] lines)
@@ -73,12 +71,12 @@ public class DialogueManager : MonoBehaviour
         {
             if (playCor != null)
                 StopCoroutine(playCor);
-            playCor = PlayDialogue(s, 1f);
+            playCor = PlayDialogue(s, 2f);
             yield return playCor; 
         }
     }
 
-    public IEnumerator PlayDialogue(string line, float waitTime=3f)
+    public IEnumerator PlayDialogue(string line, float waitTime, bool canSkip=false)
     {
         //set up portraits
         line = ShowPortraits(line);
@@ -104,16 +102,16 @@ public class DialogueManager : MonoBehaviour
             else if (addingHTML)
                 html += c;
             else if (c=='*')
-                yield return new WaitForSeconds(0.15f);
+                yield return new WaitForSeconds(0.15f * typeSpeed);
             else if (c != '~')
             {
                 txt.text += c;
                 if (c=='.' || c==',')
-                    yield return new WaitForSeconds(0.15f);
+                    yield return new WaitForSeconds(0.15f * typeSpeed);
                 else if (c==' ')
-                    yield return new WaitForSeconds(0.08f);
+                    yield return new WaitForSeconds(0.08f * typeSpeed);
                 else
-                    yield return new WaitForSeconds(0.04f);
+                    yield return new WaitForSeconds(0.04f * typeSpeed);
             }
         }
         if (line[line.Length-1] == '—')
@@ -184,11 +182,11 @@ public class DialogueManager : MonoBehaviour
                     {
                         txt.text += c;
                         if (c == '.' || c == ',')
-                            yield return new WaitForSeconds(0.10f * slowDown);
+                            yield return new WaitForSeconds(0.10f * typeSpeed);
                         else if (c == ' ')
-                            yield return new WaitForSeconds(0.10f * slowDown);
+                            yield return new WaitForSeconds(0.10f * typeSpeed);
                         else
-                            yield return new WaitForSeconds(0.05f * slowDown);
+                            yield return new WaitForSeconds(0.05f * typeSpeed);
                     }
                 }
                 if (i == dialogueToPlay.Length-2)
@@ -201,7 +199,10 @@ public class DialogueManager : MonoBehaviour
                 {
                     GameManager.Instance.pauseGame = false;
                 }
-                yield return new WaitForSeconds(2);
+                if (dialogueToPlay[i][dialogueToPlay[i].Length - 1] == '—')
+                    yield return new WaitForSeconds(1);
+                else
+                    yield return new WaitForSeconds(2);
             }
             dialogue.SetActive(false);
         }
@@ -247,6 +248,7 @@ public class DialogueManager : MonoBehaviour
         {
             buildSelect.GetChild(2).gameObject.SetActive(true);
             ProgramManager.Instance.programUI.gameObject.SetActive(true);
+            StopCoroutines();
             yield return new WaitForSeconds(1.5f);
             for (int i = 0; i < dialogue.Length; i++)
             {
@@ -289,9 +291,9 @@ public class DialogueManager : MonoBehaviour
         completeTxt.text = "Restarting... please wait";
         progressBar.fillAmount = 0;
         float elapsed = 0;
-        while (elapsed < 18)
+        while (elapsed < 15)
         {
-            progressBar.fillAmount = Mathf.Min(elapsed/30, progressBar.fillAmount + (Random.Range(0.01f, 0.2f)/30));
+            progressBar.fillAmount = Mathf.Min(elapsed/25, progressBar.fillAmount + (Random.Range(0.01f, 0.2f)/25));
             float randomWait = Random.Range(0.01f, 0.2f);
             elapsed += randomWait;
             yield return new WaitForSeconds(randomWait);
@@ -317,9 +319,9 @@ public class DialogueManager : MonoBehaviour
         dialogue.SetActive(true);
         for (int i = 0; i < gardenerDialogue.Length-1; i++)
         {
-            yield return PlayDialogue(gardenerDialogue[i], 1f);
+            yield return PlayDialogue(gardenerDialogue[i], 2f);
         }
-        StartCoroutine(PlayDialogue(gardenerDialogue[gardenerDialogue.Length-1]));
+        StartCoroutine(PlayDialogue(gardenerDialogue[gardenerDialogue.Length-1], 2f));
         yield return new WaitForSeconds(3);
         dialogue.SetActive(false);
         GameManager.Instance.pauseGame = false;

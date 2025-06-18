@@ -48,8 +48,7 @@ public class Missile : MonoBehaviour
                 if (c.CompareTag("Player") && !player.GetComponent<PlayerPrograms>().dashing)
                 {
                     player.GetComponent<PlayerMovement>().TakeDamage(dmg);
-                    if (warning != null)
-                        Destroy(gameObject);
+                    Destroy(gameObject);
                 }
             }
         }

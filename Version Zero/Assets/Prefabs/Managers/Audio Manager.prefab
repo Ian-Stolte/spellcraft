@@ -47,19 +47,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   music:
   - name: Area 1
-    clip: {fileID: 8300000, guid: 0d1bdb8d257ea494a95c600c8ba63a76, type: 3}
+    clip: {fileID: 8300000, guid: 6af994b577a12de45ae15002c15d651b, type: 3}
     volume: 0
     pitch: 1
     loop: 1
     source: {fileID: 0}
   - name: Boss 1
-    clip: {fileID: 8300000, guid: 9d0a395a609a94a0fbb5dbfaf81c804c, type: 3}
+    clip: {fileID: 8300000, guid: 845b54451178ae24890edb1592858836, type: 3}
     volume: 0
     pitch: 1
     loop: 1
     source: {fileID: 0}
   - name: Startup UI
-    clip: {fileID: 8300000, guid: c6c93a3fe7a2f4fa18b54d0e7ad4f331, type: 3}
+    clip: {fileID: 8300000, guid: 0eb01312f581b7e4687b2bafe5277058, type: 3}
     volume: 0.1
     pitch: 1
     loop: 0

@@ -67,8 +67,9 @@ public class StartupManager : MonoBehaviour
     [SerializeField] private Image progressBar;
     [SerializeField] private GameObject completeTxt;
 
-    [Header("Error")]
+    [Header("Misc")]
     [SerializeField] private GameObject errorFlash;
+    [SerializeField] private CanvasGroup spaceToSkip;
 
 
     void Start()
@@ -88,17 +89,58 @@ public class StartupManager : MonoBehaviour
             StartCoroutine(NeuralActivity());
             AudioManager.Instance.Play("Startup UI");
         }
-        StartCoroutine(SpeedText(downloadTxt, 2*minSpeed, 2*maxSpeed));
-        direction = new Vector2(direction.x/point.parent.localScale.x, direction.y/point.parent.localScale.y).normalized;
-    
+        StartCoroutine(SpeedText(downloadTxt, 2 * minSpeed, 2 * maxSpeed));
+        direction = new Vector2(direction.x / point.parent.localScale.x, direction.y / point.parent.localScale.y).normalized;
+
         if (instantFail)
             StartCoroutine(UploadFailed());
+
+        StartCoroutine(FadeOutSpaceToSkip());
+    }
+
+    private IEnumerator FadeOutSpaceToSkip()
+    {
+        yield return new WaitForSeconds(2);
+        float elapsed = 0;
+        while (elapsed < 1)
+        {
+            spaceToSkip.alpha = elapsed;
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        yield return new WaitForSeconds(1);
+        elapsed = 0;
+        while (elapsed < 2)
+        {
+            spaceToSkip.alpha = 1 - elapsed / 2;
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        spaceToSkip.alpha = 0;
+    }
+
+
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.Space))
+        {
+            StartCoroutine(SkipIntro());
+        }
+    }
+
+    private IEnumerator SkipIntro()
+    {
+        Fader.Instance.FadeIn(2);
+        StartCoroutine(AudioManager.Instance.StartFade("Startup UI", 2, 0f));
+        yield return new WaitForSeconds(2);
+        AudioManager.Instance.Stop("Startup UI");
+        SceneManager.LoadScene("Level 1");
     }
 
 
     private void FixedUpdate()
     {
-        point.anchoredPosition += new Vector2(direction.x, direction.y*sign)*speed/60;
+        point.anchoredPosition += new Vector2(direction.x, direction.y * sign) * speed / 60;
         if (!manualControl)
         {
             if (Random.Range(flipChance.x, flipChance.y) <= randomChance || point.anchoredPosition.y > max.y || point.anchoredPosition.y < min.y)
@@ -116,7 +158,7 @@ public class StartupManager : MonoBehaviour
                 else
                     sign = 0;
 
-                point.anchoredPosition = new Vector2(point.anchoredPosition.x, Mathf.Clamp(point.anchoredPosition.y, min.y+5, max.y-5));
+                point.anchoredPosition = new Vector2(point.anchoredPosition.x, Mathf.Clamp(point.anchoredPosition.y, min.y + 5, max.y - 5));
             }
             else
                 randomChance++;
@@ -125,7 +167,7 @@ public class StartupManager : MonoBehaviour
         if (trailCount >= trailDensity)
         {
             GameObject trailObj = Instantiate(pointTrail, point.position, Quaternion.identity, point.parent);
-            trailObj.transform.localScale = new Vector2(trailObj.transform.localScale.x/point.parent.localScale.x, trailObj.transform.localScale.y/point.parent.localScale.y);
+            trailObj.transform.localScale = new Vector2(trailObj.transform.localScale.x / point.parent.localScale.x, trailObj.transform.localScale.y / point.parent.localScale.y);
             trailCount = 0;
         }
 

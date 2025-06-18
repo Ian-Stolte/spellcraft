@@ -38,8 +38,8 @@ public class GameManager : MonoBehaviour
 
     private float spawnTimer;
     private bool spawningEnemies;
-    private float minSpawn = 15;
-    private float maxSpawn = 25;
+    private float minSpawn = 20;
+    private float maxSpawn = 30;
 
     [Header("Terminals")]
     [SerializeField] private GameObject terminalBar;
@@ -111,13 +111,13 @@ public class GameManager : MonoBehaviour
             if (scene.name == "Level 4")
             {
                 enemyPrefabs.Add("Artillerist");
-                minSpawn = 10;
-                maxSpawn = 20;
+                minSpawn = 15;
+                maxSpawn = 25;
             }
             else if (scene.name == "Level 5")
             {
-                minSpawn = 8;
-                maxSpawn = 18;
+                minSpawn = 10;
+                maxSpawn = 20;
             }
         
             //replace enemies with chosen type
@@ -437,6 +437,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator GameOver()
     {
+        DialogueManager.Instance.StopCoroutines();
         player.GetComponent<PlayerPrograms>().enabled = false;
         pauseGame = true;
         StartCoroutine(AudioManager.Instance.FadeOutAll(0));
