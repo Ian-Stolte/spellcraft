@@ -124,7 +124,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
                     }
                     else if (kScript != null)
                     {
-                        if (rectTransform.anchoredPosition.x > kScript.GetComponent<RectTransform>().anchoredPosition.x && kScript.right == null)
+                        if (rectTransform.anchoredPosition.x > kScript.GetComponent<RectTransform>().anchoredPosition.x && kScript.right == null && !noKeybind)
                         {
                             targetSpace = kScript.rightSpace;
                             targetSpace.SetActive(true);

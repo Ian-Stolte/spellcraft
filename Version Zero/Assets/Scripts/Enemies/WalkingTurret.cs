@@ -168,6 +168,7 @@ public class WalkingTurret : Enemy
 
     private IEnumerator FireProjectiles(Vector3 dir)
     {
+        yield return new WaitUntil(() => !GameManager.Instance.pauseGame);
         atkTimer = atkDelay;
         anim.Play("Gardener_Open");
         yield return new WaitForSeconds(0.3f);
@@ -187,6 +188,7 @@ public class WalkingTurret : Enemy
 
     private IEnumerator Stomp()
     {
+        yield return new WaitUntil(() => !GameManager.Instance.pauseGame);
         anim.Play("Gardener_Stomp");
         stompIndicator.SetActive(true);
         float elapsed = 0f;

@@ -90,10 +90,10 @@ public class GameManager : MonoBehaviour
         {
             enemyParent = GameObject.Find("Enemies").transform;
 
+            //create an icon for each terminal in the level
             foreach (Transform child in terminalIcons)
                 Destroy(child.gameObject);
             
-            //create an icon for each terminal in the level
             numTerminals = 0;
             foreach (GameObject g in Resources.FindObjectsOfTypeAll<GameObject>())
             {
@@ -168,7 +168,7 @@ public class GameManager : MonoBehaviour
             else
             {
                 terminal.complete = true;
-                Destroy(terminalIcons.GetChild(2).gameObject);
+                Destroy(terminalIcons.GetChild(1).gameObject);
                 numTerminals--;
             }
         }
@@ -191,7 +191,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        /*if (Input.GetKeyDown(KeyCode.N))
+        if (Input.GetKeyDown(KeyCode.N))
         {
             StartCoroutine(LoadNextLevel(GameObject.Find("End Elevator").GetComponent<Elevator>().nextArea));
         }
@@ -200,7 +200,7 @@ public class GameManager : MonoBehaviour
             int killed = enemyParent.childCount;
             foreach (Transform child in enemyParent)
                 Destroy(child.gameObject);
-        }*/
+        }
 
         if (spawningEnemies && !pauseGame && !loadingLevel)
         {

@@ -40,10 +40,10 @@ public class RewardManager : MonoBehaviour
 
     private void Update()
     {
-        /*if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             Reward(num);
-        }*/
+        }
     }
 
     public void Reward(int n)
@@ -60,11 +60,17 @@ public class RewardManager : MonoBehaviour
         List<Block> chosenBlocks = new List<Block>();
         for (int i = 0; i < n; i++)
         {
+            string[] forbidden = new string[chosenBlocks.Count];
+            for (int j = 0; j < chosenBlocks.Count; j++)
+            {
+                forbidden[j] = chosenBlocks[j].name;
+            }
+
             float rand = Random.Range(0f, 1f);
             if (rand < 0.4f)
-                chosenBlocks.Add(ProgramManager.Instance.ChooseRandom(1, null, ProgramManager.Instance.buildpath)[0]);
+                chosenBlocks.Add(ProgramManager.Instance.ChooseRandom(1, forbidden, ProgramManager.Instance.buildpath)[0]);
             else
-                chosenBlocks.Add(ProgramManager.Instance.ChooseRandom(1)[0]);
+                chosenBlocks.Add(ProgramManager.Instance.ChooseRandom(1, forbidden)[0]);
         }
         ShowRewards(chosenBlocks);
         GameManager.Instance.pauseGame = true;
