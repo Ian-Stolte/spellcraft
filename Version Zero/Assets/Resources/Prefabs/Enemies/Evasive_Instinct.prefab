@@ -457,6 +457,7 @@ MonoBehaviour:
   rb: {fileID: 0}
   player: {fileID: 0}
   mark: {fileID: 7085434389808877003}
+  damageMat: {fileID: 2100000, guid: a1e9fa7d2ec9eb340a650ce47e58854b, type: 2}
   shielded: 0
   defSpeed: 3
   atkRange: 8

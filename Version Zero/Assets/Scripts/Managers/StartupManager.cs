@@ -10,6 +10,7 @@ public class StartupManager : MonoBehaviour
     [Header("Bools")]
     [SerializeField] private bool fail;
     [SerializeField] private bool instantFail;
+    private bool skipping;
 
     [Header("Dialogue")]
     [SerializeField] private string[] plaintext;
@@ -122,8 +123,9 @@ public class StartupManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space) && !skipping)
         {
+            skipping = true;
             StartCoroutine(SkipIntro());
         }
     }

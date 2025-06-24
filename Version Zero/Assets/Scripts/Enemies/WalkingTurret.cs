@@ -111,13 +111,11 @@ public class WalkingTurret : Enemy
         }
 
         //spawn enemies @ HP thresholds
-        if (health/(maxHealth*1.0f) < spawnInterval*indicators.Count)
+        if (health / (maxHealth * 1.0f) < spawnInterval * indicators.Count)
         {
-            health = (int)Mathf.Round(spawnInterval*indicators.Count * maxHealth);
-            StartCoroutine(SpawnEnemies(enemiesToSpawn - indicators.Count));
-            StartCoroutine(Shield());
-            Destroy(indicators[indicators.Count-1]);
-            indicators.RemoveAt(indicators.Count-1);
+            health = (int)Mathf.Round(spawnInterval * indicators.Count * maxHealth);
+            Destroy(indicators[indicators.Count - 1]);
+            indicators.RemoveAt(indicators.Count - 1);
             if (indicators.Count == 0) //if last tick
             {
                 atkDelay = 2.5f;
@@ -126,6 +124,8 @@ public class WalkingTurret : Enemy
                 StopAllCoroutines();
                 StartCoroutine(Stomp());
             }
+            StartCoroutine(SpawnEnemies(enemiesToSpawn - indicators.Count));
+            StartCoroutine(Shield());
         }
     }
 

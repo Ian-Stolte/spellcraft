@@ -673,11 +673,11 @@ MonoBehaviour:
   rb: {fileID: 0}
   player: {fileID: 0}
   mark: {fileID: 2666412720124463178}
-  damageMat: {fileID: 2100000, guid: 561a99ac704f68b45a6200f02eead067, type: 2}
+  damageMat: {fileID: 2100000, guid: a1e9fa7d2ec9eb340a650ce47e58854b, type: 2}
   shielded: 0
   defSpeed: 5
   atkDelay: 2
-  meleeRange: 2.5
+  meleeRange: 2.2
   dmg: 1
 --- !u!54 &8997743322350078428
 Rigidbody:

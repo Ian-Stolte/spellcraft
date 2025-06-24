@@ -19,6 +19,13 @@ public class TrapHitbox : Hitbox
 
         if (lifeTimer >= activateTime)
             GetComponent<MeshRenderer>().material = activatedMat;
+
+        if (Physics.OverlapSphere(transform.position, transform.localScale.x/2, LayerMask.GetMask("Enemy")).Length > 0 && lifeTimer > activateTime)
+        {
+            transform.GetChild(0).gameObject.SetActive(true);
+            StartCoroutine(Fade(0.5f));
+            CheckCollisions();
+        }
     }
 
     void OnTriggerEnter(Collider hit)
