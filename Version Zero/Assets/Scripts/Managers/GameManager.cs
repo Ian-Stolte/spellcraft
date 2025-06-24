@@ -36,7 +36,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform enemyParent;
     [SerializeField] private List<int> waves = new List<int>();
 
+    public Transform enemyTimer;
     private float spawnTimer;
+    private float totalSpawn;
     private bool spawningEnemies;
     private float minSpawn = 20;
     private float maxSpawn = 30;
@@ -178,8 +180,10 @@ public class GameManager : MonoBehaviour
             int sceneNum = int.Parse(SceneManager.GetActiveScene().name.Substring(6));
             if ((sceneNum > 3 && sceneNum != 6) || (sceneNum == 3 && runNum > 1))
             {
+                enemyTimer.gameObject.SetActive(true);
                 spawningEnemies = true;
-                spawnTimer = Random.Range(minSpawn/2f, maxSpawn/2f);
+                spawnTimer = Random.Range(minSpawn / 2f, maxSpawn / 2f);
+                totalSpawn = spawnTimer;
             }
             else
             {
@@ -205,10 +209,13 @@ public class GameManager : MonoBehaviour
         if (spawningEnemies && !pauseGame && !loadingLevel)
         {
             spawnTimer -= Time.deltaTime;
+            enemyTimer.GetChild(2).GetComponent<TextMeshProUGUI>().text = Mathf.Round(spawnTimer * 10)/10f + "s";
+            enemyTimer.GetChild(4).GetComponent<Image>().fillAmount = 1 - spawnTimer / totalSpawn;
             if (spawnTimer < 0)
             {
                 StartCoroutine(WaveEnemies(1));
                 spawnTimer = Random.Range(minSpawn, maxSpawn);
+                totalSpawn = spawnTimer;
             }
         }
     }
@@ -234,7 +241,6 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator WaveEnemies(int n, Vector3 setPos = default)
     {
-        yield return new WaitForSeconds(1);
         if (loadingLevel)
             yield break;
         for (int i = 0; i < n; i++)

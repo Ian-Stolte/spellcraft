@@ -40,6 +40,7 @@ public class DialogueManager : MonoBehaviour
     public IEnumerator playCor;
 
     [Header("Misc")]
+    private bool skip;
     [SerializeField] private TextMeshProUGUI areaIntroText;
     [TextArea(3, 5)] [SerializeField] private string[] gardenerDialogue;
 
@@ -51,6 +52,16 @@ public class DialogueManager : MonoBehaviour
         terminalNum = 0;
         terminalDialogue = new string[5][];
     }
+
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            skip = true;
+        }
+    }
+
     
     public void PlayOrderedTerminal()
     {
@@ -171,38 +182,50 @@ public class DialogueManager : MonoBehaviour
         {
             for (int i = 0; i < dialogueToPlay.Length; i++)
             {
+                skip = false;
                 dialogueToPlay[i] = ShowPortraits(dialogueToPlay[i]);
                 float slowDown = (i < 1) ? 1.5f : 1f;
                 txt.text = "";
                 foreach (char c in dialogueToPlay[i])
                 {
                     if (c == '*')
-                        yield return new WaitForSeconds(0.15f);
+                    {
+                        if (!skip)
+                            yield return new WaitForSeconds(0.15f);
+                    }
                     else if (c != '~')
                     {
                         txt.text += c;
-                        if (c == '.' || c == ',')
-                            yield return new WaitForSeconds(0.10f * typeSpeed);
-                        else if (c == ' ')
-                            yield return new WaitForSeconds(0.10f * typeSpeed);
-                        else
-                            yield return new WaitForSeconds(0.05f * typeSpeed);
+                        if (!skip)
+                        {
+                            if (c == '.' || c == ',')
+                                yield return new WaitForSeconds(0.10f * typeSpeed);
+                            else if (c == ' ')
+                                yield return new WaitForSeconds(0.10f * typeSpeed);
+                            else
+                                yield return new WaitForSeconds(0.05f * typeSpeed);
+                        }
                     }
                 }
-                if (i == dialogueToPlay.Length-2)
+                if (i == dialogueToPlay.Length - 2)
                 {
-                    Fader.Instance.FadeOut(10);
+                    float fadeTime = (skip) ? 6 : 10;
+                    Fader.Instance.FadeOut(fadeTime);
                     AudioManager.Instance.Play("Area 1");
                     StartCoroutine(AudioManager.Instance.StartFade("Area 1", 0.5f, 0.2f));
                 }
-                else if (i == dialogueToPlay.Length-1)
+                else if (i == dialogueToPlay.Length - 1)
                 {
                     GameManager.Instance.pauseGame = false;
                 }
-                if (dialogueToPlay[i][dialogueToPlay[i].Length - 1] == '—')
-                    yield return new WaitForSeconds(1);
-                else
-                    yield return new WaitForSeconds(2);
+
+                skip = false;
+                float waitTimer = (dialogueToPlay[i][dialogueToPlay[i].Length - 1] == '—') ? 1 : 2;
+                while (!skip && waitTimer > 0)
+                {
+                    waitTimer -= Time.deltaTime;
+                    yield return null;
+                }
             }
             dialogue.SetActive(false);
         }
@@ -276,7 +299,7 @@ public class DialogueManager : MonoBehaviour
         yield return new WaitUntil(() => !GameManager.Instance.playerPaused);
         GameManager.Instance.UnlockBarrier(GameObject.Find("Barrier").transform);
         GameManager.Instance.FinishTerminalIcon();
-        
+
         yield return new WaitUntil(() => GameObject.Find("Player").transform.position.z < 0);
         yield return new WaitForSeconds(1);
         StartCoroutine(GameManager.Instance.WaveEnemies(1, new Vector3(40, 0, -5)));
@@ -284,6 +307,7 @@ public class DialogueManager : MonoBehaviour
         yield return new WaitForSeconds(1.2f);
         StartCoroutine(PlayMultipleDialogues(firstEnemy));
         GameObject.Find("Player").GetComponent<PlayerMovement>().hpBar.gameObject.SetActive(true);
+        GameManager.Instance.enemyTimer.gameObject.SetActive(true);
     }
 
     private IEnumerator ProgressBar()
