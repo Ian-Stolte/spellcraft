@@ -43,10 +43,8 @@ public class BuildSelector : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         }
         ProgramManager.Instance.CreateBlock("Damage");
         List<Block> effectBlocks = ProgramManager.Instance.ChooseRandom(1, new string[]{"Damage"}, type, new string[]{"effect", "passive"});
-        List<Block> miscBlocks = ProgramManager.Instance.ChooseRandom(1, new string[]{"Damage"}, "none", new string[]{"effect", "passive"});
-        List<Block> shapeBlocks = ProgramManager.Instance.ChooseRandom(2, new string[]{"Damage"}, type, new string[]{"shape"});
-        effectBlocks.AddRange(miscBlocks);
-        effectBlocks.AddRange(shapeBlocks);
+        effectBlocks.AddRange(ProgramManager.Instance.ChooseRandom(1, ForbiddenFromList(effectBlocks), "none", new string[]{"effect", "passive"}));
+        effectBlocks.AddRange(ProgramManager.Instance.ChooseRandom(2, ForbiddenFromList(effectBlocks), type, new string[]{"shape"}));
         foreach (Block b in effectBlocks)
         {
             ProgramManager.Instance.CreateBlock(b.gameObject);
@@ -58,6 +56,19 @@ public class BuildSelector : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         GameObject.Find("Build Selection").SetActive(false);
         DialogueManager.Instance.StopCoroutines();
     }
+
+    private string[] ForbiddenFromList(List<Block> list)
+    {
+        string[] forbidden = new string[list.Count+1];
+        forbidden[0] = "Damage";
+        for (int i = 0; i < list.Count; i++)
+        {
+            forbidden[i+1] = list[i].name;
+        }
+        return forbidden;
+    }
+
+
 
     public void OnPointerEnter(PointerEventData eventData)
     {

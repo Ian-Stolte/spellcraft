@@ -38,7 +38,6 @@ public class ProgramManager : MonoBehaviour
     [SerializeField] private GameObject backButton;
     [SerializeField] private GameObject confirmButton;
     [SerializeField] private GameObject randomButton;
-    [SerializeField] private GameObject startButton;
 
     [Header("Prefabs")]
     [SerializeField] private GameObject emptyImage;
@@ -64,7 +63,7 @@ public class ProgramManager : MonoBehaviour
 
     [Header("Program Data")]
     public string buildpath;
-    //TODO: read directly from prefab folders
+    //TODO: read directly from prefab folders?
     public List<GameObject> shapeBlocks;
     public List<GameObject> effectBlocks;
     public List<GameObject> modBlocks;
@@ -157,6 +156,7 @@ public class ProgramManager : MonoBehaviour
     }
 
 
+
     public void Reforge()
     {
         GameManager.Instance.pauseGame = true;
@@ -194,37 +194,6 @@ public class ProgramManager : MonoBehaviour
         }
     }
 
-
-    public void ExitReforge()
-    {
-        //StartCoroutine(ExitReforgeCor());
-    }
-
-    /*private IEnumerator ExitReforgeCor()
-    {
-        
-        Fader.Instance.FadeIn(0.5f);
-        yield return new WaitForSeconds(0.5f);
-
-        foreach (Transform child in blockParent)
-        {
-            if (child.gameObject.activeSelf)
-                child.GetComponent<Block>().ReadState();
-        }
-        programs.Clear();
-        foreach (Program p in spellSave)
-        {
-            programs.Add(p);
-        }
-        GameManager.Instance.pauseGame = false;
-        GameManager.Instance.playerPaused = false;
-        programUI.gameObject.SetActive(false);
-        cdParent.gameObject.SetActive(true);
-        player.GetComponent<PlayerMovement>().enabled = true;
-        player.enabled = true;
-
-        Fader.Instance.FadeOut(0.5f);
-    }*/
 
 
     public void CompileSpells()
@@ -273,41 +242,7 @@ public class ProgramManager : MonoBehaviour
                 b.levelTxt.GetComponent<CanvasGroup>().alpha = 0.1f;
             }
         }
-        /*foreach (Transform child in blockParent)
-        {
-            if (child.gameObject.activeSelf)
-            {
-                Block b = child.GetComponent<Block>();
-                if (b.left == null && b.right == null)
-                {
-                    b.symbol.canMove = false;
-                    Color c = child.GetComponent<Image>().color;
-                    child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 0.1f);
-                    b.nameTxt.GetComponent<CanvasGroup>().alpha = 0.5f;
-                    b.typeTxt.GetComponent<CanvasGroup>().alpha = 0.1f;
-                    b.cdTxt.GetComponent<CanvasGroup>().alpha = 0.1f;
-                }
-                else
-                {
-                    if (b.left == null && b.right != null)
-                    {
-                        List<Block> newSpell = new List<Block>();
-                        Block temp = b;
-                        while (temp != null)
-                        {
-                            newSpell.Add(temp);
-                            temp = temp.right;
-                        }
-                        programs.Add(new Program(newSpell));
-                    }
-                    Color c = child.GetComponent<Image>().color;
-                    child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 0.3f);
-                    b.typeTxt.GetComponent<CanvasGroup>().alpha = 0.5f;
-                    b.cdTxt.SetActive(false);
-                }
-            }
-        }*/
-
+        
         if (showTutorial)
         {
             tutorials[0].SetActive(false);
@@ -334,6 +269,7 @@ public class ProgramManager : MonoBehaviour
         }
     }
 
+    //find all blocks attached to a keybind slot
     private void GetBlockList(Block b, KeyCode keybind=KeyCode.None)
     {
         List<Block> blockList = new List<Block>();
@@ -491,10 +427,6 @@ public class ProgramManager : MonoBehaviour
         confirmButton.SetActive(false);
         randomButton.SetActive(false);
         backButton.SetActive(false);
-        //keybindUI.gameObject.SetActive(true);
-        
-        //foreach (Transform child in programList)
-        //    Destroy(child.gameObject);
 
         //filter out aura and auto programs
         player.auraProgram.name = "";
@@ -522,11 +454,7 @@ public class ProgramManager : MonoBehaviour
                 player.autoTick = cd/2f;
         }
 
-        //add other programs to results UI
-        /*int index = 0;
-        int bindIndex = 0;
-        programList.parent.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 60);
-        programList.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;*/
+        //TODO: do this better? (don't need results UI any more)
         foreach (Program p in programs)
         {
             //spawn symbol
@@ -553,80 +481,20 @@ public class ProgramManager : MonoBehaviour
                 Destroy(child.GetComponent<BoxCollider2D>());
             }
 
-            //create program list UI
-            /*p.programList = Instantiate(spellListItem, Vector2.zero, Quaternion.identity, programList);
-            p.symbol.transform.SetSiblingIndex(p.symbol.transform.parent.childCount - 3);
-            p.programList.GetComponent<RectTransform>().anchoredPosition = new Vector2(-80, -index*260);
-            programList.parent.GetComponent<RectTransform>().sizeDelta += new Vector2(0, 260);
-
-            p.programList.GetComponent<ProgramList>().hasKeybind = (p != player.autoProgram && p != player.auraProgram);
-            p.programList.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = programName.Substring(0, programName.Length-3);
-            string cdTxt = ((""+cd).Length == 1) ? cd + ".0s" : cd + "s"; 
-            p.programList.transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = cdTxt;
-            if (p == player.autoProgram)
-                p.programList.transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = "AUTO";
-            else if (p == player.auraProgram)
-                p.programList.transform.GetChild(6).GetComponent<TextMeshProUGUI>().text = "AURA";*/
-            
             //set program values
             p.name = programName.Substring(0, programName.Length-3);
             p.cdMax = cd;
-            //p.symbol.transform.SetSiblingIndex(p.symbol.transform.parent.childCount - 1);
-            //p.symbol.GetComponent<RectTransform>().anchoredPosition = new Vector2(-630, -index*260);
-
-            //if (index > 0)
-            //    programList.GetComponent<RectTransform>().anchoredPosition += new Vector2(0, 130);
-            //index++;
-
-            //default keybinds
-            /*if (bindIndex < defaultBinds.Length && p != player.autoProgram && p != player.auraProgram)
-            {
-                p.keybind = defaultBinds[bindIndex];
-                keybindIcons.GetChild(bindIndex).GetComponent<KeybindButton>().targetProgramList = p.programList.transform;
-                TextMeshProUGUI txt = p.programList.transform.GetChild(6).GetComponent<TextMeshProUGUI>();
-                if (bindIndex == 0)
-                    txt.text = "Left Click";
-                else if (bindIndex == 1)
-                    txt.text = "Right Click";
-                else if (bindIndex == 2)
-                    txt.text = "Middle Click";
-                bindIndex++;
-            }*/
         }
         if (player.auraProgram.name != "")
             programs.Remove(player.auraProgram);
         if (player.autoProgram.name != "")
             programs.Remove(player.autoProgram);
-        //startButton.SetActive(true);
-
-        //Keybinds
-        /*for (int i = 0; i < Mathf.Min(programs.Count, 3); i++)
-        {
-            Transform symbol = Instantiate(programs[i].symbol, Vector2.zero, Quaternion.identity, keybindIcons.GetChild(i)).transform;
-            symbol.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-            symbol.localScale /= 1.7f;
-            Block shape = programs[i].blocks.Find(b=>b.tag == "shape");
-            keybindIcons.GetChild(i).GetChild(4).GetComponent<TextMeshProUGUI>().text = shape.name;
-        }*/
-        //keybindIcons.GetChild(0).GetComponent<KeybindButton>().MakeActiveKeybind();
-        EnterGame();
+        StartCoroutine(EnterGame());
     }
 
-
-    public void EnterGame()
-    {
-        StartCoroutine(EnterGameCor());
-    }
-
-    public IEnumerator EnterGameCor()
+    public IEnumerator EnterGame()
     {
         AudioManager.Instance.Play("Enter Game");
-        if (!musicOn)
-        {
-            musicOn = true;
-            //StartCoroutine(AudioManager.Instance.StartFade("Dreamer", 5, 0.1f));
-            //AudioManager.Instance.Play("Dreamer");
-        }
         foreach (Transform child in cdParent)
         {
             Destroy(child.gameObject);
@@ -636,29 +504,7 @@ public class ProgramManager : MonoBehaviour
         Fader.Instance.FadeIn(0.5f);
         yield return new WaitForSeconds(0.5f);
         
-        /*int index = 0;
-        foreach (Program p in programs)
-        {
-            Block shape = p.blocks.Find(b=>b.tag == "shape");
-            if (index < defaultBinds.Length && shape != null)
-            {
-                CreateProgramIcon(p, new Vector2(-800 + (170*index), -450), bindTxt[index], shape.nameTxt.text);
-            }
-            index++;
-        }*/
-        /*int index = 0;
-        foreach (Transform child in keybindIcons)
-        {
-            KeybindButton button = child.GetComponent<KeybindButton>();
-            if (button.targetProgram != null)
-            {
-                Debug.Log(button.keybindStr);
-                Block shape = button.targetProgram.blocks.Find(b=>b.tag == "shape");
-                Debug.Log(shape.name);
-                CreateProgramIcon(button.targetProgram, new Vector2(-800 + (170*index), -450), button.keybindStr, shape.name);
-                index++;
-            }
-        }*/
+        //create program icons
         int index = 0;
         foreach (Program p in programs)
         {
@@ -680,8 +526,6 @@ public class ProgramManager : MonoBehaviour
                 CreateProgramIcon(player.autoProgram, new Vector2(800 - (170*index), -450), "AUTO", shape.name);
         }
 
-        //startButton.SetActive(false);
-        //keybindUI.gameObject.SetActive(false);
         programUI.gameObject.SetActive(false);
         Fader.Instance.FadeOut(0.5f);
 
@@ -708,9 +552,10 @@ public class ProgramManager : MonoBehaviour
     }
 
 
+
     public List<Block> ChooseRandom(int n, string[] forbidden=null, string type="none", string[] category=null)
     {
-        //TODO: add diff percents --- keep in 3 separate lists, but decrement pct of given list when chosen (e.g 40-40-20, then choose effect -> 50-25-25)
+        //TODO: add diff percents? --- keep in 3 separate lists, but decrement pct of given list when chosen (e.g 40-40-20, then choose effect -> 50-25-25)
         if (forbidden == null)
             forbidden = new string[0];
 
@@ -750,6 +595,7 @@ public class ProgramManager : MonoBehaviour
     }
 
 
+
     public Color ColorFromType(string type)
     {
         if (type == "logic")
@@ -763,6 +609,8 @@ public class ProgramManager : MonoBehaviour
         else
             return new Color(1, 1, 1, 1);
     }
+
+
 
     public void ButtonClick()
     {
