@@ -54,6 +54,10 @@ public class ProgramManager : MonoBehaviour
     [SerializeField] private GameObject[] tutorials;
     public GameObject buildSelect;
 
+    [Header("Upgrade")]
+    private bool upgradeShown;
+    [SerializeField] private GameObject upgradeTutorial;
+
     [Header("Keybinds")]
     public KeyCode[] defaultBinds;
     public string[] bindTxt;
@@ -69,7 +73,6 @@ public class ProgramManager : MonoBehaviour
     public List<GameObject> modBlocks;
     private List<GameObject> blocks = new List<GameObject>();
     public List<Program> programs = new List<Program>();
-    [HideInInspector] public List<Program> spellSave = new List<Program>();
     
 
     public void Start()
@@ -169,13 +172,20 @@ public class ProgramManager : MonoBehaviour
         randomButton.SetActive(false);
         spellsLocked = false;
 
+        HashSet<string> blockNames = new HashSet<string>();
         foreach (Transform child in blockParent)
         {
             Block b = child.GetComponent<Block>();
             if (child.gameObject.activeSelf)
             {
-                b.SaveState();
-
+                if (!blockNames.Contains(b.name))
+                    blockNames.Add(b.name);
+                else if (!upgradeShown && b.levelTxt.text != "Max")
+                {
+                    upgradeShown = true;
+                    upgradeTutorial.SetActive(true);
+                }
+                
                 Color c = child.GetComponent<Image>().color;
                 child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 1);
                 b.symbol.GetComponent<Image>().enabled = false;
@@ -183,14 +193,10 @@ public class ProgramManager : MonoBehaviour
                 b.nameTxt.GetComponent<CanvasGroup>().alpha = 1;
                 b.levelTxt.GetComponent<CanvasGroup>().alpha = 1;
                 b.typeTxt.GetComponent<CanvasGroup>().alpha = 1;
-                b.typeTxt.gameObject.SetActive(true);
+                b.cdTxt.GetComponent<CanvasGroup>().alpha = 1;
                 b.cdTxt.gameObject.SetActive(true);
+                b.typeTxt.gameObject.SetActive(true);
             }
-        }
-        spellSave.Clear();
-        foreach (Program p in programs)
-        {
-            spellSave.Add(p);
         }
     }
 
@@ -323,8 +329,8 @@ public class ProgramManager : MonoBehaviour
         spellsLocked = false;
     }
 
-    
-    
+
+
     private void Update()
     {
         if (!spellsLocked) //check valid blocks
@@ -373,6 +379,10 @@ public class ProgramManager : MonoBehaviour
                 confirmButton.GetComponent<Button>().interactable = readyToConfirm;
             }
         }
+
+        //click to disable upgrade tutorial
+        if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)) && upgradeTutorial.activeSelf)
+            upgradeTutorial.SetActive(false);
     }
 
     private int CheckValidBlocks(int valid, Block b, Image img, bool noShape=false)
@@ -625,7 +635,7 @@ public class ProgramManager : MonoBehaviour
             child.GetComponent<Block>().infoTxt.gameObject.SetActive(moreInfo);
             child.GetComponent<Block>().cdTxt.gameObject.SetActive(!moreInfo);
         }
-        string buttonTxt = (moreInfo) ? "Less Info" : "More Info";
+        string buttonTxt = (moreInfo) ? "Less Info" : "Explain";
         infoButton.text = buttonTxt;
     }
 }
