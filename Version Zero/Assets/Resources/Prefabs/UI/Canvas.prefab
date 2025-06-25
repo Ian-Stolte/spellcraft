@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8914343632666231946}
   - component: {fileID: 992191636582535860}
   - component: {fileID: 995915876296351029}
+  - component: {fileID: 5405350220996250183}
   m_Layer: 9
   m_Name: 3rd Slot
   m_TagString: Untagged
@@ -142,6 +143,62 @@ MonoBehaviour:
   rightSpace: {fileID: 7611516167981660592}
   right: {fileID: 0}
   keybind: 324
+--- !u!114 &5405350220996250183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 50161897099231640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
+    m_PressedColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 2378051671874047795}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1244321252458295409}
+        m_TargetAssemblyTypeName: ProgramManager, Assembly-CSharp
+        m_MethodName: ChangeKeybind
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 995915876296351029}
+          m_ObjectArgumentAssemblyTypeName: KeybindSlot, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &57252268719651094
 GameObject:
   m_ObjectHideFlags: 0
@@ -4009,6 +4066,7 @@ GameObject:
   - component: {fileID: 7155868644947816269}
   - component: {fileID: 6593213376103208407}
   - component: {fileID: 5985304908811760027}
+  - component: {fileID: 245369246105247219}
   m_Layer: 9
   m_Name: 2nd Slot
   m_TagString: Untagged
@@ -4138,6 +4196,62 @@ MonoBehaviour:
   rightSpace: {fileID: 8279304342469362666}
   right: {fileID: 0}
   keybind: 325
+--- !u!114 &245369246105247219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2271614163757811231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
+    m_PressedColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 3668538635654105552}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1244321252458295409}
+        m_TargetAssemblyTypeName: ProgramManager, Assembly-CSharp
+        m_MethodName: ChangeKeybind
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 5985304908811760027}
+          m_ObjectArgumentAssemblyTypeName: KeybindSlot, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2330173792436213227
 GameObject:
   m_ObjectHideFlags: 0
@@ -4640,7 +4754,7 @@ GameObject:
   m_Component:
   - component: {fileID: 863368944638950122}
   m_Layer: 5
-  m_Name: Slots
+  m_Name: Keybinds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12200,6 +12314,7 @@ GameObject:
   - component: {fileID: 6721121211993203235}
   - component: {fileID: 7016796830913765718}
   - component: {fileID: 3096432266456696654}
+  - component: {fileID: 5602702279670111384}
   m_Layer: 9
   m_Name: 1st Slot
   m_TagString: Untagged
@@ -12329,6 +12444,62 @@ MonoBehaviour:
   rightSpace: {fileID: 423506288350405740}
   right: {fileID: 0}
   keybind: 323
+--- !u!114 &5602702279670111384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6948041681211042802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
+    m_PressedColor: {r: 0.47058824, g: 0.47058824, b: 0.47058824, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 2556831830466607440}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1244321252458295409}
+        m_TargetAssemblyTypeName: ProgramManager, Assembly-CSharp
+        m_MethodName: ChangeKeybind
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 3096432266456696654}
+          m_ObjectArgumentAssemblyTypeName: KeybindSlot, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6978115788230697922
 GameObject:
   m_ObjectHideFlags: 0
@@ -13450,6 +13621,26 @@ MonoBehaviour:
     value: Right Click
   - key: 325
     value: Middle Click
+  - key: 48
+    value: 0
+  - key: 49
+    value: 1
+  - key: 50
+    value: 2
+  - key: 51
+    value: 3
+  - key: 52
+    value: 4
+  - key: 53
+    value: 5
+  - key: 54
+    value: 6
+  - key: 55
+    value: 7
+  - key: 56
+    value: 8
+  - key: 57
+    value: 9
   buildpath: logic
   shapeBlocks:
   - {fileID: 8727360041391963699, guid: baba1a82241e7ba43b7ba24be3943690, type: 3}

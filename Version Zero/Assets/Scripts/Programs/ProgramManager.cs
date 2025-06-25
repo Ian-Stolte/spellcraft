@@ -73,7 +73,7 @@ public class ProgramManager : MonoBehaviour
     public List<GameObject> modBlocks;
     private List<GameObject> blocks = new List<GameObject>();
     public List<Program> programs = new List<Program>();
-    
+
 
     public void Start()
     {
@@ -99,10 +99,10 @@ public class ProgramManager : MonoBehaviour
         {
             programUI.gameObject.SetActive(true);
 
-            string[] startingBlocks = new string[]{"Line", "Damage", "Circle", "Displace", "Pulse", "Pause", "Damage"};
+            string[] startingBlocks = new string[] { "Line", "Damage", "Circle", "Displace", "Pulse", "Pause", "Damage" };
             foreach (string s in startingBlocks)
             {
-                GameObject prefab = blocks.Find(b=>b.name == s);
+                GameObject prefab = blocks.Find(b => b.name == s);
                 if (prefab == null)
                     Debug.LogError("Starting block prefab not found!");
                 else
@@ -134,7 +134,7 @@ public class ProgramManager : MonoBehaviour
 
     public void CreateBlock(string blockName)
     {
-        CreateBlock(blocks.Find(b=>b.name == blockName));
+        CreateBlock(blocks.Find(b => b.name == blockName));
     }
 
     public void CreateBlock(GameObject prefab)
@@ -155,7 +155,7 @@ public class ProgramManager : MonoBehaviour
             if (noOverlap)
                 break;
         }
-        block.name = block.name.Substring(0, block.name.Length-7);
+        block.name = block.name.Substring(0, block.name.Length - 7);
     }
 
 
@@ -185,7 +185,7 @@ public class ProgramManager : MonoBehaviour
                     upgradeShown = true;
                     upgradeTutorial.SetActive(true);
                 }
-                
+
                 Color c = child.GetComponent<Image>().color;
                 child.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 1);
                 b.symbol.GetComponent<Image>().enabled = false;
@@ -248,7 +248,7 @@ public class ProgramManager : MonoBehaviour
                 b.levelTxt.GetComponent<CanvasGroup>().alpha = 0.1f;
             }
         }
-        
+
         if (showTutorial)
         {
             tutorials[0].SetActive(false);
@@ -276,13 +276,13 @@ public class ProgramManager : MonoBehaviour
     }
 
     //find all blocks attached to a keybind slot
-    private void GetBlockList(Block b, KeyCode keybind=KeyCode.None)
+    private void GetBlockList(Block b, KeyCode keybind = KeyCode.None)
     {
         List<Block> blockList = new List<Block>();
         while (b != null)
         {
             blockList.Add(b);
-            
+
             //show symbol UI
             Color c = b.GetComponent<Image>().color;
             b.GetComponent<Image>().color = new Color(c.r, c.g, c.b, 0.3f);
@@ -339,14 +339,14 @@ public class ProgramManager : MonoBehaviour
             foreach (Transform child in keybindSlots)
             {
                 KeybindSlot script = child.GetComponent<KeybindSlot>();
-                valid = CheckValidBlocks(valid, script.right, child.GetComponent<Image>());
+                valid = CheckValidBlocks(valid, script.right, child.GetComponent<Image>(), (script.keybind == KeyCode.None));
             }
             GameObject aura = GameObject.Find("Aura");
             if (aura != null)
-                valid = CheckValidBlocks(valid, aura.GetComponent<Block>().right, aura.GetComponent<Image>(), true);
+                valid = CheckValidBlocks(valid, aura.GetComponent<Block>().right, aura.GetComponent<Image>(), false, true);
             GameObject auto = GameObject.Find("Auto");
             if (auto != null)
-                valid = CheckValidBlocks(valid, auto.GetComponent<Block>().right, auto.GetComponent<Image>());
+                valid = CheckValidBlocks(valid, auto.GetComponent<Block>().right, auto.GetComponent<Image>(), false);
             compileButton.GetComponent<Button>().interactable = (valid > 0);
         }
 
@@ -385,7 +385,7 @@ public class ProgramManager : MonoBehaviour
             upgradeTutorial.SetActive(false);
     }
 
-    private int CheckValidBlocks(int valid, Block b, Image img, bool noShape=false)
+    private int CheckValidBlocks(int valid, Block b, Image img, bool noKeybind, bool noShape = false)
     {
         if (b == null)
         {
@@ -403,10 +403,10 @@ public class ProgramManager : MonoBehaviour
                 effect = true;
             b = b.right;
         }
-        if (shape && effect)
+        if (shape && effect && !noKeybind)
         {
             img.color = new Color(1, 1, 1, 1);
-            return valid+1;
+            return valid + 1;
         }
         else
         {
@@ -423,7 +423,7 @@ public class ProgramManager : MonoBehaviour
         {
             Block b = child.GetComponent<Block>();
             Vector2 offset = new Vector2(Random.Range(-20f, 20f), Random.Range(-10f, 10f));
-            b.symbol.GetComponent<RectTransform>().anchoredPosition = new Vector2((b.symbol.min.x + b.symbol.max.x)/2f * 1.35f, (b.symbol.min.y + b.symbol.max.y)/2f) + offset;
+            b.symbol.GetComponent<RectTransform>().anchoredPosition = new Vector2((b.symbol.min.x + b.symbol.max.x) / 2f * 1.35f, (b.symbol.min.y + b.symbol.max.y) / 2f) + offset;
 
         }
         ConfirmSpells();
@@ -461,7 +461,7 @@ public class ProgramManager : MonoBehaviour
                 }
             }
             if (addedAuto)
-                player.autoTick = cd/2f;
+                player.autoTick = cd / 2f;
         }
 
         //TODO: do this better? (don't need results UI any more)
@@ -478,7 +478,7 @@ public class ProgramManager : MonoBehaviour
             {
                 programName += b.nameTxt.text + " + ";
                 cd += b.cd;
-                Vector3 scale = new Vector3(b.symbol.transform.localScale.x*b.transform.localScale.x, b.symbol.transform.localScale.y*b.transform.localScale.y, 1);
+                Vector3 scale = new Vector3(b.symbol.transform.localScale.x * b.transform.localScale.x, b.symbol.transform.localScale.y * b.transform.localScale.y, 1);
                 GameObject sym = Instantiate(b.symbol.gameObject, b.symbol.transform.position, Quaternion.identity, p.symbol.transform);
                 sym.transform.localScale = scale;
                 sym.GetComponent<Image>().color = fullSymbolColor;
@@ -486,13 +486,13 @@ public class ProgramManager : MonoBehaviour
             }
             foreach (Transform child in p.symbol.transform)
             {
-                child.GetComponent<RectTransform>().anchoredPosition -= totalPos/p.symbol.transform.childCount;
+                child.GetComponent<RectTransform>().anchoredPosition -= totalPos / p.symbol.transform.childCount;
                 Destroy(child.GetComponent<Symbol>());
                 Destroy(child.GetComponent<BoxCollider2D>());
             }
 
             //set program values
-            p.name = programName.Substring(0, programName.Length-3);
+            p.name = programName.Substring(0, programName.Length - 3);
             p.cdMax = cd;
         }
         if (player.auraProgram.name != "")
@@ -513,16 +513,16 @@ public class ProgramManager : MonoBehaviour
 
         Fader.Instance.FadeIn(0.5f);
         yield return new WaitForSeconds(0.5f);
-        
+
         //create program icons
         int index = 0;
         foreach (Program p in programs)
         {
-            Block shape = p.blocks.Find(b=>b.tag == "shape");
-            CreateProgramIcon(p, new Vector2(-800 + (170*index), -450), p.keybindStr, shape.name);
+            Block shape = p.blocks.Find(b => b.tag == "shape");
+            CreateProgramIcon(p, new Vector2(-800 + (170 * index), -450), p.keybindStr, shape.name);
             index++;
         }
-        
+
         index = 0;
         if (player.auraProgram.name != "")
         {
@@ -531,9 +531,9 @@ public class ProgramManager : MonoBehaviour
         }
         if (player.autoProgram.name != "")
         {
-            Block shape = player.autoProgram.blocks.Find(b=>b.tag == "shape");
+            Block shape = player.autoProgram.blocks.Find(b => b.tag == "shape");
             if (shape != null)
-                CreateProgramIcon(player.autoProgram, new Vector2(800 - (170*index), -450), "AUTO", shape.name);
+                CreateProgramIcon(player.autoProgram, new Vector2(800 - (170 * index), -450), "AUTO", shape.name);
         }
 
         programUI.gameObject.SetActive(false);
@@ -555,7 +555,7 @@ public class ProgramManager : MonoBehaviour
         symbol.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
         symbol.localScale *= 1.1f;
         symbol.SetSiblingIndex(cdIcon.childCount - 2);
-        p.fillTimer = cdIcon.GetChild(cdIcon.childCount-1).gameObject;
+        p.fillTimer = cdIcon.GetChild(cdIcon.childCount - 1).gameObject;
         if (type == "AURA")
             p.fillTimer.GetComponent<Image>().fillAmount = 1;
         cdIcon.GetChild(1).GetComponent<TextMeshProUGUI>().text = shape;
@@ -563,7 +563,7 @@ public class ProgramManager : MonoBehaviour
 
 
 
-    public List<Block> ChooseRandom(int n, string[] forbidden=null, string type="none", string[] category=null)
+    public List<Block> ChooseRandom(int n, string[] forbidden = null, string type = "none", string[] category = null)
     {
         //TODO: add diff percents? --- keep in 3 separate lists, but decrement pct of given list when chosen (e.g 40-40-20, then choose effect -> 50-25-25)
         if (forbidden == null)
@@ -585,7 +585,7 @@ public class ProgramManager : MonoBehaviour
             if (!((skipAura && g.name == "Aura") || (skipAuto && g.name == "Auto")) && (type == "none" || type == g.GetComponent<Block>().type) && (category == null || category.Contains(g.GetComponent<Block>().tag)) && !forbidden.Contains(g.name))
                 starting.Add(g.GetComponent<Block>());
         }
-        
+
         for (int i = 0; i < n; i++)
         {
             if (starting.Count > 0)
@@ -621,6 +621,9 @@ public class ProgramManager : MonoBehaviour
     }
 
 
+    //
+    //Button functions
+    //
 
     public void ButtonClick()
     {
@@ -637,6 +640,45 @@ public class ProgramManager : MonoBehaviour
         }
         string buttonTxt = (moreInfo) ? "Less Info" : "Explain";
         infoButton.text = buttonTxt;
+    }
+
+    public void ChangeKeybind(KeybindSlot k)
+    {
+        StartCoroutine(ChangeKeybindCor(k));
+    }
+
+    private IEnumerator ChangeKeybindCor(KeybindSlot k)
+    {
+        TextMeshProUGUI txt = k.transform.GetChild(3).GetComponent<TextMeshProUGUI>();
+        txt.text = "[press a key]";
+        txt.fontSize = 18;
+
+        while (true)
+        {
+            if (Input.anyKeyDown)
+            {
+                foreach (KeyCode code in System.Enum.GetValues(typeof(KeyCode)))
+                {
+                    if (Input.GetKeyDown(code))
+                    {
+                        k.keybind = code;
+                        txt.text = (keybindStrMap.ContainsKey(code)) ? keybindStrMap[code] : code.ToString();
+                        txt.fontSize = 26;
+                        foreach (Transform child in k.transform.parent)
+                        {
+                            KeybindSlot script = child.GetComponent<KeybindSlot>();
+                            if (script != k && script.keybind == code)
+                            {
+                                script.keybind = KeyCode.None;
+                                script.transform.GetChild(3).GetComponent<TextMeshProUGUI>().text = "__";
+                            }
+                        }
+                        yield break;
+                    }
+                }
+            }
+            yield return null;
+        }
     }
 }
 

@@ -307,7 +307,6 @@ public class DialogueManager : MonoBehaviour
         yield return new WaitForSeconds(1.2f);
         StartCoroutine(PlayMultipleDialogues(firstEnemy));
         GameObject.Find("Player").GetComponent<PlayerMovement>().hpBar.gameObject.SetActive(true);
-        GameManager.Instance.enemyTimer.gameObject.SetActive(true);
     }
 
     private IEnumerator ProgressBar()

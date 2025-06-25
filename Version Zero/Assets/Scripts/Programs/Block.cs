@@ -93,7 +93,7 @@ public class Block : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerU
                 bl.rightSpace.SetActive(false);
                 bl.levelUp.SetActive(false);
             }
-            foreach (Transform child in GameObject.Find("Slots").transform)
+            foreach (Transform child in GameObject.Find("Keybinds").transform)
             {
                 child.GetComponent<KeybindSlot>().rightSpace.SetActive(false);
             }
