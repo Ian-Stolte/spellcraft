@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7685296656099748603}
   - component: {fileID: 4211196565737194391}
   - component: {fileID: 2533466739642260863}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Line Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,6 +125,7 @@ MonoBehaviour:
     cdTimer: 0
     fillTimer: {fileID: 0}
     keybind: 0
+    keybindStr: 
     symbol: {fileID: 0}
     programList: {fileID: 0}
   dir: {x: 0, y: 0, z: 0}
