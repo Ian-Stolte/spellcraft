@@ -75,8 +75,8 @@ public class EvasiveEnemy : Enemy
                 if (dist < tooClose && dashCD <= 0)
                     StartCoroutine(Dash(Random.Range(-30f, 30f), -1)); //dash away
 
-                if (dist > atkRange + 2f && dashCD <= 0)
-                    StartCoroutine(Dash(Random.Range(-30f, 30f))); //dash closer
+                if (dist > atkRange + 3f && dashCD <= 0)
+                    StartCoroutine(Dash(Random.Range(-30f, 30f), 1, 0.5f)); //dash closer
 
                 if (Physics.OverlapSphere(transform.position, 2, LayerMask.GetMask("Projectile")).Length > 0 && dashCD <= dashDelay-0.4f) //dodge projectiles
                 {

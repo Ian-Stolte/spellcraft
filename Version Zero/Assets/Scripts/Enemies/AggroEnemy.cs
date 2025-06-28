@@ -91,47 +91,71 @@ public class AggroEnemy : Enemy
         }
     }
 
+
+
     private IEnumerator Attack()
     {
         attacking = true;
-        Vector3 target = player.transform.position + player.GetComponent<PlayerMovement>().moveDir*2 + (player.transform.position - transform.position).normalized * 0.5f;
-        atkWarning = Instantiate(atkPrefab, new Vector3(target.x, 0, target.z), transform.rotation).transform.GetChild(0);
-        target += (player.transform.position - transform.position).normalized*5;
-        float elapsed = 0;
+        Vector3 target = player.transform.position + player.GetComponent<PlayerMovement>().moveDir*2 + (player.transform.position - transform.position).normalized * 2f;
+        RaycastHit hit;
+        Vector3 dir = (target - transform.position).normalized;
         float dist = Vector3.Distance(target, transform.position);
-        float dashTime = atkDuration - dist/dashSpeed;
-        while (elapsed < atkDuration)
+        if (Physics.Raycast(transform.position, dir, out hit, dist, terrainLayer))
         {
-            atkWarning.localScale = new Vector3(1, 1, 1) * elapsed/atkDuration;
-            elapsed += Time.deltaTime;
-            yield return null;
+            target = hit.point - dir.normalized * 0.5f;
+        }
 
-            if (Vector3.Distance(atkWarning.position, transform.position) < 0.5f)
-            {
-                rb.velocity = Vector3.zero;
-            }
-            else if (elapsed >= dashTime)
-            {
-                rb.velocity = (atkWarning.transform.position - transform.position).normalized * dashSpeed;
-                if (!hitboxOn)
-                {
-                    canHitPlayer = true;
-                    hitboxOn = true;
-                }
-            }
+        float spd = (slowTimer > 0) ? dashSpeed*0.5f : dashSpeed;
+        float duration = (slowTimer > 0) ? atkDuration*0.5f : atkDuration;
+
+        atkWarning = Instantiate(atkPrefab, new Vector3(target.x, 0, target.z), transform.rotation).transform.GetChild(0);
+        StartCoroutine(AttackIndicator(atkWarning, duration));
+
+        bool preDash = Random.Range(0f, 1f) > 0.5f;
+        if (preDash)
+        {
+            yield return new WaitForSeconds(duration - dist / spd - 0.3f);
+            int newSign = (Random.Range(0f, 1f) > 0.5f) ? 1 : -1;
+            yield return Dash(Random.Range(70, 110) * newSign, 1, 0.5f);
+            yield return new WaitForSeconds(0.1f);
+        }
+        else
+        {
+            yield return new WaitForSeconds(duration - dist / spd);
+        }
+
+        if (!hitboxOn)
+        {
+            canHitPlayer = true;
+            hitboxOn = true;
+        }
+        while (Vector2.Distance(new Vector2(atkWarning.position.x, atkWarning.position.z), new Vector2(transform.position.x, transform.position.z)) > 0.5f && attacking)
+        {
+            Vector3 direction = (target - transform.position);
+            direction.y = 0;
+            rb.velocity = direction.normalized * spd;
+            yield return null;
         }
         rb.velocity = Vector3.zero;
         canHitPlayer = false;
         hitboxOn = false;
         
-        /*Bounds b = atkWarning.parent.GetComponent<BoxCollider>().bounds;
-        if (Physics.OverlapBox(b.center, b.extents, Quaternion.identity, LayerMask.GetMask("Player")).Length > 0)
-        {
-            player.GetComponent<PlayerMovement>().TakeDamage(dmg);
-            //knockback from center of attack/stun?
-        }*/
         Destroy(atkWarning.parent.gameObject);
         yield return new WaitForSeconds(0.2f);
+        attacking = false;
+    }
+
+    private IEnumerator AttackIndicator(Transform atkWarning, float duration)
+    {
+        float elapsed = 0;
+        while (elapsed < duration)
+        {
+            if (atkWarning == null)
+                yield break;
+            atkWarning.localScale = new Vector3(1, 1, 1) * elapsed / duration;
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
         attacking = false;
     }
 

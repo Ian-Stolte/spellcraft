@@ -21,14 +21,14 @@ TagManager:
   - Water
   - UI
   - Enemy
-  - Spear
+  - Projectile
   - Interactable
   - Block
   - Symbol
   - Wall
   - Player
   - Terminal
-  - Projectile
+  - 
   - 
   - 
   - 

@@ -9,6 +9,7 @@ public class TrapHitbox : Hitbox
 
     [SerializeField] private float activateTime;
     [SerializeField] private Material activatedMat;
+    private bool activated;
 
 
     void Update()
@@ -20,18 +21,9 @@ public class TrapHitbox : Hitbox
         if (lifeTimer >= activateTime)
             GetComponent<MeshRenderer>().material = activatedMat;
 
-        if (Physics.OverlapSphere(transform.position, transform.localScale.x/2, LayerMask.GetMask("Enemy")).Length > 0 && lifeTimer > activateTime)
+        if (Physics.OverlapSphere(transform.position, transform.localScale.x / 2, LayerMask.GetMask("Enemy")).Length > 0 && lifeTimer > activateTime && !activated)
         {
-            transform.GetChild(0).gameObject.SetActive(true);
-            StartCoroutine(Fade(0.5f));
-            CheckCollisions();
-        }
-    }
-
-    void OnTriggerEnter(Collider hit)
-    {
-        if (hit.gameObject.layer == LayerMask.NameToLayer("Enemy") && lifeTimer > activateTime)
-        {
+            activated = true;
             transform.GetChild(0).gameObject.SetActive(true);
             StartCoroutine(Fade(0.5f));
             CheckCollisions();
