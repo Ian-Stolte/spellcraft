@@ -90,9 +90,9 @@ public class EvasiveEnemy : Enemy
 
     private IEnumerator Attack()
     {
-        GetComponent<MeshRenderer>().material = attackMat;
-        //anim upright -> horizontal
+        //GetComponent<MeshRenderer>().material = attackMat;
         attacking = true;
+        anim.Play("Evasive_Attack");
         float elapsed = 0f;
         while (elapsed < 1)
         {
@@ -111,7 +111,6 @@ public class EvasiveEnemy : Enemy
         yield return new WaitForSeconds(0.2f);
 
         Vector3 dir = Vector3.Scale(player.transform.position - transform.position, new Vector3(1, 0, 1)).normalized;
-        anim.Play("Attack");
         rb.AddForce(dir * -200, ForceMode.Impulse);
         for (int i = 0; i < numProjectiles; i++)
         {
@@ -131,7 +130,7 @@ public class EvasiveEnemy : Enemy
         //anim horizontal -> upright
         yield return new WaitForSeconds(0.5f);
         attacking = false;
-        GetComponent<MeshRenderer>().material = normalMat;
+        //GetComponent<MeshRenderer>().material = normalMat;
     }
 
 
