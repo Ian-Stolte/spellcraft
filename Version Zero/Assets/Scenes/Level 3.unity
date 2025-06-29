@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465788, g: 0.49641287, b: 0.5748173, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1023,7 +1023,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7475150789237455474, guid: 5b1b6916b2c76df4cb4ad2c1f9e994eb, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3174,7 +3174,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7475150789237455474, guid: 3962ed37d1e602c4088f15287752506b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5940,13 +5940,17 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5400434610534534484, guid: b9023683dbf58324cb55af3821397f03, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -2432090755550338912, guid: 6d90287ad96be4737a5475677c41db9f, type: 3}
     - target: {fileID: 9007954679834277309, guid: b9023683dbf58324cb55af3821397f03, type: 3}
       propertyPath: m_Name
       value: Aggro_Logic (1)
       objectReference: {fileID: 0}
     - target: {fileID: 9007954679834277309, guid: b9023683dbf58324cb55af3821397f03, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7242,13 +7246,17 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5400434610534534484, guid: b9023683dbf58324cb55af3821397f03, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -2432090755550338912, guid: 6d90287ad96be4737a5475677c41db9f, type: 3}
     - target: {fileID: 9007954679834277309, guid: b9023683dbf58324cb55af3821397f03, type: 3}
       propertyPath: m_Name
       value: Aggro_Logic
       objectReference: {fileID: 0}
     - target: {fileID: 9007954679834277309, guid: b9023683dbf58324cb55af3821397f03, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
