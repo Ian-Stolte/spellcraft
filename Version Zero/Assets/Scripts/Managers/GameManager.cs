@@ -105,7 +105,7 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < numTerminals; i++)
             {
                 GameObject icon = Instantiate(terminalIcon, Vector2.zero, terminalIcon.transform.rotation, terminalIcons);
-                icon.GetComponent<RectTransform>().anchoredPosition = new Vector2(-822, 450 - 130*i - areaText.preferredHeight);
+                icon.GetComponent<RectTransform>().anchoredPosition = new Vector2(-810, 450 - 130*i - areaText.preferredHeight);
             }
 
             //set spawn pct & enemies available by level (15, 25 by default)
@@ -366,8 +366,10 @@ public class GameManager : MonoBehaviour
     public void FinishTerminalIcon()
     {
         Transform iconToChange = terminalIcons.GetChild(terminalIcons.childCount - numTerminals);
-        iconToChange.GetComponent<CanvasGroup>().alpha = 0.5f;
         iconToChange.GetChild(0).gameObject.SetActive(true);
+        Debug.Log(numTerminals + " : " + terminalIcons.childCount);
+        if (numTerminals < terminalIcons.childCount)
+            iconToChange.GetChild(1).gameObject.SetActive(true);
     }
 
     public void UnlockBarrier(Transform barrier)

@@ -93,7 +93,7 @@ public class DialogueManager : MonoBehaviour
         line = ShowPortraits(line);
 
         //type out dialogue
-        TextMeshProUGUI txt = dialogue.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI txt = dialogue.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
         txt.text = "";
         dialogue.SetActive(true);
         bool addingHTML = false;
@@ -176,7 +176,7 @@ public class DialogueManager : MonoBehaviour
     {
         GameManager.Instance.pauseGame = true;
         dialogue.SetActive(true);
-        TextMeshProUGUI txt = dialogue.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI txt = dialogue.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
         string[] dialogueToPlay = (SequenceManager.Instance.runNum == 1) ? introDialogue : introDialogue2;
         if (!GameManager.Instance.skipDialogue)
         {
