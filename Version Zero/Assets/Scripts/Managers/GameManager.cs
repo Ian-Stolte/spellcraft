@@ -65,11 +65,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject gameOver;
     private GameObject canvas;
 
-    
-    void Start()
-    {
-        player = GameObject.Find("Player").transform;
-    }
 
     void OnEnable()
     {
@@ -90,6 +85,8 @@ public class GameManager : MonoBehaviour
         }
         else if (scene.name != "End Screen")
         {
+            if (player == null)
+                player = GameObject.Find("Player").transform;
             enemyParent = GameObject.Find("Enemies").transform;
 
             //create an icon for each terminal in the level
@@ -181,6 +178,7 @@ public class GameManager : MonoBehaviour
             if ((sceneNum > 3 && sceneNum != 6) || (sceneNum == 3 && runNum > 1))
             {
                 enemyTimer.gameObject.SetActive(true);
+                player.GetComponent<PlayerMovement>().hpBar.gameObject.SetActive(true);
                 spawningEnemies = true;
                 spawnTimer = Random.Range(minSpawn / 2f, maxSpawn / 2f);
                 totalSpawn = spawnTimer;
@@ -188,6 +186,7 @@ public class GameManager : MonoBehaviour
             else
             {
                 spawningEnemies = false;
+                enemyTimer.gameObject.SetActive(false);
             }
         }
     }
@@ -367,9 +366,8 @@ public class GameManager : MonoBehaviour
     {
         Transform iconToChange = terminalIcons.GetChild(terminalIcons.childCount - numTerminals);
         iconToChange.GetChild(0).gameObject.SetActive(true);
-        Debug.Log(numTerminals + " : " + terminalIcons.childCount);
-        if (numTerminals < terminalIcons.childCount)
-            iconToChange.GetChild(1).gameObject.SetActive(true);
+        //if (numTerminals < terminalIcons.childCount)
+        //    iconToChange.GetChild(1).gameObject.SetActive(true);
     }
 
     public void UnlockBarrier(Transform barrier)

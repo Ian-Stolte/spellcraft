@@ -111,7 +111,7 @@ public class Enemy : MonoBehaviour
         markTimer = 2;
     }
 
-    public void TakeDamage(int dmg)
+    public virtual void TakeDamage(int dmg)
     {
         if (markDmg > 0)
         {
@@ -158,19 +158,24 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private IEnumerator TakeDamageFlash()
+    public IEnumerator TakeDamageFlash(bool clear=false)
     {
-        foreach (Transform child in GetComponentsInChildren<Transform>(true))
+        if (!clear)
         {
-            MeshRenderer mr = child.GetComponent<MeshRenderer>();
-            if (mr != null && child.name != "Shield" && !child.name.Contains("Warning"))
+            foreach (Transform child in GetComponentsInChildren<Transform>(true))
             {
-                mr.material = damageMat;
+                MeshRenderer mr = child.GetComponent<MeshRenderer>();
+                if (mr != null && child.name != "Shield" && !child.name.Contains("Warning"))
+                {
+                    mr.material = damageMat;
+                }
             }
+
+            yield return new WaitForSeconds(0.2f);
         }
-
-        yield return new WaitForSeconds(0.2f);
-
+        else
+            yield return null;
+            
         // Restore original materials
         for (int i = 0; i < meshRenderers.Count; i++)
         {

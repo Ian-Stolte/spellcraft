@@ -4398,6 +4398,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1963479081}
     - target: {fileID: 1712194664605143150, guid: 372c20bebb6c4ee49ac758cf046f0dbc, type: 3}
+      propertyPath: enemyTimer
+      value: 
+      objectReference: {fileID: 6154748227236401478}
+    - target: {fileID: 1712194664605143150, guid: 372c20bebb6c4ee49ac758cf046f0dbc, type: 3}
       propertyPath: enemyParent
       value: 
       objectReference: {fileID: 1548188222}
@@ -11822,6 +11826,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
+--- !u!224 &6154748227236401478 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5978396004361027456, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}
+  m_PrefabInstance: {fileID: 6154748227236401477}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6154748227236401480 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7476761001902689281, guid: 14cf84e7839daf544b7bbcdb8461c08b, type: 3}

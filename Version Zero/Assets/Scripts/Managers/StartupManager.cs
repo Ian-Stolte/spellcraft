@@ -71,6 +71,7 @@ public class StartupManager : MonoBehaviour
     [Header("Misc")]
     [SerializeField] private GameObject errorFlash;
     [SerializeField] private CanvasGroup spaceToSkip;
+    [SerializeField] private TextMeshProUGUI versionTxt;
 
 
     void Start()
@@ -78,6 +79,7 @@ public class StartupManager : MonoBehaviour
         if (SequenceManager.Instance != null)
         {
             plaintext[5] = "Procedure complete. Version " + SequenceManager.Instance.runNum + ".0 online.";
+            versionTxt.text = "v " + SequenceManager.Instance.runNum + ".0";
             fail = (SequenceManager.Instance.runNum == 1);
             rawTime = SequenceManager.Instance.rawTimer;
             SequenceManager.Instance.rawTimer = 0;

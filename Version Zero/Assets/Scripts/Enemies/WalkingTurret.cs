@@ -123,6 +123,7 @@ public class WalkingTurret : Enemy
                 finalForm = true;
                 StopAllCoroutines();
                 StartCoroutine(Stomp());
+                StartCoroutine(TakeDamageFlash(true));
             }
             StartCoroutine(SpawnEnemies(enemiesToSpawn - indicators.Count));
             StartCoroutine(Shield());
@@ -148,8 +149,8 @@ public class WalkingTurret : Enemy
         healthBar = GameObject.Find("Boss Fill").GetComponent<Image>();
         for (float i = spawnInterval; i < 1; i+=spawnInterval)
         {
-            GameObject indicator = Instantiate(spawnIndicator, Vector2.zero, Quaternion.identity, healthBar.transform.parent);
-            indicator.GetComponent<RectTransform>().anchoredPosition = new Vector2(Mathf.Lerp(-343, 343, i), 0);
+            GameObject indicator = Instantiate(spawnIndicator, Vector2.zero, Quaternion.identity, healthBar.transform.parent.parent);
+            indicator.GetComponent<RectTransform>().anchoredPosition = new Vector2(Mathf.Lerp(-348, 348, i), 0);
             indicators.Add(indicator);
         }
         ChooseTarget();
@@ -191,6 +192,9 @@ public class WalkingTurret : Enemy
         yield return new WaitUntil(() => !GameManager.Instance.pauseGame);
         anim.Play("Gardener_Stomp");
         stompIndicator.SetActive(true);
+
+        StartCoroutine(LookAtPlayer());
+
         float elapsed = 0f;
         while (elapsed < 0.75f)
         {
@@ -216,6 +220,20 @@ public class WalkingTurret : Enemy
             Vector3 dir = Vector3.Scale(player.transform.position - transform.position, new Vector3(1, 0, 1)).normalized;
             StartCoroutine(FireProjectiles(dir));
         }
+    }
+
+    private IEnumerator LookAtPlayer()
+    {
+        // Rotate to player
+        Vector3 lookDir = player.transform.position - transform.position;
+        lookDir.y = 0;
+        Quaternion targetRotation = Quaternion.LookRotation(lookDir);
+        while (Quaternion.Angle(transform.rotation, targetRotation) > 1f)
+        {
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * 360f);
+            yield return null;
+        }
+        transform.rotation = targetRotation;
     }
 
 
@@ -255,12 +273,20 @@ public class WalkingTurret : Enemy
     }
 
 
+    public override void TakeDamage(int dmg)
+    {
+        base.TakeDamage(dmg);
+        RectTransform rightTri = healthBar.transform.parent.GetChild(1).GetComponent<RectTransform>();
+        rightTri.anchoredPosition = new Vector2(Mathf.Lerp(-150, 140, health/(maxHealth * 1.0f)), rightTri.anchoredPosition.y);
+    }
+
+
     private void OnDestroy()
     {
-        healthBar.transform.parent.gameObject.SetActive(false);
+        healthBar.transform.parent.parent.gameObject.SetActive(false);
         foreach (Transform child in GameObject.Find("Enemies").transform)
             Destroy(child.gameObject);
-        
+
         endBarrier.SetActive(false);
 
         if (!GameManager.Instance.pauseGame)

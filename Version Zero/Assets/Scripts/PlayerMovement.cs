@@ -224,10 +224,13 @@ public class PlayerMovement : MonoBehaviour
                 Camera.main.GetComponent<GlitchManager>().ShowGlitch(0.5f, 0.5f);
             }
             
+            //set HP bar fill
             if (hpBar != null)
             {
-                hpBar.GetChild(1).GetComponent<Image>().fillAmount = health/(maxHealth*1.0f);
-                hpBar.GetChild(2).GetComponent<TMPro.TextMeshProUGUI>().text = health + "/" + maxHealth;
+                hpBar.GetChild(0).GetChild(0).GetComponent<Image>().fillAmount = 0.05f + 0.95f * health/(maxHealth * 1.0f);
+                RectTransform rightTri = hpBar.GetChild(0).GetChild(1).GetComponent<RectTransform>();
+                rightTri.anchoredPosition = new Vector2(Mathf.Lerp(-137, 120, health/(maxHealth * 1.0f)), rightTri.anchoredPosition.y);
+                hpBar.GetChild(1).GetComponent<TMPro.TextMeshProUGUI>().text = health + "/" + maxHealth;
             }
         }
     }
