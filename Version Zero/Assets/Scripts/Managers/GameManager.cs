@@ -58,7 +58,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Material barrierUnlockBlue;
 
     [Header("Misc")]
-    [SerializeField] private GameObject rewardPrefab;
     private Transform player;
     public GameObject bossUI;
     [SerializeField] private GameObject loadingText;
@@ -294,30 +293,6 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
     }
-
-
-
-    private void FinishLevel()
-    {
-        float rot = Random.Range(0, 360);
-        Vector3 rewardPos = player.position + Quaternion.Euler(0, rot, 0) * player.forward * 5;
-        int attempts = 0;
-        while (Physics.OverlapSphere(rewardPos, 1, terrainLayer).Length > 0)
-        {
-            rot = Random.Range(0, 360);
-            rewardPos = player.position + Quaternion.Euler(0, rot, 0) * player.forward * 5;
-            attempts++;
-            if (attempts >= 40) //quit out after some max # of attempts
-            {
-                Debug.LogError("No valid location!");
-                break;
-            }
-        } 
-        GameObject reward = Instantiate(rewardPrefab, rewardPos + new Vector3(0, 20, 0), Quaternion.identity);
-        reward.GetComponent<Rigidbody>().velocity = new Vector3(0, -100, 0);
-        reward.GetComponent<Reward>().numOptions = 3;
-    }
-
 
 
     public IEnumerator UseTerminal()

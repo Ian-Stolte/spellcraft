@@ -61,7 +61,6 @@ public class ProgramManager : MonoBehaviour
     [Header("Keybinds")]
     public KeyCode[] defaultBinds;
     public string[] bindTxt;
-    [HideInInspector] public KeybindButton activeKeybind;
     public List<KeyStringPair> keyStringPairs;
     [HideInInspector] public Dictionary<KeyCode, string> keybindStrMap = new Dictionary<KeyCode, string>();
 
