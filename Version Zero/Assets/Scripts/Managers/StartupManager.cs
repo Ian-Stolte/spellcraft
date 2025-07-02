@@ -68,6 +68,10 @@ public class StartupManager : MonoBehaviour
     [SerializeField] private Image progressBar;
     [SerializeField] private GameObject completeTxt;
 
+    [Header("Time")]
+    [SerializeField] private Vector3 time;
+    [SerializeField] private TextMeshProUGUI timeTxt;
+
     [Header("Misc")]
     [SerializeField] private GameObject errorFlash;
     [SerializeField] private CanvasGroup spaceToSkip;
@@ -99,6 +103,7 @@ public class StartupManager : MonoBehaviour
             StartCoroutine(UploadFailed());
 
         StartCoroutine(FadeOutSpaceToSkip());
+        StartCoroutine(TickTime());
     }
 
     private IEnumerator FadeOutSpaceToSkip()
@@ -120,6 +125,32 @@ public class StartupManager : MonoBehaviour
             yield return null;
         }
         spaceToSkip.alpha = 0;
+    }
+
+
+    private IEnumerator TickTime()
+    {
+        while (true)
+        {
+            time.z += 1;
+            if (time.z >= 60)
+            {
+                time.z = 0;
+                time.y += 1;
+                if (time.y >= 60)
+                {
+                    time.y = 0;
+                    time.x += 1;
+                    if (time.x >= 24)
+                        time.x = 0;
+                }
+            }
+            string seconds = (time.z > 9) ? "" + time.z : "0" + time.z;
+            string minutes = (time.y > 9) ? "" + time.y : "0" + time.y;
+            string hours = (time.x > 9) ? "" + time.x : "0" + time.x;
+            timeTxt.text = hours + ":" + minutes + ":" + seconds;
+            yield return new WaitForSeconds(1);
+        }
     }
 
 

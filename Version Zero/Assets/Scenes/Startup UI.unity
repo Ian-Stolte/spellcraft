@@ -2840,6 +2840,8 @@ MonoBehaviour:
   trailDensity: 1
   progressBar: {fileID: 854039246}
   completeTxt: {fileID: 901060341}
+  time: {x: 17, y: 21, z: 44}
+  timeTxt: {fileID: 194008712}
   errorFlash: {fileID: 1261219885}
   spaceToSkip: {fileID: 1246254591}
   versionTxt: {fileID: 252918471}
