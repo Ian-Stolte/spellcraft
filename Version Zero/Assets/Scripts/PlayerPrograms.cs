@@ -105,7 +105,7 @@ public class PlayerPrograms : MonoBehaviour
                     AudioManager.Instance.Play("Shoot Projectile");
                     Vector3 dir = (MousePos() - transform.position);
                     dir = new Vector3(dir.x, 0, dir.z).normalized;
-                    GameObject hitbox = Instantiate(hitboxes[1], transform.position + dir, rot);
+                    GameObject hitbox = Instantiate(hitboxes[1], transform.position, rot);
                     hitbox.GetComponent<LineHitbox>().dir = dir;
                     hitbox.GetComponent<Hitbox>().spell = p;
                     break;
