@@ -32,12 +32,11 @@ public class StartupManager : MonoBehaviour
     [SerializeField] private int transDelay;
     [SerializeField] private int convFactor;
 
-    [Header("Learning")]
+    [Header("Info Panel")]
     [SerializeField] private TextMeshProUGUI learningTitle;
     [SerializeField] private TextMeshProUGUI ellipsisTxt;
     [SerializeField] private TextMeshProUGUI errorTxt;
     [SerializeField] private TextMeshProUGUI statsTxt;
-    [SerializeField] private Animator hideLearning;
     private float rawTime;
     private float gameplayTime;
 
@@ -60,19 +59,14 @@ public class StartupManager : MonoBehaviour
     [SerializeField] private Vector2 max;
     [SerializeField] private Vector2 flipChance;
     [SerializeField] private GameObject pointTrail;
-    [SerializeField] private float trailDensity;
-    private int trailCount;
     private bool manualControl;
-
-    [Header("Progress Bar")]
-    [SerializeField] private Image progressBar;
-    [SerializeField] private GameObject completeTxt;
-
+    
     [Header("Time")]
     [SerializeField] private Vector3 time;
     [SerializeField] private TextMeshProUGUI timeTxt;
 
     [Header("Misc")]
+    [SerializeField] private Image progressBar;
     [SerializeField] private GameObject errorFlash;
     [SerializeField] private CanvasGroup spaceToSkip;
     [SerializeField] private TextMeshProUGUI versionTxt;
@@ -149,7 +143,10 @@ public class StartupManager : MonoBehaviour
             string minutes = (time.y > 9) ? "" + time.y : "0" + time.y;
             string hours = (time.x > 9) ? "" + time.x : "0" + time.x;
             timeTxt.text = hours + ":" + minutes + ":" + seconds;
-            yield return new WaitForSeconds(1);
+            if (speed < 1000)
+                yield return new WaitForSeconds(1);
+            else
+                yield return new WaitForSeconds(Random.Range(0f, 0.2f));
         }
     }
 
@@ -198,14 +195,9 @@ public class StartupManager : MonoBehaviour
             else
                 randomChance++;
         }
-        trailCount++;
-        if (trailCount >= trailDensity)
-        {
-            GameObject trailObj = Instantiate(pointTrail, point.position, Quaternion.identity, point.parent);
-            trailObj.transform.localScale = new Vector2(trailObj.transform.localScale.x / point.parent.localScale.x, trailObj.transform.localScale.y / point.parent.localScale.y);
-            trailCount = 0;
-        }
-
+        GameObject trailObj = Instantiate(pointTrail, point.position, Quaternion.identity, point.parent);
+        trailObj.transform.localScale = new Vector2(trailObj.transform.localScale.x / point.parent.localScale.x, trailObj.transform.localScale.y / point.parent.localScale.y);
+        
         if (point.anchoredPosition.x > max.x)
             point.anchoredPosition = new Vector2(min.x, point.anchoredPosition.y);
     }
@@ -235,13 +227,8 @@ public class StartupManager : MonoBehaviour
         yield return new WaitForSeconds(2);
         manualControl = true;
         sign = -1;
-        direction *= 2;
-        speed *= 2;
-        //trailDensity *= 0.25f;
         yield return new WaitUntil(() => point.anchoredPosition.y < min.y + 70);
         sign = 0;
-        direction *= 0.5f;
-        speed *= 0.5f;
     }
 
     private IEnumerator Peak(float duration)
@@ -408,12 +395,8 @@ public class StartupManager : MonoBehaviour
             learningTitle.text += c;
             yield return new WaitForSeconds(0.1f);
         }
-        yield return new WaitForSeconds(0.5f);
-        
-        Vector2 startingPos = hideLearning.GetComponent<RectTransform>().anchoredPosition;
-        hideLearning.Play("Transition");
-        yield return new WaitForSeconds(2);
-
+        yield return new WaitForSeconds(1.5f);
+    
         ellipsisTxt.text = "";
         ellipsisTxt.gameObject.SetActive(true);
         for (int i = 0; i < 2; i++)
@@ -425,7 +408,7 @@ public class StartupManager : MonoBehaviour
             }
             yield return new WaitForSeconds(0.3f);
             ellipsisTxt.text = "";
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.3f);
         }
         ellipsisTxt.text = ".";
         yield return new WaitForSeconds(0.3f);
@@ -433,7 +416,6 @@ public class StartupManager : MonoBehaviour
 
         if (fail)
         {
-            yield return new WaitForSeconds(0.3f);
             string errorMessage = errorTxt.text;
             errorTxt.text = "";
             errorTxt.gameObject.SetActive(true);
@@ -507,7 +489,6 @@ public class StartupManager : MonoBehaviour
 
     private IEnumerator ProgressBar(float duration, float failTime=0)
     {
-        completeTxt.SetActive(false);
         progressBar.gameObject.SetActive(true);
         progressBar.fillAmount = 0;
         float elapsed = 0;
@@ -525,7 +506,6 @@ public class StartupManager : MonoBehaviour
             }
         }
         progressBar.fillAmount = 1;
-        completeTxt.SetActive(true);
     }
 
     private IEnumerator UploadFailed()
@@ -536,7 +516,6 @@ public class StartupManager : MonoBehaviour
         direction.y = 2;
         direction.x = 0.1f;
         speed = 1200;
-        trailDensity = 1;
         flipChance = new Vector2(1, 10);
     
         if (!instantFail)
@@ -545,7 +524,7 @@ public class StartupManager : MonoBehaviour
         if (instantFail)
             yield return new WaitForSeconds(3);
         else
-            yield return new WaitForSeconds(12);
+            yield return new WaitForSeconds(10);
         Fader.Instance.GetComponent<CanvasGroup>().alpha = 1;
         AudioManager.Instance.Stop("Alarm");
         yield return new WaitForSeconds(3);
