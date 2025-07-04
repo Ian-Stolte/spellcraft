@@ -9,22 +9,43 @@ public class LineHitbox : Hitbox
     public float despawnDist;
     private float distance;
 
+    private bool destroying;
+    private bool hitEnemy;
+
+
     void Update()
     {
-        transform.position += Time.deltaTime * dir * speed;
-        distance += Time.deltaTime * dir.magnitude * speed;
-        if (distance > despawnDist)
-            Destroy(gameObject);
-        CheckCollisions();
+        if (!hitEnemy)
+        {
+            transform.position += Time.deltaTime * dir * speed;
+            distance += Time.deltaTime * dir.magnitude * speed;
+            if (distance > despawnDist && !destroying)
+            {
+                destroying = true;
+                StartCoroutine(DelayedDestroy());
+            }
+
+            if (!destroying)
+                CheckCollisions();
+        }
     }
 
     public override void CheckCollisions()
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, 0.5f, LayerMask.GetMask("Enemy"));
-        if (hits.Length > 0)
+        if (hits.Length > 0 && !hitEnemy)
         {
-            GameObject.Find("Player").GetComponent<PlayerPrograms>().SpellEffects(new Collider[]{hits[0]}, spell, transform.position);
-            Destroy(gameObject);
+            hitEnemy = true;
+            GameObject.Find("Player").GetComponent<PlayerPrograms>().SpellEffects(new Collider[] { hits[0] }, spell, transform.position);
+            transform.GetChild(3).gameObject.SetActive(true);
+            StartCoroutine(DelayedDestroy());
+            //Destroy(gameObject);
         }
+    }
+
+    private IEnumerator DelayedDestroy()
+    {
+        yield return new WaitForSeconds(0.3f);
+        Destroy(gameObject);
     }
 }
