@@ -5,6 +5,7 @@ using UnityEngine;
 public class Elevator : MonoBehaviour
 {
     public string nextArea;
+    public bool final;
 
     /*void Start()
     {
@@ -15,8 +16,15 @@ public class Elevator : MonoBehaviour
     {
         if (hit.gameObject.name == "Player")
         {
-            StartCoroutine(LowerElevator(hit.transform));
-            //TODO: set playerPaused to true but have Reya walk to middle of elevator
+            if (!final)
+            {
+                StartCoroutine(LowerElevator(hit.transform));
+                //TODO: set playerPaused to true but have Reya walk to middle of elevator
+            }
+            else
+            {
+                StartCoroutine(GameManager.Instance.FinalNextLevel(nextArea));
+            }
         }
     }
 

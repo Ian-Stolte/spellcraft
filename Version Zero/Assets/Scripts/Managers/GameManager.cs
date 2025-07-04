@@ -117,6 +117,11 @@ public class GameManager : MonoBehaviour
                 minSpawn = 10;
                 maxSpawn = 20;
             }
+            else if (scene.name.Contains("Final"))
+            {
+                minSpawn = 1;
+                maxSpawn = 3;
+            }
         
             //replace enemies with chosen type
             if (scene.name != "Level 6")
@@ -151,6 +156,7 @@ public class GameManager : MonoBehaviour
         if (SequenceManager.Instance != null)
             runNum = SequenceManager.Instance.runNum;
 
+        //set up specific levels
         if (scene.name == "Level 1")
         {
             StartCoroutine(DialogueManager.Instance.IntroDialogue());
@@ -171,10 +177,11 @@ public class GameManager : MonoBehaviour
             }
         }
         
+        //check if spawning enemies
         if (scene.name != "End Screen")
         {
             int sceneNum = int.Parse(SceneManager.GetActiveScene().name.Substring(6));
-            if ((sceneNum > 3 && sceneNum != 6) || (sceneNum == 3 && runNum > 1))
+            if ((sceneNum > 3 && sceneNum != 6) || (sceneNum == 3 && runNum > 1) || scene.name.Contains("Final"))
             {
                 enemyTimer.gameObject.SetActive(true);
                 player.GetComponent<PlayerMovement>().hpBar.gameObject.SetActive(true);
@@ -413,6 +420,14 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         AudioManager.Instance.Play("Elevator Stop");
         AudioManager.Instance.Stop("Elevator Down");
+    }
+
+    public IEnumerator FinalNextLevel(string scene)
+    {
+        //show dissolve/teleport effect?
+        Fader.Instance.FadeInOut(0.5f, 0.5f);
+        yield return new WaitForSeconds(0.5f);
+        SceneManager.LoadScene(scene);
     }
 
 

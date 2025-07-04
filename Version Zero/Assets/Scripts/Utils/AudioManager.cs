@@ -11,6 +11,8 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
 
+    public bool playEffects;
+
     [Header("Editable")]
     public Sound[] music;
     public Sound[] uiSFX;

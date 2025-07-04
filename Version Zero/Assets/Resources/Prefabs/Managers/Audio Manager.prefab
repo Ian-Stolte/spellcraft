@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57110de8177278e448604ec9533f49cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playEffects: 1
   music:
   - name: Area 1
     clip: {fileID: 8300000, guid: 6af994b577a12de45ae15002c15d651b, type: 3}
@@ -182,14 +183,14 @@ MonoBehaviour:
     loop: 0
     source: {fileID: 0}
   - name: Projectile Hit
-    clip: {fileID: 8300000, guid: 8d0e6610141f1774a8cb83b561334b9d, type: 3}
+    clip: {fileID: 8300000, guid: 1e72b0fe4b3fb40e18e28da4ae83ca30, type: 3}
     volume: 0.05
     pitch: 1
     loop: 0
     source: {fileID: 0}
   - name: Pause
     clip: {fileID: 8300000, guid: b3becb59184597a44bc121b1b41fe337, type: 3}
-    volume: 0.2
+    volume: 0.15
     pitch: 1
     loop: 0
     source: {fileID: 0}

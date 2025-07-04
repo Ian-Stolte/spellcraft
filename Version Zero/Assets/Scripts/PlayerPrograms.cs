@@ -155,12 +155,15 @@ public class PlayerPrograms : MonoBehaviour
 
     public void SpellEffects(Collider[] cols, Program p, Vector3 pos, bool aura=false)
     {
-        foreach (Block b in p.blocks)
+        if (AudioManager.Instance.playEffects)
         {
-            if (b.tag != "shape")
-                AudioManager.Instance.Play(b.name);
+            foreach (Block b in p.blocks)
+            {
+                if (b.tag != "shape")
+                    AudioManager.Instance.Play(b.name);
+            }
         }
-
+        
         foreach (Collider c in cols)
         {
             Enemy script = c.GetComponent<Enemy>();
