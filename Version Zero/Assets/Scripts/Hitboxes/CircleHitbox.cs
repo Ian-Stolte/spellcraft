@@ -7,6 +7,7 @@ public class CircleHitbox : Hitbox
     void Start()
     {
         StartCoroutine(Fade(0.5f));
+        AudioManager.Instance.Play("Impact");
         CheckCollisions();
     }
 

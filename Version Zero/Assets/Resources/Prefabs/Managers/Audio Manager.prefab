@@ -175,6 +175,54 @@ MonoBehaviour:
     pitch: 1
     loop: 0
     source: {fileID: 0}
+  - name: Impact
+    clip: {fileID: 8300000, guid: 8d0e6610141f1774a8cb83b561334b9d, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Projectile Hit
+    clip: {fileID: 8300000, guid: 8d0e6610141f1774a8cb83b561334b9d, type: 3}
+    volume: 0.05
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Pause
+    clip: {fileID: 8300000, guid: b3becb59184597a44bc121b1b41fe337, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Slow
+    clip: {fileID: 8300000, guid: 722ed1dddab63c8428bcd5ce459780c2, type: 3}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Damage
+    clip: {fileID: 8300000, guid: 0d1c988b54e347f4fba953b3f8dd495e, type: 3}
+    volume: 0.1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Burn
+    clip: {fileID: 8300000, guid: 080d231e7fb780d4d934ea2bb1b3ce01, type: 3}
+    volume: 0.1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Displace
+    clip: {fileID: 8300000, guid: 263f332aa8e67d34da54fea3cdbf8585, type: 3}
+    volume: 0.15
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Mark
+    clip: {fileID: 8300000, guid: 4bbe6f77c936ea64ab493a51945b2ab7, type: 3}
+    volume: 0.1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
   combatSFX:
   - name: Artillerist Fire
     clip: {fileID: 8300000, guid: ce79f6d0b094547d995616716a08a41a, type: 3}

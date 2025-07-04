@@ -63,6 +63,9 @@ public class AudioManager : MonoBehaviour
             s.source.loop = s.loop;
         }
         audios = gameObject.GetComponents<AudioSource>();
+
+        Play("Area 1");
+        StartCoroutine(StartFade("Area 1", 2, 0.2f));
     }
 
 

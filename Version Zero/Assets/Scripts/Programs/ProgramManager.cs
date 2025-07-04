@@ -469,7 +469,7 @@ public class ProgramManager : MonoBehaviour
             //spawn symbol
             p.symbol = Instantiate(emptyImage, Vector2.zero, Quaternion.identity, programList);
             p.symbol.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
-            p.symbol.name = p.name;
+            p.symbol.name = p.name + " Symbol";
             Vector2 totalPos = Vector2.zero;
             string programName = "";
             float cd = 0;

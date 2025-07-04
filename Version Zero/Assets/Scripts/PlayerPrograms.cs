@@ -155,6 +155,12 @@ public class PlayerPrograms : MonoBehaviour
 
     public void SpellEffects(Collider[] cols, Program p, Vector3 pos, bool aura=false)
     {
+        foreach (Block b in p.blocks)
+        {
+            if (b.tag != "shape")
+                AudioManager.Instance.Play(b.name);
+        }
+
         foreach (Collider c in cols)
         {
             Enemy script = c.GetComponent<Enemy>();
@@ -169,9 +175,9 @@ public class PlayerPrograms : MonoBehaviour
                 foreach (Block b in p.blocks)
                 {
                     if (b.name == "Pause")
-                        stun += (aura) ? 0.3f : 1.5f; 
+                        stun += (aura) ? 0.3f : 1.5f;
                     else if (b.name == "Slow")
-                        slow += (aura) ? 0.5f : 2f; 
+                        slow += (aura) ? 0.5f : 2f;
                     else if (b.name == "Damage")
                         dmg += (aura) ? 1 : 4;
                     else if (b.name == "Burn")
@@ -185,7 +191,7 @@ public class PlayerPrograms : MonoBehaviour
                         Vector3 dir = (c.transform.position - pos);
                         dir = (new Vector3(dir.x, 0.2f, dir.z)).normalized;
                         int kbStrength = (aura) ? 600 : 1000;
-                        c.GetComponent<Rigidbody>().AddForce(dir*kbStrength, ForceMode.Impulse);
+                        c.GetComponent<Rigidbody>().AddForce(dir * kbStrength, ForceMode.Impulse);
                         script.stunTimer = 0.5f;
                     }
                 }

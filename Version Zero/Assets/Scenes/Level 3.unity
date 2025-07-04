@@ -4756,9 +4756,89 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
-      propertyPath: music.Array.data[0].clip
+      propertyPath: programSFX.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: programSFX.Array.data[3].clip
       value: 
-      objectReference: {fileID: 8300000, guid: 7150b432df8aec748b27ddc6bf27148e, type: 3}
+      objectReference: {fileID: 8300000, guid: 8d0e6610141f1774a8cb83b561334b9d, type: 3}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: programSFX.Array.data[3].name
+      value: Impact
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: programSFX.Array.data[4].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 8d0e6610141f1774a8cb83b561334b9d, type: 3}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: programSFX.Array.data[4].name
+      value: Projectile Hit
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: programSFX.Array.data[5].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: f6779a6e84b629d4c9937f0771c37111, type: 3}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: programSFX.Array.data[5].name
+      value: Pause
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: programSFX.Array.data[6].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 0d1c988b54e347f4fba953b3f8dd495e, type: 3}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: programSFX.Array.data[6].name
+      value: Damage
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: programSFX.Array.data[7].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: d242bb618c4942c4eac9571ea3a24241, type: 3}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: programSFX.Array.data[7].name
+      value: Displace
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: programSFX.Array.data[3].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: programSFX.Array.data[4].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: programSFX.Array.data[5].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: programSFX.Array.data[6].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: programSFX.Array.data[7].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: programSFX.Array.data[3].volume
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: programSFX.Array.data[4].volume
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: programSFX.Array.data[5].volume
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: programSFX.Array.data[6].volume
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3063782043873389300, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
+      propertyPath: programSFX.Array.data[7].volume
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 7551959242866408720, guid: fdc3258bf04e7f94780ec51aaaa0ab75, type: 3}
       propertyPath: m_Name
       value: Audio Manager
