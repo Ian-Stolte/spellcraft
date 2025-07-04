@@ -39,7 +39,6 @@ public class LineHitbox : Hitbox
             GameObject.Find("Player").GetComponent<PlayerPrograms>().SpellEffects(new Collider[] { hits[0] }, spell, transform.position);
             transform.GetChild(3).gameObject.SetActive(true);
             StartCoroutine(DelayedDestroy());
-            //Destroy(gameObject);
         }
     }
 
